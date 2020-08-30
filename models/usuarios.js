@@ -8,5 +8,8 @@ module.exports = (sequelize, type) => {
     nombre_usuario: type.STRING,
     email_usuario: type.STRING,
     clave_usuario: type.STRING(150),
+    id_rol: {
+      type: type.INTEGER,
+    },
   });
 };
