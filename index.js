@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const apiRouter = require("./routes/api");
+const apiRouter = require("./routes/route");
 
 const app = express();
 
@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/rentacar", apiRouter);
 
-app.listen(3000, () => {
-  console.log("Servidor arrancado!");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log("Servidor arrancado! Puerto ", PORT);
 });
