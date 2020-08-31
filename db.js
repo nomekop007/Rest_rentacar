@@ -13,22 +13,28 @@ const Sucursal = SucursalModel(database, Sequelize);
 const Vehiculo = VehiculoModel(database, Sequelize);
 
 //Asociaciones de tablas
+
 // un Rol posee muchos usuarios
-Rol.hasMany(Usuario, {
+const value = {
   onDelete: "SET NULL",
   onUpdate: "SET NULL",
   foreignKey: {
     name: "id_rol",
   },
-});
+};
+Rol.hasMany(Usuario, value);
+Usuario.belongsTo(Rol, value);
+
 // una sucursal posee muchos vehiculos
-Sucursal.hasMany(Vehiculo, {
+const value2 = {
   onDelete: "SET NULL",
   onUpdate: "SET NULL",
   foreignKey: {
     name: "id_sucursal",
   },
-});
+};
+Sucursal.hasMany(Vehiculo, value2);
+Vehiculo.belongsTo(Sucursal, value2);
 
 //mapear la base de datos
 database.sync({ force: false }).then(() => {

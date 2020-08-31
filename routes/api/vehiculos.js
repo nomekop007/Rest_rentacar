@@ -1,9 +1,11 @@
 const router = require("express").Router();
 
-const { Vehiculo } = require("../../db");
+const { Vehiculo, Sucursal } = require("../../db");
 
 router.get("/", async (req, res) => {
-  const vehiculos = await Vehiculo.findAll();
+  const vehiculos = await Vehiculo.findAll({
+    include: Sucursal,
+  });
   res.json({
     success: true,
     data: vehiculos,
