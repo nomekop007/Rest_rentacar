@@ -63,7 +63,7 @@ const crearToken = (usuario) => {
     const payload = {
         usuarioId: usuario.id_usuario,
         createAt: moment().unix(),
-        expiredAt: moment().add(30, "minutes").unix(),
+        expiredAt: moment().add(8, "hours").unix(),
     };
     return jwt.encode(payload, "frase secreta");
 };

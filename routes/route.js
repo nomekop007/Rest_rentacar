@@ -5,8 +5,8 @@ const apiVehiculosRouter = require("./api/vehiculos");
 const apiUsuariosRouter = require("./api/usuarios");
 const apiSucursalesRouter = require("./api/sucursales");
 
-//se valida con middlewares.checkToken,
-router.use("/vehiculos", apiVehiculosRouter);
+//se valida con
+router.use("/vehiculos", middlewares.checkToken, apiVehiculosRouter);
 router.use("/usuarios", apiUsuariosRouter);
 router.use("/sucursales", apiSucursalesRouter);
 

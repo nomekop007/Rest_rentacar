@@ -3,38 +3,38 @@ const moment = require("moment");
 
 //se comprueba que exista un token en la cabecera
 const checkToken = (req, res, next) => {
-  if (!req.headers["user-token"]) {
-    return res.json({
-      success: false,
-      msg: "Necesitas incluir el user-token en la cabecera",
-    });
-  }
+    if (!req.headers["usertoken"]) {
+        return res.json({
+            success: false,
+            msg: "Necesitas incluir el usertoken en la cabecera",
+        });
+    }
 
-  const userToken = req.headers["user-token"];
-  let payload = {};
-  //se comprueba que el token sea correcto
-  try {
-    payload = jwt.decode(userToken, "frase secreta");
-  } catch (err) {
-    return res.json({
-      success: false,
-      msg: "El token es incorrecto",
-    });
-  }
+    const userToken = req.headers["usertoken"];
+    let payload = {};
+    //se comprueba que el token sea correcto
+    try {
+        payload = jwt.decode(userToken, "frase secreta");
+    } catch (err) {
+        return res.json({
+            success: false,
+            msg: "El token es incorrecto",
+        });
+    }
 
-  //se comprueba si el token expiro
-  if (payload.expiredAt < moment().unix()) {
-    return res.json({
-      success: false,
-      msg: "El token ah expirado",
-    });
-  }
+    //se comprueba si el token expiro
+    if (payload.expiredAt < moment().unix()) {
+        return res.json({
+            success: false,
+            msg: "El token ah expirado",
+        });
+    }
 
-  req.usuarioId = payload.usuarioId;
+    req.usuarioId = payload.usuarioId;
 
-  next();
+    next();
 };
 
 module.exports = {
-  checkToken: checkToken,
+    checkToken: checkToken,
 };
