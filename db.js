@@ -16,8 +16,6 @@ const Vehiculo = VehiculoModel(database, Sequelize);
 
 // un Rol posee muchos usuarios
 const value = {
-    onDelete: "SET NULL",
-    onUpdate: "SET NULL",
     foreignKey: {
         name: "id_rol",
     },
@@ -27,8 +25,6 @@ Usuario.belongsTo(Rol, value);
 
 // una sucursal posee muchos vehiculos
 const value2 = {
-    onDelete: "SET NULL",
-    onUpdate: "SET NULL",
     foreignKey: {
         name: "id_sucursal",
     },

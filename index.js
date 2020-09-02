@@ -8,6 +8,7 @@ const app = express();
 require("./db");
 
 app.use(bodyParser.json());
+app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/rentacar", apiRouter);

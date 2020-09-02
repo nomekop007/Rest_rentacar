@@ -12,6 +12,14 @@ validacionPost = [
     check("email_usuario", "El email debe ser correcto").isEmail(),
 ];
 
+router.get("/cargarUsuarios", async(req, res) => {
+    const usuario = await Usuario.findAll();
+    res.json({
+        success: true,
+        data: usuario,
+    });
+});
+
 router.post("/registrar", validacionPost, async(req, res) => {
     //valida los datos ingresados
     const errors = validationResult(req);
