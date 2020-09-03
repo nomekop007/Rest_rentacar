@@ -6,6 +6,14 @@ const UsuarioModel = require("./models/usuarios");
 const SucursalModel = require("./models/sucursales");
 const VehiculoModel = require("./models/vehiculos");
 
+/*
+const AccesoriosModel = require("./models/accesorios");
+const ArriendoModel = require("./models/arriendos");
+const ClienteModel = require("./models/clientes");
+const ConductoreModel = require("./models/conductores");
+const DocumentoModel = require("./models/documentos");
+const EmpresaModel = require("./models/empresas");*/
+
 //conectar modelo con base de datos
 const Rol = RolModel(database, Sequelize);
 const Usuario = UsuarioModel(database, Sequelize);
