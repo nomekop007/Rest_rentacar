@@ -5,6 +5,8 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
         },
         nombre_empresa: type.STRING,
+        rol_empresa: type.STRING,
+        vigencia_empresa: type.STRING,
         direccion_empresa: type.STRING,
         ciudad_empresa: type.STRING,
         telefono_empresa: type.STRING,

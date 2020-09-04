@@ -6,6 +6,7 @@ module.exports = (sequelize, type) => {
         },
         estado_vehiculo: type.STRING,
         chasis_vehiculo: type.STRING,
+        transmision_vehiculo: type.STRING,
         numeroMotor_vehiculo: type.STRING,
         marca_vehiculo: type.STRING,
         modelo_vehiculo: type.STRING,

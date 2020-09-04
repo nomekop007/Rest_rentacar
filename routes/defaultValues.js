@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 
-const { Usuario, Rol, Sucursal } = require("../db");
+const { Usuario, Rol, Sucursal, Vehiculo } = require("../db");
 
 router.get("/", async(req, res) => {
     const sucursales = [
@@ -54,6 +54,68 @@ router.get("/", async(req, res) => {
                 nombre: usuario.nombre_usuario,
             },
         },
+    });
+});
+
+router.get("/vehiculos", async(req, res) => {
+    const vehiculos = [{
+            patente_vehiculo: "KKK-FF3",
+            modelo_vehiculo: "toyota",
+            tipo_vehiculo: "automovil",
+            color_vehiculo: "verde",
+            precio_vehiculo: 1500000,
+            propietario_vehiculo: "Tomas Rojas",
+            compra_vehiculo: "Automotora X",
+            fechaCompra_vehiculo: "2020-08-03",
+            año_vehiculo: 2019,
+            id_sucursal: 1,
+        },
+        {
+            patente_vehiculo: "F5ZK-F3",
+            modelo_vehiculo: "toyota",
+            tipo_vehiculo: "camioneta",
+            color_vehiculo: "Rojo",
+            precio_vehiculo: 1900000,
+            propietario_vehiculo: "Diego Rojas",
+            compra_vehiculo: "Automotora X",
+            fechaCompra_vehiculo: "2020-08-03",
+            año_vehiculo: 2001,
+            id_sucursal: 2,
+        },
+        {
+            patente_vehiculo: "ZJJ-FF",
+            modelo_vehiculo: "toyota",
+            tipo_vehiculo: "vehiculo",
+            color_vehiculo: "Amarillo",
+            precio_vehiculo: 2000000,
+            propietario_vehiculo: "Tomas Rojas",
+            compra_vehiculo: "Automotora X",
+            fechaCompra_vehiculo: "2020-08-03",
+            año_vehiculo: 2020,
+            id_sucursal: 1,
+        },
+        {
+            patente_vehiculo: "ZLMK-DD",
+            modelo_vehiculo: "toyota",
+            tipo_vehiculo: "fulgor",
+            color_vehiculo: "Amarillo",
+            precio_vehiculo: 1700000,
+            propietario_vehiculo: "Diego Rojas",
+            compra_vehiculo: "Automotora X",
+            fechaCompra_vehiculo: "2020-08-03",
+            año_vehiculo: 1997,
+            id_sucursal: 3,
+        },
+    ];
+
+    const vehiculo1 = await Vehiculo.create(vehiculos[0]);
+    const vehiculo2 = await Vehiculo.create(vehiculos[1]);
+    const vehiculo3 = await Vehiculo.create(vehiculos[2]);
+    const vehiculo4 = await Vehiculo.create(vehiculos[3]);
+
+    res.json({
+        success: true,
+        msg: "Vehiculos creados  correctamente!",
     });
 });
 
