@@ -12,8 +12,7 @@ module.exports = (sequelize, type) => {
         fechaEntrega_arriendo: type.DATE,
         ciudadRecepcion_arriendo: type.STRING,
         fechaRecepcion_arriendo: type.DATE,
-        numeros_arriendo: type.INTEGER,
+        numerosDias_arriendo: type.INTEGER,
         tipo_arriendo: type.STRING,
-        observaciones_arriendo: type.TEXT,
     });
 };

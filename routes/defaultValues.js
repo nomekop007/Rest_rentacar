@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 
-const { Usuario, Rol, Sucursal, Vehiculo } = require("../db");
+const { Usuario, Rol, Sucursal, Vehiculo, Accesorio } = require("../db");
 
 router.get("/", async(req, res) => {
     const sucursales = [
@@ -15,6 +15,20 @@ router.get("/", async(req, res) => {
         { nombre_rol: "SUPERVISOR" },
         { nombre_rol: "VENDEDOR" },
     ];
+
+    const accesorios = [
+        { nombre_accesorio: "TRASLADO" },
+        { nombre_accesorio: "DEDUCIBLE" },
+        { nombre_accesorio: "BENCINA" },
+        { nombre_accesorio: "ENGANCHE" },
+        { nombre_accesorio: "SILLA PARA BEBE" },
+        { nombre_accesorio: "PASE DIARIO" },
+        { nombre_accesorio: "RASTREO SATELITAL" },
+    ];
+
+    for (let index = 0; index < accesorios.length; index++) {
+        Accesorio.create(accesorios[index]);
+    }
 
     const sucursalTalca = await Sucursal.create(sucursales[0]);
     const sucursalLinares = await Sucursal.create(sucursales[1]);

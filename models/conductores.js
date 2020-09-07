@@ -1,7 +1,7 @@
 module.exports = (sequelize, type) => {
     return sequelize.define("conductores", {
         rut_conductor: {
-            type: type.STRING(11),
+            type: type.STRING(20),
             primaryKey: true,
         },
         nombre_conductor: type.STRING,

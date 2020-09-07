@@ -56,6 +56,11 @@ Arriendo.belongsTo(Conductor, { foreignKey: { name: "rut_conductor" } });
 //un Conducto tiene muchos Arriendo
 Conductor.hasMany(Arriendo, { foreignKey: { name: "rut_conductor" } });
 
+//un arriendo pertenece a un vehiculo
+Arriendo.belongsTo(Vehiculo, { foreignKey: { name: "patente_vehiculo" } });
+//un vehiculo tiene muchos Arriendo
+Vehiculo.hasMany(Arriendo, { foreignKey: { name: "patente_vehiculo" } });
+
 // un arriendo tiene muchos accesorios
 Arriendo.belongsToMany(Accesorio, {
     through: "Arriendos-Accesorios",
@@ -79,7 +84,7 @@ Documento.belongsToMany(Arriendo, {
 });
 
 //mapear la base de datos
-database.sync({ force: false }).then(() => {
+database.sync({ alter: true }).then(() => {
     console.log("tablas sincronizadas");
 });
 
@@ -88,4 +93,10 @@ module.exports = {
     Usuario,
     Sucursal,
     Vehiculo,
+    Arriendo,
+    Accesorio,
+    Cliente,
+    Empresa,
+    Conductor,
+    Documento,
 };

@@ -1,7 +1,7 @@
 module.exports = (sequelize, type) => {
     return sequelize.define("clientes", {
         rut_cliente: {
-            type: type.STRING(11),
+            type: type.STRING(20),
             primaryKey: true,
         },
         nombre_cliente: type.STRING,
