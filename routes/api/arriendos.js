@@ -139,19 +139,21 @@ router.post("/registrarArriendo", async(req, res) => {
         });
     }
 
-    const accesorio = await Accesorio.findOne({
-        where: { nombre_accesorio: response.inputOtros },
-    });
-    if (!accesorio) {
-        await Accesorio.create({ nombre_accesorio: response.inputOtros });
-    }
-
+    //se crea el arriendo
     const arriendo = await Arriendo.create(dataArriendo);
+
+    // en caso de querer crear un accesorio
+    if (response.inputOtros != "") {
+        const accesorio = await Accesorio.create({
+            nombre_accesorio: response.inputOtros,
+        });
+        await arriendo.addAccesorios(accesorio);
+    }
 
     res.json({
         success: true,
         msg: "registro exitoso",
-        data: arriendo,
+        data: arriendo.id_arriendo,
     });
 });
 
@@ -172,7 +174,7 @@ router.post("/registrarArriendoAccesorio", async(req, res) => {
 
     res.json({
         success: true,
-        msg: "registro accesorioArriendo exitoso",
+        msg: "registro exitoso",
     });
 });
 

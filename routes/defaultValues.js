@@ -73,6 +73,7 @@ router.get("/", async(req, res) => {
 
 router.get("/vehiculos", async(req, res) => {
     const vehiculos = [{
+            estado_vehiculo: "ARRENDADO",
             patente_vehiculo: "KKK-FF3",
             modelo_vehiculo: "toyota",
             tipo_vehiculo: "automovil",
@@ -85,6 +86,7 @@ router.get("/vehiculos", async(req, res) => {
             id_sucursal: 1,
         },
         {
+            estado_vehiculo: "DISPONIBLE",
             patente_vehiculo: "F5ZK-F3",
             modelo_vehiculo: "toyota",
             tipo_vehiculo: "camioneta",
@@ -97,6 +99,7 @@ router.get("/vehiculos", async(req, res) => {
             id_sucursal: 2,
         },
         {
+            estado_vehiculo: "DISPONIBLE",
             patente_vehiculo: "ZJJ-FF",
             modelo_vehiculo: "toyota",
             tipo_vehiculo: "vehiculo",
@@ -109,6 +112,7 @@ router.get("/vehiculos", async(req, res) => {
             id_sucursal: 1,
         },
         {
+            estado_vehiculo: "DISPONIBLE",
             patente_vehiculo: "ZLMK-DD",
             modelo_vehiculo: "toyota",
             tipo_vehiculo: "fulgor",

@@ -11,13 +11,17 @@ router.get("/cargarSucursales", async(req, res) => {
 });
 
 router.post("/cargarVehiculos:id_sucursal", async(req, res) => {
-    const sucursales = await Sucursal.findOne({
-        where: { id_sucursal: req.params.id_sucursal },
-        include: Vehiculo,
+    const vehiculo = await Vehiculo.findAll({
+        where: {
+            id_sucursal: req.params.id_sucursal,
+            estado_vehiculo: "DISPONIBLE",
+        },
+        attributes: ["patente_vehiculo", "modelo_vehiculo", "año_vehiculo"],
     });
+
     res.json({
         success: true,
-        data: sucursales,
+        data: vehiculo,
     });
 });
 

@@ -5,6 +5,12 @@ const { Vehiculo, Sucursal } = require("../../db");
 router.get("/cargarVehiculos", async(req, res) => {
     const vehiculos = await Vehiculo.findAll({
         include: Sucursal,
+        attributes: [
+            "patente_vehiculo",
+            "modelo_vehiculo",
+            "año_vehiculo",
+            "tipo_vehiculo",
+        ],
     });
     res.json({
         success: true,
@@ -16,6 +22,12 @@ router.get("/cargarUnVehiculo/:vehiculoId", async(req, res) => {
     const vehiculos = await Vehiculo.findAll({
         include: Sucursal,
         where: { patente_vehiculo: req.params.vehiculoId },
+        attributes: [
+            "patente_vehiculo",
+            "modelo_vehiculo",
+            "año_vehiculo",
+            "tipo_vehiculo",
+        ],
     });
     res.json({
         success: true,
