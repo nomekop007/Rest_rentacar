@@ -17,4 +17,20 @@ router.get("/cargarConductores", async(req, res) => {
     });
 });
 
+router.get("/cargarUnConductor/:id", async(req, res) => {
+    const conductor = await Conductor.findByPk(req.params.id);
+
+    if (conductor) {
+        res.json({
+            success: true,
+            data: conductor,
+        });
+    } else {
+        res.json({
+            success: false,
+            msg: "sin datos",
+        });
+    }
+});
+
 module.exports = router;

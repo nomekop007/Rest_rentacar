@@ -63,61 +63,55 @@ router.post("/registrarArriendo", async(req, res) => {
     //se crean deacuerdo al tipo de arriendo
     switch (response.tipo_arriendo) {
         case "1":
-            const cliente1 = await Cliente.findOne({
+            const [cliente, created] = await Cliente.findOrCreate({
                 where: { rut_cliente: response.rut_cliente },
+                defaults: dataCliente,
             });
-            //si no existe cliente lo crea , sino lo actualiza
-            if (!cliente1) {
-                await Cliente.create(dataCliente);
-            } else {
+            if (!created) {
                 await Cliente.update(dataCliente, {
-                    where: { rut_cliente: response.rut_cliente },
+                    where: { rut_cliente: cliente.rut_cliente },
                 });
             }
             //guardas las id en el objeto arriendo
-            dataArriendo.rut_cliente = response.rut_cliente;
+            dataArriendo.rut_cliente = cliente.rut_cliente;
             break;
         case "2":
-            const cliente2 = await Cliente.findOne({
+            const [cliente2, created2c] = await Cliente.findOrCreate({
                 where: { rut_cliente: response.rut_cliente },
+                defaults: dataCliente,
             });
-            //si no existe cliente lo crea , sino lo actualiza
-            if (!cliente2) {
-                await Cliente.create(dataCliente);
-            } else {
+            const [empresa2, created2e] = await Empresa.findOrCreate({
+                where: { rut_empresa: response.rut_empresa },
+                defaults: dataEmpresa,
+            });
+
+            if (!created2c) {
                 await Cliente.update(dataCliente, {
-                    where: { rut_cliente: response.rut_cliente },
+                    where: { rut_cliente: cliente2.rut_cliente },
                 });
             }
-            const empresa2 = await Empresa.findOne({
-                where: { rut_empresa: response.rut_empresa },
-            });
-            //si no existe empresa lo crea , sino lo actualiza
-            if (!empresa2) {
-                await Empresa.create(dataEmpresa);
-            } else {
+            if (!created2e) {
                 await Empresa.update(dataEmpresa, {
-                    where: { rut_empresa: response.rut_empresa },
+                    where: { rut_empresa: empresa2.rut_empresa },
                 });
             }
             //guardas las id en el objeto arriendo
-            dataArriendo.rut_cliente = response.rut_cliente;
-            dataArriendo.rut_empresa = response.rut_empresa;
+            dataArriendo.rut_cliente = cliente2.rut_cliente;
+            dataArriendo.rut_empresa = empresa2.rut_empresa;
             break;
         case "3":
-            const empresa3 = await Empresa.findOne({
+            const [empresa3, created3e] = await Empresa.findOrCreate({
                 where: { rut_empresa: response.rut_empresa },
+                defaults: dataEmpresa,
             });
-            //si no existe empresa lo crea , sino lo actualiza
-            if (!empresa3) {
-                await Empresa.create(dataEmpresa);
-            } else {
+            if (!created3e) {
                 await Empresa.update(dataEmpresa, {
-                    where: { rut_empresa: response.rut_empresa },
+                    where: { rut_empresa: empresa3.rut_empresa },
                 });
             }
+
             //guardas las id en el objeto arriendo
-            dataArriendo.rut_empresa = response.rut_empresa;
+            dataArriendo.rut_empresa = empresa3.rut_empresa;
             break;
         default:
             res.json({
@@ -127,15 +121,14 @@ router.post("/registrarArriendo", async(req, res) => {
             break;
     }
 
-    const conductor = await Conductor.findOne({
+    const [conductor, createdZ] = await Conductor.findOrCreate({
         where: { rut_conductor: response.rut_conductor },
+        defaults: dataConductor,
     });
-    //si no existe conductor lo crea , sino lo actualiza
-    if (!conductor) {
-        await Conductor.create(dataConductor);
-    } else {
+    //si existe conductor lo actualiza
+    if (!createdZ) {
         await Conductor.update(dataConductor, {
-            where: { rut_conductor: response.rut_conductor },
+            where: { rut_conductor: conductor.rut_conductor },
         });
     }
 
@@ -143,10 +136,12 @@ router.post("/registrarArriendo", async(req, res) => {
     const arriendo = await Arriendo.create(dataArriendo);
 
     // en caso de querer crear un accesorio
+
     if (response.inputOtros != "") {
         const accesorio = await Accesorio.create({
             nombre_accesorio: response.inputOtros,
         });
+        //se registra en la tabla arriendos-accesorios
         await arriendo.addAccesorios(accesorio);
     }
 
@@ -159,7 +154,6 @@ router.post("/registrarArriendo", async(req, res) => {
 
 router.post("/registrarArriendoAccesorio", async(req, res) => {
     const { ArrayChecks, id_arriendo } = req.body;
-
     const arriendo = await Arriendo.findOne({
         where: { id_arriendo: id_arriendo },
     });

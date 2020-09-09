@@ -17,4 +17,19 @@ router.get("/cargarClientes", async(req, res) => {
     });
 });
 
+router.get("/cargarUnCliente/:id", async(req, res) => {
+    const cliente = await Cliente.findByPk(req.params.id);
+    if (cliente) {
+        res.json({
+            success: true,
+            data: cliente,
+        });
+    } else {
+        res.json({
+            success: false,
+            msg: "sin datos",
+        });
+    }
+});
+
 module.exports = router;

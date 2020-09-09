@@ -10,7 +10,7 @@ router.get("/cargarSucursales", async(req, res) => {
     });
 });
 
-router.post("/cargarVehiculos:id_sucursal", async(req, res) => {
+router.get("/cargarVehiculos/:id_sucursal", async(req, res) => {
     const vehiculo = await Vehiculo.findAll({
         where: {
             id_sucursal: req.params.id_sucursal,

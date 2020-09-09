@@ -17,4 +17,20 @@ router.get("/cargarEmpresas", async(req, res) => {
     });
 });
 
+router.get("/cargarUnaEmpresa/:id", async(req, res) => {
+    const empresa = await Empresa.findByPk(req.params.id);
+
+    if (empresa) {
+        res.json({
+            success: true,
+            data: empresa,
+        });
+    } else {
+        res.json({
+            success: false,
+            msg: "sin datos",
+        });
+    }
+});
+
 module.exports = router;
