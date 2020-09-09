@@ -8,6 +8,23 @@ const {
     Accesorio,
 } = require("../../db");
 
+router.get("/cargarTotalArriendos", async(req, res) => {
+    const arriendos = await Arriendo.findAll({
+        attributes: [
+            "id_arriendo",
+            "createdAt",
+            "tipo_arriendo",
+            "estado_arriendo",
+            "id_usuario",
+        ],
+    });
+
+    res.json({
+        success: true,
+        data: arriendos,
+    });
+});
+
 router.post("/registrarArriendo", async(req, res) => {
     const response = req.body;
 
@@ -23,6 +40,7 @@ router.post("/registrarArriendo", async(req, res) => {
         tipo_arriendo: response.tipo_arriendo,
         patente_vehiculo: response.patente_vehiculo,
         rut_conductor: response.rut_conductor,
+        id_usuario: response.id_usuario,
         rut_cliente: null,
         rut_empresa: null,
     };

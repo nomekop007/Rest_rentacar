@@ -61,6 +61,11 @@ Arriendo.belongsTo(Vehiculo, { foreignKey: { name: "patente_vehiculo" } });
 //un vehiculo tiene muchos Arriendo
 Vehiculo.hasMany(Arriendo, { foreignKey: { name: "patente_vehiculo" } });
 
+//un arriendo pertenece a un Usuario
+Arriendo.belongsTo(Usuario, { foreignKey: { name: "id_usuario" } });
+//un Usuario tiene muchos Arriendo
+Usuario.hasMany(Arriendo, { foreignKey: { name: "id_usuario" } });
+
 // un arriendo tiene muchos accesorios
 Arriendo.belongsToMany(Accesorio, {
     through: "Arriendos-Accesorios",
