@@ -1,21 +1,23 @@
 const router = require("express").Router();
 
 const {
+    Usuario,
     Arriendo,
     Cliente,
     Conductor,
     Empresa,
     Accesorio,
+    Vehiculo,
 } = require("../../db");
 
 router.get("/cargarTotalArriendos", async(req, res) => {
     const arriendos = await Arriendo.findAll({
+        include: [{ model: Usuario, attributes: ["nombre_usuario"] }],
         attributes: [
             "id_arriendo",
             "createdAt",
             "tipo_arriendo",
             "estado_arriendo",
-            "id_usuario",
         ],
     });
 
@@ -92,6 +94,7 @@ router.post("/registrarArriendo", async(req, res) => {
             }
             //guardas las id en el objeto arriendo
             dataArriendo.rut_cliente = cliente.rut_cliente;
+            dataArriendo.tipo_arriendo = "PARTICULAR";
             break;
         case "2":
             const [cliente2, created2c] = await Cliente.findOrCreate({
@@ -116,6 +119,7 @@ router.post("/registrarArriendo", async(req, res) => {
             //guardas las id en el objeto arriendo
             dataArriendo.rut_cliente = cliente2.rut_cliente;
             dataArriendo.rut_empresa = empresa2.rut_empresa;
+            dataArriendo.tipo_arriendo = "REMPLAZO";
             break;
         case "3":
             const [empresa3, created3e] = await Empresa.findOrCreate({
@@ -130,6 +134,7 @@ router.post("/registrarArriendo", async(req, res) => {
 
             //guardas las id en el objeto arriendo
             dataArriendo.rut_empresa = empresa3.rut_empresa;
+            dataArriendo.tipo_arriendo = "EMPRESA";
             break;
         default:
             res.json({
@@ -151,22 +156,32 @@ router.post("/registrarArriendo", async(req, res) => {
     }
 
     //se crea el arriendo
-    const arriendo = await Arriendo.create(dataArriendo);
+    const a = await Arriendo.create(dataArriendo);
+
+    const arriendo = await Arriendo.findAll({
+        include: [{ model: Usuario, attributes: ["nombre_usuario"] }],
+        where: { id_arriendo: a.id_arriendo },
+        attributes: [
+            "id_arriendo",
+            "createdAt",
+            "tipo_arriendo",
+            "estado_arriendo",
+        ],
+    });
 
     // en caso de querer crear un accesorio
-
     if (response.inputOtros != "") {
         const accesorio = await Accesorio.create({
             nombre_accesorio: response.inputOtros,
         });
         //se registra en la tabla arriendos-accesorios
-        await arriendo.addAccesorios(accesorio);
+        await a.addAccesorios(accesorio);
     }
 
     res.json({
         success: true,
         msg: "registro exitoso",
-        data: arriendo.id_arriendo,
+        data: arriendo,
     });
 });
 

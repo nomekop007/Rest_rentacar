@@ -4,24 +4,7 @@ const { Vehiculo, Sucursal } = require("../../db");
 
 router.get("/cargarVehiculos", async(req, res) => {
     const vehiculos = await Vehiculo.findAll({
-        include: Sucursal,
-        attributes: [
-            "patente_vehiculo",
-            "modelo_vehiculo",
-            "año_vehiculo",
-            "tipo_vehiculo",
-        ],
-    });
-    res.json({
-        success: true,
-        data: vehiculos,
-    });
-});
-
-router.get("/cargarUnVehiculo/:vehiculoId", async(req, res) => {
-    const vehiculos = await Vehiculo.findAll({
-        include: Sucursal,
-        where: { patente_vehiculo: req.params.vehiculoId },
+        include: [{ model: Sucursal, attributes: ["nombre_sucursal"] }],
         attributes: [
             "patente_vehiculo",
             "modelo_vehiculo",
@@ -36,7 +19,19 @@ router.get("/cargarUnVehiculo/:vehiculoId", async(req, res) => {
 });
 
 router.post("/registrarVehiculo", async(req, res) => {
-    const vehiculo = await Vehiculo.create(req.body);
+    const v = await Vehiculo.create(req.body);
+
+    const vehiculo = await Vehiculo.findAll({
+        include: [{ model: Sucursal, attributes: ["nombre_sucursal"] }],
+        where: { patente_vehiculo: v.patente_vehiculo },
+        attributes: [
+            "patente_vehiculo",
+            "modelo_vehiculo",
+            "año_vehiculo",
+            "tipo_vehiculo",
+        ],
+    });
+
     res.json({
         success: true,
         msg: " Vehiculo creado exitosamente",
