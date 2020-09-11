@@ -17,7 +17,7 @@ router.get("/cargarClientes", async(req, res) => {
     });
 });
 
-router.get("/cargarUnCliente/:id", async(req, res) => {
+router.get("/buscarCliente/:id", async(req, res) => {
     const cliente = await Cliente.findByPk(req.params.id);
     if (cliente) {
         res.json({

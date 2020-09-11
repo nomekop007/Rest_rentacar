@@ -17,7 +17,7 @@ router.get("/cargarConductores", async(req, res) => {
     });
 });
 
-router.get("/cargarUnConductor/:id", async(req, res) => {
+router.get("/buscarConductor/:id", async(req, res) => {
     const conductor = await Conductor.findByPk(req.params.id);
 
     if (conductor) {

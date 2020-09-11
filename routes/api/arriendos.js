@@ -10,6 +10,34 @@ const {
     Vehiculo,
 } = require("../../db");
 
+router.get("/buscarArriendo/:id", async(req, res) => {
+    const arriendo = await Arriendo.findAll({
+        where: { id_arriendo: req.params.id },
+        include: [
+            { model: Cliente, attributes: ["nombre_cliente"] },
+            { model: Empresa, attributes: ["nombre_empresa"] },
+            { model: Vehiculo, attributes: ["patente_vehiculo"] },
+            {
+                model: Accesorio,
+                attributes: ["nombre_accesorio", "precio_accesorio"],
+            },
+        ],
+        attributes: ["id_arriendo", "tipo_arriendo", "numerosDias_arriendo"],
+    });
+
+    if (arriendo) {
+        res.json({
+            success: true,
+            data: arriendo,
+        });
+    } else {
+        res.json({
+            success: false,
+            msg: "sin datos",
+        });
+    }
+});
+
 router.get("/cargarTotalArriendos", async(req, res) => {
     const arriendos = await Arriendo.findAll({
         include: [{ model: Usuario, attributes: ["nombre_usuario"] }],

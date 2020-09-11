@@ -3,7 +3,9 @@ const router = require("express").Router();
 const { Sucursal, Vehiculo } = require("../../db");
 
 router.get("/cargarSucursales", async(req, res) => {
-    const sucursales = await Sucursal.findAll();
+    const sucursales = await Sucursal.findAll({
+        attributes: ["id_sucursal", "nombre_sucursal"],
+    });
     res.json({
         success: true,
         data: sucursales,

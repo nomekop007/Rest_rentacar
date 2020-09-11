@@ -17,7 +17,7 @@ router.get("/cargarEmpresas", async(req, res) => {
     });
 });
 
-router.get("/cargarUnaEmpresa/:id", async(req, res) => {
+router.get("/buscarEmpresa/:id", async(req, res) => {
     const empresa = await Empresa.findByPk(req.params.id);
 
     if (empresa) {
