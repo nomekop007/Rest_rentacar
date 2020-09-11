@@ -33,13 +33,13 @@ Usuario.belongsTo(Rol, { foreignKey: { name: "id_rol" } });
 
 //un vehiculo pertenecen a una sucursal
 Vehiculo.belongsTo(Sucursal, { foreignKey: { name: "id_sucursal" } });
-//un usuario pertenecen a una sucursal
-Usuario.belongsTo(Usuario, { foreignKey: { name: "id_sucursal" } });
-
-// una sucursal tiene muchos usuarios
-Sucursal.hasMany(Usuario, { foreignKey: { name: "id_sucursal" } });
 // una sucursal tiene muchos vehiculos
 Sucursal.hasMany(Vehiculo, { foreignKey: { name: "id_sucursal" } });
+
+//un usuario pertenecen a una sucursal
+Usuario.belongsTo(Sucursal, { foreignKey: { name: "id_sucursal" } });
+// una sucursal tiene muchos usuarios
+Sucursal.hasMany(Usuario, { foreignKey: { name: "id_sucursal" } });
 
 //un arriendo pertenece a un Cliente
 Arriendo.belongsTo(Cliente, { foreignKey: { name: "rut_cliente" } });
@@ -65,6 +65,11 @@ Vehiculo.hasMany(Arriendo, { foreignKey: { name: "patente_vehiculo" } });
 Arriendo.belongsTo(Usuario, { foreignKey: { name: "id_usuario" } });
 //un Usuario tiene muchos Arriendo
 Usuario.hasMany(Arriendo, { foreignKey: { name: "id_usuario" } });
+
+//un arriendo pertenece a un sucursal
+Arriendo.belongsTo(Sucursal, { foreignKey: { name: "id_sucursal" } });
+//un Sucursal tiene muchos Arriendo
+Sucursal.hasMany(Arriendo, { foreignKey: { name: "id_sucursal" } });
 
 // un arriendo tiene muchos accesorios
 Arriendo.belongsToMany(Accesorio, {

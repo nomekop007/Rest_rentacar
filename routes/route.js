@@ -10,9 +10,11 @@ const apiArriendosRouter = require("./api/arriendos");
 const apiClientesRouter = require("./api/clientes");
 const apiEmpresasRouter = require("./api/empresas");
 const apiConductoresRouter = require("./api/conductores");
+const apiRolesRouter = require("./api/roles");
 
 router.use("/defaultValues", defaultValues);
 router.use("/usuarios", apiUsuariosRouter);
+router.use("/roles", middlewares.checkToken, apiRolesRouter);
 router.use("/vehiculos", middlewares.checkToken, apiVehiculosRouter);
 router.use("/sucursales", middlewares.checkToken, apiSucursalesRouter);
 router.use("/accesorios", middlewares.checkToken, apiAccesoriosRouter);

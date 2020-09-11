@@ -4,7 +4,7 @@ const { check, validationResult } = require("express-validator");
 const moment = require("moment");
 const jwt = require("jwt-simple");
 
-const { Usuario } = require("../../db");
+const { Usuario, Rol, Sucursal } = require("../../db");
 
 validacionPost = [
     check("id_rol", "El rol es obligatorio").not().isEmpty(),
@@ -13,7 +13,13 @@ validacionPost = [
 ];
 
 router.get("/cargarUsuarios", async(req, res) => {
-    const usuario = await Usuario.findAll();
+    const usuario = await Usuario.findAll({
+        include: [
+            { model: Rol, attributes: ["nombre_rol"] },
+            { model: Sucursal, attributes: ["nombre_sucursal"] },
+        ],
+        attributes: ["nombre_usuario", "email_usuario", "createdAt"],
+    });
     res.json({
         success: true,
         data: usuario,
@@ -28,7 +34,17 @@ router.post("/registrar", validacionPost, async(req, res) => {
     }
     //encripta la password
     req.body.clave_usuario = bcrypt.hashSync(req.body.clave_usuario, 10);
-    const usuario = await Usuario.create(req.body);
+    const v = await Usuario.create(req.body);
+
+    const usuario = await Usuario.findAll({
+        where: { id_usuario: v.id_usuario },
+        include: [
+            { model: Rol, attributes: ["nombre_rol"] },
+            { model: Sucursal, attributes: ["nombre_sucursal"] },
+        ],
+        attributes: ["nombre_usuario", "email_usuario", "createdAt"],
+    });
+
     res.json({
         success: true,
         msg: "Usuario creado exitosamente",

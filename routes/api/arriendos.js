@@ -40,6 +40,7 @@ router.post("/registrarArriendo", async(req, res) => {
         fechaRecepcion_arriendo: response.fechaRecepcion_arriendo,
         numerosDias_arriendo: response.numerosDias_arriendo,
         tipo_arriendo: response.tipo_arriendo,
+        id_sucursal: response.id_sucursal,
         patente_vehiculo: response.patente_vehiculo,
         rut_conductor: response.rut_conductor,
         id_usuario: response.id_usuario,

@@ -14,6 +14,7 @@ module.exports = (sequelize, type) => {
         color_vehiculo: type.STRING,
         precio_vehiculo: type.INTEGER,
         propietario_vehiculo: type.STRING,
+        compra_vehiculo: type.STRING,
         fechaCompra_vehiculo: type.DATE,
         año_vehiculo: type.INTEGER,
         foto_vehiculo: type.STRING,

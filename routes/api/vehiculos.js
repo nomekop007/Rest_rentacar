@@ -19,24 +19,36 @@ router.get("/cargarVehiculos", async(req, res) => {
 });
 
 router.post("/registrarVehiculo", async(req, res) => {
-    const v = await Vehiculo.create(req.body);
+    const response = req.body;
 
-    const vehiculo = await Vehiculo.findAll({
-        include: [{ model: Sucursal, attributes: ["nombre_sucursal"] }],
-        where: { patente_vehiculo: v.patente_vehiculo },
-        attributes: [
-            "patente_vehiculo",
-            "modelo_vehiculo",
-            "año_vehiculo",
-            "tipo_vehiculo",
-        ],
+    const [v, created] = await Vehiculo.findOrCreate({
+        where: { patente_vehiculo: req.body.patente_vehiculo },
+        defaults: response,
     });
 
-    res.json({
-        success: true,
-        msg: " Vehiculo creado exitosamente",
-        data: vehiculo,
-    });
+    if (created) {
+        const vehiculo = await Vehiculo.findAll({
+            include: [{ model: Sucursal, attributes: ["nombre_sucursal"] }],
+            where: { patente_vehiculo: v.patente_vehiculo },
+            attributes: [
+                "patente_vehiculo",
+                "modelo_vehiculo",
+                "año_vehiculo",
+                "tipo_vehiculo",
+            ],
+        });
+
+        res.json({
+            success: true,
+            msg: " Vehiculo creado exitosamente",
+            data: vehiculo,
+        });
+    } else {
+        res.json({
+            success: false,
+            msg: " Vehiculo ya existe",
+        });
+    }
 });
 
 router.put("/editarVehiculo/:vehiculoId", async(req, res) => {
