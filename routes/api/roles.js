@@ -1,15 +1,7 @@
 const router = require("express").Router();
+const RolController = require("../../controllers/rol_controller");
+const rol = new RolController();
 
-const { Rol } = require("../../db");
-
-router.get("/cargarRoles", async(req, res) => {
-    const roles = await Rol.findAll({
-        attributes: ["id_rol", "nombre_rol"],
-    });
-    res.json({
-        success: true,
-        data: roles,
-    });
-});
+router.get("/cargarRoles", rol.getRoles.bind(rol));
 
 module.exports = router;

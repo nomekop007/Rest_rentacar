@@ -1,13 +1,7 @@
 const router = require("express").Router();
+const AccesorioController = require("../../controllers/accesorio_controller");
+const accesorio = new AccesorioController();
 
-const { Accesorio } = require("../../db");
-
-router.get("/cargarAccesorios", async(req, res) => {
-    const accesorio = await Accesorio.findAll();
-    res.json({
-        success: true,
-        data: accesorio,
-    });
-});
+router.get("/cargarAccesorios", accesorio.getAccesorios.bind(accesorio));
 
 module.exports = router;

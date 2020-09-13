@@ -1,36 +1,9 @@
 const router = require("express").Router();
+const ConductorController = require("../../controllers/conductor_controller");
+const conductor = new ConductorController();
 
-const { Conductor } = require("../../db");
+router.get("/cargarConductores", conductor.getConductores.bind(conductor));
 
-router.get("/cargarConductores", async(req, res) => {
-    const conductores = await Conductor.findAll({
-        attributes: [
-            "rut_conductor",
-            "nombre_conductor",
-            "clase_conductor",
-            "telefono_conductor",
-        ],
-    });
-    res.json({
-        success: true,
-        data: conductores,
-    });
-});
-
-router.get("/buscarConductor/:id", async(req, res) => {
-    const conductor = await Conductor.findByPk(req.params.id);
-
-    if (conductor) {
-        res.json({
-            success: true,
-            data: conductor,
-        });
-    } else {
-        res.json({
-            success: false,
-            msg: "sin datos",
-        });
-    }
-});
+router.get("/buscarConductor/:id", conductor.findConductor.bind(conductor));
 
 module.exports = router;
