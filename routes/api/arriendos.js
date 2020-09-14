@@ -8,9 +8,5 @@ router.get("/buscarArriendo/:id", arriendo.findArriendo.bind(arriendo));
 
 router.post("/registrarArriendo", arriendo.createArriendo.bind(arriendo));
 
-router.post(
-  "/registrarArriendoAccesorio",
-  arriendo.createArriendoAccesorio.bind(arriendo)
-);
 
 module.exports = router;
