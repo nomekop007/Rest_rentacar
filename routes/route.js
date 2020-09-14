@@ -11,6 +11,7 @@ const apiClientesRouter = require("./api/clientes");
 const apiEmpresasRouter = require("./api/empresas");
 const apiConductoresRouter = require("./api/conductores");
 const apiRolesRouter = require("./api/roles");
+const apiPagosArriendosRouter = require("./api/pagosArriendos");
 
 router.use("/defaultValues", defaultValues);
 router.use("/usuarios", apiUsuariosRouter);
@@ -22,5 +23,6 @@ router.use("/arriendos", middlewares.checkToken, apiArriendosRouter);
 router.use("/clientes", middlewares.checkToken, apiClientesRouter);
 router.use("/empresas", middlewares.checkToken, apiEmpresasRouter);
 router.use("/conductores", middlewares.checkToken, apiConductoresRouter);
+router.use("/pagosArriendos", apiPagosArriendosRouter);
 
 module.exports = router;

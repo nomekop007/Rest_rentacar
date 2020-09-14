@@ -11,6 +11,7 @@ const ClienteModel = require("./models/clientes");
 const EmpresaModel = require("./models/empresas");
 const ConductorModel = require("./models/conductores");
 const DocumentoModel = require("./models/documentos");
+const PagoArriendosModel = require("./models/pagosArriendos");
 
 //conectar modelo con base de datos
 const Rol = RolModel(database, Sequelize);
@@ -23,8 +24,17 @@ const Cliente = ClienteModel(database, Sequelize);
 const Empresa = EmpresaModel(database, Sequelize);
 const Conductor = ConductorModel(database, Sequelize);
 const Documento = DocumentoModel(database, Sequelize);
+const PagoArriendo = PagoArriendosModel(database, Sequelize);
 
 //Asociaciones de tablas
+
+
+
+// un arriendo tiene un pagoArriendo
+Arriendo.hasOne(PagoArriendo, { foreignKey: { name: "id_arriendo" } });
+
+//un pago arriendo pertenece a un arriendo
+PagoArriendo.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
 
 // un Rol tiene muchos usuarios
 Rol.hasMany(Usuario, { foreignKey: { name: "id_rol" } });
@@ -109,4 +119,5 @@ module.exports = {
     Empresa,
     Conductor,
     Documento,
+    PagoArriendo
 };
