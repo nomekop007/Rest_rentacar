@@ -23,6 +23,6 @@ router.use("/arriendos", middlewares.checkToken, apiArriendosRouter);
 router.use("/clientes", middlewares.checkToken, apiClientesRouter);
 router.use("/empresas", middlewares.checkToken, apiEmpresasRouter);
 router.use("/conductores", middlewares.checkToken, apiConductoresRouter);
-router.use("/pagosArriendos", apiPagosArriendosRouter);
+router.use("/pagosArriendos", middlewares.checkToken, apiPagosArriendosRouter);
 
 module.exports = router;

@@ -1,8 +1,8 @@
-const { PagoArriendo, Cliente, Empresa, Vehiculo, Accesorio, Arriendo } = require("../db");
+const { PagoArriendo } = require("../db");
 
 class PagoArriendoController {
 
-    async postPagoArriendo(req, res) {
+    async createPagoArriendo(req, res) {
         const response = req.body;
         const [pagoArriendo, created] = await PagoArriendo.findOrCreate({
             where: { id_arriendo: response.id_arriendo },
@@ -14,21 +14,10 @@ class PagoArriendoController {
                 where: { id_arriendo: response.id_arriendo },
             });
         }
-
-        const arriendo = await Arriendo.findAll({
-            where: { id_arriendo: response.id_arriendo },
-            include: [
-                { model: Cliente, },
-                { model: Empresa },
-                { model: Vehiculo },
-                { model: Accesorio },
-                { model: PagoArriendo }
-            ],
-        });
         res.json({
             success: true,
             msg: "registro exitoso",
-            data: arriendo,
+            data: pagoArriendo.id_arriendo,
         });
     }
 

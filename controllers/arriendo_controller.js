@@ -6,6 +6,7 @@ const {
     Empresa,
     Accesorio,
     Vehiculo,
+    PagoArriendo
 } = require("../db");
 
 class ArriendoController {
@@ -27,20 +28,16 @@ class ArriendoController {
     }
 
     async findArriendo(req, res) {
-        const arriendo = await Arriendo.findAll({
+        const arriendo = await Arriendo.findOne({
             where: { id_arriendo: req.params.id },
             include: [
-                { model: Cliente, attributes: ["nombre_cliente"] },
-                { model: Empresa, attributes: ["nombre_empresa"] },
-                { model: Vehiculo, attributes: ["patente_vehiculo"] },
+                { model: Cliente, },
+                { model: Empresa },
+                { model: Vehiculo },
+                { model: Accesorio },
+                { model: PagoArriendo },
                 { model: Usuario, attributes: ["nombre_usuario"] },
-
-                {
-                    model: Accesorio,
-                    attributes: ["nombre_accesorio", "precio_accesorio"],
-                },
             ],
-            attributes: ["id_arriendo", "tipo_arriendo", "numerosDias_arriendo"],
         });
 
         if (arriendo) {
@@ -187,7 +184,7 @@ class ArriendoController {
         //se crea el arriendo
         const a = await Arriendo.create(dataArriendo);
 
-        const arriendo = await Arriendo.findAll({
+        const arriendo = await Arriendo.findOne({
             include: [{ model: Usuario, attributes: ["nombre_usuario"] }],
             where: { id_arriendo: a.id_arriendo },
             attributes: [
