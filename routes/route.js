@@ -16,7 +16,7 @@ const apiPagosArriendosRouter = require("./api/pagosArriendos");
 
 router.use("/defaultValues", defaultValues);
 router.use("/usuarios", apiUsuariosRouter);
-router.use("/pdf", pdfRouter);
+router.use("/pdf", middlewares.checkToken, pdfRouter);
 router.use("/roles", middlewares.checkToken, apiRolesRouter);
 router.use("/vehiculos", middlewares.checkToken, apiVehiculosRouter);
 router.use("/sucursales", middlewares.checkToken, apiSucursalesRouter);

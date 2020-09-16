@@ -1,2 +1,3 @@
 databaseConnect.js
-#/node_modules/
+/node_modules/
+uploads/documentos/*
