@@ -28,8 +28,6 @@ const PagoArriendo = PagoArriendosModel(database, Sequelize);
 
 //Asociaciones de tablas
 
-
-
 // un arriendo tiene un pagoArriendo
 Arriendo.hasOne(PagoArriendo, { foreignKey: { name: "id_arriendo" } });
 
@@ -83,41 +81,36 @@ Sucursal.hasMany(Arriendo, { foreignKey: { name: "id_sucursal" } });
 
 // un arriendo tiene muchos accesorios
 Arriendo.belongsToMany(Accesorio, {
-    through: "Arriendos-Accesorios",
-    foreignKey: { name: "id_arriendo" },
+  through: "Arriendos-Accesorios",
+  foreignKey: { name: "id_arriendo" },
 });
 // un accesorio tiene muchos arriendos
 Accesorio.belongsToMany(Arriendo, {
-    through: "Arriendos-Accesorios",
-    foreignKey: { name: "id_accesorio" },
+  through: "Arriendos-Accesorios",
+  foreignKey: { name: "id_accesorio" },
 });
 
 // un arriendo tiene muchos documentos
 Arriendo.belongsToMany(Documento, {
-    through: "Arriendos-Documentos",
-    foreignKey: { name: "id_arriendo" },
+  through: "Arriendos-Documentos",
+  foreignKey: { name: "id_arriendo" },
 });
 // un documento tiene muchos arriendos
 Documento.belongsToMany(Arriendo, {
-    through: "Arriendos-Documentos",
-    foreignKey: { name: "id_documento" },
-});
-
-//mapear la base de datos
-database.sync({ alter: true }).then(() => {
-    console.log("tablas sincronizadas");
+  through: "Arriendos-Documentos",
+  foreignKey: { name: "id_documento" },
 });
 
 module.exports = {
-    Rol,
-    Usuario,
-    Sucursal,
-    Vehiculo,
-    Arriendo,
-    Accesorio,
-    Cliente,
-    Empresa,
-    Conductor,
-    Documento,
-    PagoArriendo
+  Rol,
+  Usuario,
+  Sucursal,
+  Vehiculo,
+  Arriendo,
+  Accesorio,
+  Cliente,
+  Empresa,
+  Conductor,
+  Documento,
+  PagoArriendo,
 };
