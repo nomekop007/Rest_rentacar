@@ -8,5 +8,4 @@ router.get("/buscarArriendo/:id", arriendo.findArriendo.bind(arriendo));
 
 router.post("/registrarArriendo", arriendo.createArriendo.bind(arriendo));
 
-
 module.exports = router;
