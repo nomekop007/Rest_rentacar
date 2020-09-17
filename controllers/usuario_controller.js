@@ -12,12 +12,29 @@ class UsuarioController {
                 { model: Rol, attributes: ["nombre_rol"] },
                 { model: Sucursal, attributes: ["nombre_sucursal"] },
             ],
-            attributes: ["nombre_usuario", "email_usuario", "createdAt"],
+            attributes: ["estado_usuario", "id_usuario", "nombre_usuario", "email_usuario", "createdAt"],
         });
         res.json({
             success: true,
             data: usuario,
         });
+    }
+
+    async findUsuario(req, res) {
+        const usuario = await Usuario.findOne({
+            where: { id_usuario: req.params.id }
+        })
+        if (usuario) {
+            res.json({
+                success: true,
+                data: usuario,
+            });
+        } else {
+            res.json({
+                success: false,
+                msg: "sin datos",
+            });
+        }
     }
 
     async createUsuario(req, res) {
@@ -36,7 +53,7 @@ class UsuarioController {
                 { model: Rol, attributes: ["nombre_rol"] },
                 { model: Sucursal, attributes: ["nombre_sucursal"] },
             ],
-            attributes: ["nombre_usuario", "email_usuario", "createdAt"],
+            attributes: ["estado_usuario", "id_usuario", "nombre_usuario", "email_usuario", "createdAt"],
         });
 
         res.json({
@@ -76,6 +93,42 @@ class UsuarioController {
                 msg: "Error en usuario y/o constraseña",
             });
         }
+    }
+
+
+    async updateUsuario(req, res) {
+        const response = req.body;
+
+        const values = {
+            nombre_usuario: response.nombre_usuario,
+            email_usuario: response.email_usuario,
+            id_rol: response.id_rol,
+            id_sucursal: response.id_sucursal
+        };
+
+        //si hay campos en contraseña para cambiar
+        if (response.clave_usuario != "") {
+            values.clave_usuario = bcrypt.hashSync(response.clave_usuario, 10);
+        }
+
+        await Usuario.update(values, {
+            where: { id_usuario: req.params.id },
+        });
+
+
+        const usuario = await Usuario.findOne({
+            where: { id_usuario: req.params.id },
+            include: [
+                { model: Rol, attributes: ["nombre_rol"] },
+                { model: Sucursal, attributes: ["nombre_sucursal"] },
+            ],
+            attributes: ["estado_usuario", "id_usuario", "nombre_usuario", "email_usuario", "createdAt"],
+        });
+        res.json({
+            success: true,
+            msg: "Usuario actualizado exitosamente",
+            data: usuario,
+        });
     }
 }
 

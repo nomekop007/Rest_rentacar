@@ -6,6 +6,7 @@ module.exports = (sequelize, type) => {
         },
         nombre_cliente: type.STRING,
         direccion_cliente: type.STRING,
+        estadoCivil_cliente: type.STRING,
         ciudad_cliente: type.STRING,
         telefono_cliente: type.STRING,
         correo_cliente: type.STRING,

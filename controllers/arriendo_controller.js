@@ -82,9 +82,12 @@ class ArriendoController {
             ciudad_cliente: response.ciudad_cliente,
             telefono_cliente: response.telefono_cliente,
             correo_cliente: response.correo_cliente,
+            estadoCivil_cliente: response.estado_civil,
             fechaNacimiento_cliente: response.fechaNacimiento_cliente == "" ?
                 null : response.fechaNacimiento_cliente,
         };
+
+
         const dataEmpresa = {
             rut_empresa: response.rut_empresa,
             nombre_empresa: response.nombre_empresa,

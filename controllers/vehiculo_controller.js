@@ -52,7 +52,7 @@ class VehiculoController {
 
     async updateVehiculo(req, res) {
         await Vehiculo.update(req.body, {
-            where: { patente_vehiculo: req.params.vehiculoId },
+            where: { patente_vehiculo: req.params.id },
         });
 
         res.json({
@@ -64,12 +64,12 @@ class VehiculoController {
 
     async deleteVehiculo(req, res) {
         await Vehiculo.destroy({
-            where: { patente_vehiculo: req.params.vehiculoId },
+            where: { patente_vehiculo: req.params.id },
         });
         res.json({
             success: true,
             msg: " Vehiculo borrado exitosamente",
-            data: req.params.vehiculoId,
+            data: req.params.id,
         });
     }
 }
