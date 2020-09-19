@@ -15,5 +15,5 @@ app.use("/rentacar", apiRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log("Servidor arrancado! Puerto ", PORT);
+  console.log("Servidor arrancado! Puerto ", PORT);
 });
