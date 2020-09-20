@@ -78,38 +78,38 @@ class PDFController {
 
     switch (arriendo.tipo_arriendo) {
       case "PARTICULAR":
-        list.nombre_cliente = arriendo.cliente.nombre_cliente;
-        list.direccion_cliente = arriendo.cliente.direccion_cliente;
-        list.ciudad_cliente = arriendo.cliente.ciudad_cliente;
-        list.rut_cliente = arriendo.cliente.rut_cliente;
-        list.nacimiento_cliente = formatFecha(
+        dataList.nombre_cliente = arriendo.cliente.nombre_cliente;
+        dataList.direccion_cliente = arriendo.cliente.direccion_cliente;
+        dataList.ciudad_cliente = arriendo.cliente.ciudad_cliente;
+        dataList.rut_cliente = arriendo.cliente.rut_cliente;
+        dataList.nacimiento_cliente = formatFecha(
           arriendo.cliente.fechaNacimiento_cliente
         );
-        list.telefono_cliente = arriendo.cliente.telefono_cliente;
+        dataList.telefono_cliente = arriendo.cliente.telefono_cliente;
         break;
       case "REMPLAZO":
-        list.nombre_cliente = arriendo.cliente.nombre_cliente;
-        list.direccion_cliente = arriendo.cliente.direccion_cliente;
-        list.ciudad_cliente = arriendo.cliente.ciudad_cliente;
-        list.rut_cliente = arriendo.cliente.rut_cliente;
-        list.nacimiento_cliente = formatFecha(
+        dataList.nombre_cliente = arriendo.cliente.nombre_cliente;
+        dataList.direccion_cliente = arriendo.cliente.direccion_cliente;
+        dataList.ciudad_cliente = arriendo.cliente.ciudad_cliente;
+        dataList.rut_cliente = arriendo.cliente.rut_cliente;
+        dataList.nacimiento_cliente = formatFecha(
           arriendo.cliente.fechaNacimiento_cliente
         );
-        list.telefono_cliente = arriendo.cliente.telefono_cliente;
+        dataList.telefono_cliente = arriendo.cliente.telefono_cliente;
         break;
       case "EMPRESA":
-        list.nombre_cliente = arriendo.empresa.nombre_empresa;
-        list.direccion_cliente = arriendo.empresa.direccion_empresa;
-        list.ciudad_cliente = arriendo.empresa.ciudad_empresa;
-        list.rut_cliente = arriendo.empresa.rut_empresa;
-        list.telefono_cliente = arriendo.empresa.telefono_empresa;
+        dataList.nombre_cliente = arriendo.empresa.nombre_empresa;
+        dataList.direccion_cliente = arriendo.empresa.direccion_empresa;
+        dataList.ciudad_cliente = arriendo.empresa.ciudad_empresa;
+        dataList.rut_cliente = arriendo.empresa.rut_empresa;
+        dataList.telefono_cliente = arriendo.empresa.telefono_empresa;
         break;
 
       default:
         break;
     }
     //se genera el documento
-    const docDefinition = documento(dataList);
+    const docDefinition = await documento(dataList);
     const pdfDocGenerator = pdfMake.createPdf(docDefinition);
     pdfDocGenerator.getBase64((url) => {
       res.json({
