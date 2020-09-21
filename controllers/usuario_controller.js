@@ -77,6 +77,7 @@ class UsuarioController {
                         id_usuario: usuario.id_usuario,
                         nombre_usuario: usuario.nombre_usuario,
                         email_usuario: usuario.email_usuario,
+                        estado_usuario: usuario.estado_usuario,
                         id_rol: usuario.id_rol,
                         userToken: crearToken(usuario),
                     },
@@ -127,6 +128,36 @@ class UsuarioController {
         res.json({
             success: true,
             msg: "Usuario actualizado exitosamente",
+            data: usuario,
+        });
+    }
+
+    async stateUsuario(req, res) {
+
+        var state = null;
+        var msg = "";
+        if (req.body.accion == "inhabilitar") {
+            state = false;
+            msg = "usuario Inabilitado exitosamente";
+        } else {
+            state = true;
+            msg = "usuario Habilitado exitosamente";
+        }
+        await Usuario.update({ estado_usuario: state }, {
+            where: { id_usuario: req.params.id },
+        });
+
+        const usuario = await Usuario.findOne({
+            where: { id_usuario: req.params.id },
+            include: [
+                { model: Rol, attributes: ["nombre_rol"] },
+                { model: Sucursal, attributes: ["nombre_sucursal"] },
+            ],
+            attributes: ["estado_usuario", "id_usuario", "nombre_usuario", "email_usuario", "createdAt"],
+        });
+        res.json({
+            success: true,
+            msg: msg,
             data: usuario,
         });
     }

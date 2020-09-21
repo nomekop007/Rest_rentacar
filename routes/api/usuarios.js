@@ -20,6 +20,6 @@ router.get("/buscarUsuario/:id", usuario.findUsuario.bind(usuario));
 
 router.put("/editarUsuario/:id", usuario.updateUsuario.bind(usuario));
 
-
+router.put("/cambiarEstado/:id", usuario.stateUsuario.bind(usuario));
 
 module.exports = router;
