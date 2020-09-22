@@ -1,4 +1,5 @@
 const { Vehiculo, Sucursal } = require("../db");
+const formidable = require("formidable");
 
 class VehiculoController {
     async getVehiculos(req, res) {
@@ -19,12 +20,16 @@ class VehiculoController {
 
     async createVehiculo(req, res) {
         const response = req.body;
+        if (response.foto_vehiculo != null) {
+            // guardarImagen(response.foto_vehiculo);
+
+            response.foto_vehiculo = "rutaImagen";
+        }
 
         const [v, created] = await Vehiculo.findOrCreate({
-            where: { patente_vehiculo: req.body.patente_vehiculo },
+            where: { patente_vehiculo: response.patente_vehiculo },
             defaults: response,
         });
-
         if (created) {
             const vehiculo = await Vehiculo.findOne({
                 include: [{ model: Sucursal, attributes: ["nombre_sucursal"] }],
@@ -72,6 +77,21 @@ class VehiculoController {
             data: req.params.id,
         });
     }
+}
+
+function guardarImagen(imagenBase64) {
+    //PENDIENTE DECODIFICAR IMAGEN
+
+    let form = formidable.IncomingForm();
+
+    form
+        .parse(imagen, (err, fields, files) => {})
+        .on("fileBegin", (name, file) => {
+            file.path = "../uploads/storage/imagenesVehiculos/" + file.name;
+        })
+        .on("file", (name, file) => {
+            console.log("archivo subido");
+        });
 }
 
 module.exports = VehiculoController;
