@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const middlewares = require("./middlewares");
+const check = require("./middlewares/check_middleware");
 const defaultValues = require("./defaultValues");
 const pdfRouter = require("./api/pdfs");
 const apiRolesRouter = require("./api/roles");
@@ -16,15 +16,15 @@ const apiPagosArriendosRouter = require("./api/pagosArriendos");
 
 router.use("/defaultValues", defaultValues);
 router.use("/usuarios", apiUsuariosRouter);
-router.use("/pdf", middlewares.checkToken, pdfRouter);
-router.use("/roles", middlewares.checkToken, apiRolesRouter);
-router.use("/vehiculos", middlewares.checkToken, apiVehiculosRouter);
-router.use("/sucursales", middlewares.checkToken, apiSucursalesRouter);
-router.use("/accesorios", middlewares.checkToken, apiAccesoriosRouter);
-router.use("/arriendos", middlewares.checkToken, apiArriendosRouter);
-router.use("/clientes", middlewares.checkToken, apiClientesRouter);
-router.use("/empresas", middlewares.checkToken, apiEmpresasRouter);
-router.use("/conductores", middlewares.checkToken, apiConductoresRouter);
-router.use("/pagosArriendos", middlewares.checkToken, apiPagosArriendosRouter);
+router.use("/pdf", check.checkToken, pdfRouter);
+router.use("/roles", check.checkToken, apiRolesRouter);
+router.use("/vehiculos", check.checkToken, apiVehiculosRouter);
+router.use("/sucursales", check.checkToken, apiSucursalesRouter);
+router.use("/accesorios", check.checkToken, apiAccesoriosRouter);
+router.use("/arriendos", check.checkToken, apiArriendosRouter);
+router.use("/clientes", check.checkToken, apiClientesRouter);
+router.use("/empresas", check.checkToken, apiEmpresasRouter);
+router.use("/conductores", check.checkToken, apiConductoresRouter);
+router.use("/pagosArriendos", check.checkToken, apiPagosArriendosRouter);
 
 module.exports = router;

@@ -1,5 +1,4 @@
 const { Vehiculo, Sucursal } = require("../db");
-const formidable = require("formidable");
 
 class VehiculoController {
     async getVehiculos(req, res) {
@@ -10,6 +9,8 @@ class VehiculoController {
                 "modelo_vehiculo",
                 "año_vehiculo",
                 "tipo_vehiculo",
+                "transmision_vehiculo",
+                "estado_vehiculo",
             ],
         });
         res.json({
@@ -18,13 +19,25 @@ class VehiculoController {
         });
     }
 
+    async findVehiculo(req, res) {
+        const vehiculo = await Vehiculo.findOne({
+            where: { patente_vehiculo: req.params.id },
+        });
+        if (vehiculo) {
+            res.json({
+                success: true,
+                data: vehiculo,
+            });
+        } else {
+            res.json({
+                success: false,
+                msg: "sin datos",
+            });
+        }
+    }
+
     async createVehiculo(req, res) {
         const response = req.body;
-        if (response.foto_vehiculo != null) {
-            // guardarImagen(response.foto_vehiculo);
-
-            response.foto_vehiculo = "rutaImagen";
-        }
 
         const [v, created] = await Vehiculo.findOrCreate({
             where: { patente_vehiculo: response.patente_vehiculo },
@@ -39,6 +52,8 @@ class VehiculoController {
                     "modelo_vehiculo",
                     "año_vehiculo",
                     "tipo_vehiculo",
+                    "transmision_vehiculo",
+                    "estado_vehiculo",
                 ],
             });
 
@@ -60,10 +75,23 @@ class VehiculoController {
             where: { patente_vehiculo: req.params.id },
         });
 
+        const vehiculo = await Vehiculo.findOne({
+            include: [{ model: Sucursal, attributes: ["nombre_sucursal"] }],
+            where: { patente_vehiculo: req.params.id },
+            attributes: [
+                "patente_vehiculo",
+                "modelo_vehiculo",
+                "año_vehiculo",
+                "tipo_vehiculo",
+                "transmision_vehiculo",
+                "estado_vehiculo",
+            ],
+        });
+
         res.json({
             success: true,
             msg: "Vehiculo modificado exitosamente",
-            data: req.body,
+            data: vehiculo,
         });
     }
 
@@ -77,21 +105,24 @@ class VehiculoController {
             data: req.params.id,
         });
     }
-}
 
-function guardarImagen(imagenBase64) {
-    //PENDIENTE DECODIFICAR IMAGEN
+    async uploadImageVehiculo(req, res) {
+        // si llega una imagen se guarda su url
+        if (typeof req.file != "undefined") {
+            var urlImage = {
+                foto_vehiculo: req.file.path,
+            };
+        }
 
-    let form = formidable.IncomingForm();
-
-    form
-        .parse(imagen, (err, fields, files) => {})
-        .on("fileBegin", (name, file) => {
-            file.path = "../uploads/storage/imagenesVehiculos/" + file.name;
-        })
-        .on("file", (name, file) => {
-            console.log("archivo subido");
+        await Vehiculo.update(urlImage, {
+            where: { patente_vehiculo: req.params.id },
         });
+
+        res.json({
+            success: true,
+            msg: " imagen guardada",
+        });
+    }
 }
 
 module.exports = VehiculoController;
