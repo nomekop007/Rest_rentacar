@@ -1,4 +1,6 @@
 const { Vehiculo, Sucursal } = require("../db");
+const fs = require("fs");
+const path = require("path");
 
 class VehiculoController {
     async getVehiculos(req, res) {
@@ -107,14 +109,16 @@ class VehiculoController {
     }
 
     async uploadImageVehiculo(req, res) {
-        // si llega una imagen se guarda su url
-        if (typeof req.file != "undefined") {
-            var urlImage = {
-                foto_vehiculo: req.file.path,
-            };
+        const vehiculo = await Vehiculo.findOne({
+            where: { patente_vehiculo: req.params.id },
+        });
+
+        // se pregunta si el vehiculo  tiene image asignada
+        if (vehiculo.foto_vehiculo) {
+            borrarImagenDeStorage(vehiculo.foto_vehiculo);
         }
 
-        await Vehiculo.update(urlImage, {
+        await Vehiculo.update({ foto_vehiculo: req.file.filename }, {
             where: { patente_vehiculo: req.params.id },
         });
 
@@ -122,6 +126,15 @@ class VehiculoController {
             success: true,
             msg: " imagen guardada",
         });
+    }
+}
+
+function borrarImagenDeStorage(name) {
+    try {
+        fs.unlinkSync(path.join(__dirname, "../uploads/fotosVehiculos/" + name));
+        return true;
+    } catch (err) {
+        return false;
     }
 }
 
