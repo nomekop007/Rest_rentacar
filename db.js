@@ -39,15 +39,15 @@ Rol.hasMany(Usuario, { foreignKey: { name: "id_rol" } });
 //un usuario pertenece a un rol
 Usuario.belongsTo(Rol, { foreignKey: { name: "id_rol" } });
 
+// una sucursal tiene muchos usuarios
+Sucursal.hasMany(Usuario, { foreignKey: { name: "id_sucursal" } });
+//un usuario pertenecen a una sucursal
+Usuario.belongsTo(Sucursal, { foreignKey: { name: "id_sucursal" } });
+
 //un vehiculo pertenecen a una sucursal
 Vehiculo.belongsTo(Sucursal, { foreignKey: { name: "id_sucursal" } });
 // una sucursal tiene muchos vehiculos
 Sucursal.hasMany(Vehiculo, { foreignKey: { name: "id_sucursal" } });
-
-//un usuario pertenecen a una sucursal
-Usuario.belongsTo(Sucursal, { foreignKey: { name: "id_sucursal" } });
-// una sucursal tiene muchos usuarios
-Sucursal.hasMany(Usuario, { foreignKey: { name: "id_sucursal" } });
 
 //un arriendo pertenece a un Cliente
 Arriendo.belongsTo(Cliente, { foreignKey: { name: "rut_cliente" } });
@@ -81,36 +81,36 @@ Sucursal.hasMany(Arriendo, { foreignKey: { name: "id_sucursal" } });
 
 // un arriendo tiene muchos accesorios
 Arriendo.belongsToMany(Accesorio, {
-  through: "Arriendos-Accesorios",
-  foreignKey: { name: "id_arriendo" },
+    through: "Arriendos-Accesorios",
+    foreignKey: { name: "id_arriendo" },
 });
 // un accesorio tiene muchos arriendos
 Accesorio.belongsToMany(Arriendo, {
-  through: "Arriendos-Accesorios",
-  foreignKey: { name: "id_accesorio" },
+    through: "Arriendos-Accesorios",
+    foreignKey: { name: "id_accesorio" },
 });
 
 // un arriendo tiene muchos documentos
 Arriendo.belongsToMany(Documento, {
-  through: "Arriendos-Documentos",
-  foreignKey: { name: "id_arriendo" },
+    through: "Arriendos-Documentos",
+    foreignKey: { name: "id_arriendo" },
 });
 // un documento tiene muchos arriendos
 Documento.belongsToMany(Arriendo, {
-  through: "Arriendos-Documentos",
-  foreignKey: { name: "id_documento" },
+    through: "Arriendos-Documentos",
+    foreignKey: { name: "id_documento" },
 });
 
 module.exports = {
-  Rol,
-  Usuario,
-  Sucursal,
-  Vehiculo,
-  Arriendo,
-  Accesorio,
-  Cliente,
-  Empresa,
-  Conductor,
-  Documento,
-  PagoArriendo,
+    Rol,
+    Usuario,
+    Sucursal,
+    Vehiculo,
+    Arriendo,
+    Accesorio,
+    Cliente,
+    Empresa,
+    Conductor,
+    Documento,
+    PagoArriendo,
 };

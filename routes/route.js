@@ -13,9 +13,11 @@ const apiClientesRouter = require("./api/clientes");
 const apiEmpresasRouter = require("./api/empresas");
 const apiConductoresRouter = require("./api/conductores");
 const apiPagosArriendosRouter = require("./api/pagosArriendos");
+const apiDocumentosRouter = require("./api/documentos");
 
 router.use("/defaultValues", defaultValues);
 router.use("/usuarios", apiUsuariosRouter);
+router.use("/documentos", apiDocumentosRouter);
 router.use("/pdf", check.checkToken, pdfRouter);
 router.use("/roles", check.checkToken, apiRolesRouter);
 router.use("/vehiculos", check.checkToken, apiVehiculosRouter);

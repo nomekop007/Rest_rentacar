@@ -12,7 +12,13 @@ class UsuarioController {
                 { model: Rol, attributes: ["nombre_rol"] },
                 { model: Sucursal, attributes: ["nombre_sucursal"] },
             ],
-            attributes: ["estado_usuario", "id_usuario", "nombre_usuario", "email_usuario", "createdAt"],
+            attributes: [
+                "estado_usuario",
+                "id_usuario",
+                "nombre_usuario",
+                "email_usuario",
+                "createdAt",
+            ],
         });
         res.json({
             success: true,
@@ -22,8 +28,8 @@ class UsuarioController {
 
     async findUsuario(req, res) {
         const usuario = await Usuario.findOne({
-            where: { id_usuario: req.params.id }
-        })
+            where: { id_usuario: req.params.id },
+        });
         if (usuario) {
             res.json({
                 success: true,
@@ -53,7 +59,13 @@ class UsuarioController {
                 { model: Rol, attributes: ["nombre_rol"] },
                 { model: Sucursal, attributes: ["nombre_sucursal"] },
             ],
-            attributes: ["estado_usuario", "id_usuario", "nombre_usuario", "email_usuario", "createdAt"],
+            attributes: [
+                "estado_usuario",
+                "id_usuario",
+                "nombre_usuario",
+                "email_usuario",
+                "createdAt",
+            ],
         });
 
         res.json({
@@ -78,6 +90,7 @@ class UsuarioController {
                         nombre_usuario: usuario.nombre_usuario,
                         email_usuario: usuario.email_usuario,
                         estado_usuario: usuario.estado_usuario,
+                        id_sucursal: usuario.id_sucursal,
                         id_rol: usuario.id_rol,
                         userToken: crearToken(usuario),
                     },
@@ -96,15 +109,14 @@ class UsuarioController {
         }
     }
 
-
     async updateUsuario(req, res) {
         const response = req.body;
-
+        console.log(response);
         const values = {
             nombre_usuario: response.nombre_usuario,
             email_usuario: response.email_usuario,
             id_rol: response.id_rol,
-            id_sucursal: response.id_sucursal
+            id_sucursal: response.id_sucursal,
         };
 
         //si hay campos en contraseña para cambiar
@@ -116,14 +128,19 @@ class UsuarioController {
             where: { id_usuario: req.params.id },
         });
 
-
         const usuario = await Usuario.findOne({
             where: { id_usuario: req.params.id },
             include: [
                 { model: Rol, attributes: ["nombre_rol"] },
                 { model: Sucursal, attributes: ["nombre_sucursal"] },
             ],
-            attributes: ["estado_usuario", "id_usuario", "nombre_usuario", "email_usuario", "createdAt"],
+            attributes: [
+                "estado_usuario",
+                "id_usuario",
+                "nombre_usuario",
+                "email_usuario",
+                "createdAt",
+            ],
         });
         res.json({
             success: true,
@@ -133,7 +150,6 @@ class UsuarioController {
     }
 
     async stateUsuario(req, res) {
-
         var state = null;
         var msg = "";
         if (req.body.accion == "inhabilitar") {
@@ -153,7 +169,13 @@ class UsuarioController {
                 { model: Rol, attributes: ["nombre_rol"] },
                 { model: Sucursal, attributes: ["nombre_sucursal"] },
             ],
-            attributes: ["estado_usuario", "id_usuario", "nombre_usuario", "email_usuario", "createdAt"],
+            attributes: [
+                "estado_usuario",
+                "id_usuario",
+                "nombre_usuario",
+                "email_usuario",
+                "createdAt",
+            ],
         });
         res.json({
             success: true,
