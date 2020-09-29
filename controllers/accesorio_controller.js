@@ -8,6 +8,7 @@ class AccesorioController {
             data: accesorio,
         });
     }
+
     async createArriendoAccesorio(req, res) {
         const { ArrayChecks, id_arriendo } = req.body;
         const arriendo = await Arriendo.findOne({
@@ -28,9 +29,5 @@ class AccesorioController {
         });
     }
 }
-
-
-
-
 
 module.exports = AccesorioController;

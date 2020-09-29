@@ -6,4 +6,6 @@ router.get("/cargarConductores", conductor.getConductores.bind(conductor));
 
 router.get("/buscarConductor/:id", conductor.findConductor.bind(conductor));
 
+router.post("/registrarConductor", conductor.createConductor.bind(conductor));
+
 module.exports = router;

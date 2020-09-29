@@ -1,7 +1,7 @@
 const base64 = require("image-to-base64");
 const logo = require.resolve("../images/logo.png");
 
-async function documento(data) {
+async function contrato(data) {
     console.log(data);
     return {
         content: [{
@@ -124,4 +124,4 @@ async function documento(data) {
     };
 }
 
-module.exports = { documento };
+module.exports = { contrato };

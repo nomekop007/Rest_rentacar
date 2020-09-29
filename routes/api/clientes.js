@@ -6,4 +6,6 @@ router.get("/cargarClientes", cliente.getClientes.bind(cliente));
 
 router.get("/buscarCliente/:id", cliente.findCliente.bind(cliente));
 
+router.post("/registrarCliente", cliente.createCliente.bind(cliente));
+
 module.exports = router;

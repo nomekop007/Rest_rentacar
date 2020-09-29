@@ -38,14 +38,23 @@ const subirDocumentoRequisitosArriendo = multer({
     storage: storage2,
     dest: path.join(__dirname, "../../uploads/documentos/requisitosArriendo"),
     limits: { fieldSize: 10000000 },
+    fileFilter: (req, file, cb) => {
+        const fileTypes = /jpeg|jpg|png|gif|pdf/;
+        const mimetype = fileTypes.test(file.mimetype);
+        const extname = fileTypes.test(path.extname(file.originalname));
+        if (mimetype && extname) {
+            return cb(null, true);
+        }
+        cb("Error: Archivo debe ser una imagen valida");
+    },
 }).fields([
-    { name: "carnetFrontal", maxCount: 1 },
-    { name: "carnetTrasera", maxCount: 1 },
-    { name: "licenciaFrontal", maxCount: 1 },
-    { name: "licenciaTrasera", maxCount: 1 },
-    { name: "targeta", maxCount: 1 },
-    { name: "cheque", maxCount: 1 },
-    { name: "comprobante", maxCount: 1 },
+    { name: "fotoCarnetFrontal", maxCount: 1 },
+    { name: "fotoCarnetTrasera", maxCount: 1 },
+    { name: "fotoLicenciaFrontal", maxCount: 1 },
+    { name: "fotoLicenciaTrasera", maxCount: 1 },
+    { name: "fotoTargeta", maxCount: 1 },
+    { name: "fotoCheque", maxCount: 1 },
+    { name: "fotoComprobante", maxCount: 1 },
 ]);
 
 module.exports = {

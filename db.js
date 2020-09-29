@@ -10,8 +10,9 @@ const ArriendoModel = require("./models/arriendos");
 const ClienteModel = require("./models/clientes");
 const EmpresaModel = require("./models/empresas");
 const ConductorModel = require("./models/conductores");
-const DocumentoModel = require("./models/documentos");
-const PagoArriendosModel = require("./models/pagosArriendos");
+const RequistoModel = require("./models/requisitos");
+const ContratoModel = require("./models/contratos");
+const PagoModel = require("./models/pagos");
 
 //conectar modelo con base de datos
 const Rol = RolModel(database, Sequelize);
@@ -23,16 +24,16 @@ const Accesorio = AccesoriosModel(database, Sequelize);
 const Cliente = ClienteModel(database, Sequelize);
 const Empresa = EmpresaModel(database, Sequelize);
 const Conductor = ConductorModel(database, Sequelize);
-const Documento = DocumentoModel(database, Sequelize);
-const PagoArriendo = PagoArriendosModel(database, Sequelize);
+const Requisito = RequistoModel(database, Sequelize);
+const Contrato = ContratoModel(database, Sequelize);
+const Pago = PagoModel(database, Sequelize);
 
 //Asociaciones de tablas
 
-// un arriendo tiene un pagoArriendo
-Arriendo.hasOne(PagoArriendo, { foreignKey: { name: "id_arriendo" } });
-
+// un arriendo tiene muchos pagos
+Arriendo.hasMany(Pago, { foreignKey: { name: "id_arriendo" } });
 //un pago arriendo pertenece a un arriendo
-PagoArriendo.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
+Pago.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
 
 // un Rol tiene muchos usuarios
 Rol.hasMany(Usuario, { foreignKey: { name: "id_rol" } });
@@ -79,6 +80,16 @@ Arriendo.belongsTo(Sucursal, { foreignKey: { name: "id_sucursal" } });
 //un Sucursal tiene muchos Arriendo
 Sucursal.hasMany(Arriendo, { foreignKey: { name: "id_sucursal" } });
 
+// un arriendo tiene un requisto
+Arriendo.hasOne(Requisito, { foreignKey: { name: "id_arriendo" } });
+//un requisito  pertenece a un arriendo
+Requisito.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
+
+//un Contrato pertenece a un Arriendo
+Contrato.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
+//un Arriendo tiene muchos Contrato
+Arriendo.hasMany(Contrato, { foreignKey: { name: "id_arriendo" } });
+
 // un arriendo tiene muchos accesorios
 Arriendo.belongsToMany(Accesorio, {
     through: "Arriendos-Accesorios",
@@ -88,17 +99,6 @@ Arriendo.belongsToMany(Accesorio, {
 Accesorio.belongsToMany(Arriendo, {
     through: "Arriendos-Accesorios",
     foreignKey: { name: "id_accesorio" },
-});
-
-// un arriendo tiene muchos documentos
-Arriendo.belongsToMany(Documento, {
-    through: "Arriendos-Documentos",
-    foreignKey: { name: "id_arriendo" },
-});
-// un documento tiene muchos arriendos
-Documento.belongsToMany(Arriendo, {
-    through: "Arriendos-Documentos",
-    foreignKey: { name: "id_documento" },
 });
 
 module.exports = {
@@ -111,6 +111,7 @@ module.exports = {
     Cliente,
     Empresa,
     Conductor,
-    Documento,
-    PagoArriendo,
+    Contrato,
+    Requisito,
+    Pago,
 };

@@ -111,7 +111,6 @@ class UsuarioController {
 
     async updateUsuario(req, res) {
         const response = req.body;
-        console.log(response);
         const values = {
             nombre_usuario: response.nombre_usuario,
             email_usuario: response.email_usuario,

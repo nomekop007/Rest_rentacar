@@ -6,16 +6,15 @@ const {
     Empresa,
     Accesorio,
     Vehiculo,
-    PagoArriendo,
     Sucursal,
 } = require("../db");
-const { documento } = require("../files/pdf_plantillas/contratoArriendo");
+const { contrato } = require("../files/pdf_plantillas/contratoArriendo");
 const pdfMake = require("pdfmake/build/pdfmake.js");
 const pdfFonts = require("pdfmake/build/vfs_fonts.js");
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-class PDFController {
-    async createContratoArriendoPDF(req, res) {
+class contrato_controller {
+    async createPDFContrato(req, res) {
         const response = req.body;
         const arriendo = await Arriendo.findOne({
             where: { id_arriendo: response.id_arriendo },
@@ -25,7 +24,6 @@ class PDFController {
                 { model: Vehiculo },
                 { model: Accesorio },
                 { model: Conductor },
-                { model: PagoArriendo },
                 { model: Sucursal },
                 { model: Usuario, attributes: ["nombre_usuario"] },
             ],
@@ -57,10 +55,10 @@ class PDFController {
             numero_targetaCredito: response.numero_targeta,
             fecha_targeta: response.fecha_targeta,
             cheque: response.cheque,
-            abonoGarantia_pagoArriendo: arriendo.pagosArriendo.abonoGarantia_pagoArriendo,
+            abono: response.abono,
             agencia: arriendo.sucursale.nombre_sucursal,
             vendedor: arriendo.usuario.nombre_usuario,
-            observaciones: arriendo.pagosArriendo.observaciones_pagoArriendo,
+            observaciones: response.observaciones,
 
             ciudad_entrega: arriendo.ciudadEntrega_arriendo,
             ciudad_recepcion: arriendo.ciudadRecepcion_arriendo,
@@ -70,9 +68,10 @@ class PDFController {
 
             cantidad_dias: arriendo.numerosDias_arriendo,
             subtotal: response.subtotal,
-            neto: arriendo.pagosArriendo.neto_pagoArriendo,
-            iva: arriendo.pagosArriendo.iva_pagoArriendo,
-            total: arriendo.pagosArriendo.total_pagoArriendo,
+            neto: response.neto,
+            descuento: response.descuento,
+            iva: response.iva,
+            total: response.total,
         };
 
         switch (arriendo.tipo_arriendo) {
@@ -107,8 +106,9 @@ class PDFController {
             default:
                 break;
         }
+
         //se genera el documento
-        const docDefinition = await documento(dataList);
+        const docDefinition = await contrato(dataList);
         const pdfDocGenerator = pdfMake.createPdf(docDefinition);
         pdfDocGenerator.getBase64((url) => {
             res.json({
@@ -141,4 +141,4 @@ function formatFechahora(fecha) {
     return (fecha = f.toLocaleDateString("es-MX", opciones));
 }
 
-module.exports = PDFController;
+module.exports = contrato_controller;

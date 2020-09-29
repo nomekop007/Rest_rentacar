@@ -6,7 +6,6 @@ const {
     Empresa,
     Accesorio,
     Vehiculo,
-    PagoArriendo,
 } = require("../db");
 
 class ArriendoController {
@@ -36,7 +35,6 @@ class ArriendoController {
                 { model: Vehiculo },
                 { model: Conductor },
                 { model: Accesorio },
-                { model: PagoArriendo },
                 { model: Usuario, attributes: ["nombre_usuario"] },
             ],
         });
@@ -57,8 +55,17 @@ class ArriendoController {
     async createArriendo(req, res) {
         const response = req.body;
 
+        if (response.tipo_arriendo == 1) {
+            response.tipo_arriendo = "PARTICULAR";
+        } else if (response.tipo_arriendo == 2) {
+            response.tipo_arriendo = "REMPLAZO";
+        } else {
+            response.tipo_arriendo = "EMPRESA";
+        }
+        console.log(response.tipo_arriendo);
+
         const dataArriendo = {
-            estado_arriendo: "PENDIENTE",
+            estado_arriendo: response.estado_arriendo,
             kilometrosEntrada_arriendo: response.kilometrosEntrada_arriendo,
             kilometrosSalida_arriendo: null,
             ciudadEntrega_arriendo: response.ciudadEntrega_arriendo,
@@ -67,123 +74,15 @@ class ArriendoController {
             fechaRecepcion_arriendo: response.fechaRecepcion_arriendo,
             numerosDias_arriendo: response.numerosDias_arriendo,
             tipo_arriendo: response.tipo_arriendo,
-            id_sucursal: response.id_sucursal,
-            patente_vehiculo: response.patente_vehiculo,
-            rut_conductor: response.rut_conductor,
+
+            //foraneas
             id_usuario: response.id_usuario,
-            rut_cliente: null,
-            rut_empresa: null,
-        };
-
-        const dataCliente = {
-            rut_cliente: response.rut_cliente,
-            nombre_cliente: response.nombre_cliente,
-            direccion_cliente: response.direccion_cliente,
-            ciudad_cliente: response.ciudad_cliente,
-            telefono_cliente: response.telefono_cliente,
-            correo_cliente: response.correo_cliente,
-            estadoCivil_cliente: response.estado_civil,
-            fechaNacimiento_cliente: response.fechaNacimiento_cliente == "" ?
-                null : response.fechaNacimiento_cliente,
-        };
-
-
-        const dataEmpresa = {
-            rut_empresa: response.rut_empresa,
-            nombre_empresa: response.nombre_empresa,
-            rol_empresa: response.rol_empresa,
-            vigencia_empresa: response.vigencia_empresa,
-            direccion_empresa: response.direccion_empresa,
-            ciudad_empresa: response.ciudad_empresa,
-            telefono_empresa: response.telefono_empresa,
-            correo_empresa: response.correo_empresa,
-        };
-
-        const dataConductor = {
+            patente_vehiculo: response.patente_vehiculo,
+            id_sucursal: response.id_sucursal,
             rut_conductor: response.rut_conductor,
-            nombre_conductor: response.nombre_conductor,
-            telefono_conductor: response.telefono_conductor,
-            clase_conductor: response.clase_conductor,
-            numero_conductor: response.numero_conductor,
-            municipalidad_conductor: response.municipalidad_conductor,
-            direccion_conductor: response.direccion_conductor,
-            vcto_conductor: response.vcto_conductor == "" ? null : response.vcto_conductor,
+            rut_cliente: response.rut_cliente ? response.rut_cliente : null,
+            rut_empresa: response.rut_empresa ? response.rut_empresa : null,
         };
-
-        //se crean deacuerdo al tipo de arriendo
-        switch (response.tipo_arriendo) {
-            case "1":
-                const [cliente, created] = await Cliente.findOrCreate({
-                    where: { rut_cliente: response.rut_cliente },
-                    defaults: dataCliente,
-                });
-                if (!created) {
-                    await Cliente.update(dataCliente, {
-                        where: { rut_cliente: cliente.rut_cliente },
-                    });
-                }
-                //guardas las id en el objeto arriendo
-                dataArriendo.rut_cliente = cliente.rut_cliente;
-                dataArriendo.tipo_arriendo = "PARTICULAR";
-                break;
-            case "2":
-                const [cliente2, created2c] = await Cliente.findOrCreate({
-                    where: { rut_cliente: response.rut_cliente },
-                    defaults: dataCliente,
-                });
-                const [empresa2, created2e] = await Empresa.findOrCreate({
-                    where: { rut_empresa: response.rut_empresa },
-                    defaults: dataEmpresa,
-                });
-
-                if (!created2c) {
-                    await Cliente.update(dataCliente, {
-                        where: { rut_cliente: cliente2.rut_cliente },
-                    });
-                }
-                if (!created2e) {
-                    await Empresa.update(dataEmpresa, {
-                        where: { rut_empresa: empresa2.rut_empresa },
-                    });
-                }
-                //guardas las id en el objeto arriendo
-                dataArriendo.rut_cliente = cliente2.rut_cliente;
-                dataArriendo.rut_empresa = empresa2.rut_empresa;
-                dataArriendo.tipo_arriendo = "REMPLAZO";
-                break;
-            case "3":
-                const [empresa3, created3e] = await Empresa.findOrCreate({
-                    where: { rut_empresa: response.rut_empresa },
-                    defaults: dataEmpresa,
-                });
-                if (!created3e) {
-                    await Empresa.update(dataEmpresa, {
-                        where: { rut_empresa: empresa3.rut_empresa },
-                    });
-                }
-
-                //guardas las id en el objeto arriendo
-                dataArriendo.rut_empresa = empresa3.rut_empresa;
-                dataArriendo.tipo_arriendo = "EMPRESA";
-                break;
-            default:
-                res.json({
-                    success: false,
-                    msg: "algo salio mal",
-                });
-                break;
-        }
-
-        const [conductor, createdZ] = await Conductor.findOrCreate({
-            where: { rut_conductor: response.rut_conductor },
-            defaults: dataConductor,
-        });
-        //si existe conductor lo actualiza
-        if (!createdZ) {
-            await Conductor.update(dataConductor, {
-                where: { rut_conductor: conductor.rut_conductor },
-            });
-        }
 
         //se crea el arriendo
         const a = await Arriendo.create(dataArriendo);
