@@ -31,13 +31,6 @@ class contrato_controller {
 
         //variables
         const dataList = {
-            nombre_cliente: "",
-            direccion_cliente: "",
-            ciudad_cliente: "",
-            rut_cliente: "",
-            nacimiento_cliente: "",
-            telefono_cliente: "",
-
             rut_conductor: arriendo.conductore.rut_conductor,
             nombre_conductor: arriendo.conductore.nombre_conductor,
             telefono_conductor: arriendo.conductore.telefono_conductor,
@@ -50,28 +43,31 @@ class contrato_controller {
             tipo_vehiculo: arriendo.vehiculo.tipo_vehiculo,
             marca_vehiculo: arriendo.vehiculo.marca_vehiculo,
             patente_vehiculo: arriendo.vehiculo.patente_vehiculo,
-            kilometrosEntrada_arriendo: arriendo.kilometrosEntrada_arriendo,
 
-            numero_targetaCredito: response.numero_targeta,
-            fecha_targeta: response.fecha_targeta,
-            cheque: response.cheque,
-            abono: response.abono,
             agencia: arriendo.sucursale.nombre_sucursal,
             vendedor: arriendo.usuario.nombre_usuario,
-            observaciones: response.observaciones,
-
+            kilometrosEntrada_arriendo: arriendo.kilometrosEntrada_arriendo,
+            id_arriendo: arriendo.id_arriendo,
             ciudad_entrega: arriendo.ciudadEntrega_arriendo,
             ciudad_recepcion: arriendo.ciudadRecepcion_arriendo,
             fecha_entrega: formatFechahora(arriendo.fechaEntrega_arriendo),
             fecha_recepcion: formatFechahora(arriendo.fechaRecepcion_arriendo),
             tipo_arriendo: arriendo.tipo_arriendo,
-
             cantidad_dias: arriendo.numerosDias_arriendo,
+
+            numero_targetaCredito: response.numero_targeta,
+            fecha_targeta: response.fecha_targeta,
+            cheque: response.cheque,
+            abono: response.abono,
+            tipoPago: response.tipoPago,
+            tipoFacturacion: response.tipoFacturacion,
             subtotal: response.subtotal,
             neto: response.neto,
             descuento: response.descuento,
             iva: response.iva,
             total: response.total,
+            observaciones: response.observaciones,
+            arrayAccesorios: response.arrayAccesorios,
         };
 
         switch (arriendo.tipo_arriendo) {
@@ -101,21 +97,33 @@ class contrato_controller {
                 dataList.ciudad_cliente = arriendo.empresa.ciudad_empresa;
                 dataList.rut_cliente = arriendo.empresa.rut_empresa;
                 dataList.telefono_cliente = arriendo.empresa.telefono_empresa;
+                dataList.nacimiento_cliente = arriendo.empresa.vigencia_empresa;
                 break;
 
             default:
                 break;
         }
 
-        //se genera el documento
-        const docDefinition = await contrato(dataList);
-        const pdfDocGenerator = pdfMake.createPdf(docDefinition);
-        pdfDocGenerator.getBase64((url) => {
-            res.json({
-                success: true,
-                data: url,
+        //valida para asegurar que no se cree otro contrato
+        if (arriendo.estado_arriendo === "PENDIENTE") {
+            //se genera el documento
+            const docDefinition = await contrato(dataList);
+            const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+            pdfDocGenerator.getBase64((url) => {
+                res.json({
+                    success: true,
+                    data: {
+                        url: url,
+                        pago: response,
+                    },
+                });
             });
-        });
+        } else {
+            res.json({
+                success: false,
+                msg: "el contrato ya esta firmado!",
+            });
+        }
     }
 }
 

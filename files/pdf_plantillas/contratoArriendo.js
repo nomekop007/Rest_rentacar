@@ -3,8 +3,13 @@ const logo = require.resolve("../images/logo.png");
 
 async function contrato(data) {
     console.log(data);
+    /*   data.arrayAccesorios.forEach((element) => {
+                  console.log(element);
+              }); */
+
     return {
         content: [{
+                margin: [0, 0, 0, 10],
                 columns: [{
                         width: 100,
                         height: 100,
@@ -28,8 +33,10 @@ async function contrato(data) {
                             },
                         ],
                     },
+                    {
+                        text: `Nº  ${data.id_arriendo}`,
+                    },
                 ],
-                margin: [0, 0, 0, 10],
             },
             {
                 columns: [{
@@ -41,67 +48,175 @@ async function contrato(data) {
                             widths: [5, 90, 60, 60, 90],
                             body: [
                                 [
-                                    { text: "CLIENTE \n nombreCliente", colSpan: 4 },
+                                    { text: `CLIENTE: \n ${data.nombre_cliente}`, colSpan: 4 },
                                     {},
                                     {},
                                     {},
-                                    { text: "AUTO/CAMIONETA \n tipoAuto", colSpan: 1 },
-                                ],
-                                [
-                                    { text: "DIRECCION \n direccionCliente", colSpan: 3 },
-                                    {},
-                                    {},
-                                    { text: "CIUDAD \n ciudadCliente", colSpan: 1 },
-                                    { text: "MARCA MODELO \n modeloVehiculo", colSpan: 1 },
-                                ],
-                                [
-                                    { text: "RUT O PASAPORTE \n rutCliente", colSpan: 2 },
-                                    {},
-                                    { text: "NACIMIENTO \n fechaCliente", colSpan: 1 },
-                                    { text: "TELEFONO \n telefonoCliente", colSpan: 1 },
-                                    { text: "PATENTE \n patenteVehiculo", colSpan: 1 },
-                                ],
-                                [
-                                    { text: "CONDUCTOR \n nombreConductor", colSpan: 5 },
-                                    {},
-                                    {},
-                                    {},
-                                    {},
-                                ],
-                                [
-                                    { text: "LICENCIA", colSpan: 1 },
                                     {
-                                        text: "CLASE: \n\n NUMERO: \n\n VCTO: \n\n MUNIC:  ",
+                                        text: `AUTO/CAMIONETA: \n ${data.tipo_vehiculo}`,
                                         colSpan: 1,
                                     },
+                                ],
+                                [{
+                                        text: `DIRECCION: \n ${data.direccion_cliente}`,
+                                        colSpan: 3,
+                                    },
+                                    {},
+                                    {},
+                                    { text: `CIUDAD: \n ${data.ciudad_cliente}`, colSpan: 1 },
                                     {
-                                        text: "RUT \n rutConductor \n\n TELEFONO \ntelefonoConductor \n\n  DIRECCION \n direccionConductor    ",
+                                        text: `MARCA MODELO: \n ${data.marca_vehiculo}`,
+                                        colSpan: 1,
+                                    },
+                                ],
+                                [{
+                                        text: `RUT O PASAPORTE: \n ${data.rut_cliente}`,
                                         colSpan: 2,
                                     },
                                     {},
                                     {
-                                        text: "KILOMETROS \n\n ENTRADA: \n\n\n SALIDA:",
+                                        text: `NACIMIENTO: \n ${data.nacimiento_cliente}`,
+                                        colSpan: 1,
+                                    },
+                                    {
+                                        text: `TELEFONO: \n +569 ${data.telefono_cliente}`,
+                                        colSpan: 1,
+                                    },
+                                    { text: `PATENTE: \n ${data.patente_vehiculo}`, colSpan: 1 },
+                                ],
+                                [{
+                                        text: `CONDUCTOR: \n ${data.nombre_conductor}`,
+                                        colSpan: 5,
+                                    },
+                                    {},
+                                    {},
+                                    {},
+                                    {},
+                                ],
+                                [
+                                    { text: `LICENCIA`, colSpan: 1 },
+                                    {
+                                        text: `CLASE : \n  ${data.clase_conductor} \n\n NUMERO: \n ${data.numero_conductor} \n\n VCTO: \n ${data.vcto_conductor} \n\n MUNIC: \n ${data.municipalidad_conductor} `,
+                                        colSpan: 1,
+                                    },
+                                    {
+                                        text: `RUT: \n ${data.rut_conductor} \n\n TELEFONO: \n  +569 ${data.telefono_conductor} \n\n  DIRECCION: \n ${data.direccion_conductor}    `,
+                                        colSpan: 2,
+                                    },
+                                    {},
+                                    {
+                                        text: `KILOMETROS: \n\n  ---------------------------------------- \n   ENTRADA: ${data.kilometrosEntrada_arriendo}  \n ----------------------------------------  \n  ---------------------------------------- \n  SALIDA:       \n ----------------------------------------`,
                                         colSpan: 1,
                                     },
                                 ],
                             ],
                         },
                     },
-                    {
-                        fontSize: 7,
-                        style: "tableExample",
-                        table: {
-                            heights: [20, 20],
-                            widths: [75, 75],
-                            body: [
-                                [
-                                    "CIUDAD DE ENTREGA \n ciudadEntrega ",
-                                    "CIUDAD DE RECEPCIÓN \n ciudadrecepcion",
+
+                    [{
+                            fontSize: 7,
+                            style: `tableExample`,
+                            table: {
+                                widths: [75, 75],
+                                body: [
+                                    [
+                                        `CIUDAD DE ENTREGA \n ${data.ciudad_entrega} `,
+                                        `CIUDAD DE RECEPCIÓN \n ${data.ciudad_recepcion}`,
+                                    ],
+                                    [
+                                        `FECHA - HORA \n ${data.fecha_entrega}`,
+                                        `FECHA - HORA \n ${data.fecha_recepcion} `,
+                                    ],
+                                    [{
+                                            text: `TIPO ARRIENDO: \n  ${data.tipo_arriendo}`,
+                                            colSpan: 2,
+                                        },
+                                        {},
+                                    ],
+                                    [{
+                                            text: `CANTIDAD DE DIAS: \n  ${data.cantidad_dias}`,
+                                            colSpan: 2,
+                                        },
+                                        {},
+                                    ],
+                                    [
+                                        "SUB TOTAL NETO:",
+                                        { text: data.subtotal, fontSize: 11, bold: true },
+                                    ],
+                                    [
+                                        "DESCUENTO (-)",
+                                        { text: data.descuento, fontSize: 11, bold: true },
+                                    ],
+                                    //--- lista de arriendo //
+                                    [
+                                        { heights: 8, text: "ACCESORIO  (+)", fontSize: 6 },
+                                        { heights: 8, text: "0", fontSize: 6, bold: true },
+                                    ],
+                                    //--------------- //
+                                    [
+                                        "TOTAL NETO: \n\n IVA: \n\n TOTAL:",
+                                        {
+                                            text: `${data.neto} \n ${data.iva} \n ${data.total} `,
+                                            fontSize: 11,
+                                            bold: true,
+                                        },
+                                    ],
+                                    [
+                                        { text: "A PAGAR ", fontSize: 11 },
+                                        { text: data.total, fontSize: 11, bold: true },
+                                    ],
                                 ],
-                                ["FECHA \n fechaInicio", "FECHA \n fechaFin "],
-                            ],
+                            },
                         },
-                    },
+                        {
+                            margin: [0, 10, 0, 0],
+                            style: "tableExample",
+                            fontSize: 8,
+                            table: {
+                                widths: [75, 75],
+                                fontSize: 8,
+
+                                body: [
+                                    [
+                                        [
+                                            "FACTURACION",
+                                            {
+                                                table: {
+                                                    body: [
+                                                        ["Boleta", "X"],
+                                                        ["Factura", ""],
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                        [
+                                            "TIPO PAGO",
+                                            {
+                                                table: {
+                                                    body: [
+                                                        ["Efectivo", ""],
+                                                        ["Cheque", ""],
+                                                        ["Targeta", "X"],
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    ],
+                                ],
+                            },
+                        },
+                        {
+                            margin: [0, 10, 0, 0],
+                            style: "tableExample",
+                            fontSize: 8,
+                            table: {
+                                widths: [160],
+                                body: [
+                                    [`DIGITADO POR \n  ${data.vendedor}`]
+                                ],
+                            },
+                        },
+                    ],
                 ],
             },
         ],

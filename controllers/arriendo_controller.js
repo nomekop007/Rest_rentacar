@@ -11,7 +11,11 @@ const {
 class ArriendoController {
     async getArriendos(req, res) {
         const arriendos = await Arriendo.findAll({
-            include: [{ model: Usuario, attributes: ["nombre_usuario"] }],
+            include: [
+                { model: Usuario, attributes: ["nombre_usuario"] },
+                { model: Cliente, attributes: ["nombre_cliente"] },
+                { model: Empresa, attributes: ["nombre_empresa"] },
+            ],
             attributes: [
                 "id_arriendo",
                 "createdAt",
@@ -88,7 +92,11 @@ class ArriendoController {
         const a = await Arriendo.create(dataArriendo);
 
         const arriendo = await Arriendo.findOne({
-            include: [{ model: Usuario, attributes: ["nombre_usuario"] }],
+            include: [
+                { model: Usuario, attributes: ["nombre_usuario"] },
+                { model: Cliente, attributes: ["nombre_cliente"] },
+                { model: Empresa, attributes: ["nombre_empresa"] },
+            ],
             where: { id_arriendo: a.id_arriendo },
             attributes: [
                 "id_arriendo",
