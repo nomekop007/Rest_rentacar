@@ -8,7 +8,7 @@ const {
     Vehiculo,
     Sucursal,
 } = require("../db");
-const { contrato } = require("../files/pdf_plantillas/contratoArriendo");
+const { contratoPlantilla } = require("../files/pdf_plantillas/contratoArriendo");
 const pdfMake = require("pdfmake/build/pdfmake.js");
 const pdfFonts = require("pdfmake/build/vfs_fonts.js");
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -42,6 +42,7 @@ class contrato_controller {
 
             tipo_vehiculo: arriendo.vehiculo.tipo_vehiculo,
             marca_vehiculo: arriendo.vehiculo.marca_vehiculo,
+            modelo_vehiculo: arriendo.vehiculo.modelo_vehiculo,
             patente_vehiculo: arriendo.vehiculo.patente_vehiculo,
 
             agencia: arriendo.sucursale.nombre_sucursal,
@@ -107,7 +108,7 @@ class contrato_controller {
         //valida para asegurar que no se cree otro contrato
         if (arriendo.estado_arriendo === "PENDIENTE") {
             //se genera el documento
-            const docDefinition = await contrato(dataList);
+            const docDefinition = await contratoPlantilla(dataList);
             const pdfDocGenerator = pdfMake.createPdf(docDefinition);
             pdfDocGenerator.getBase64((url) => {
                 res.json({
