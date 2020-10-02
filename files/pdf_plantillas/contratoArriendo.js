@@ -5,6 +5,47 @@ const pagare = require.resolve("../images/pagare.png");
 async function contratoPlantilla(data) {
     console.log(data);
 
+    if (data.arrayAccesorios != null) {
+        var accesorios = data.arrayAccesorios.split(",")
+    }
+
+    for (let i = 0; i < accesorios.length; i++) {
+        const element = accesorios[i];
+        console.log(element);
+        /*   var x = [
+              { heights: 6, text: "ACCESORIO  (+)", fontSize: 7 },
+              { heights: 6, text: "$ 0", fontSize: 7 },
+          ] */
+
+    }
+
+
+    if (data.tipoFacturacion == "BOLETA") {
+        var boleta = "X";
+        var factura = "";
+    } else {
+        var boleta = "";
+        var factura = "X";
+    }
+    if (data.tipoPago == "EFECTIVO") {
+        var efectivo = "X";
+        var cheque = "";
+        var tarjeta = "";
+
+    } else if (data.tipoPago == "CHEQUE") {
+        var efectivo = "";
+        var cheque = "X";
+        var tarjeta = "";
+    } else {
+        var efectivo = "";
+        var cheque = "";
+        var tarjeta = "X";
+    }
+
+
+
+    const formatter = new Intl.NumberFormat('CL');
+
     return {
         content: [{
                 margin: [0, 0, 0, 5],
@@ -128,20 +169,20 @@ async function contratoPlantilla(data) {
                                 widths: ["*", "*", "*", "*"],
                                 body: [
                                     [
-                                        { text: `TARGETA DE CREDITO: \n xxxxxxx`, colSpan: 1 },
+                                        { text: `TARJETA DE CREDITO: \n ${data.numero_tarjeta}`, colSpan: 1 },
 
-                                        { text: `FECHA VENCIMIENTO \n fecha`, colSpan: 1 },
-                                        { text: `CODIGO \n codigo`, colSpan: 1 },
-                                        { text: `MONTO  \n monto`, colSpan: 1 }
+                                        { text: `FECHA VENCIMIENTO \n ${data.fecha_tarjeta}`, colSpan: 1 },
+                                        { text: `CODIGO \n ${data.codigo_tarjeta}`, colSpan: 1 },
+                                        { text: `MONTO  \n ${data.monto_tarjeta}`, colSpan: 1 }
                                     ],
                                     [
-                                        { text: `CHEQUE Nº: \n  xxxxxxxx`, colSpan: 2 },
+                                        { text: `CHEQUE Nº: \n  ${data.numero_cheque}`, colSpan: 2 },
                                         {},
-                                        { text: `CODIGO AUTORIZACION \n codigoCheque`, colSpan: 2 },
+                                        { text: `CODIGO AUTORIZACION \n ${data.codigo_cheque}`, colSpan: 2 },
                                         {}
                                     ],
                                     [
-                                        { text: `EFECTIVO: `, colSpan: 4 },
+                                        { text: `EFECTIVO: ${data.efectivo}`, colSpan: 4 },
                                         {},
                                         {},
                                         {},
@@ -187,7 +228,7 @@ async function contratoPlantilla(data) {
                             columns: [{
                                     columns: [
                                         [{
-                                                margin: [0, 20, 0, 0],
+                                                margin: [0, 80, 0, 0],
                                                 alignment: 'center',
                                                 text: ""
                                             },
@@ -202,7 +243,7 @@ async function contratoPlantilla(data) {
                                 {
                                     columns: [
                                         [{
-                                                margin: [0, 20, 0, 0],
+                                                margin: [0, 80, 0, 0],
                                                 alignment: 'center',
                                                 text: ""
                                             },
@@ -219,10 +260,10 @@ async function contratoPlantilla(data) {
 
                     ],
                     [{
-                            fontSize: 7,
+                            fontSize: 6,
                             style: `tableExample`,
                             table: {
-                                widths: [75, 75],
+                                widths: [73, 73],
                                 body: [
                                     [
                                         `CIUDAD DE ENTREGA \n ${data.ciudad_entrega} `,
@@ -246,77 +287,97 @@ async function contratoPlantilla(data) {
                                     ],
                                     [
                                         "SUB TOTAL NETO:",
-                                        { text: data.subtotal, fontSize: 7 },
+                                        { text: "$ " + formatter.format(data.subtotal), fontSize: 7 },
                                     ],
                                     [
                                         "DESCUENTO (-)",
-                                        { text: data.descuento, fontSize: 7 },
+                                        { text: "$ " + formatter.format(data.descuento), fontSize: 7 },
                                     ],
                                     //--- lista de arriendo //
-                                    [
-                                        { heights: 7, text: "ACCESORIO  (+)", fontSize: 7 },
-                                        { heights: 7, text: "0", fontSize: 7 },
-                                    ],
+
+
                                     //--------------- //
                                     [
                                         "TOTAL NETO: \n\n IVA: \n\n TOTAL:",
                                         {
-                                            text: `${data.neto} \n\n ${data.iva} \n\n ${data.total} `,
+                                            text: `$ ${formatter.format(data.neto)} \n\n $ ${formatter.format(data.iva)} \n\n $ ${formatter.format(data.total)} `,
                                             fontSize: 7,
 
                                         },
                                     ],
                                     [
                                         { text: "A PAGAR ", fontSize: 10 },
-                                        { text: data.total, fontSize: 10, bold: true },
+                                        { text: "$ " + formatter.format(data.total), fontSize: 10, bold: true },
                                     ],
                                 ],
                             },
                         },
+                        {
+                            columns: [
 
-                        /* {
+                                {
+                                    margin: [0, 10, 0, 0],
+                                    width: 70,
+                                    fontSize: 6,
+                                    style: 'tableExample',
+                                    table: {
+                                        widths: [40, 3, ],
+                                        body: [
+                                            ["Boleta", boleta],
+                                            ["Factura", factura],
+                                        ],
+                                    }
+                                }, {
+                                    margin: [0, 10, 0, 0],
+                                    fontSize: 6,
+                                    style: 'tableExample',
+                                    table: {
+                                        widths: [85],
+                                        body: [
+                                            ["Nº Boleta : xxxxxxxx"],
+                                            ["Nº Factura: xxxxxxx"],
+                                        ],
+                                    }
+
+                                }
+
+                            ]
+                        }, {
                             margin: [0, 10, 0, 0],
-                            style: "tableExample",
-                            fontSize: 8,
+                            style: 'tableExample',
+                            fontSize: 6,
                             table: {
-                                widths: [75, 75],
-                                fontSize: 8,
-
+                                widths: [46, 45, 46, ],
                                 body: [
-                                    [
-                                        [
-                                            "FACTURACION",
-                                            {
-                                                table: {
-                                                    body: [
-                                                        ["Boleta", "X"],
-                                                        ["Factura", ""],
-                                                    ],
-                                                },
-                                            },
+                                    [{
+                                        text: [
+                                            { text: "EFECTIVO \n" },
+                                            { alignment: 'center', text: efectivo },
                                         ],
-                                        [
-                                            "TIPO PAGO",
-                                            {
-                                                table: {
-                                                    body: [
-                                                        ["Efectivo", ""],
-                                                        ["Cheque", ""],
-                                                        ["Targeta", "X"],
-                                                    ],
-                                                },
-                                            },
+
+                                    }, {
+                                        text: [
+                                            { text: "CHEQUE \n" },
+                                            { alignment: 'center', text: cheque },
                                         ],
-                                    ],
-                                ],
-                            },
-                        }, */
+
+                                    }, {
+                                        text: [
+                                            { text: "TARJETA \n" },
+                                            { alignment: 'center', text: tarjeta },
+                                        ],
+                                    }],
+
+                                ]
+                            }
+                        },
+
                         {
                             margin: [0, 10, 0, 0],
                             style: "tableExample",
                             fontSize: 8,
                             table: {
-                                widths: [160],
+                                widths: [155],
                                 body: [
                                     [`DIGITADO POR \n  ${data.vendedor}`]
                                 ],
@@ -326,16 +387,16 @@ async function contratoPlantilla(data) {
 
                 ],
             },
-            {
-                margin: [0, 3, 0, 0],
-                image: 'building',
-                width: 528,
-                height: 180,
-                image: "data:image/jpeg;base64," + (await base64(pagare)),
-
-            }
-
         ],
+        header: [{
+            margin: [40, 650, 0, 0],
+            image: 'building',
+            width: 521,
+            height: 180,
+            image: "data:image/jpeg;base64," + (await base64(pagare)),
+
+        }],
+
         styles: {
             header: {
                 fontSize: 18,

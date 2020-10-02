@@ -13,6 +13,11 @@ const ConductorModel = require("./models/conductores");
 const RequistoModel = require("./models/requisitos");
 const ContratoModel = require("./models/contratos");
 const PagoModel = require("./models/pagos");
+const BoletaModel = require("./models/boletas");
+const FacturaModel = require("./models/facturas");
+const GarantiaModel = require("./models/garantias");
+const ModoPagoModel = require("./models/modosPagos");
+
 
 //conectar modelo con base de datos
 const Rol = RolModel(database, Sequelize);
@@ -27,8 +32,41 @@ const Conductor = ConductorModel(database, Sequelize);
 const Requisito = RequistoModel(database, Sequelize);
 const Contrato = ContratoModel(database, Sequelize);
 const Pago = PagoModel(database, Sequelize);
+const Boleta = BoletaModel(database, Sequelize);
+const Factura = FacturaModel(database, Sequelize);
+const Garantia = GarantiaModel(database, Sequelize);
+const ModoPago = ModoPagoModel(database, Sequelize);
 
 //Asociaciones de tablas
+
+
+
+// un arriento tiene una garantia
+Arriendo.hasOne(Garantia, { foreignKey: { name: "id_arriendo" } });
+//un garantia pertenece a un arriendo
+Garantia.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
+
+// un modoPago tiene muchos pagos
+ModoPago.hasMany(Pago, { foreignKey: { name: "id_modoPago" } });
+// un Pago pertenece a un modoPago
+Pago.belongsTo(ModoPago, { foreignKey: { name: "id_modoPago" } });
+
+// un modoPago tiene muchos garantias
+ModoPago.hasMany(Garantia, { foreignKey: { name: "id_modoPago" } });
+// un garantia pertenece a un modoPago
+Garantia.belongsTo(ModoPago, { foreignKey: { name: "id_modoPago" } });
+
+
+//un factura  pertenece a un pago
+Factura.belongsTo(Pago, { foreignKey: { name: "id_pago" } });
+//un pago tiene una factura
+Pago.hasOne(Factura, { foreignKey: { name: "id_pago" } });
+
+//un boleta  pertenece a un pago
+Boleta.belongsTo(Pago, { foreignKey: { name: "id_pago" } });
+//un pago tiene una boleta
+Pago.hasOne(Boleta, { foreignKey: { name: "id_pago" } });
+
 
 // un arriendo tiene muchos pagos
 Arriendo.hasMany(Pago, { foreignKey: { name: "id_arriendo" } });

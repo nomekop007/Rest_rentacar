@@ -56,12 +56,23 @@ class contrato_controller {
             tipo_arriendo: arriendo.tipo_arriendo,
             cantidad_dias: arriendo.numerosDias_arriendo,
 
-            numero_targetaCredito: response.numero_targeta,
-            fecha_targeta: response.fecha_targeta,
-            cheque: response.cheque,
-            abono: response.abono,
+
+            numero_tarjeta: "",
+            fecha_tarjeta: "",
+            codigo_tarjeta: "",
+
+            numero_cheque: "",
+            codigo_cheque: "",
+
+            efectivo: "",
+
+
             tipoPago: response.tipoPago,
             tipoFacturacion: response.tipoFacturacion,
+            numero_boleta: "",
+            numero_factura: "",
+
+
             subtotal: response.subtotal,
             neto: response.neto,
             descuento: response.descuento,
