@@ -6,18 +6,19 @@ async function contratoPlantilla(data) {
     console.log(data);
 
     if (data.arrayAccesorios != null) {
-        var accesorios = data.arrayAccesorios.split(",")
+        var accesorios = data.arrayAccesorios.split(",");
+        for (let i = 0; i < accesorios.length; i++) {
+            const element = accesorios[i];
+            console.log(element);
+            /*   var x = [
+                  { heights: 6, text: "ACCESORIO  (+)", fontSize: 7 },
+                  { heights: 6, text: "$ 0", fontSize: 7 },
+              ] */
+
+        }
     }
 
-    for (let i = 0; i < accesorios.length; i++) {
-        const element = accesorios[i];
-        console.log(element);
-        /*   var x = [
-              { heights: 6, text: "ACCESORIO  (+)", fontSize: 7 },
-              { heights: 6, text: "$ 0", fontSize: 7 },
-          ] */
 
-    }
 
 
     if (data.tipoFacturacion == "BOLETA") {
