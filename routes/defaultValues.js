@@ -1,140 +1,69 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 
-const { Usuario, Rol, Sucursal, Vehiculo, Accesorio } = require("../db");
+const { Usuario, Rol, Sucursal, Accesorio, ModoPago } = require("../db");
 
-router.get("/", async(req, res) => {
-    const sucursales = [
-        { nombre_sucursal: "TALCA" },
-        { nombre_sucursal: "LINARES" },
-        { nombre_sucursal: "CURICO" },
-    ];
+router.get("/", async (req, res) => {
+  const sucursales = [
+    { nombre_sucursal: "TALCA" },
+    { nombre_sucursal: "LINARES" },
+    { nombre_sucursal: "CURICO" },
+    { nombre_sucursal: "CONCEPCION" },
+  ];
 
-    const roles = [
-        { nombre_rol: "ADMINISTRADOR" },
-        { nombre_rol: "SUPERVISOR" },
-        { nombre_rol: "VENDEDOR" },
-    ];
+  const roles = [
+    { nombre_rol: "ADMINISTRADOR" },
+    { nombre_rol: "SUPERVISOR" },
+    { nombre_rol: "VENDEDOR" },
+  ];
 
-    const accesorios = [
-        { nombre_accesorio: "TRASLADO" },
-        { nombre_accesorio: "DEDUCIBLE" },
-        { nombre_accesorio: "BENCINA" },
-        { nombre_accesorio: "ENGANCHE" },
-        { nombre_accesorio: "SILLA PARA BEBE" },
-        { nombre_accesorio: "PASE DIARIO" },
-        { nombre_accesorio: "RASTREO SATELITAL" },
-    ];
+  const accesorios = [
+    { nombre_accesorio: "TRASLADO" },
+    { nombre_accesorio: "DEDUCIBLE" },
+    { nombre_accesorio: "BENCINA" },
+    { nombre_accesorio: "ENGANCHE" },
+    { nombre_accesorio: "SILLA PARA BEBE" },
+    { nombre_accesorio: "PASE DIARIO" },
+    { nombre_accesorio: "RASTREO SATELITAL" },
+  ];
 
-    for (let index = 0; index < accesorios.length; index++) {
-        Accesorio.create(accesorios[index]);
-    }
+  const modoPagos = [
+    { nombre_modoPago: "EFECTIVO" },
+    { nombre_modoPago: "CHEQUE" },
+    { nombre_modoPago: "TARJETA" },
+  ];
 
-    const sucursalTalca = await Sucursal.create(sucursales[0]);
-    const sucursalLinares = await Sucursal.create(sucursales[1]);
-    const sucursalCurico = await Sucursal.create(sucursales[2]);
+  for (let i = 0; i < sucursales.length; i++) {
+    await Sucursal.create(sucursales[i]);
+  }
+  for (let i = 0; i < roles.length; i++) {
+    await Rol.create(roles[i]);
+  }
+  for (let i = 0; i < accesorios.length; i++) {
+    await Accesorio.create(accesorios[i]);
+  }
+  for (let i = 0; i < modoPagos.length; i++) {
+    await ModoPago.create(modoPagos[i]);
+  }
 
-    const rolAdministrador = await Rol.create(roles[0]);
-    const rolSupervisor = await Rol.create(roles[1]);
-    const rolVendedor = await Rol.create(roles[2]);
+  const userAdmin = {
+    id_rol: process.env.USER_ROL,
+    id_sucursal: process.env.USER_SUCURSAL,
+    nombre_usuario: process.env.USER_NAME,
+    email_usuario: process.env.USER_GMAIL,
+    estado_usuario: process.env.USER_STATE,
+    clave_usuario: await bcrypt.hashSync(
+      process.env.USER_PASSWORD,
+      Number(process.env.NUM_BCRYPT)
+    ),
+  };
 
-    const userAdmin = {
-        id_rol: rolAdministrador.id_rol,
-        id_sucursal: sucursalTalca.id_sucursal,
-        nombre_usuario: "Administrador de sistemas",
-        clave_usuario: "admin123",
-        email_usuario: "admin@grupofirma.cl",
-    };
+  userAdmin.clave_usuario = await Usuario.create(userAdmin);
 
-    //encripta la password
-    userAdmin.clave_usuario = bcrypt.hashSync(userAdmin.clave_usuario, 10);
-    //crea usuario
-    const usuario = await Usuario.create(userAdmin);
-    res.json({
-        success: true,
-        msg: "Valores creados correctamente!",
-        dataDefault: {
-            roles: [
-                rolAdministrador.nombre_rol,
-                rolSupervisor.nombre_rol,
-                rolVendedor.nombre_rol,
-            ],
-            sucursales: [
-                sucursalTalca.nombre_sucursal,
-                sucursalLinares.nombre_sucursal,
-                sucursalCurico.nombre_sucursal,
-            ],
-            usuarios: {
-                nombre: usuario.nombre_usuario,
-            },
-        },
-    });
-});
-
-router.get("/vehiculos", async(req, res) => {
-    const vehiculos = [{
-            estado_vehiculo: "ARRENDADO",
-            patente_vehiculo: "KKK-FF3",
-            modelo_vehiculo: "toyota",
-            tipo_vehiculo: "automovil",
-            color_vehiculo: "verde",
-            precio_vehiculo: 1500000,
-            propietario_vehiculo: "Tomas Rojas",
-            compra_vehiculo: "Automotora X",
-            fechaCompra_vehiculo: "2020-08-03",
-            año_vehiculo: 2019,
-            id_sucursal: 1,
-        },
-        {
-            estado_vehiculo: "DISPONIBLE",
-            patente_vehiculo: "F5ZK-F3",
-            modelo_vehiculo: "toyota",
-            tipo_vehiculo: "camioneta",
-            color_vehiculo: "Rojo",
-            precio_vehiculo: 1900000,
-            propietario_vehiculo: "Diego Rojas",
-            compra_vehiculo: "Automotora X",
-            fechaCompra_vehiculo: "2020-08-03",
-            año_vehiculo: 2001,
-            id_sucursal: 2,
-        },
-        {
-            estado_vehiculo: "DISPONIBLE",
-            patente_vehiculo: "ZJJ-FF",
-            modelo_vehiculo: "toyota",
-            tipo_vehiculo: "vehiculo",
-            color_vehiculo: "Amarillo",
-            precio_vehiculo: 2000000,
-            propietario_vehiculo: "Tomas Rojas",
-            compra_vehiculo: "Automotora X",
-            fechaCompra_vehiculo: "2020-08-03",
-            año_vehiculo: 2020,
-            id_sucursal: 1,
-        },
-        {
-            estado_vehiculo: "DISPONIBLE",
-            patente_vehiculo: "ZLMK-DD",
-            modelo_vehiculo: "toyota",
-            tipo_vehiculo: "fulgor",
-            color_vehiculo: "Amarillo",
-            precio_vehiculo: 1700000,
-            propietario_vehiculo: "Diego Rojas",
-            compra_vehiculo: "Automotora X",
-            fechaCompra_vehiculo: "2020-08-03",
-            año_vehiculo: 1997,
-            id_sucursal: 3,
-        },
-    ];
-
-    const vehiculo1 = await Vehiculo.create(vehiculos[0]);
-    const vehiculo2 = await Vehiculo.create(vehiculos[1]);
-    const vehiculo3 = await Vehiculo.create(vehiculos[2]);
-    const vehiculo4 = await Vehiculo.create(vehiculos[3]);
-
-    res.json({
-        success: true,
-        msg: "Vehiculos creados  correctamente!",
-    });
+  res.json({
+    success: true,
+    msg: "Valores creados correctamente exitosamente!",
+  });
 });
 
 module.exports = router;

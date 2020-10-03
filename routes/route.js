@@ -16,7 +16,11 @@ const apiRequisitosRouter = require("./api/requisitos");
 const apiPagosRouter = require("./api/pagos");
 const apiContratosRouter = require("./api/contratos");
 
-router.use("/defaultValues", defaultValues);
+if (process.env.DEFAULT_VALUE === "TRUE") {
+  console.log("function default enable");
+  router.use("/defaultValues", defaultValues);
+}
+
 router.use("/usuarios", apiUsuariosRouter);
 router.use("/requisitos", check.checkToken, apiRequisitosRouter);
 router.use("/roles", check.checkToken, apiRolesRouter);

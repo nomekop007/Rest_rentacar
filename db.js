@@ -18,7 +18,6 @@ const FacturaModel = require("./models/facturas");
 const GarantiaModel = require("./models/garantias");
 const ModoPagoModel = require("./models/modosPagos");
 
-
 //conectar modelo con base de datos
 const Rol = RolModel(database, Sequelize);
 const Usuario = UsuarioModel(database, Sequelize);
@@ -39,8 +38,6 @@ const ModoPago = ModoPagoModel(database, Sequelize);
 
 //Asociaciones de tablas
 
-
-
 // un arriento tiene una garantia
 Arriendo.hasOne(Garantia, { foreignKey: { name: "id_arriendo" } });
 //un garantia pertenece a un arriendo
@@ -56,7 +53,6 @@ ModoPago.hasMany(Garantia, { foreignKey: { name: "id_modoPago" } });
 // un garantia pertenece a un modoPago
 Garantia.belongsTo(ModoPago, { foreignKey: { name: "id_modoPago" } });
 
-
 //un factura  pertenece a un pago
 Factura.belongsTo(Pago, { foreignKey: { name: "id_pago" } });
 //un pago tiene una factura
@@ -66,7 +62,6 @@ Pago.hasOne(Factura, { foreignKey: { name: "id_pago" } });
 Boleta.belongsTo(Pago, { foreignKey: { name: "id_pago" } });
 //un pago tiene una boleta
 Pago.hasOne(Boleta, { foreignKey: { name: "id_pago" } });
-
 
 // un arriendo tiene muchos pagos
 Arriendo.hasMany(Pago, { foreignKey: { name: "id_arriendo" } });
@@ -130,26 +125,30 @@ Arriendo.hasMany(Contrato, { foreignKey: { name: "id_arriendo" } });
 
 // un arriendo tiene muchos accesorios
 Arriendo.belongsToMany(Accesorio, {
-    through: "Arriendos-Accesorios",
-    foreignKey: { name: "id_arriendo" },
+  through: "Arriendos-Accesorios",
+  foreignKey: { name: "id_arriendo" },
 });
 // un accesorio tiene muchos arriendos
 Accesorio.belongsToMany(Arriendo, {
-    through: "Arriendos-Accesorios",
-    foreignKey: { name: "id_accesorio" },
+  through: "Arriendos-Accesorios",
+  foreignKey: { name: "id_accesorio" },
 });
 
 module.exports = {
-    Rol,
-    Usuario,
-    Sucursal,
-    Vehiculo,
-    Arriendo,
-    Accesorio,
-    Cliente,
-    Empresa,
-    Conductor,
-    Contrato,
-    Requisito,
-    Pago,
+  Rol,
+  Usuario,
+  Sucursal,
+  Vehiculo,
+  Arriendo,
+  Accesorio,
+  Cliente,
+  Empresa,
+  Conductor,
+  Contrato,
+  Requisito,
+  Pago,
+  Factura,
+  Boleta,
+  ModoPago,
+  Garantia,
 };
