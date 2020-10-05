@@ -80,7 +80,8 @@ class contrato_controller {
       iva: response.iva,
       total: response.total,
       observaciones: response.observaciones,
-      arrayAccesorios: response.arrayAccesorios,
+      arrayNombreAccesorios: response.arrayNombreAccesorios,
+      arrayValorAccesorios: response.arrayValorAccesorios,
     };
 
     switch (arriendo.tipo_arriendo) {
