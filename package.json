@@ -26,6 +26,7 @@
     "mysql2": "^2.1.0",
     "pdfmake": "^0.1.68",
     "sequelize": "^6.3.4",
+    "signaturit-sdk": "^1.0.0",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
