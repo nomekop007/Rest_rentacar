@@ -5,11 +5,11 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        numeroTarjeta_garantia: type.INTEGER,
+        numeroTarjeta_garantia: type.BIGINT(20),
         fechaTarjeta_garantia: type.STRING,
         codigoTargeta_garantia: type.STRING,
-        numeroCheque_garantia: type.INTEGER,
+        numeroCheque_garantia: type.BIGINT(20),
         codigoCheque_garantia: type.STRING,
-        monto_garantia: type.INTEGER
+        monto_garantia: type.BIGINT(20)
     });
 };

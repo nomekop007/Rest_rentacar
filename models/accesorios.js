@@ -6,6 +6,6 @@ module.exports = (sequelize, type) => {
             autoIncrement: true,
         },
         nombre_accesorio: type.STRING,
-        precio_accesorio: type.INTEGER,
+        precio_accesorio: type.BIGINT(20),
     });
 };

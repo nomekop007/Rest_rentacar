@@ -12,7 +12,7 @@ module.exports = (sequelize, type) => {
         modelo_vehiculo: type.STRING,
         tipo_vehiculo: type.STRING,
         color_vehiculo: type.STRING,
-        precio_vehiculo: type.INTEGER,
+        precio_vehiculo: type.BIGINT(20),
         propietario_vehiculo: type.STRING,
         compra_vehiculo: type.STRING,
         fechaCompra_vehiculo: type.DATE,

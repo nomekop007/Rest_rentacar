@@ -6,13 +6,13 @@ module.exports = (sequelize, type) => {
             autoIncrement: true,
         },
         estado_arriendo: type.STRING,
-        kilometrosEntrada_arriendo: type.INTEGER,
-        kilometrosSalida_arriendo: type.INTEGER,
+        kilometrosEntrada_arriendo: type.BIGINT(20),
+        kilometrosSalida_arriendo: type.BIGINT(20),
         ciudadEntrega_arriendo: type.STRING,
         fechaEntrega_arriendo: type.DATE,
         ciudadRecepcion_arriendo: type.STRING,
         fechaRecepcion_arriendo: type.DATE,
-        numerosDias_arriendo: type.INTEGER,
+        numerosDias_arriendo: type.BIGINT(20),
         tipo_arriendo: type.STRING,
     });
 };

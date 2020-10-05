@@ -5,6 +5,6 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        numero_factura: type.STRING
+        numero_factura: type.BIGINT(20)
     });
 };
