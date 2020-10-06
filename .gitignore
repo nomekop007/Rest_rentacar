@@ -1,3 +1,4 @@
+/files/pdf_plantillas/temp_files/*
 .env
 /node_modules/
 uploads/*
