@@ -72,6 +72,7 @@ class ArriendoController {
             estado_arriendo: response.estado_arriendo,
             kilometrosEntrada_arriendo: response.kilometrosEntrada_arriendo,
             kilometrosSalida_arriendo: null,
+            kilometrosMantencion_arriendo: response.kilometrosMantencion_arriendo,
             ciudadEntrega_arriendo: response.ciudadEntrega_arriendo,
             fechaEntrega_arriendo: response.fechaEntrega_arriendo,
             ciudadRecepcion_arriendo: response.ciudadRecepcion_arriendo,

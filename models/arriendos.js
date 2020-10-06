@@ -8,6 +8,7 @@ module.exports = (sequelize, type) => {
         estado_arriendo: type.STRING,
         kilometrosEntrada_arriendo: type.BIGINT(20),
         kilometrosSalida_arriendo: type.BIGINT(20),
+        kilometrosMantencion_arriendo: type.BIGINT(20),
         ciudadEntrega_arriendo: type.STRING,
         fechaEntrega_arriendo: type.DATE,
         ciudadRecepcion_arriendo: type.STRING,
