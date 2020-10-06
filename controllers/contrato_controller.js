@@ -12,12 +12,13 @@ const {
     contratoPlantilla,
 } = require("../files/pdf_plantillas/contratoArriendo");
 const SignaturitClient = require("signaturit-sdk");
-const pdfMake = require("pdfmake/build/pdfmake.js");
-const pdfFonts = require("pdfmake/build/vfs_fonts.js");
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
-const client = new SignaturitClient(process.env.TOKEN_SIGNATURIT, false);
-const foto = require.resolve("../uploads/documentos/contratos/contrato.pdf");
+const PdfPrinter = require("pdfmake");
 const fs = require("fs");
+const path = require("path");
+const client = new SignaturitClient(process.env.TOKEN_SIGNATURIT, false);
+const contrato = require.resolve("../files/pdf_plantillas/temp_files/temp_contrato.pdf");
+
+
 
 class contrato_controller {
     async createPDFContrato(req, res) {
@@ -43,8 +44,7 @@ class contrato_controller {
             clase_conductor: arriendo.conductore.clase_conductor,
             numero_conductor: arriendo.conductore.numero_conductor,
             vcto_conductor: arriendo.conductore.vcto_conductor ?
-                formatFecha(arriendo.conductore.vcto_conductor) :
-                "",
+                formatFecha(arriendo.conductore.vcto_conductor) : "",
             municipalidad_conductor: arriendo.conductore.municipalidad_conductor,
             direccion_conductor: arriendo.conductore.direccion_conductor,
 
@@ -124,38 +124,48 @@ class contrato_controller {
         if (arriendo.estado_arriendo === "PENDIENTE") {
             //se genera el documento
             const docDefinition = await contratoPlantilla(dataList);
-            const pdfDocGenerator = pdfMake.createPdf(docDefinition);
 
-            pdfDocGenerator.getBase64((url) => {
-                //decodificar url del pdf
+            var fonts = {
+                Roboto: {
+                    normal: require.resolve('../files/fonts/Roboto-Regular.ttf'),
+                    bold: require.resolve('../files/fonts/Roboto-Medium.ttf'),
+                    italics: require.resolve('../files/fonts/Roboto-Italic.ttf'),
+                    bolditalics: require.resolve('../files/fonts/Roboto-MediumItalic.ttf')
+                }
+            };
+            var printer = new PdfPrinter(fonts);
+            const pdfDoc = printer.createPdfKitDocument(docDefinition);
+            //se guarda el pdf en una ruta predeterminada
+            pdfDoc.pipe(fs.createWriteStream(path.join(__dirname, '../files/pdf_plantillas/temp_files/temp_contrato.pdf')));
+            pdfDoc.end();
 
+            //corregir setTimeout a futuro
+            setTimeout(() => {
                 client
-                    .createSignature(
-                        foto, {
-                            name: "diego",
-                            email: "d.riosrojas007@gmail.com",
-                        }, {
-                            delivery_type: "url",
-                        }
-                    )
+                    .createSignature(contrato, {
+                        name: "diego",
+                        email: "d.riosrojas007@gmail.com",
+                    }, {
+                        delivery_type: "url",
+                    })
                     .then(
                         (result) => {
+                            console.log(result);
                             res.json({
                                 success: true,
                                 url: result.url,
-                                data: response,
                             });
                         },
                         (error) => {
                             console.log("error:" + error);
+                            res.json({
+                                success: false,
+                                msg: "no se logro la comunicacion con la API Signature",
+                            });
+
                         }
                     );
-                /*      res.json({
-                                                                        success: true,
-                                                                        url: url,
-                                                                        data: response,
-                                                                    }); */
-            });
+            }, 2000);
         } else {
             res.json({
                 success: false,
