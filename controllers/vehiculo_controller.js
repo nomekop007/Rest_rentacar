@@ -8,6 +8,7 @@ class VehiculoController {
             include: [{ model: Sucursal, attributes: ["nombre_sucursal"] }],
             attributes: [
                 "patente_vehiculo",
+                "marca_vehiculo",
                 "modelo_vehiculo",
                 "año_vehiculo",
                 "tipo_vehiculo",
@@ -51,6 +52,7 @@ class VehiculoController {
                 where: { patente_vehiculo: v.patente_vehiculo },
                 attributes: [
                     "patente_vehiculo",
+                    "marca_vehiculo",
                     "modelo_vehiculo",
                     "año_vehiculo",
                     "tipo_vehiculo",
@@ -82,6 +84,7 @@ class VehiculoController {
             where: { patente_vehiculo: req.params.id },
             attributes: [
                 "patente_vehiculo",
+                "marca_vehiculo",
                 "modelo_vehiculo",
                 "año_vehiculo",
                 "tipo_vehiculo",

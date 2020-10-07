@@ -5,6 +5,6 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        numero_boleta: type.BIGINT(20)
+        numero_boleta: type.BIGINT(20),
     });
 };

@@ -66,8 +66,6 @@ class ArriendoController {
         } else {
             response.tipo_arriendo = "EMPRESA";
         }
-        console.log(response.tipo_arriendo);
-
         const dataArriendo = {
             estado_arriendo: response.estado_arriendo,
             kilometrosEntrada_arriendo: response.kilometrosEntrada_arriendo,

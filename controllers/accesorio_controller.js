@@ -11,6 +11,7 @@ class AccesorioController {
 
     async createArriendoAccesorio(req, res) {
         const { ArrayChecks, id_arriendo } = req.body;
+
         const arriendo = await Arriendo.findOne({
             where: { id_arriendo: id_arriendo },
         });

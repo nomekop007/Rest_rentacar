@@ -11,17 +11,18 @@ const {
 const {
     contratoPlantilla,
 } = require("../files/pdf_plantillas/contratoArriendo");
+const moment = require("moment");
 const SignaturitClient = require("signaturit-sdk");
 const PdfPrinter = require("pdfmake");
 const fs = require("fs");
 const path = require("path");
 const client = new SignaturitClient(process.env.TOKEN_SIGNATURIT, false);
-const contrato = require.resolve("../files/pdf_plantillas/temp_files/temp_contrato.pdf");
-
-
+const contrato = require.resolve(
+    "../files/pdf_plantillas/temp_files/temp_contrato.pdf"
+);
 
 class contrato_controller {
-    async createPDFContrato(req, res) {
+    async generatePDFContrato(req, res) {
         const response = req.body;
         const arriendo = await Arriendo.findOne({
             where: { id_arriendo: response.id_arriendo },
@@ -44,7 +45,8 @@ class contrato_controller {
             clase_conductor: arriendo.conductore.clase_conductor,
             numero_conductor: arriendo.conductore.numero_conductor,
             vcto_conductor: arriendo.conductore.vcto_conductor ?
-                formatFecha(arriendo.conductore.vcto_conductor) : "",
+                formatFecha(arriendo.conductore.vcto_conductor) :
+                "",
             municipalidad_conductor: arriendo.conductore.municipalidad_conductor,
             direccion_conductor: arriendo.conductore.direccion_conductor,
 
@@ -127,27 +129,38 @@ class contrato_controller {
 
             var fonts = {
                 Roboto: {
-                    normal: require.resolve('../files/fonts/Roboto-Regular.ttf'),
-                    bold: require.resolve('../files/fonts/Roboto-Medium.ttf'),
-                    italics: require.resolve('../files/fonts/Roboto-Italic.ttf'),
-                    bolditalics: require.resolve('../files/fonts/Roboto-MediumItalic.ttf')
-                }
+                    normal: require.resolve("../files/fonts/Roboto-Regular.ttf"),
+                    bold: require.resolve("../files/fonts/Roboto-Medium.ttf"),
+                    italics: require.resolve("../files/fonts/Roboto-Italic.ttf"),
+                    bolditalics: require.resolve(
+                        "../files/fonts/Roboto-MediumItalic.ttf"
+                    ),
+                },
             };
             var printer = new PdfPrinter(fonts);
             const pdfDoc = printer.createPdfKitDocument(docDefinition);
             //se guarda el pdf en una ruta predeterminada
-            pdfDoc.pipe(fs.createWriteStream(path.join(__dirname, '../files/pdf_plantillas/temp_files/temp_contrato.pdf')));
+            pdfDoc.pipe(
+                fs.createWriteStream(
+                    path.join(
+                        __dirname,
+                        "../files/pdf_plantillas/temp_files/temp_contrato.pdf"
+                    )
+                )
+            );
             pdfDoc.end();
 
             //corregir setTimeout a futuro
             setTimeout(() => {
                 client
-                    .createSignature(contrato, {
-                        name: "diego",
-                        email: "d.riosrojas007@gmail.com",
-                    }, {
-                        delivery_type: "url",
-                    })
+                    .createSignature(
+                        contrato, {
+                            name: "diego",
+                            email: "d.riosrojas007@gmail.com",
+                        }, {
+                            delivery_type: "url",
+                        }
+                    )
                     .then(
                         (result) => {
                             console.log(result);
@@ -162,7 +175,6 @@ class contrato_controller {
                                 success: false,
                                 msg: "no se logro la comunicacion con la API Signature",
                             });
-
                         }
                     );
             }, 2000);
@@ -177,24 +189,12 @@ class contrato_controller {
 
 function formatFecha(fecha) {
     let f = new Date(fecha);
-    let opciones = {
-        day: "numeric",
-        month: "numeric",
-        year: "numeric",
-    };
-    return (fecha = f.toLocaleString("es-GB", opciones));
+    return moment(f).format("DD-MM-YYYY");
 }
 
 function formatFechahora(fecha) {
     var f = new Date(fecha);
-    let opciones = {
-        day: "numeric",
-        month: "numeric",
-        year: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-    };
-    return (fecha = f.toLocaleString("en-AU", opciones));
+    return moment(f).format("DD-MM-YYYY  HH:mm");
 }
 
 module.exports = contrato_controller;

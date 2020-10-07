@@ -15,14 +15,16 @@ const apiConductoresRouter = require("./api/conductores");
 const apiRequisitosRouter = require("./api/requisitos");
 const apiPagosRouter = require("./api/pagos");
 const apiContratosRouter = require("./api/contratos");
+const apiPropietarioRouter = require("./api/propietarios");
 
 if (process.env.DEFAULT_VALUE === "TRUE") {
-  console.log("function default enable");
-  router.use("/defaultValues", defaultValues);
+    console.log("function default enable");
+    router.use("/defaultValues", defaultValues);
 }
 
 router.use("/usuarios", apiUsuariosRouter);
 router.use("/requisitos", check.checkToken, apiRequisitosRouter);
+router.use("/propietarios", check.checkToken, apiPropietarioRouter);
 router.use("/roles", check.checkToken, apiRolesRouter);
 router.use("/vehiculos", check.checkToken, apiVehiculosRouter);
 router.use("/sucursales", check.checkToken, apiSucursalesRouter);
