@@ -7,9 +7,9 @@ module.exports = (sequelize, type) => {
         },
         numeroTarjeta_garantia: type.BIGINT(20),
         fechaTarjeta_garantia: type.STRING,
-        codigoTargeta_garantia: type.STRING,
+        codigoTarjeta_garantia: type.STRING,
         numeroCheque_garantia: type.BIGINT(20),
         codigoCheque_garantia: type.STRING,
-        monto_garantia: type.BIGINT(20)
+        monto_garantia: type.BIGINT(20),
     });
 };

@@ -5,6 +5,7 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        url_contrato: type.STRING,
+        id_documento: type.STRING,
+        id_signature: type.STRING,
     });
 };

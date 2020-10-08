@@ -14,6 +14,7 @@ const apiEmpresasRouter = require("./api/empresas");
 const apiConductoresRouter = require("./api/conductores");
 const apiRequisitosRouter = require("./api/requisitos");
 const apiPagosRouter = require("./api/pagos");
+const apiGarantiasRouter = require("./api/garantias");
 const apiContratosRouter = require("./api/contratos");
 const apiPropietarioRouter = require("./api/propietarios");
 
@@ -29,11 +30,12 @@ router.use("/roles", check.checkToken, apiRolesRouter);
 router.use("/vehiculos", check.checkToken, apiVehiculosRouter);
 router.use("/sucursales", check.checkToken, apiSucursalesRouter);
 router.use("/accesorios", check.checkToken, apiAccesoriosRouter);
-router.use("/arriendos", check.checkToken, apiArriendosRouter);
 router.use("/clientes", check.checkToken, apiClientesRouter);
 router.use("/empresas", check.checkToken, apiEmpresasRouter);
 router.use("/conductores", check.checkToken, apiConductoresRouter);
-router.use("/pagos", check.checkToken, apiPagosRouter);
+router.use("/arriendos", check.checkToken, apiArriendosRouter);
 router.use("/contratos", check.checkToken, apiContratosRouter);
+router.use("/pagos", check.checkToken, apiPagosRouter);
+router.use("/garantias", check.checkToken, apiGarantiasRouter);
 
 module.exports = router;

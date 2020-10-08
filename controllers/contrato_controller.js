@@ -7,6 +7,7 @@ const {
     Accesorio,
     Vehiculo,
     Sucursal,
+    Contrato,
 } = require("../db");
 const {
     contratoPlantilla,
@@ -184,6 +185,45 @@ class contrato_controller {
                 msg: "el contrato ya esta firmado!",
             });
         }
+    }
+
+    async uploadPDFcontrato(req, res) {
+        const response = req.body;
+
+        //ARREGLAR GUARDAR CONTRATO EN STORAGE CONTRATOS
+        /*
+                            client
+                                .downloadSignedDocument(response.id_signature, response.id_documento)
+                                .then(
+                                    (result) => {
+                                          fs.writeFile(
+                                                      path.join(
+                                                          __dirname,
+                                                          "../uploads/documentos/contratos/" +
+                                                          response.id_documento +
+                                                          ".pdf"
+                                                      ),
+                                                      result,
+                                                      "binary",
+                                                      (err) => {
+                                                          if (err) {
+                                                              return console.log(err);
+                                                          }
+                                                          console.log("Archivo escrito correctamente!");
+                                                      }
+                                                  );
+                                    },
+                                    (error) => {
+                                        console.log("error: ");
+                                    }
+                                );
+                                 */
+
+        const contrato = await Contrato.create(response);
+        res.json({
+            success: true,
+            data: contrato,
+        });
     }
 }
 

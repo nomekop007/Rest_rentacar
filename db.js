@@ -13,8 +13,7 @@ const ConductorModel = require("./models/conductores");
 const RequistoModel = require("./models/requisitos");
 const ContratoModel = require("./models/contratos");
 const PagoModel = require("./models/pagos");
-const BoletaModel = require("./models/boletas");
-const FacturaModel = require("./models/facturas");
+const FacturacionModel = require("./models/facturaciones");
 const GarantiaModel = require("./models/garantias");
 const ModoPagoModel = require("./models/modosPagos");
 const PropietarioModel = require("./models/propietarios");
@@ -32,8 +31,7 @@ const Conductor = ConductorModel(database, Sequelize);
 const Requisito = RequistoModel(database, Sequelize);
 const Contrato = ContratoModel(database, Sequelize);
 const Pago = PagoModel(database, Sequelize);
-const Boleta = BoletaModel(database, Sequelize);
-const Factura = FacturaModel(database, Sequelize);
+const Facturacion = FacturacionModel(database, Sequelize);
 const Garantia = GarantiaModel(database, Sequelize);
 const ModoPago = ModoPagoModel(database, Sequelize);
 const Propietario = PropietarioModel(database, Sequelize);
@@ -61,14 +59,9 @@ ModoPago.hasMany(Garantia, { foreignKey: { name: "id_modoPago" } });
 Garantia.belongsTo(ModoPago, { foreignKey: { name: "id_modoPago" } });
 
 //un factura  pertenece a un pago
-Factura.belongsTo(Pago, { foreignKey: { name: "id_pago" } });
+Facturacion.belongsTo(Pago, { foreignKey: { name: "id_pago" } });
 //un pago tiene una factura
-Pago.hasOne(Factura, { foreignKey: { name: "id_pago" } });
-
-//un boleta  pertenece a un pago
-Boleta.belongsTo(Pago, { foreignKey: { name: "id_pago" } });
-//un pago tiene una boleta
-Pago.hasOne(Boleta, { foreignKey: { name: "id_pago" } });
+Pago.hasOne(Facturacion, { foreignKey: { name: "id_pago" } });
 
 // un arriendo tiene muchos pagos
 Arriendo.hasMany(Pago, { foreignKey: { name: "id_arriendo" } });
@@ -154,9 +147,8 @@ module.exports = {
     Contrato,
     Requisito,
     Pago,
-    Factura,
-    Boleta,
+    Facturacion,
     ModoPago,
     Garantia,
-    Propietario
+    Propietario,
 };

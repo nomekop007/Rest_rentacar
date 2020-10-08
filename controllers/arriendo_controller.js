@@ -11,6 +11,7 @@ const {
 class ArriendoController {
     async getArriendos(req, res) {
         const arriendos = await Arriendo.findAll({
+            where: { id_sucursal: req.body.id_sucursal },
             include: [
                 { model: Usuario, attributes: ["nombre_usuario"] },
                 { model: Cliente, attributes: ["nombre_cliente"] },
@@ -21,6 +22,30 @@ class ArriendoController {
                 "createdAt",
                 "tipo_arriendo",
                 "estado_arriendo",
+            ],
+        });
+
+        res.json({
+            success: true,
+            data: arriendos,
+        });
+    }
+
+    async getArriendosListos(req, res) {
+        const arriendos = await Arriendo.findAll({
+            where: { estado_arriendo: "LISTO", id_sucursal: req.body.id_sucursal },
+            include: [
+                { model: Usuario, attributes: ["nombre_usuario"] },
+                { model: Vehiculo, attributes: ["patente_vehiculo"] },
+                { model: Cliente, attributes: ["nombre_cliente"] },
+                { model: Empresa, attributes: ["nombre_empresa"] },
+            ],
+            attributes: [
+                "id_arriendo",
+                "tipo_arriendo",
+                "estado_arriendo",
+                "fechaEntrega_arriendo",
+                "fechaRecepcion_arriendo",
             ],
         });
 
@@ -118,6 +143,23 @@ class ArriendoController {
             success: true,
             msg: "registro exitoso",
             data: arriendo,
+        });
+    }
+
+    async stateArriendo(req, res) {
+        const response = req.body;
+
+        await Arriendo.update({ estado_arriendo: response.estado_arriendo }, {
+            where: { id_arriendo: req.params.id },
+        });
+
+        await Vehiculo.update({ estado_vehiculo: response.estado_vehiculo }, {
+            where: { patente_vehiculo: response.patente_vehiculo },
+        });
+
+        res.json({
+            success: true,
+            msg: "registro exitoso",
         });
     }
 }
