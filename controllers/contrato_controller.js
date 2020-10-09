@@ -19,7 +19,7 @@ const fs = require("fs");
 const path = require("path");
 const client = new SignaturitClient(process.env.TOKEN_SIGNATURIT, false);
 const contrato = require.resolve(
-    "../files/pdf_plantillas/temp_files/temp_contrato.pdf"
+    "../files/pdf_plantillas/temp_files/contrato.pdf"
 );
 
 class contrato_controller {
@@ -46,8 +46,7 @@ class contrato_controller {
             clase_conductor: arriendo.conductore.clase_conductor,
             numero_conductor: arriendo.conductore.numero_conductor,
             vcto_conductor: arriendo.conductore.vcto_conductor ?
-                formatFecha(arriendo.conductore.vcto_conductor) :
-                "",
+                formatFecha(arriendo.conductore.vcto_conductor) : "",
             municipalidad_conductor: arriendo.conductore.municipalidad_conductor,
             direccion_conductor: arriendo.conductore.direccion_conductor,
 
@@ -140,27 +139,42 @@ class contrato_controller {
             };
             var printer = new PdfPrinter(fonts);
             const pdfDoc = printer.createPdfKitDocument(docDefinition);
+
+
+
             //se guarda el pdf en una ruta predeterminada
             pdfDoc.pipe(
                 fs.createWriteStream(
                     path.join(
                         __dirname,
-                        "../files/pdf_plantillas/temp_files/temp_contrato.pdf"
+                        "../files/pdf_plantillas/temp_files/contrato.pdf"
                     )
                 )
             );
             pdfDoc.end();
 
+            /*     res.json({
+                    success: true,
+                    url: "result.url",
+                }); */
             //corregir setTimeout a futuro
             setTimeout(() => {
                 client
                     .createSignature(
                         contrato, {
-                            name: "diego",
+                            name: dataList.nombre_cliente,
                             email: "d.riosrojas007@gmail.com",
+                            require_signature_in_coordinates: [{
+                                "top": 60,
+                                "left": 8,
+                                "height": 10,
+                                "width": 25
+                            }],
+
                         }, {
                             delivery_type: "url",
-                        }
+                        },
+
                     )
                     .then(
                         (result) => {
@@ -234,7 +248,7 @@ function formatFecha(fecha) {
 
 function formatFechahora(fecha) {
     var f = new Date(fecha);
-    return moment(f).format("DD-MM-YYYY  HH:mm");
+    return moment(f).format("DD-MM-YYYY  HH:mm a");
 }
 
 module.exports = contrato_controller;

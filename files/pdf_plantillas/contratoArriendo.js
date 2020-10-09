@@ -5,6 +5,7 @@ const pagare = require.resolve("../images/pagare.png");
 async function contratoPlantilla(data) {
     //clase para cambiar numeros a monedas
     const formatter = new Intl.NumberFormat("CL");
+    const image = await base64(pagare);
 
     let traslado = 0;
     let deducible = 0;
@@ -527,14 +528,103 @@ async function contratoPlantilla(data) {
                     ],
                 ],
             },
+            {
+                margin: [0, 200, 0, 0],
+                fontSize: 7,
+                text: [
+                    { alignment: "center", text: "CONDICIONES DEL CONTRATO DE ARRIENDO \n\n", fontSize: 10, bold: true, },
+                    {
+                        text: "Comparecen, por una parte, la Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda, RUT 76.791.832-1, Representada por don Diego Antonio Vargas Garrido Rut: 18.891.594-9, Ambos domiciliados en 1 poniente 4 y 5 norte #1588, en la ciudad de Talca, en adelante, 'el arrendador'. Por otra parte, don _____________________________________________, Rut:________________ Dirección:_________________________ Estado Civil:________________, Profesión: ________________ teléfono:__________________, en adelante 'el arrendatario', se acuerda lo siguiente:\n \n "
+
+                    },
+                    {
+                        text: "PRIMERO: el vehículo individualizado en el anverso, quien lo acepta. El arrendatario declara haber recibido el vehículo en buen estado y conforme al acta de entrega que se firma entre ambas partes, la que declara haber revisado y refleja fielmente el estado en que recibe el vehículo. Será parte integrante de este contrato. \n \n",
+
+                    },
+                    {
+                        text: "SEGUNDO: El arriendo regirá hasta el ______________, a las_______ horas. Vencido este plazo, si el arrendatario desea continuar usando el vehículo, deberá obtener una autorización de Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda, y en caso de que el vehículo no sea entregado en el horario pactado, el arrendador queda autorizado para iniciar la denuncia por apropiación indebida ante carabineros de chile o policía de investigaciones. \n \n",
+
+                    },
+                    {
+                        text: "TERCERO: En caso que el arrendatario, devolviera el vehículo antes de la terminación del plazo del presente contrato, por la negativa al complimiento del presente contrato, este tendrá que indemnizar al arrendador con una multa ascendiente al 30% del valor total del arriendo, excepcionalmente los clientes que vienen por empresas de remplazo. \n \n",
+
+                    },
+                    {
+                        text: "CUARTO: En caso que el trayecto del vehículo sea a Santiago, el arrendatario debe dar cuenta al arrendador, y se recargará el valor del pase diario más iva por día transitado en Santiago. \n \n"
+                    },
+                    {
+                        text: "QUINTO : El vehículo debe venir a mantención a los _______________kilómetros, en caso de que el arrendatario se negara a realizar la mantención se le aplicará una multa de un mes de arriendo, además de aquello el arrendador queda autorizado para denunciar el vehículo por apropiación indebida ante Carabineros de Chile y/o Policía de Investigaciones, como también a ser retirado de circulación, quedando estrictamente prohibido ejecutar, realizar o manipular el motor o mantenciones mecánicas y eléctricas del vehículo, de no respetar esta disposición se cobrará la multa ya descrita. \n \n"
+                    },
+                    {
+                        text: "SEXTO: El arrendatario tendrá un límite de kilómetros a recorrer, el cual será de 5.000 (CINCO MIL) kilómetros mensuales, en caso de que este se exceda dicho kilometraje, la siguiente mantención será de cargo del arrendatario. \n \n"
+                    },
+                    {
+                        text: "SÉPTIMO: Los vehículos se encuentran asegurados por daños propios y a terceros y la Cía. Aseguradora responde solamente en caso de que los daños causados en accidente de tránsito no le sean imputables al usuario. Si los perjuicios ocasionados fueren de riesgo, dejan en poder de Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda una garantía consistente en $___________________ Con todo el arrendatario responderá de todo daño. \n \n"
+                    },
+                    {
+                        text: "OCTAVO: Respecto del vehículo arrendado, queda prohibido al arrendatario: \n" +
+                            "1. Permitir su manejo por otra persona que el mismo o quien se encuentre expresamente autorizado por Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda.\n" +
+                            "2. Destinarlo a un uso distinto de aquel que fuera estipulado según la cláusula décimo primera de este contrato\n" +
+                            "3. Cargar el vehículo con mayor peso del estipulado, tirar o empujar otro vehículo o ser usado en labores peligrosas.\n" +
+                            "4. Conducirlo bajo la influencia del alcohol, en estado de ebriedad, bajo los efectos de drogas o sin portar licencia de conductor y documentos ordenados por la Ley.\n" +
+                            "5. Llevar el vehículo fuera del radio máximo expresado en este contrato o sacarlo del territorio nacional.\n\n"
+                    },
+                    {
+                        text: "NOVENO : En caso de incurrir el arrendatario en alguno de los casos del artículo anterior se compromete a cancelar, a manera de cláusula penal, una suma igual al doble de la renta de arrendamiento pactada en este contrato, sin contar los recargos por seguro e impuestos. Estos sin perjuicio del precio pactado. \n" +
+                            "Si por causa de accidente o robo el vehículo debe ser reparado o, si por violación a las Ordenanzas del Tránsito el vehículo es retenido por las  autoridades, el arrendatario pagará a Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. el importe del alquiler convenido por todo el tiempo que dure la reparación o los trámites legales para la liberación del vehículo, así como todos los gastos en que se incurra.\n\n"
+                    },
+                    {
+                        text: "DÉCIMO: El arrendatario se obliga a respetar rigurosamente todas las Ordenanzas del Tránsito, indicaciones de Carabineros y Autoridades. Serán de su cargo todas las multas aplicadas por infracciones cometidas por el arrendatario durante el uso del vehículo. En el caso de que se curse una infracción por padrón, por un hecho o culpa del arrendatario durante el tiempo en que el vehículo se encuentre a su cargo y Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. resulte obligado a cancelar, el arrendatario tendrá la obligación de restituirle la suma que pague por dicha multa doblada en su valor.\n\n"
+                    },
+                    {
+                        text: "DÉCIMO PRIMERO: En caso de que ocurra algún siniestro en el transcurso del arriendo, en que el conductor se encuentre en manifiesto estado de ebriedad o bajos influencias del alcohol o drogas, el arrendatario quedará obligado al pago del total del siniestro, el cual no podrá ser inferior a 500 UF \n \n"
+                    },
+                    {
+                        text: "DÉCIMO SEGUNDO: En caso de daño en el vehículo, accidente o choque, el arrendatario deberá dar aviso por escrito a Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. dentro de las 24 horas siguientes de ocurrido el hecho. Transcurrido este plazo, el arrendatario resultará único responsable de todos los perjuicios ocasionados, quedando obligado a pagarlos de su peculio personal dentro del lapso de 10 días. En caso de no cumplir, Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. quedará autorizado para hacer efectiva la garantía expresada en la cláusula quinta de este contrato.\n\n"
+                    },
+                    {
+                        text: "DÉCIMO TERCERO: Si el accidente o siniestro ocurre a más de 200 kilómetros a la redonda de la sucursal ubicada en 1 Poniente 4 y 5 Norte, 1558, Talca, será de cargo al arrendador él gasto de la grúa de traslado.\n\n"
+                    },
+                    {
+                        text: "DÉCIMO CUARTO: En caso que se deba realizar reparaciones al vehículo arrendado, que fueran por causas de este arriendo, el arrendatario queda obligado a cancelar 3 días de arriendo para poder realizar dichos trabajos.\n\n"
+                    },
+                    {
+                        text: "DÉCIMO QUINTO: El incumplimiento de una sola de las obligaciones de este contrato que contrae el arrendatario, dará derecho al Arrendador para poner término inmediato al contrato, sin esperar vencimiento de plazo alguno, en la cual se cobra como multa un arriendo igual al de contrato.\n\n"
+                    },
+                    {
+                        text: "DÉCIMO SEXTO: El arrendatario se obliga a informar a Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. sobre cualquier cambio de su domicilio, el que ha señalado en el contrato, así como ha de indicar como referencia el nombre y domicilio de alguna persona con quien Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. pueda comunicarse en caso de emergencia. Don ______________________________________________ domicilio_____________________ N°________ Ciudad______________________ Fono___________________. \n\n"
+                    },
+                    {
+                        text: "DÉCIMO SÉPTIMO: Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. no se hace responsable por objetos y/o valores de cualquier especie dejados por el arrendatario en el vehículo. Asimismo, no se responsabiliza por cualquier robo que pudiera sufrir o sus acompañantes. \n\n"
+                    },
+                    {
+                        text: "DÉCIMO OCTAVO: Las partes declaran haber leído íntegramente este contrato, conocerlo y aceptarlo totalmente. El arrendatario declara expresamente conocer todas y cada una de las cláusulas penales establecidas en este contrato, las que acepta. \n\n"
+                    },
+                    {
+                        text: "DÉCIMO NOVENO: Para todo lo relacionado con el cumplimiento y ejecución del contrato, las partes fijan domicilio en la ciudad de Talca, prorrogando para ésta la competencia de los Tribunales de Justicia. \n\n"
+                    }
+
+
+
+
+                ]
+            },
         ],
-        header: [{
-            margin: [40, 650, 0, 0],
-            image: "building",
-            width: 521,
-            height: 180,
-            image: "data:image/jpeg;base64," + (await base64(pagare)),
-        }, ],
+
+        header: (page) => {
+            if (page == 1) {
+                return [{
+                    margin: [40, 630, 0, 0],
+                    image: "building",
+                    width: 521,
+                    height: 180,
+                    image: "data:image/jpeg;base64," + image,
+                }, ]
+            } else {
+                return {}
+            }
+        },
+
 
         styles: {
             header: {
