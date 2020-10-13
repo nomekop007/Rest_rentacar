@@ -40,13 +40,15 @@ class contrato_controller {
 
         //variables
         const dataList = {
+            firmaPNG: response.firmaPNG,
             rut_conductor: arriendo.conductore.rut_conductor,
             nombre_conductor: arriendo.conductore.nombre_conductor,
             telefono_conductor: arriendo.conductore.telefono_conductor,
             clase_conductor: arriendo.conductore.clase_conductor,
             numero_conductor: arriendo.conductore.numero_conductor,
             vcto_conductor: arriendo.conductore.vcto_conductor ?
-                formatFecha(arriendo.conductore.vcto_conductor) : "",
+                formatFecha(arriendo.conductore.vcto_conductor) :
+                "",
             municipalidad_conductor: arriendo.conductore.municipalidad_conductor,
             direccion_conductor: arriendo.conductore.direccion_conductor,
 
@@ -58,6 +60,7 @@ class contrato_controller {
             agencia: arriendo.sucursale.nombre_sucursal,
             vendedor: arriendo.usuario.nombre_usuario,
             kilometrosEntrada_arriendo: arriendo.kilometrosEntrada_arriendo,
+            kilometrosMantencion_arriendo: arriendo.kilometrosMantencion_arriendo,
             id_arriendo: arriendo.id_arriendo,
             ciudad_entrega: arriendo.ciudadEntrega_arriendo,
             ciudad_recepcion: arriendo.ciudadRecepcion_arriendo,
@@ -93,6 +96,7 @@ class contrato_controller {
                 dataList.nombre_cliente = arriendo.cliente.nombre_cliente;
                 dataList.direccion_cliente = arriendo.cliente.direccion_cliente;
                 dataList.ciudad_cliente = arriendo.cliente.ciudad_cliente;
+                dataList.estadoCivil_cliente = arriendo.cliente.estadoCivil_cliente;
                 dataList.rut_cliente = arriendo.cliente.rut_cliente;
                 dataList.nacimiento_cliente = arriendo.cliente.fechaNacimiento_cliente ?
                     formatFecha(arriendo.cliente.fechaNacimiento_cliente) :
@@ -140,8 +144,6 @@ class contrato_controller {
             var printer = new PdfPrinter(fonts);
             const pdfDoc = printer.createPdfKitDocument(docDefinition);
 
-
-
             //se guarda el pdf en una ruta predeterminada
             pdfDoc.pipe(
                 fs.createWriteStream(
@@ -153,46 +155,51 @@ class contrato_controller {
             );
             pdfDoc.end();
 
-            /*     res.json({
-                    success: true,
-                    url: "result.url",
-                }); */
-            //corregir setTimeout a futuro
             setTimeout(() => {
-                client
-                    .createSignature(
-                        contrato, {
-                            name: dataList.nombre_cliente,
-                            email: "d.riosrojas007@gmail.com",
-                            require_signature_in_coordinates: [{
-                                "top": 60,
-                                "left": 8,
-                                "height": 10,
-                                "width": 25
-                            }],
-
-                        }, {
-                            delivery_type: "url",
-                        },
-
-                    )
-                    .then(
-                        (result) => {
-                            console.log(result);
-                            res.json({
-                                success: true,
-                                url: result.url,
-                            });
-                        },
-                        (error) => {
-                            console.log("error:" + error);
-                            res.json({
-                                success: false,
-                                msg: "no se logro la comunicacion con la API Signature",
-                            });
-                        }
-                    );
+                res.json({
+                    success: true,
+                    url: "http://localhost:3000/temp_files/contrato.pdf",
+                });
             }, 2000);
+
+            //OPCION B
+            /*   
+                                                   
+                                                      setTimeout(() => {
+                                                                      client
+                                                                          .createSignature(
+                                                                              contrato, {
+                                                                                  name: dataList.nombre_cliente,
+                                                                                  email: "d.riosrojas007@gmail.com",
+                                                                                  require_signature_in_coordinates: [{
+                                                                                      "top": 60,
+                                                                                      "left": 8,
+                                                                                      "height": 10,
+                                                                                      "width": 25
+                                                                                  }],
+
+                                                                              }, {
+                                                                                  delivery_type: "url",
+                                                                              },
+
+                                                                          )
+                                                                          .then(
+                                                                              (result) => {
+                                                                                  console.log(result);
+                                                                                  res.json({
+                                                                                      success: true,
+                                                                                      url: result.url,
+                                                                                  });
+                                                                              },
+                                                                              (error) => {
+                                                                                  console.log("error:" + error);
+                                                                                  res.json({
+                                                                                      success: false,
+                                                                                      msg: "no se logro la comunicacion con la API Signature",
+                                                                                  });
+                                                                              }
+                                                                          );
+                                                                  }, 2000); */
         } else {
             res.json({
                 success: false,
@@ -206,32 +213,32 @@ class contrato_controller {
 
         //ARREGLAR GUARDAR CONTRATO EN STORAGE CONTRATOS
         /*
-                            client
-                                .downloadSignedDocument(response.id_signature, response.id_documento)
-                                .then(
-                                    (result) => {
-                                          fs.writeFile(
-                                                      path.join(
-                                                          __dirname,
-                                                          "../uploads/documentos/contratos/" +
-                                                          response.id_documento +
-                                                          ".pdf"
-                                                      ),
-                                                      result,
-                                                      "binary",
-                                                      (err) => {
-                                                          if (err) {
-                                                              return console.log(err);
-                                                          }
-                                                          console.log("Archivo escrito correctamente!");
-                                                      }
-                                                  );
-                                    },
-                                    (error) => {
-                                        console.log("error: ");
-                                    }
-                                );
-                                 */
+                                                        client
+                                                            .downloadSignedDocument(response.id_signature, response.id_documento)
+                                                            .then(
+                                                                (result) => {
+                                                                      fs.writeFile(
+                                                                                  path.join(
+                                                                                      __dirname,
+                                                                                      "../uploads/documentos/contratos/" +
+                                                                                      response.id_documento +
+                                                                                      ".pdf"
+                                                                                  ),
+                                                                                  result,
+                                                                                  "binary",
+                                                                                  (err) => {
+                                                                                      if (err) {
+                                                                                          return console.log(err);
+                                                                                      }
+                                                                                      console.log("Archivo escrito correctamente!");
+                                                                                  }
+                                                                              );
+                                                                },
+                                                                (error) => {
+                                                                    console.log("error: ");
+                                                                }
+                                                            );
+                                                             */
 
         const contrato = await Contrato.create(response);
         res.json({

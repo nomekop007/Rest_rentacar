@@ -33,7 +33,7 @@ class ArriendoController {
 
     async getArriendosListos(req, res) {
         const arriendos = await Arriendo.findAll({
-            where: { estado_arriendo: "LISTO", id_sucursal: req.body.id_sucursal },
+            where: { estado_arriendo: "FIRMADO", id_sucursal: req.body.id_sucursal },
             include: [
                 { model: Usuario, attributes: ["nombre_usuario"] },
                 { model: Vehiculo, attributes: ["patente_vehiculo"] },
