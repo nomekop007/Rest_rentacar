@@ -15,5 +15,6 @@ module.exports = (sequelize, type) => {
         fechaRecepcion_arriendo: type.DATE,
         numerosDias_arriendo: type.BIGINT(20),
         tipo_arriendo: type.STRING,
+        userAt: type.STRING,
     });
 };

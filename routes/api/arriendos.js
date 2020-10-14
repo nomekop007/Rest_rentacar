@@ -15,4 +15,6 @@ router.post("/registrarArriendo", arriendo.createArriendo.bind(arriendo));
 
 router.put("/cambiarEstadoArriendo/:id", arriendo.stateArriendo.bind(arriendo));
 
+router.post("/enviarCorreoArriendo", arriendo.sendEmail.bind(arriendo));
+
 module.exports = router;

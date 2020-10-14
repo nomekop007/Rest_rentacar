@@ -11,5 +11,6 @@ module.exports = (sequelize, type) => {
         ciudad_empresa: type.STRING,
         telefono_empresa: type.STRING,
         correo_empresa: type.STRING,
+        userAt: type.STRING,
     });
 };

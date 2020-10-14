@@ -96,7 +96,7 @@ async function contratoPlantilla(data) {
         if (data.firmaPNG) {
             return {
                 alignment: "center",
-                width: 120,
+                width: 180,
                 height: 80,
                 image: data.firmaPNG,
             };
@@ -630,13 +630,12 @@ async function contratoPlantilla(data) {
 
         header: (page) => {
             if (page == 1) {
-                return [{
+                return {
                     margin: [40, 630, 0, 0],
-                    image: "building",
                     width: 521,
                     height: 180,
                     image: "data:image/jpeg;base64," + image,
-                }, ];
+                };
             } else {
                 return {};
             }
@@ -661,4 +660,4 @@ async function contratoPlantilla(data) {
     };
 }
 
-module.exports = { contratoPlantilla };
+module.exports = contratoPlantilla;

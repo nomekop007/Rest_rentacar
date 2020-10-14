@@ -9,18 +9,13 @@ const {
     Sucursal,
     Contrato,
 } = require("../db");
-const {
-    contratoPlantilla,
-} = require("../files/pdf_plantillas/contratoArriendo");
-const moment = require("moment");
-const SignaturitClient = require("signaturit-sdk");
-const PdfPrinter = require("pdfmake");
 const fs = require("fs");
 const path = require("path");
-const client = new SignaturitClient(process.env.TOKEN_SIGNATURIT, false);
-const contrato = require.resolve(
-    "../files/pdf_plantillas/temp_files/contrato.pdf"
-);
+const moment = require("moment");
+const { v5: uuidv5 } = require("uuid");
+
+const PdfPrinter = require("pdfmake");
+const contratoPlantilla = require("../files/pdf_plantillas/contratoArriendo");
 
 class contrato_controller {
     async generatePDFContrato(req, res) {
@@ -141,6 +136,8 @@ class contrato_controller {
                     ),
                 },
             };
+            const nameFile = uuidv5(arriendo.id_arriendo + "", uuidv5.URL);
+
             var printer = new PdfPrinter(fonts);
             const pdfDoc = printer.createPdfKitDocument(docDefinition);
 
@@ -149,7 +146,7 @@ class contrato_controller {
                 fs.createWriteStream(
                     path.join(
                         __dirname,
-                        "../files/pdf_plantillas/temp_files/contrato.pdf"
+                        "../uploads/documentos/contratos/" + nameFile + ".pdf"
                     )
                 )
             );
@@ -158,48 +155,10 @@ class contrato_controller {
             setTimeout(() => {
                 res.json({
                     success: true,
-                    url: "http://localhost:3000/temp_files/contrato.pdf",
+                    nombre_documento: nameFile,
+                    firma: response.firmaPNG,
                 });
             }, 2000);
-
-            //OPCION B
-            /*   
-                                                   
-                                                      setTimeout(() => {
-                                                                      client
-                                                                          .createSignature(
-                                                                              contrato, {
-                                                                                  name: dataList.nombre_cliente,
-                                                                                  email: "d.riosrojas007@gmail.com",
-                                                                                  require_signature_in_coordinates: [{
-                                                                                      "top": 60,
-                                                                                      "left": 8,
-                                                                                      "height": 10,
-                                                                                      "width": 25
-                                                                                  }],
-
-                                                                              }, {
-                                                                                  delivery_type: "url",
-                                                                              },
-
-                                                                          )
-                                                                          .then(
-                                                                              (result) => {
-                                                                                  console.log(result);
-                                                                                  res.json({
-                                                                                      success: true,
-                                                                                      url: result.url,
-                                                                                  });
-                                                                              },
-                                                                              (error) => {
-                                                                                  console.log("error:" + error);
-                                                                                  res.json({
-                                                                                      success: false,
-                                                                                      msg: "no se logro la comunicacion con la API Signature",
-                                                                                  });
-                                                                              }
-                                                                          );
-                                                                  }, 2000); */
         } else {
             res.json({
                 success: false,
@@ -208,38 +167,8 @@ class contrato_controller {
         }
     }
 
-    async uploadPDFcontrato(req, res) {
+    async createContrato(req, res) {
         const response = req.body;
-
-        //ARREGLAR GUARDAR CONTRATO EN STORAGE CONTRATOS
-        /*
-                                                        client
-                                                            .downloadSignedDocument(response.id_signature, response.id_documento)
-                                                            .then(
-                                                                (result) => {
-                                                                      fs.writeFile(
-                                                                                  path.join(
-                                                                                      __dirname,
-                                                                                      "../uploads/documentos/contratos/" +
-                                                                                      response.id_documento +
-                                                                                      ".pdf"
-                                                                                  ),
-                                                                                  result,
-                                                                                  "binary",
-                                                                                  (err) => {
-                                                                                      if (err) {
-                                                                                          return console.log(err);
-                                                                                      }
-                                                                                      console.log("Archivo escrito correctamente!");
-                                                                                  }
-                                                                              );
-                                                                },
-                                                                (error) => {
-                                                                    console.log("error: ");
-                                                                }
-                                                            );
-                                                             */
-
         const contrato = await Contrato.create(response);
         res.json({
             success: true,

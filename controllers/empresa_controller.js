@@ -35,22 +35,12 @@ class EmpresaController {
     async createEmpresa(req, res) {
         const response = req.body;
 
-        const dataEmpresa = {
-            rut_empresa: response.rut_empresa,
-            nombre_empresa: response.nombre_empresa,
-            rol_empresa: response.rol_empresa,
-            vigencia_empresa: response.vigencia_empresa,
-            direccion_empresa: response.direccion_empresa,
-            ciudad_empresa: response.ciudad_empresa,
-            telefono_empresa: response.telefono_empresa,
-            correo_empresa: response.correo_empresa,
-        };
         const [empresa, created] = await Empresa.findOrCreate({
             where: { rut_empresa: response.rut_empresa },
-            defaults: dataEmpresa,
+            defaults: response,
         });
         if (!created) {
-            await Empresa.update(dataEmpresa, {
+            await Empresa.update(response, {
                 where: { rut_empresa: empresa.rut_empresa },
             });
         }

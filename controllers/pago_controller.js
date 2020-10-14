@@ -4,6 +4,7 @@ class PagoController {
     async createPagoFacturacion(req, res) {
         const response = req.body;
         const dataPago = {
+            userAt: response.userAt,
             id_arriendo: response.id_arriendo,
             neto_pago: response.neto_pago,
             iva_pago: response.iva_pago,

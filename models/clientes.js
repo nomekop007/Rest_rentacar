@@ -11,5 +11,6 @@ module.exports = (sequelize, type) => {
         telefono_cliente: type.STRING,
         correo_cliente: type.STRING,
         fechaNacimiento_cliente: type.DATE,
+        userAt: type.STRING,
     });
 };

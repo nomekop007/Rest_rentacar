@@ -7,5 +7,6 @@ module.exports = (sequelize, type) => {
         },
         tipo_facturacion: type.STRING,
         numero_facturacion: type.BIGINT(20),
+        userAt: type.STRING,
     });
 };

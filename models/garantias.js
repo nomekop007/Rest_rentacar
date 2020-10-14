@@ -11,5 +11,6 @@ module.exports = (sequelize, type) => {
         numeroCheque_garantia: type.BIGINT(20),
         codigoCheque_garantia: type.STRING,
         monto_garantia: type.BIGINT(20),
+        userAt: type.STRING,
     });
 };

@@ -164,7 +164,7 @@ class UsuarioController {
             state = true;
             msg = "usuario Habilitado exitosamente";
         }
-        await Usuario.update({ estado_usuario: state }, {
+        await Usuario.update({ estado_usuario: state, userAt: req.body.userAt }, {
             where: { id_usuario: req.params.id },
         });
 

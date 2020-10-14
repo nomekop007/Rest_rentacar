@@ -5,6 +5,7 @@ class GarantiaController {
         const response = req.body;
 
         const dataGarantia = {
+            userAt: response.userAt,
             id_arriendo: response.id_arriendo,
             monto_garantia: response.monto_garantia,
         };

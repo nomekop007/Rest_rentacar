@@ -15,8 +15,6 @@ app.use(bodyParser.urlencoded({ limit: "20mb", extended: true }));
 
 //static files (hace publica la carpeta uploads)
 app.use(express.static(path.join(__dirname, "uploads")));
-app.use(express.static(path.join(__dirname, "files/pdf_plantillas")));
-
 
 app.use("/rentacar", apiRouter);
 

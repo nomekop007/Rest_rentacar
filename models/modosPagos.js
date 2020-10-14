@@ -5,7 +5,7 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        nombre_modoPago: type.STRING
-
+        nombre_modoPago: type.STRING,
+        userAt: type.STRING,
     });
 };

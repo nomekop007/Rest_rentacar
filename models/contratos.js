@@ -5,7 +5,7 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        id_documento: type.STRING,
-        id_signature: type.STRING,
+        documento: type.STRING,
+        userAt: type.STRING,
     });
 };

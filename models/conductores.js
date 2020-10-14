@@ -11,5 +11,6 @@ module.exports = (sequelize, type) => {
         vcto_conductor: type.DATE,
         municipalidad_conductor: type.STRING,
         direccion_conductor: type.STRING,
+        userAt: type.STRING,
     });
 };

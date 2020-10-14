@@ -34,24 +34,18 @@ class ConductorController {
 
     async createConductor(req, res) {
         const response = req.body;
-        const dataConductor = {
-            rut_conductor: response.rut_conductor,
-            nombre_conductor: response.nombre_conductor,
-            telefono_conductor: response.telefono_conductor,
-            clase_conductor: response.clase_conductor,
-            numero_conductor: response.numero_conductor,
-            municipalidad_conductor: response.municipalidad_conductor,
-            direccion_conductor: response.direccion_conductor,
-            vcto_conductor: response.vcto_conductor == "" ? null : response.vcto_conductor,
-        };
+
+        if (response.vcto_conductor == "") {
+            response.vcto_conductor = null;
+        }
 
         const [conductor, created] = await Conductor.findOrCreate({
             where: { rut_conductor: response.rut_conductor },
-            defaults: dataConductor,
+            defaults: response,
         });
         //si existe conductor lo actualiza
         if (!created) {
-            await Conductor.update(dataConductor, {
+            await Conductor.update(response, {
                 where: { rut_conductor: conductor.rut_conductor },
             });
         }

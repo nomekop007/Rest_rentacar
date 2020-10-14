@@ -11,5 +11,6 @@ module.exports = (sequelize, type) => {
         total_pago: type.BIGINT(20),
         digitador_pago: type.STRING,
         observaciones_pago: type.TEXT,
+        userAt: type.STRING,
     });
 };

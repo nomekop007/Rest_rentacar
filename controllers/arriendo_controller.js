@@ -6,7 +6,10 @@ const {
     Empresa,
     Accesorio,
     Vehiculo,
+    Contrato,
 } = require("../db");
+const nodemailer = require("nodemailer");
+const path = require("path");
 
 class ArriendoController {
     async getArriendos(req, res) {
@@ -91,29 +94,16 @@ class ArriendoController {
         } else {
             response.tipo_arriendo = "EMPRESA";
         }
-        const dataArriendo = {
-            estado_arriendo: response.estado_arriendo,
-            kilometrosEntrada_arriendo: response.kilometrosEntrada_arriendo,
-            kilometrosSalida_arriendo: null,
-            kilometrosMantencion_arriendo: response.kilometrosMantencion_arriendo,
-            ciudadEntrega_arriendo: response.ciudadEntrega_arriendo,
-            fechaEntrega_arriendo: response.fechaEntrega_arriendo,
-            ciudadRecepcion_arriendo: response.ciudadRecepcion_arriendo,
-            fechaRecepcion_arriendo: response.fechaRecepcion_arriendo,
-            numerosDias_arriendo: response.numerosDias_arriendo,
-            tipo_arriendo: response.tipo_arriendo,
 
-            //foraneas
-            id_usuario: response.id_usuario,
-            patente_vehiculo: response.patente_vehiculo,
-            id_sucursal: response.id_sucursal,
-            rut_conductor: response.rut_conductor,
-            rut_cliente: response.rut_cliente ? response.rut_cliente : null,
-            rut_empresa: response.rut_empresa ? response.rut_empresa : null,
-        };
+        if (!response.rut_cliente) {
+            response.rut_cliente = null;
+        }
+        if (!response.rut_empresa) {
+            response.rut_empresa = null;
+        }
 
         //se crea el arriendo
-        const a = await Arriendo.create(dataArriendo);
+        const a = await Arriendo.create(response);
 
         const arriendo = await Arriendo.findOne({
             include: [
@@ -149,17 +139,90 @@ class ArriendoController {
     async stateArriendo(req, res) {
         const response = req.body;
 
-        await Arriendo.update({ estado_arriendo: response.estado_arriendo }, {
+        await Arriendo.update({ estado_arriendo: response.estado_arriendo, userAt: response.userAt }, {
             where: { id_arriendo: req.params.id },
         });
 
-        await Vehiculo.update({ estado_vehiculo: response.estado_vehiculo }, {
+        await Vehiculo.update({ estado_vehiculo: response.estado_vehiculo, userAt: response.userAt }, {
             where: { patente_vehiculo: response.patente_vehiculo },
         });
 
         res.json({
             success: true,
             msg: "registro exitoso",
+        });
+    }
+
+    async sendEmail(req, res) {
+        const response = req.body;
+        const arriendo = await Arriendo.findOne({
+            where: { id_arriendo: response.id_arriendo },
+            include: [
+                { model: Cliente, attributes: ["correo_cliente", "nombre_cliente"] },
+                { model: Empresa, attributes: ["correo_empresa", "nombre_empresa"] },
+                { model: Contrato },
+            ],
+        });
+
+        //datos del email hosting
+        const transporter = nodemailer.createTransport({
+            host: process.env.EMAIL_HOST,
+            port: process.env.EMAIL_PORT,
+            secure: false,
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            },
+        });
+
+        const client = {};
+        switch (arriendo.tipo_arriendo) {
+            case "PARTICULAR":
+                client.name = arriendo.cliente.nombre_cliente;
+                client.correo = arriendo.cliente.correo_cliente;
+                break;
+            case "REMPLAZO":
+                client.name = arriendo.cliente.nombre_cliente;
+                client.correo = arriendo.cliente.correo_cliente;
+                break;
+            case "EMPRESA":
+                client.name = arriendo.empresa.nombre_empresa;
+                client.correo = arriendo.empresa.correo_empresa;
+                break;
+            default:
+                break;
+        }
+
+        //datos del mensaje y su destinatario
+        const mailOptions = {
+            from: client.name,
+            to: client.correo,
+            subject: "COPIA DE CONTRATO RENT A CAR",
+            text: "se adjunta copia del contrato Rent a Car",
+            attachments: [{
+                filename: "contrato",
+                path: path.join(
+                    __dirname,
+                    "../uploads/documentos/contratos/" +
+                    arriendo.contratos[0].documento +
+                    ".pdf"
+                ),
+            }, ],
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (!error) {
+                res.json({
+                    success: true,
+                    msg: "email enviado",
+                });
+            } else {
+                res.json({
+                    success: false,
+                    msg: " a ocurrido un error al enviar el email",
+                    data: arriendo,
+                });
+            }
         });
     }
 }

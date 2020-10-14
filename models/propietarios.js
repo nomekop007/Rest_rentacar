@@ -5,5 +5,6 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
         },
         nombre_propietario: type.STRING,
+        userAt: type.STRING,
     });
 };
