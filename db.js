@@ -17,6 +17,7 @@ const FacturacionModel = require("./models/facturaciones");
 const GarantiaModel = require("./models/garantias");
 const ModoPagoModel = require("./models/modosPagos");
 const PropietarioModel = require("./models/propietarios");
+const RemplazoModel = require("./models/remplazos");
 
 //conectar modelo con base de datos
 const Rol = RolModel(database, Sequelize);
@@ -35,6 +36,7 @@ const Facturacion = FacturacionModel(database, Sequelize);
 const Garantia = GarantiaModel(database, Sequelize);
 const ModoPago = ModoPagoModel(database, Sequelize);
 const Propietario = PropietarioModel(database, Sequelize);
+const Remplazo = RemplazoModel(database, Sequelize);
 
 //Asociaciones de tablas
 
@@ -87,6 +89,16 @@ Sucursal.hasMany(Vehiculo, { foreignKey: { name: "id_sucursal" } });
 Arriendo.belongsTo(Cliente, { foreignKey: { name: "rut_cliente" } });
 //un Cliente tiene muchos Arriendo
 Cliente.hasMany(Arriendo, { foreignKey: { name: "rut_cliente" } });
+
+//un arriendo pertenece a un Remplazo
+Arriendo.belongsTo(Remplazo, { foreignKey: { name: "id_remplazo" } });
+//un Remplazo tiene un Arriendo
+Remplazo.hasOne(Arriendo, { foreignKey: { name: "id_remplazo" } });
+
+//un remplazo pertenece a un cliente
+Remplazo.belongsTo(Cliente, { foreignKey: { name: "rut_cliente" } });
+//un cliente tiene muchos remplazo
+Cliente.hasMany(Remplazo, { foreignKey: { name: "rut_cliente" } });
 
 //un arriendo pertenece a un Empresa
 Arriendo.belongsTo(Empresa, { foreignKey: { name: "rut_empresa" } });
@@ -151,4 +163,5 @@ module.exports = {
     ModoPago,
     Garantia,
     Propietario,
+    Remplazo,
 };

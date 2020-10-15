@@ -12,6 +12,7 @@ module.exports = (sequelize, type) => {
         licenciaConducir_requisito: type.STRING,
         chequeGarantia_requisito: type.STRING,
         comprobanteDomicilio_requisito: type.STRING,
+        cartaRemplazo_requisito: type.STRING,
         userAt: type.STRING,
     });
 };

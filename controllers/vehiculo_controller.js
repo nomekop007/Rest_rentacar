@@ -4,7 +4,14 @@ const path = require("path");
 
 class VehiculoController {
     async getVehiculos(req, res) {
+        //preguntar si el usuario no es administrador
+        const where = {};
+        if (req.body.id_rol != 1) {
+            where.id_sucursal = req.body.id_sucursal;
+        }
+
         const vehiculos = await Vehiculo.findAll({
+            where: where,
             include: [{ model: Sucursal, attributes: ["nombre_sucursal"] }],
             attributes: [
                 "patente_vehiculo",

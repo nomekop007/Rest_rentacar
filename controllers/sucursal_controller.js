@@ -17,7 +17,12 @@ class SucursalController {
                 id_sucursal: req.params.id_sucursal,
                 estado_vehiculo: "DISPONIBLE",
             },
-            attributes: ["patente_vehiculo", "modelo_vehiculo", "año_vehiculo"],
+            attributes: [
+                "patente_vehiculo",
+                "modelo_vehiculo",
+                "año_vehiculo",
+                "marca_vehiculo",
+            ],
         });
 
         res.json({

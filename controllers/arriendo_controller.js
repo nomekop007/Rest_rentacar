@@ -7,18 +7,30 @@ const {
     Accesorio,
     Vehiculo,
     Contrato,
+    Remplazo,
 } = require("../db");
 const nodemailer = require("nodemailer");
 const path = require("path");
 
 class ArriendoController {
     async getArriendos(req, res) {
+        //preguntar si el usuario no es administrador
+        const where = {};
+        if (req.body.id_rol != 1) {
+            where.id_sucursal = req.body.id_sucursal;
+        }
+
         const arriendos = await Arriendo.findAll({
-            where: { id_sucursal: req.body.id_sucursal },
+            where: where,
             include: [
                 { model: Usuario, attributes: ["nombre_usuario"] },
                 { model: Cliente, attributes: ["nombre_cliente"] },
                 { model: Empresa, attributes: ["nombre_empresa"] },
+                {
+                    model: Remplazo,
+                    attributes: ["nombreEmpresa_remplazo"],
+                    include: [{ model: Cliente, attributes: ["nombre_cliente"] }],
+                },
             ],
             attributes: [
                 "id_arriendo",
@@ -27,7 +39,6 @@ class ArriendoController {
                 "estado_arriendo",
             ],
         });
-
         res.json({
             success: true,
             data: arriendos,
@@ -35,13 +46,24 @@ class ArriendoController {
     }
 
     async getArriendosListos(req, res) {
+        //preguntar si el usuario no es administrador
+        const where = { estado_arriendo: "FIRMADO" };
+        if (req.body.id_rol != 1) {
+            where.id_sucursal = req.body.id_sucursal;
+        }
+
         const arriendos = await Arriendo.findAll({
-            where: { estado_arriendo: "FIRMADO", id_sucursal: req.body.id_sucursal },
+            where: where,
             include: [
                 { model: Usuario, attributes: ["nombre_usuario"] },
                 { model: Vehiculo, attributes: ["patente_vehiculo"] },
                 { model: Cliente, attributes: ["nombre_cliente"] },
                 { model: Empresa, attributes: ["nombre_empresa"] },
+                {
+                    model: Remplazo,
+                    attributes: ["nombreEmpresa_remplazo"],
+                    include: [{ model: Cliente, attributes: ["nombre_cliente"] }],
+                },
             ],
             attributes: [
                 "id_arriendo",
@@ -68,6 +90,10 @@ class ArriendoController {
                 { model: Conductor },
                 { model: Accesorio },
                 { model: Usuario, attributes: ["nombre_usuario"] },
+                {
+                    model: Remplazo,
+                    include: [{ model: Cliente }],
+                },
             ],
         });
 
@@ -87,19 +113,19 @@ class ArriendoController {
     async createArriendo(req, res) {
         const response = req.body;
 
-        if (response.tipo_arriendo == 1) {
-            response.tipo_arriendo = "PARTICULAR";
-        } else if (response.tipo_arriendo == 2) {
-            response.tipo_arriendo = "REMPLAZO";
-        } else {
-            response.tipo_arriendo = "EMPRESA";
-        }
-
-        if (!response.rut_cliente) {
-            response.rut_cliente = null;
-        }
-        if (!response.rut_empresa) {
-            response.rut_empresa = null;
+        switch (response.tipo_arriendo) {
+            case "PARTICULAR":
+                response.rut_empresa = null;
+                response.id_remplazo = null;
+                break;
+            case "REMPLAZO":
+                response.rut_empresa = null;
+                response.rut_cliente = null;
+                break;
+            case "EMPRESA":
+                response.id_remplazo = null;
+                response.rut_cliente = null;
+                break;
         }
 
         //se crea el arriendo
@@ -110,6 +136,11 @@ class ArriendoController {
                 { model: Usuario, attributes: ["nombre_usuario"] },
                 { model: Cliente, attributes: ["nombre_cliente"] },
                 { model: Empresa, attributes: ["nombre_empresa"] },
+                {
+                    model: Remplazo,
+                    attributes: ["nombreEmpresa_remplazo"],
+                    include: [{ model: Cliente, attributes: ["nombre_cliente"] }],
+                },
             ],
             where: { id_arriendo: a.id_arriendo },
             attributes: [
@@ -117,6 +148,7 @@ class ArriendoController {
                 "createdAt",
                 "tipo_arriendo",
                 "estado_arriendo",
+                "patente_vehiculo",
             ],
         });
 
@@ -141,10 +173,6 @@ class ArriendoController {
 
         await Arriendo.update({ estado_arriendo: response.estado_arriendo, userAt: response.userAt }, {
             where: { id_arriendo: req.params.id },
-        });
-
-        await Vehiculo.update({ estado_vehiculo: response.estado_vehiculo, userAt: response.userAt }, {
-            where: { patente_vehiculo: response.patente_vehiculo },
         });
 
         res.json({
