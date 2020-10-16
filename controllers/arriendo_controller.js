@@ -168,10 +168,11 @@ class ArriendoController {
         });
     }
 
+    //cambiar por un updateArriendo
     async stateArriendo(req, res) {
         const response = req.body;
 
-        await Arriendo.update({ estado_arriendo: response.estado_arriendo, userAt: response.userAt }, {
+        await Arriendo.update(response, {
             where: { id_arriendo: req.params.id },
         });
 
@@ -183,6 +184,7 @@ class ArriendoController {
 
     async sendEmail(req, res) {
         const response = req.body;
+
         const arriendo = await Arriendo.findOne({
             where: { id_arriendo: response.id_arriendo },
             include: [
@@ -191,18 +193,6 @@ class ArriendoController {
                 { model: Contrato },
             ],
         });
-
-        //datos del email hosting
-        const transporter = nodemailer.createTransport({
-            host: process.env.EMAIL_HOST,
-            port: process.env.EMAIL_PORT,
-            secure: false,
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
-            },
-        });
-
         const client = {};
         switch (arriendo.tipo_arriendo) {
             case "PARTICULAR":
@@ -210,8 +200,8 @@ class ArriendoController {
                 client.correo = arriendo.cliente.correo_cliente;
                 break;
             case "REMPLAZO":
-                client.name = arriendo.cliente.nombre_cliente;
-                client.correo = arriendo.cliente.correo_cliente;
+                client.name = arriendo.remplaso.cliente.nombre_cliente;
+                client.correo = arriendo.remplazo.cliente.correo_cliente;
                 break;
             case "EMPRESA":
                 client.name = arriendo.empresa.nombre_empresa;
@@ -221,14 +211,27 @@ class ArriendoController {
                 break;
         }
 
+
+        //datos del email hosting
+        const transporter = nodemailer.createTransport({
+            host: process.env.EMAIL_HOST,
+            port: process.env.EMAIL_PORT,
+            secure: true,
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            },
+        });
+
         //datos del mensaje y su destinatario
         const mailOptions = {
             from: client.name,
-            to: client.correo,
+            to: "d.riosrojas007@gmail.cl",
             subject: "COPIA DE CONTRATO RENT A CAR",
             text: "se adjunta copia del contrato Rent a Car",
             attachments: [{
-                filename: "contrato",
+                filename: "contrato.pdf",
+                contentType: "pdf",
                 path: path.join(
                     __dirname,
                     "../uploads/documentos/contratos/" +
@@ -243,12 +246,13 @@ class ArriendoController {
                 res.json({
                     success: true,
                     msg: "email enviado",
+                    info: info
                 });
             } else {
                 res.json({
                     success: false,
                     msg: " a ocurrido un error al enviar el email",
-                    data: arriendo,
+                    error: error,
                 });
             }
         });

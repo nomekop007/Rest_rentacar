@@ -12,22 +12,25 @@ class SucursalController {
     }
 
     async getFindVehiculosPorSucursal(req, res) {
-        const vehiculo = await Vehiculo.findAll({
+        const sucursal = await Sucursal.findOne({
             where: {
                 id_sucursal: req.params.id_sucursal,
-                estado_vehiculo: "DISPONIBLE",
             },
-            attributes: [
-                "patente_vehiculo",
-                "modelo_vehiculo",
-                "año_vehiculo",
-                "marca_vehiculo",
-            ],
-        });
+            include: [{
+                model: Vehiculo,
+                where: { estado_vehiculo: "DISPONIBLE" },
+                attributes: [
+                    "patente_vehiculo",
+                    "modelo_vehiculo",
+                    "año_vehiculo",
+                    "marca_vehiculo",
+                ],
+            }, ]
+        })
 
         res.json({
             success: true,
-            data: vehiculo,
+            data: sucursal,
         });
     }
 }

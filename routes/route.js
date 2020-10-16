@@ -37,7 +37,7 @@ router.use("/conductores", check.checkToken, apiConductoresRouter);
 router.use("/contratos", check.checkToken, apiContratosRouter);
 router.use("/pagos", check.checkToken, apiPagosRouter);
 router.use("/garantias", check.checkToken, apiGarantiasRouter);
-router.use("/arriendos", check.checkToken, apiArriendosRouter);
+router.use("/arriendos", apiArriendosRouter);
 router.use("/remplazos", check.checkToken, apiRemplazoRouter);
 
 module.exports = router;
