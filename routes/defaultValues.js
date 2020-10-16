@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const xlsx = require("xlsx");
-const plantillaExel = require.resolve("../files/vehiculos.xlsx");
+const plantillaExel = require.resolve("../utils/vehiculos.xlsx");
 
 const {
     Usuario,
@@ -128,6 +128,12 @@ router.get("/cargarVehiculos", async(req, res) => {
         });
     }
 
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
     // se guarda los vehiculos en la base de datos
     for (let i = 0; i < vehiculos.length; i++) {
         var vehiculo = {
@@ -140,13 +146,14 @@ router.get("/cargarVehiculos", async(req, res) => {
             tipo_vehiculo: vehiculos[i].tipo,
             compra_vehiculo: vehiculos[i].compra,
             fechaCompra_vehiculo: vehiculos[i].fechaCompra,
-            estado_vehiculo: "INACTIVO",
-            id_sucursal: 1,
+            estado_vehiculo: "DISPONIBLE",
+            id_sucursal: getRandomInt(1, 4),
             userAt: "default",
         };
         console.log(vehiculo);
         await Vehiculo.create(vehiculo);
     }
+
 
     res.json({
         success: true,

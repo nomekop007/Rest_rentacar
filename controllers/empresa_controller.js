@@ -30,6 +30,7 @@ class EmpresaController {
                 msg: "sin datos",
             });
         }
+
     }
 
     async createEmpresa(req, res) {

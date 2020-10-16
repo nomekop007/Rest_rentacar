@@ -3,37 +3,29 @@ const { Garantia } = require("../db");
 class GarantiaController {
     async createGarantia(req, res) {
         const response = req.body;
-
-        const dataGarantia = {
-            userAt: response.userAt,
-            id_arriendo: response.id_arriendo,
-            monto_garantia: response.monto_garantia,
-        };
-
         switch (response.id_modoPago) {
             case "EFECTIVO":
-                dataGarantia.id_modoPago = 1;
+                response.id_modoPago = 1;
+                response.numeroTarjeta_garantia = null;
+                response.fechaTarjeta_garantia = null;
+                response.codigoTarjeta_garantia = null;
+                response.numeroCheque_garantia = null;
+                response.codigoCheque_garantia = null;
                 break;
             case "CHEQUE":
-                dataGarantia.numeroCheque_garantia = response.numeroCheque_garantia;
-                dataGarantia.codigoCheque_garantia = response.codigoCheque_garantia;
-                dataGarantia.id_modoPago = 2;
+                response.id_modoPago = 2;
+                response.monto_garantia = null;
+                response.numeroTarjeta_garantia = null;
+                response.fechaTarjeta_garantia = null;
+                response.codigoTarjeta_garantia = null;
                 break;
             case "TARJETA":
-                dataGarantia.numeroTarjeta_garantia = response.numeroTarjeta_garantia;
-                dataGarantia.fechaTarjeta_garantia = response.fechaTarjeta_garantia;
-                dataGarantia.codigoTarjeta_garantia = response.codigoTarjeta_garantia;
-                dataGarantia.id_modoPago = 3;
+                response.id_modoPago = 3;
+                response.numeroCheque_garantia = null;
+                response.codigoCheque_garantia = null;
                 break;
-            default:
-                res.json({
-                    success: false,
-                    msg: "ah ocurrido un error al guardar la garantia",
-                });
-                return;
         }
-
-        const garantia = await Garantia.create(dataGarantia);
+        const garantia = await Garantia.create(response);
 
         res.json({
             success: true,

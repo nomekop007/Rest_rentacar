@@ -56,6 +56,7 @@ const subirDocumentoRequisitosArriendo = multer({
     { name: "fotoCheque", maxCount: 1 },
     { name: "fotoComprobante", maxCount: 1 },
     { name: "fotoCartaRemplazo", maxCount: 1 },
+    { name: "fotoBoletaEfectivo", maxCount: 1 },
 ]);
 
 module.exports = {

@@ -8,6 +8,9 @@ const {
     Vehiculo,
     Sucursal,
     Contrato,
+    Remplazo,
+    Garantia,
+    ModoPago
 } = require("../db");
 const fs = require("fs");
 const path = require("path");
@@ -15,7 +18,7 @@ const moment = require("moment");
 const { v5: uuidv5 } = require("uuid");
 
 const PdfPrinter = require("pdfmake");
-const contratoPlantilla = require("../files/pdf_plantillas/contratoArriendo");
+const contratoPlantilla = require("../utils/pdf_plantillas/contratoArriendo");
 
 class contrato_controller {
     async generatePDFContrato(req, res) {
@@ -29,9 +32,19 @@ class contrato_controller {
                 { model: Accesorio },
                 { model: Conductor },
                 { model: Sucursal },
+                {
+                    model: Remplazo,
+                    include: [{ model: Cliente }],
+                },
+                {
+                    model: Garantia,
+                    include: [{ model: ModoPago }],
+                },
                 { model: Usuario, attributes: ["nombre_usuario"] },
             ],
         });
+
+        console.log(arriendo.garantia);
 
         //variables
         const dataList = {
@@ -42,8 +55,7 @@ class contrato_controller {
             clase_conductor: arriendo.conductore.clase_conductor,
             numero_conductor: arriendo.conductore.numero_conductor,
             vcto_conductor: arriendo.conductore.vcto_conductor ?
-                formatFecha(arriendo.conductore.vcto_conductor) :
-                "",
+                formatFecha(arriendo.conductore.vcto_conductor) : "",
             municipalidad_conductor: arriendo.conductore.municipalidad_conductor,
             direccion_conductor: arriendo.conductore.direccion_conductor,
 
@@ -64,19 +76,19 @@ class contrato_controller {
             tipo_arriendo: arriendo.tipo_arriendo,
             cantidad_dias: arriendo.numerosDias_arriendo,
 
-            tipoGarantia: response.tipoPagoGarantia,
-            numero_tarjeta: response.numero_tarjeta,
-            fecha_tarjeta: response.fecha_tarjeta,
-            codigo_tarjeta: response.codigo_tarjeta,
-            numero_cheque: response.numero_cheque,
-            codigo_cheque: response.codigo_cheque,
-            abono: response.abono,
+            tipoGarantia: arriendo.garantia.modosPago.nombre_modoPago,
+            numero_tarjeta: arriendo.garantia.numeroTarjeta_garantia,
+            fecha_tarjeta: arriendo.garantia.fechaTarjeta_garantia,
+            codigo_tarjeta: arriendo.garantia.codigoTarjeta_garantia,
+            numero_cheque: arriendo.garantia.numeroCheque_garantia,
+            codigo_cheque: arriendo.garantia.codigoCheque_garantia,
+            abono: arriendo.garantia.monto_garantia,
 
             tipoPago: response.tipoPago,
             tipoFacturacion: response.tipoFacturacion,
             numeroFacturacion: response.numFacturacion,
-
-            subtotal: response.subtotal,
+            valorArriendo: response.valorArriendo,
+            valorCopago: response.valorCopago,
             neto: response.neto,
             descuento: response.descuento,
             iva: response.iva,
@@ -99,14 +111,15 @@ class contrato_controller {
                 dataList.telefono_cliente = arriendo.cliente.telefono_cliente;
                 break;
             case "REMPLAZO":
-                dataList.nombre_cliente = arriendo.cliente.nombre_cliente;
-                dataList.direccion_cliente = arriendo.cliente.direccion_cliente;
-                dataList.ciudad_cliente = arriendo.cliente.ciudad_cliente;
-                dataList.rut_cliente = arriendo.cliente.rut_cliente;
-                dataList.nacimiento_cliente = arriendo.cliente.fechaNacimiento_cliente ?
-                    formatFecha(arriendo.cliente.fechaNacimiento_cliente) :
+                dataList.nombre_cliente = arriendo.remplazo.cliente.nombre_cliente;
+                dataList.direccion_cliente = arriendo.remplazo.cliente.direccion_cliente;
+                dataList.ciudad_cliente = arriendo.remplazo.cliente.ciudad_cliente;
+                dataList.rut_cliente = arriendo.remplazo.cliente.rut_cliente;
+                dataList.nacimiento_cliente = arriendo.remplazo.cliente.fechaNacimiento_cliente ?
+                    formatFecha(arriendo.remplazo.cliente.fechaNacimiento_cliente) :
                     "";
-                dataList.telefono_cliente = arriendo.cliente.telefono_cliente;
+                dataList.telefono_cliente = arriendo.remplazo.cliente.telefono_cliente;
+                dataList.remplazo = arriendo.remplazo.nombreEmpresa_remplazo;
                 break;
             case "EMPRESA":
                 dataList.nombre_cliente = arriendo.empresa.nombre_empresa;
@@ -128,11 +141,11 @@ class contrato_controller {
 
             var fonts = {
                 Roboto: {
-                    normal: require.resolve("../files/fonts/Roboto-Regular.ttf"),
-                    bold: require.resolve("../files/fonts/Roboto-Medium.ttf"),
-                    italics: require.resolve("../files/fonts/Roboto-Italic.ttf"),
+                    normal: require.resolve("../utils/fonts/Roboto-Regular.ttf"),
+                    bold: require.resolve("../utils/fonts/Roboto-Medium.ttf"),
+                    italics: require.resolve("../utils/fonts/Roboto-Italic.ttf"),
                     bolditalics: require.resolve(
-                        "../files/fonts/Roboto-MediumItalic.ttf"
+                        "../utils/fonts/Roboto-MediumItalic.ttf"
                     ),
                 },
             };

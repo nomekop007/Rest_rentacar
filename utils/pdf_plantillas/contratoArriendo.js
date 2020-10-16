@@ -52,45 +52,69 @@ async function contratoPlantilla(data) {
         }
     }
 
-    //seleccion de tipos de facturacion
-    if (data.tipoFacturacion == "BOLETA") {
-        var boleta = "X";
-        var factura = "";
-        var numBoleta = data.numeroFacturacion;
-        var numFactura = "";
-    } else {
-        var boleta = "";
-        var factura = "X";
-        var numBoleta = "";
-        var numFactura = data.numeroFacturacion;
+    //tipos de facturacion
+    switch (data.tipoFacturacion) {
+        case "BOLETA":
+            var boleta = "X";
+            var factura = "";
+            var numBoleta = data.numeroFacturacion;
+            var numFactura = "";
+            break;
+
+        case "FACTURA":
+            var boleta = "";
+            var factura = "X";
+            var numBoleta = "";
+            var numFactura = data.numeroFacturacion;
+            break;
     }
 
-    //seleccion de tipo pago
-    if (data.tipoPago == "EFECTIVO") {
-        var efectivo = "X";
-        var cheque = "";
-        var tarjeta = "";
-    } else if (data.tipoPago == "CHEQUE") {
-        var efectivo = "";
-        var cheque = "X";
-        var tarjeta = "";
-    } else {
-        var efectivo = "";
-        var cheque = "";
-        var tarjeta = "X";
+
+    //tipo pago
+    switch (data.tipoPago) {
+        case "EFECTIVO":
+            var efectivo = "X";
+            var cheque = "";
+            var tarjeta = "";
+            break;
+        case "CHEQUE":
+            var efectivo = "";
+            var cheque = "X";
+            var tarjeta = "";
+            break;
+        case "TARJETA":
+            var efectivo = "";
+            var cheque = "";
+            var tarjeta = "X";
+            break;
     }
 
-    if (data.tipoGarantia == "TARJETA") {
-        var abonoTargeta = data.abono;
-        var AbonoEfectivo = "";
-    } else if (data.tipoGarantia == "CHEQUE") {
-        var abonoTargeta = "";
-        var AbonoEfectivo = "";
-    } else {
-        //EFECTIVO
-        var abonoTargeta = "";
-        var AbonoEfectivo = data.abono;
+
+    //tipo garantia
+    var garantiaTarjeta = "";
+    var garantiaEfectivo = "";
+    switch (data.tipoGarantia) {
+        case "EFECTIVO":
+            data.numero_tarjeta = "";
+            data.fecha_tarjeta = "";
+            data.codigo_tarjeta = "";
+            data.numero_cheque = "";
+            data.codigo_cheque = "";
+            garantiaEfectivo = "$ " + formatter.format(data.abono);
+            break;
+        case "CHEQUE":
+            data.numero_tarjeta = "";
+            data.fecha_tarjeta = "";
+            data.codigo_tarjeta = "";
+            data.abono = "";
+            break;
+        case "TARJETA":
+            data.numero_cheque = "";
+            data.codigo_cheque = "";
+            garantiaTarjeta = "$ " + formatter.format(data.abono);
+            break;
     }
+
 
     function firmaCliente() {
         if (data.firmaPNG) {
@@ -109,6 +133,21 @@ async function contratoPlantilla(data) {
         }
     }
 
+    function firmaPagare() {
+        if (data.firmaPNG) {
+            return {
+                margin: [400, 730, 0, 0],
+                width: 150,
+                height: 70,
+                image: data.firmaPNG,
+            };
+        } else {
+            return {};
+        }
+    }
+
+
+
     return {
         content: [{
                 margin: [0, 0, 0, 5],
@@ -124,7 +163,7 @@ async function contratoPlantilla(data) {
                         style: "header",
                         bold: true,
                         text: [
-                            { text: "Rent A Car Maule \n", fontSize: 20 },
+                            { text: "Rent A Car Maule Ltda. \n", fontSize: 20 },
                             "Sociedad Teresa del Carmen Garrido Rojas e Hijos Limitada. RUT: 76.791.832-1 \n",
                             "2 Norte 22 y 23 Oriente N°3030, Talca. - Tlfs:+712 401552 / +569 4114 3456 - Casa Matriz \n",
                             "Calle Kurt Moller N° 22, Linares. - Tlfs:+712 439489/ +569 9219 1603 - Sucursal \n",
@@ -244,7 +283,7 @@ async function contratoPlantilla(data) {
                                         },
                                         { text: `CODIGO \n ${data.codigo_tarjeta}`, colSpan: 1 },
                                         {
-                                            text: `MONTO  \n ${formatter.format(abonoTargeta)}`,
+                                            text: `MONTO  \n ${garantiaTarjeta}`,
                                             colSpan: 1,
                                         },
                                     ],
@@ -260,7 +299,7 @@ async function contratoPlantilla(data) {
                                         {},
                                     ],
                                     [{
-                                            text: `EFECTIVO: ${formatter.format(AbonoEfectivo)}`,
+                                            text: `EFECTIVO: ${garantiaEfectivo}`,
                                             colSpan: 4,
                                         },
                                         {},
@@ -357,7 +396,7 @@ async function contratoPlantilla(data) {
                                         `FECHA - HORA \n ${data.fecha_recepcion} `,
                                     ],
                                     [{
-                                            text: `TIPO ARRIENDO: \n  ${data.tipo_arriendo}`,
+                                            text: `TIPO ARRIENDO: \n  ${data.tipo_arriendo} ${data.remplazo?data.remplazo:""}`,
                                             colSpan: 2,
                                         },
                                         {},
@@ -369,14 +408,28 @@ async function contratoPlantilla(data) {
                                         {},
                                     ],
                                     [
-                                        "SUB TOTAL NETO:",
+                                        "VALOR ARRIENDO:",
                                         {
-                                            text: "$ " + formatter.format(data.subtotal),
+                                            text: "$ " + formatter.format(data.valorArriendo),
                                             fontSize: 7,
                                         },
                                     ],
                                     [
-                                        "DESCUENTO (-)",
+                                        "VALOR COPAGO (-) :",
+                                        {
+                                            text: "$ " + formatter.format(data.valorCopago),
+                                            fontSize: 7,
+                                        },
+                                    ],
+                                    [
+                                        "SUB TOTAL NETO:",
+                                        {
+                                            text: "$ " + formatter.format(data.valorArriendo - data.valorCopago),
+                                            fontSize: 7,
+                                        },
+                                    ],
+                                    [
+                                        "DESCUENTO (-) :",
                                         {
                                             text: "$ " + formatter.format(data.descuento),
                                             fontSize: 7,
@@ -544,6 +597,12 @@ async function contratoPlantilla(data) {
                 ],
             },
             {
+                margin: [0, 20, 0, 0],
+                width: 521,
+                height: 200,
+                image: "data:image/jpeg;base64," + image,
+            },
+            {
                 margin: [0, 200, 0, 0],
                 fontSize: 7,
                 text: [{
@@ -630,17 +689,12 @@ async function contratoPlantilla(data) {
 
         header: (page) => {
             if (page == 1) {
-                return {
-                    margin: [40, 630, 0, 0],
-                    width: 521,
-                    height: 180,
-                    image: "data:image/jpeg;base64," + image,
-                };
+                return firmaPagare();
             } else {
                 return {};
             }
         },
-
+        pageMargins: [40, 30, 40, 20],
         styles: {
             header: {
                 fontSize: 18,
@@ -659,5 +713,44 @@ async function contratoPlantilla(data) {
         },
     };
 }
+
+
+// PAGARE CONSTRUIDO MANUALMENTE, USAR EN CASO DE ALGUNA MODIFICACION FUTURA
+/*
+{
+                style: 'tableExample',
+                table: {
+                    body: [
+                        [
+                            {
+                                margin: 10,
+                                text: [
+                                    {
+                                        alignment: "center",
+                                        text: "PAGARE \n",
+                                        fontSize: 15,
+                                        bold: true,
+                                    },
+                                    { text: 'Yo,____________________________________________________________________,de profesion,_____________________________________________________________________\n\n', fontSize: 7 },
+                                    { text: 'domiciliado en _____________________________________________________________________, RUT - C.I.Nº________________________________________________________\n\n', fontSize: 7 },
+                                    { text: 'de _______________________________________________________________________,RUT Nº____________________________________________Debo y Pagaré a la orden de\n\n', fontSize: 7 },
+                                    { text: 'TERESA DEL CARMEN GARRIDO E HIJOS LTDA. La suma de ______________________________________________________________________________________________\n\n', fontSize: 7 },
+                                    { text: '_______________________________________________,($___________________________________________________________________) valor de la pérdida total o parcial del\n\n', fontSize: 7 },
+                                    { text: 'vehiculo que dicha firma me arrendará con fecha_____________________________________________________, marca ____________________________________________\n\n', fontSize: 7 },
+                                    { text: 'modelo _____________________________________________, año de fabricación ____________________________, patente Nº ________________________________________\n\n', fontSize: 7 },
+                                    { text: 'de la Municipalidad de_________________________________________________________________Esta obligación se hará exigible tan pronto se produzca un siniestro \n', fontSize: 7 },
+                                    { text: 'del que no responda la CÍA Aseguradora, y podrá ser protestado al día subsiguiente de ocurrido el hecho que origina la pérdida del vehículo.\n\n', fontSize: 7 },
+                                    { alignment: "center", text: 'X\n', fontSize: 5 },
+                                    { alignment: "center", text: '________________________________________\n', fontSize: 10 },
+                                    { alignment: "center", text: 'FIRMA\n', fontSize: 7 },
+                                ]
+                            }
+                        ]
+                    ]
+                }
+            },		
+*/
+
+
 
 module.exports = contratoPlantilla;

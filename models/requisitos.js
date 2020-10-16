@@ -13,6 +13,7 @@ module.exports = (sequelize, type) => {
         chequeGarantia_requisito: type.STRING,
         comprobanteDomicilio_requisito: type.STRING,
         cartaRemplazo_requisito: type.STRING,
+        boletaEfectivo_requisito: type.STRING,
         userAt: type.STRING,
     });
 };

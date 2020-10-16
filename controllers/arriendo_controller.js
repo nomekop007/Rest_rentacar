@@ -168,17 +168,17 @@ class ArriendoController {
         });
     }
 
-    //cambiar por un updateArriendo
-    async stateArriendo(req, res) {
+    async updateArriendo(req, res) {
         const response = req.body;
 
-        await Arriendo.update(response, {
+        const arriendo = await Arriendo.update(response, {
             where: { id_arriendo: req.params.id },
         });
 
         res.json({
             success: true,
             msg: "registro exitoso",
+            data: arriendo
         });
     }
 
@@ -191,6 +191,10 @@ class ArriendoController {
                 { model: Cliente, attributes: ["correo_cliente", "nombre_cliente"] },
                 { model: Empresa, attributes: ["correo_empresa", "nombre_empresa"] },
                 { model: Contrato },
+                {
+                    model: Remplazo,
+                    include: [{ model: Cliente }],
+                },
             ],
         });
         const client = {};
@@ -200,18 +204,17 @@ class ArriendoController {
                 client.correo = arriendo.cliente.correo_cliente;
                 break;
             case "REMPLAZO":
-                client.name = arriendo.remplaso.cliente.nombre_cliente;
+                client.name = arriendo.remplazo.cliente.nombre_cliente;
                 client.correo = arriendo.remplazo.cliente.correo_cliente;
                 break;
             case "EMPRESA":
                 client.name = arriendo.empresa.nombre_empresa;
                 client.correo = arriendo.empresa.correo_empresa;
                 break;
-            default:
-                break;
         }
 
 
+        //PENDIENTE DE CORREGIR
         //datos del email hosting
         const transporter = nodemailer.createTransport({
             host: process.env.EMAIL_HOST,
@@ -226,7 +229,7 @@ class ArriendoController {
         //datos del mensaje y su destinatario
         const mailOptions = {
             from: client.name,
-            to: "d.riosrojas007@gmail.cl",
+            to: client.correo,
             subject: "COPIA DE CONTRATO RENT A CAR",
             text: "se adjunta copia del contrato Rent a Car",
             attachments: [{
