@@ -38,17 +38,10 @@ class UsuarioController {
       const usuario = await Usuario.findOne({
         where: { id_usuario: req.params.id },
       });
-      if (usuario) {
-        res.json({
-          success: true,
-          data: usuario,
-        });
-      } else {
-        res.json({
-          success: false,
-          msg: "sin datos",
-        });
-      }
+      res.json({
+        success: true,
+        data: usuario,
+      });
     } catch (error) {
       res.json({
         success: false,
@@ -143,16 +136,23 @@ class UsuarioController {
   async updateUsuario(req, res) {
     try {
       const response = req.body;
+      const userdata = {
+        userAt: response.userAt,
+        nombre_usuario: response.nombre_usuario,
+        email_usuario: response.email_usuario,
+        id_rol: response.id_rol,
+        id_sucursal: response.id_sucursal,
+      };
 
       //si hay campos en contraseña para cambiar
       if (response.clave_usuario != "") {
-        response.clave_usuario = bcrypt.hashSync(
+        userdata.clave_usuario = bcrypt.hashSync(
           response.clave_usuario,
           Number(process.env.NUM_BCRYPT)
         );
       }
 
-      await Usuario.update(response, {
+      await Usuario.update(userdata, {
         where: { id_usuario: req.params.id },
       });
 

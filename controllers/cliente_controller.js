@@ -26,17 +26,10 @@ class ClienteController {
   async findCliente(req, res) {
     try {
       const cliente = await Cliente.findByPk(req.params.id);
-      if (cliente) {
-        res.json({
-          success: true,
-          data: cliente,
-        });
-      } else {
-        res.json({
-          success: false,
-          msg: "sin datos",
-        });
-      }
+      res.json({
+        success: true,
+        data: cliente,
+      });
     } catch (error) {
       res.json({
         success: false,

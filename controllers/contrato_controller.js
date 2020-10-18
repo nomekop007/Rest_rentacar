@@ -171,13 +171,15 @@ class contrato_controller {
         setTimeout(() => {
           res.json({
             success: true,
-            nombre_documento: nameFile,
-            firma: response.firmaPNG,
+            data: {
+              nombre_documento: nameFile,
+              firma: response.firmaPNG,
+            },
           });
         }, 2000);
       } else {
         res.json({
-          success: false,
+          success: true,
           msg: "el contrato ya esta firmado!",
         });
       }

@@ -37,6 +37,7 @@ class PagoController {
       };
 
       const facturacion = await Facturacion.create(dataFacuracion);
+
       res.json({
         success: true,
         pago: pago,

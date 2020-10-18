@@ -7,7 +7,9 @@ class RemplazoController {
       const remplazo = await Remplazo.create(response);
       res.json({
         success: true,
-        id_remplazo: remplazo.id_remplazo,
+        data: {
+          id_remplazo: remplazo.id_remplazo,
+        },
       });
     } catch (error) {
       res.json({

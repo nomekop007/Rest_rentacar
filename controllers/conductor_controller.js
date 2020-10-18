@@ -26,17 +26,10 @@ class ConductorController {
   async findConductor(req, res) {
     try {
       const conductor = await Conductor.findByPk(req.params.id);
-      if (conductor) {
-        res.json({
-          success: true,
-          data: conductor,
-        });
-      } else {
-        res.json({
-          success: false,
-          msg: "sin datos",
-        });
-      }
+      res.json({
+        success: true,
+        data: conductor,
+      });
     } catch (error) {
       res.json({
         success: false,
