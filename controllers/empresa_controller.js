@@ -1,56 +1,76 @@
 const { Empresa } = require("../db");
 
 class EmpresaController {
-    async getEmpresas(req, res) {
-        const empresas = await Empresa.findAll({
-            attributes: [
-                "rut_empresa",
-                "nombre_empresa",
-                "rol_empresa",
-                "correo_empresa",
-            ],
-        });
+  async getEmpresas(req, res) {
+    try {
+      const empresas = await Empresa.findAll({
+        attributes: [
+          "rut_empresa",
+          "nombre_empresa",
+          "rol_empresa",
+          "correo_empresa",
+        ],
+      });
+      res.json({
+        success: true,
+        data: empresas,
+      });
+    } catch (error) {
+      res.json({
+        success: false,
+        msg: "error: " + error,
+      });
+    }
+  }
+
+  async findEmpresa(req, res) {
+    try {
+      const empresa = await Empresa.findByPk(req.params.id);
+
+      if (empresa) {
         res.json({
-            success: true,
-            data: empresas,
+          success: true,
+          data: empresa,
         });
-    }
-
-    async findEmpresa(req, res) {
-        const empresa = await Empresa.findByPk(req.params.id);
-
-        if (empresa) {
-            res.json({
-                success: true,
-                data: empresa,
-            });
-        } else {
-            res.json({
-                success: false,
-                msg: "sin datos",
-            });
-        }
-
-    }
-
-    async createEmpresa(req, res) {
-        const response = req.body;
-
-        const [empresa, created] = await Empresa.findOrCreate({
-            where: { rut_empresa: response.rut_empresa },
-            defaults: response,
-        });
-        if (!created) {
-            await Empresa.update(response, {
-                where: { rut_empresa: empresa.rut_empresa },
-            });
-        }
-
+      } else {
         res.json({
-            success: true,
-            data: empresa,
+          success: false,
+          msg: "sin datos",
         });
+      }
+    } catch (error) {
+      res.json({
+        success: false,
+        msg: "error: " + error,
+      });
     }
+  }
+
+  async createEmpresa(req, res) {
+    try {
+      const response = req.body;
+
+      const [empresa, created] = await Empresa.findOrCreate({
+        where: { rut_empresa: response.rut_empresa },
+        defaults: response,
+      });
+      if (!created) {
+        await Empresa.update(response, {
+          where: { rut_empresa: empresa.rut_empresa },
+        });
+      }
+
+      res.json({
+        success: true,
+        data: empresa,
+      });
+    } catch (error) {
+      res.json({
+        success: false,
+        msg: "error: " + error,
+      });
+    }
+  }
 }
 
 module.exports = EmpresaController;

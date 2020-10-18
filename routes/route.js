@@ -20,8 +20,8 @@ const apiPropietarioRouter = require("./api/propietarios");
 const apiRemplazoRouter = require("./api//remplazos");
 
 if (process.env.DEFAULT_VALUE === "TRUE") {
-    console.log("function default enable");
-    router.use("/defaultValues", defaultValues);
+  console.log("function default enable");
+  router.use("/defaultValues", defaultValues);
 }
 
 router.use("/usuarios", apiUsuariosRouter);
