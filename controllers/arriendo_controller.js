@@ -8,6 +8,7 @@ const {
   Vehiculo,
   Contrato,
   Remplazo,
+  Requisito,
 } = require("../db");
 const nodemailer = require("nodemailer");
 const path = require("path");
@@ -104,6 +105,7 @@ class ArriendoController {
           { model: Vehiculo },
           { model: Conductor },
           { model: Accesorio },
+          { model: Requisito },
           { model: Usuario, attributes: ["nombre_usuario"] },
           {
             model: Remplazo,
