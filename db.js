@@ -18,6 +18,12 @@ const GarantiaModel = require("./models/garantias");
 const ModoPagoModel = require("./models/modosPagos");
 const PropietarioModel = require("./models/propietarios");
 const RemplazoModel = require("./models/remplazos");
+const ActaEntregaModel = require("./models/actaEntrega");
+const DespachoModel = require("./models/despacho");
+const FotosDespachoModel = require("./models/fotosDespacho");
+
+
+
 
 //conectar modelo con base de datos
 const Rol = RolModel(database, Sequelize);
@@ -37,8 +43,28 @@ const Garantia = GarantiaModel(database, Sequelize);
 const ModoPago = ModoPagoModel(database, Sequelize);
 const Propietario = PropietarioModel(database, Sequelize);
 const Remplazo = RemplazoModel(database, Sequelize);
+const ActaEntrega = ActaEntregaModel(database, Sequelize);
+const Despacho = DespachoModel(database, Sequelize);
+const FotosDespacho = FotosDespachoModel(database, Sequelize);
+
 
 //Asociaciones de tablas
+
+
+// un arriento tiene una despacho
+Arriendo.hasOne(Despacho, { foreignKey: { name: "id_arriendo" } });
+//un despacho pertenece a un arriendo
+Despacho.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
+
+// un despacho tiene una fotoDespacho
+Despacho.hasOne(FotosDespacho, { foreignKey: { name: "id_despacho" } });
+//un fotoDespacho pertenece a un despacho
+FotosDespacho.belongsTo(Despacho, { foreignKey: { name: "id_despacho" } });
+
+// un despacho tiene una fotoDespacho
+Despacho.hasOne(ActaEntrega, { foreignKey: { name: "id_despacho" } });
+//un fotoDespacho pertenece a un despacho
+ActaEntrega.belongsTo(Despacho, { foreignKey: { name: "id_despacho" } });
 
 // un Propietario tiene muchos vehiculos
 Propietario.hasMany(Vehiculo, { foreignKey: { name: "rut_propietario" } });
@@ -164,4 +190,7 @@ module.exports = {
     Garantia,
     Propietario,
     Remplazo,
+    Despacho,
+    ActaEntrega,
+    FotosDespacho
 };
