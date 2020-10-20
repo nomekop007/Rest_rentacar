@@ -5,10 +5,7 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        frontal_fotosDespacho: type.STRING,
-        trasera_fotosDespacho: type.STRING,
-        derecha_fotosDespacho: type.STRING,
-        izquierda_fotosDespacho: type.STRING,
+        documento: type.STRING,
         userAt: type.STRING,
     });
 };
