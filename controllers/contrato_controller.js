@@ -48,6 +48,7 @@ class contrato_controller {
             //variables
             const dataList = {
                 firmaPNG: response.firmaPNG,
+                fechaHoraFirma: fechahorafirma(),
                 rut_conductor: arriendo.conductore.rut_conductor,
                 nombre_conductor: arriendo.conductore.nombre_conductor,
                 telefono_conductor: arriendo.conductore.telefono_conductor,
@@ -138,7 +139,7 @@ class contrato_controller {
                 //se genera el documento
                 const docDefinition = await contratoPlantilla(dataList);
 
-                var fonts = {
+                const fonts = {
                     Roboto: {
                         normal: require.resolve("../utils/fonts/Roboto-Regular.ttf"),
                         bold: require.resolve("../utils/fonts/Roboto-Medium.ttf"),
@@ -148,9 +149,9 @@ class contrato_controller {
                         ),
                     },
                 };
-                const nameFile = uuidv5(arriendo.id_arriendo + "", uuidv5.URL);
+                const nameFile = uuidv5("contrato-" + arriendo.id_arriendo, uuidv5.URL);
 
-                var printer = new PdfPrinter(fonts);
+                const printer = new PdfPrinter(fonts);
                 const pdfDoc = printer.createPdfKitDocument(docDefinition);
 
                 //se guarda el pdf en una ruta predeterminada
@@ -175,7 +176,7 @@ class contrato_controller {
                 }, 2000);
             } else {
                 res.json({
-                    success: true,
+                    success: false,
                     msg: "el contrato ya esta firmado!",
                 });
             }
@@ -204,12 +205,17 @@ class contrato_controller {
     }
 }
 
-function formatFecha(fecha) {
+const fechahorafirma = () => {
+    let f = new Date();
+    return moment(f).format("DD-MM-YYYY HH:mm a");
+}
+
+const formatFecha = (fecha) => {
     let f = new Date(fecha);
     return moment(f).format("DD-MM-YYYY");
 }
 
-function formatFechahora(fecha) {
+const formatFechahora = (fecha) => {
     var f = new Date(fecha);
     return moment(f).format("DD-MM-YYYY  HH:mm a");
 }

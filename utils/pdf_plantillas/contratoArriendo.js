@@ -116,12 +116,12 @@ async function contratoPlantilla(data) {
     }
 
 
-    function firmaCliente() {
+    const firmaCliente = () => {
         if (data.firmaPNG) {
             return {
                 alignment: "center",
-                width: 180,
-                height: 80,
+                width: 175,
+                height: 75,
                 image: data.firmaPNG,
             };
         } else {
@@ -132,8 +132,19 @@ async function contratoPlantilla(data) {
             };
         }
     }
+    const fechaHoraFirma = () => {
+        if (data.firmaPNG) {
+            return {
+                alignment: "center",
+                text: data.fechaHoraFirma,
+                fontSize: 5,
+            };
+        } else {
+            return {}
+        }
+    }
 
-    function firmaPagare() {
+    const firmaPagare = () => {
         if (data.firmaPNG) {
             return {
                 margin: [400, 730, 0, 0],
@@ -352,7 +363,7 @@ async function contratoPlantilla(data) {
                                     columns: [
                                         [
                                             firmaCliente(),
-
+                                            fechaHoraFirma(),
                                             { text: "_______________________________" },
 
                                             {

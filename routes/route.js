@@ -17,18 +17,20 @@ const apiPagosRouter = require("./api/pagos");
 const apiGarantiasRouter = require("./api/garantias");
 const apiContratosRouter = require("./api/contratos");
 const apiPropietarioRouter = require("./api/propietarios");
-const apiRemplazoRouter = require("./api//remplazos");
+const apiRemplazoRouter = require("./api/remplazos");
+const apiActaEntregaRouter = require("./api/actasEntregas");
+
 
 if (process.env.DEFAULT_VALUE === "TRUE") {
-  console.log("function default enable");
-  router.use("/defaultValues", defaultValues);
+    console.log("function default enable");
+    router.use("/defaultValues", defaultValues);
 }
 
 router.use("/usuarios", apiUsuariosRouter);
 router.use("/requisitos", check.checkToken, apiRequisitosRouter);
 router.use("/propietarios", check.checkToken, apiPropietarioRouter);
 router.use("/roles", check.checkToken, apiRolesRouter);
-router.use("/vehiculos", check.checkToken, apiVehiculosRouter);
+router.use("/vehiculos", apiVehiculosRouter);
 router.use("/sucursales", check.checkToken, apiSucursalesRouter);
 router.use("/accesorios", check.checkToken, apiAccesoriosRouter);
 router.use("/clientes", check.checkToken, apiClientesRouter);
@@ -37,7 +39,10 @@ router.use("/conductores", check.checkToken, apiConductoresRouter);
 router.use("/contratos", check.checkToken, apiContratosRouter);
 router.use("/pagos", check.checkToken, apiPagosRouter);
 router.use("/garantias", check.checkToken, apiGarantiasRouter);
-router.use("/arriendos", apiArriendosRouter);
+router.use("/arriendos", check.checkToken, apiArriendosRouter);
 router.use("/remplazos", check.checkToken, apiRemplazoRouter);
+router.use("/actasEntregas", check.checkToken, apiActaEntregaRouter);
+
+
 
 module.exports = router;
