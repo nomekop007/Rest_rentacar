@@ -125,7 +125,7 @@ class ArriendoController {
         }
     }
 
-    async createArriendo(req, res) {
+    async createArriendo(req, res, next) {
         try {
             let response = req.body;
 
@@ -143,8 +143,6 @@ class ArriendoController {
                     response.rut_cliente = null;
                     break;
             }
-            console.log(response);
-
             //se crea el arriendo
             const a = await Arriendo.create(response);
 
@@ -182,6 +180,7 @@ class ArriendoController {
                 msg: "registro exitoso",
                 data: arriendo,
             });
+            next(a.logging);
         } catch (error) {
             res.json({
                 success: false,

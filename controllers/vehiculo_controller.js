@@ -60,7 +60,7 @@ class VehiculoController {
         }
     }
 
-    async createVehiculo(req, res) {
+    async createVehiculo(req, res, next) {
         try {
             const response = req.body;
 
@@ -88,6 +88,7 @@ class VehiculoController {
                     msg: " Vehiculo creado exitosamente",
                     data: vehiculo,
                 });
+                next(v.logging);
             } else {
                 res.json({
                     success: false,
@@ -102,10 +103,11 @@ class VehiculoController {
         }
     }
 
-    async updateVehiculo(req, res) {
+    async updateVehiculo(req, res, next) {
         try {
-            await Vehiculo.update(req.body, {
+            const v = await Vehiculo.update(req.body, {
                 where: { patente_vehiculo: req.params.id },
+
             });
 
             const vehiculo = await Vehiculo.findOne({
@@ -127,6 +129,7 @@ class VehiculoController {
                 msg: "Vehiculo modificado exitosamente",
                 data: vehiculo,
             });
+            next(v.logging);
         } catch (error) {
             res.json({
                 success: false,
@@ -135,9 +138,9 @@ class VehiculoController {
         }
     }
 
-    async deleteVehiculo(req, res) {
+    async deleteVehiculo(req, res, next) {
         try {
-            await Vehiculo.destroy({
+            const vehiculo = await Vehiculo.destroy({
                 where: { patente_vehiculo: req.params.id },
             });
             res.json({
@@ -145,6 +148,7 @@ class VehiculoController {
                 msg: " Vehiculo borrado exitosamente",
                 data: req.params.id,
             });
+            next(vehiculo.logging);
         } catch (error) {
             res.json({
                 success: false,
@@ -153,7 +157,7 @@ class VehiculoController {
         }
     }
 
-    async uploadImageVehiculo(req, res) {
+    async uploadImageVehiculo(req, res, next) {
         try {
             const vehiculo = await Vehiculo.findOne({
                 where: { patente_vehiculo: req.params.id },
@@ -173,6 +177,7 @@ class VehiculoController {
                 success: true,
                 msg: " imagen guardada",
             });
+            next(vehiculo.logging);
         } catch (error) {
             res.json({
                 success: false,

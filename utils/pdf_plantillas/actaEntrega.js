@@ -2,7 +2,21 @@ const base64 = require("image-to-base64");
 const logo = require.resolve("../images/logo.png");
 
 async function actaEntregaPlantilla(data) {
-    console.log(data.arrayImages[0]);
+
+    const arrayImagenes = () => {
+
+        const images = [];
+        for (let i = 0; i < data.arrayImages.length; i++) {
+            images.push({
+                margin: [0, 20, 0, 0],
+                width: 520,
+                height: 300,
+                image: data.arrayImages[i]
+            })
+        }
+        return images;
+    }
+
     return {
         content: [{
                 margin: [0, 0, 0, 5],
@@ -41,11 +55,7 @@ async function actaEntregaPlantilla(data) {
                             height: 200,
                             image: data.imageCombustible,
                         },
-                        {
-                            width: 200,
-                            height: 200,
-                            image: data.arrayImages[0],
-                        }
+                        arrayImagenes()
                     ]
                 ]
             }

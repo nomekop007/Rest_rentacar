@@ -1,6 +1,7 @@
 const { Sequelize, database } = require("./databaseConnect");
 
 //llamar al models
+const LogModel = require("./models/log");
 const RolModel = require("./models/roles");
 const UsuarioModel = require("./models/usuarios");
 const SucursalModel = require("./models/sucursales");
@@ -22,6 +23,7 @@ const ActaEntregaModel = require("./models/actaEntrega");
 const DespachoModel = require("./models/despacho");
 
 //conectar modelo con base de datos
+const Log = LogModel(database, Sequelize);
 const Rol = RolModel(database, Sequelize);
 const Usuario = UsuarioModel(database, Sequelize);
 const Sucursal = SucursalModel(database, Sequelize);
@@ -163,6 +165,7 @@ Accesorio.belongsToMany(Arriendo, {
 });
 
 module.exports = {
+    Log,
     Rol,
     Usuario,
     Sucursal,

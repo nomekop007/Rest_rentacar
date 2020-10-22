@@ -188,7 +188,7 @@ class contrato_controller {
         }
     }
 
-    async createContrato(req, res) {
+    async createContrato(req, res, next) {
         try {
             const response = req.body;
             const contrato = await Contrato.create(response);
@@ -196,6 +196,7 @@ class contrato_controller {
                 success: true,
                 data: contrato,
             });
+            next(contrato.logging);
         } catch (error) {
             res.json({
                 success: false,
