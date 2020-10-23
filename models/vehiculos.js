@@ -16,7 +16,7 @@ module.exports = (sequelize, type) => {
         fechaCompra_vehiculo: type.DATE,
         año_vehiculo: type.INTEGER,
         foto_vehiculo: type.STRING,
-
+        kilometraje_vehiculo: type.BIGINT(20),
         userAt: type.STRING,
     });
 };

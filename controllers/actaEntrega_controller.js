@@ -82,7 +82,7 @@ const fecha = () => {
 
 const hora = () => {
     let f = new Date();
-    return moment(f).format("HH:mm a");
+    return moment(f).format("HH:mm:ss a");
 }
 
 module.exports = ActaEntregaController;

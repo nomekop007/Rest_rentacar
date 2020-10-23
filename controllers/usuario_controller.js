@@ -87,7 +87,7 @@ class UsuarioController {
                 msg: "Usuario creado exitosamente",
                 data: usuario,
             });
-            next(u.logging);
+            //  next(u.logging);
         } catch (error) {
             res.json({
                 success: false,
@@ -179,7 +179,7 @@ class UsuarioController {
                 msg: "Usuario actualizado exitosamente",
                 data: usuario,
             });
-            next(u.logging);
+            //  next(u.logging);
         } catch (error) {
             res.json({
                 success: false,

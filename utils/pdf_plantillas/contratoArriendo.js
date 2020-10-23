@@ -132,6 +132,18 @@ async function contratoPlantilla(data) {
             };
         }
     }
+    const firmaPagare = () => {
+        if (data.firmaPNG) {
+            return {
+                margin: [400, 740, 0, 0],
+                width: 150,
+                height: 70,
+                image: data.firmaPNG,
+            };
+        } else {
+            return {};
+        }
+    }
     const fechaHoraFirma = () => {
         if (data.firmaPNG) {
             return {
@@ -143,21 +155,6 @@ async function contratoPlantilla(data) {
             return {}
         }
     }
-
-    const firmaPagare = () => {
-        if (data.firmaPNG) {
-            return {
-                margin: [400, 730, 0, 0],
-                width: 150,
-                height: 70,
-                image: data.firmaPNG,
-            };
-        } else {
-            return {};
-        }
-    }
-
-
 
     return {
         content: [{
@@ -175,10 +172,10 @@ async function contratoPlantilla(data) {
                         bold: true,
                         text: [
                             { text: "Rent A Car Maule Ltda. \n", fontSize: 20 },
-                            "Sociedad Teresa del Carmen Garrido Rojas e Hijos Limitada. RUT: 76.791.832-1 \n",
-                            "2 Norte 22 y 23 Oriente N°3030, Talca. - Tlfs:+712 401552 / +569 4114 3456 - Casa Matriz \n",
-                            "Calle Kurt Moller N° 22, Linares. - Tlfs:+712 439489/ +569 9219 1603 - Sucursal \n",
-                            "Calle Villota N° 262, Curicó. - Tlfs: +752 606081 / +569 8194 7756 - Sucursal \n",
+                            "Sociedad Teresa del Carmen Garrido Rojas e Hijos Limitada. \n RUT: 76.791.832-1 \n",
+                            "2 Norte 22 y 23 Oriente N°3030, Talca. - Tlfs: +712401552 / +56941143456 - Casa Matriz \n",
+                            "Calle Kurt Moller N° 22, Linares. - Tlfs: +712439489/ +56992191603 - Sucursal \n",
+                            "Calle Villota N° 262, Curicó. - Tlfs: +752606081 / +56981947756 - Sucursal \n",
                             {
                                 text: "contacto@rentacarmaule.cl - www.rentacarmaule.cl",
                                 bold: true,
