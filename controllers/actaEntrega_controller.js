@@ -57,6 +57,8 @@ class ActaEntregaController {
                         success: true,
                         data: {
                             nombre_documento: nameFile,
+                            firma1: response.firma1PNG,
+                            firma2: response.firma2PNG,
                         },
                     });
                 }, 2000);
@@ -66,6 +68,24 @@ class ActaEntregaController {
                     msg: "el arriendo ya esta despachado o no esta firmado!",
                 });
             }
+        } catch (error) {
+            res.json({
+                success: false,
+                msg: "error: " + error,
+            });
+        }
+    }
+
+    async createActaEntrega(req, res, next) {
+        try {
+            const response = req.body;
+
+            const actaEntrega = await ActaEntrega.create(response);
+            res.json({
+                success: true,
+                data: actaEntrega,
+            });
+            next(actaEntrega.logging);
         } catch (error) {
             res.json({
                 success: false,

@@ -50,7 +50,7 @@ class UsuarioController {
         }
     }
 
-    async createUsuario(req, res, next) {
+    async createUsuario(req, res) {
         try {
             //valida los datos ingresados
             const errors = validationResult(req);
@@ -87,7 +87,6 @@ class UsuarioController {
                 msg: "Usuario creado exitosamente",
                 data: usuario,
             });
-            //  next(u.logging);
         } catch (error) {
             res.json({
                 success: false,
@@ -137,7 +136,7 @@ class UsuarioController {
         }
     }
 
-    async updateUsuario(req, res, next) {
+    async updateUsuario(req, res) {
         try {
             const response = req.body;
             const userdata = {
@@ -179,7 +178,6 @@ class UsuarioController {
                 msg: "Usuario actualizado exitosamente",
                 data: usuario,
             });
-            //  next(u.logging);
         } catch (error) {
             res.json({
                 success: false,
@@ -188,7 +186,7 @@ class UsuarioController {
         }
     }
 
-    async stateUsuario(req, res, next) {
+    async stateUsuario(req, res) {
         try {
             var state = null;
             var msg = "";
@@ -222,7 +220,6 @@ class UsuarioController {
                 msg: msg,
                 data: usuario,
             });
-            next(u.logging);
         } catch (error) {
             res.json({
                 success: false,

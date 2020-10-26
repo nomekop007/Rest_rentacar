@@ -189,29 +189,20 @@ class ArriendoController {
         }
     }
 
-    async updateArriendo(req, res) {
+    async updateArriendo(req, res, next) {
         try {
             const response = req.body;
-            const a = await Arriendo.findOne({
+
+            const arriendo = await Arriendo.update(response, {
                 where: { id_arriendo: req.params.id },
             });
 
-            if (a.estado_arriendo === "PENDIENTE") {
-                const arriendo = await Arriendo.update(response, {
-                    where: { id_arriendo: req.params.id },
-                });
-
-                res.json({
-                    success: true,
-                    msg: "actualizacion exitoso",
-                    data: arriendo,
-                });
-            } else {
-                res.json({
-                    success: false,
-                    msg: "no es posible actualizar, contrato firmado",
-                });
-            }
+            res.json({
+                success: true,
+                msg: "actualizacion exitoso",
+                data: arriendo,
+            });
+            next(arriendo.logging);
         } catch (error) {
             res.json({
                 success: false,
@@ -220,7 +211,7 @@ class ArriendoController {
         }
     }
 
-    async sendEmail(req, res) {
+    async sendEmailContrato(req, res) {
         try {
             const response = req.body;
             const arriendo = await Arriendo.findOne({

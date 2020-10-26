@@ -61,7 +61,9 @@ class ConductorController {
                 success: true,
                 data: conductor,
             });
-            next(conductor.logging);
+            if (created) {
+                next(conductor.logging);
+            }
         } catch (error) {
             res.json({
                 success: false,

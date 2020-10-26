@@ -62,7 +62,10 @@ class ClienteController {
                 success: true,
                 data: cliente,
             });
-            next(cliente.logging);
+
+            if (created) {
+                next(cliente.logging);
+            }
         } catch (error) {
             res.json({
                 success: false,

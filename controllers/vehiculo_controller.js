@@ -159,17 +159,17 @@ class VehiculoController {
 
     async uploadImageVehiculo(req, res, next) {
         try {
-            const vehiculo = await Vehiculo.findOne({
+            const v = await Vehiculo.findOne({
                 where: { patente_vehiculo: req.params.id },
             });
 
             // se pregunta si el vehiculo  tiene image asignada
-            if (vehiculo.foto_vehiculo) {
+            if (v.foto_vehiculo) {
                 //se borra la actual para remplazarla por la nueva
-                borrarImagenDeStorage(vehiculo.foto_vehiculo);
+                borrarImagenDeStorage(v.foto_vehiculo);
             }
 
-            await Vehiculo.update({ foto_vehiculo: req.file.filename }, {
+            const vehiculo = await Vehiculo.update({ foto_vehiculo: req.file.filename }, {
                 where: { patente_vehiculo: req.params.id },
             });
 

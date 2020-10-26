@@ -34,6 +34,44 @@ async function actaEntregaPlantilla(data) {
     }
 
 
+
+    const firmaRecibidor = () => {
+        if (data.firma1PNG) {
+            return {
+                margin: [0, 50, 0, 0],
+                alignment: "center",
+                width: 175,
+                height: 75,
+                image: data.firma1PNG,
+            };
+        } else {
+            return {
+                margin: [0, 125, 0, 0],
+                alignment: 'center',
+                text: "",
+            }
+        }
+    }
+
+    const firmaEntregador = () => {
+        if (data.firma2PNG) {
+            return {
+                margin: [0, 50, 0, 0],
+                alignment: "center",
+                width: 175,
+                height: 75,
+                image: data.firma2PNG,
+            };
+        } else {
+            return {
+                margin: [0, 125, 0, 0],
+                alignment: 'center',
+                text: "",
+            }
+        }
+    }
+
+
     return {
         content: [{
                 margin: [0, 0, 0, 5],
@@ -145,23 +183,12 @@ async function actaEntregaPlantilla(data) {
                         fontSize: 9,
                         text: data.observacionesDespacho
                     },
-                    {
-                        margin: [20, 0, 0, 0],
 
-                        width: 150,
-                        height: 150,
-                        image: data.imageCombustible,
-
-                    },
                 ]
             },
             {
                 columns: [
-                    [{
-                            margin: [0, 0, 0, 0],
-                            alignment: 'center',
-                            text: "",
-                        },
+                    [firmaRecibidor(),
                         {
                             alignment: 'center',
                             text: "________________________"
@@ -172,18 +199,21 @@ async function actaEntregaPlantilla(data) {
                             alignment: 'center',
                         },
                     ],
-                    [{
-                            margin: [0, 0, 0, 0],
-                            alignment: 'center',
-                            text: "",
-                        },
+                    [firmaEntregador(),
                         {
                             alignment: 'center',
                             text: "________________________",
                         },
                         { text: `ENTREGADO POR: ${data.entregadorDespacho} `, fontSize: 6, alignment: 'center', },
                     ],
-                    []
+                    [{
+                        margin: [20, 0, 0, 0],
+
+                        width: 150,
+                        height: 150,
+                        image: data.imageCombustible,
+
+                    }, ]
                 ],
             },
             {

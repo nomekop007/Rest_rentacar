@@ -1,7 +1,7 @@
 const { Remplazo } = require("../db");
 
 class RemplazoController {
-    async createRemplazo(req, res, next) {
+    async createRemplazo(req, res) {
         try {
             const response = req.body;
             const remplazo = await Remplazo.create(response);
@@ -11,7 +11,6 @@ class RemplazoController {
                     id_remplazo: remplazo.id_remplazo,
                 },
             });
-            next(remplazo.logging);
         } catch (error) {
             res.json({
                 success: false,

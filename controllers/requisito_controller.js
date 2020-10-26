@@ -1,7 +1,7 @@
 const { Requisito } = require("../db");
 
 class RequisitoController {
-    async createRequisitoArriendo(req, res, next) {
+    async createRequisitoArriendo(req, res) {
         try {
             const files = req.files;
 
@@ -33,7 +33,6 @@ class RequisitoController {
                 success: true,
                 data: requisito,
             });
-            next(requisito.logging);
         } catch (error) {
             res.json({
                 success: false,

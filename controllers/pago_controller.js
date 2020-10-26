@@ -1,7 +1,7 @@
 const { Pago, Facturacion } = require("../db");
 
 class PagoController {
-    async createPagoFacturacion(req, res, next) {
+    async createPagoFacturacion(req, res) {
         try {
             const response = req.body;
 
@@ -44,7 +44,6 @@ class PagoController {
                 facturacion: facturacion,
                 msg: "registro exitoso",
             });
-            next(facturacion.logging);
         } catch (error) {
             res.json({
                 success: false,

@@ -4,4 +4,7 @@ const actaEntrega = new ActaEntregaController();
 
 router.post("/generarPDFactaEntrega", actaEntrega.generatePDFactaEntrega.bind(actaEntrega));
 
+router.post("/registrarActaEntrega", actaEntrega.createActaEntrega.bind(actaEntrega));
+
+
 module.exports = router;

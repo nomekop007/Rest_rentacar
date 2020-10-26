@@ -56,7 +56,9 @@ class EmpresaController {
                 success: true,
                 data: empresa,
             });
-            next(empresa.logging);
+            if (created) {
+                next(empresa.logging);
+            }
         } catch (error) {
             res.json({
                 success: false,

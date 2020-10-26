@@ -1,7 +1,7 @@
 const { Garantia } = require("../db");
 
 class GarantiaController {
-    async createGarantia(req, res, next) {
+    async createGarantia(req, res) {
         try {
             const response = req.body;
             switch (response.id_modoPago) {
@@ -33,7 +33,6 @@ class GarantiaController {
                 data: garantia,
                 msg: "registro exitoso",
             });
-            next(garantia.logging);
         } catch (error) {
             res.json({
                 success: false,
