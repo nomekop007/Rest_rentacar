@@ -48,7 +48,7 @@ router.use("/garantias", check.checkToken, apiGarantiasRouter, log.logRegister);
 router.use("/arriendos", check.checkToken, apiArriendosRouter, log.logRegister);
 router.use("/remplazos", check.checkToken, apiRemplazoRouter, log.logRegister);
 router.use("/actasEntregas", check.checkToken, apiActaEntregaRouter, log.logRegister);
-router.use("/despachos", check.checkToken, apiDespachoRouter, log.logRegister);
+router.use("/despachos", apiDespachoRouter, log.logRegister);
 
 
 module.exports = router;

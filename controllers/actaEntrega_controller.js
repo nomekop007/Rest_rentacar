@@ -76,7 +76,7 @@ class ActaEntregaController {
         }
     }
 
-    async createActaEntrega(req, res, next) {
+    async createActaEntrega(req, res) {
         try {
             const response = req.body;
 
@@ -85,7 +85,6 @@ class ActaEntregaController {
                 success: true,
                 data: actaEntrega,
             });
-            next(actaEntrega.logging);
         } catch (error) {
             res.json({
                 success: false,

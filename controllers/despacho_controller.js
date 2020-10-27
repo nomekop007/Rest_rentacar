@@ -1,6 +1,15 @@
-const { Despacho, Arriendo, Cliente, Empresa, ActaEntrega, Remplazo } = require("../db");
+const {
+    Despacho,
+    Arriendo,
+    Cliente,
+    Empresa,
+    ActaEntrega,
+    Remplazo,
+} = require("../db");
 const nodemailer = require("nodemailer");
 const path = require("path");
+const logo = require.resolve("../utils/images/logo2.png");
+const base64 = require("image-to-base64");
 
 class DespachoController {
     async createDespacho(req, res, next) {
@@ -11,8 +20,8 @@ class DespachoController {
 
             res.json({
                 success: true,
-                id_despacho: despacho.id_despacho
-            })
+                id_despacho: despacho.id_despacho,
+            });
 
             next(despacho.logging);
         } catch (error) {
@@ -37,11 +46,13 @@ class DespachoController {
                     },
                     {
                         model: Remplazo,
-                        include: [{ model: Cliente, attributes: ["correo_cliente", "nombre_cliente"] }],
+                        include: [{
+                            model: Cliente,
+                            attributes: ["correo_cliente", "nombre_cliente"],
+                        }, ],
                     },
                 ],
             });
-
 
             const client = {};
             switch (arriendo.tipo_arriendo) {
@@ -59,7 +70,6 @@ class DespachoController {
                     break;
             }
 
-
             //datos del email hosting
             const transporter = nodemailer.createTransport({
                 host: process.env.EMAIL_HOST,
@@ -74,16 +84,26 @@ class DespachoController {
                 },
             });
 
+            //client.correo
 
             //datos del mensaje y su destinatario
             const mailOptions = {
                 from: "'Rent A Car - Grupo Firma' <api.rentacarmaule@grupofirma.cl>",
                 to: client.correo,
+                bcc: "api.rentacarmaule@grupofirma.cl",
                 subject: "COPIA DE ACTA DE ENTREGA RENT A CAR",
-                text: "se adjunta copia del Acta de entrega de Rent a Car",
-                html: "<h4>se adjunta copia del Acta de entrega de arriendo Rent a Car</h4>",
+                text: "Se adjunta copia del Acta de entrega de Rent a Car",
+                html: `
+                <p>Se adjunta copia del Acta de entrega de arriendo Rent a Car del cliente ${
+                  client.name
+                }.</p> 
+                <br><br><br>
+                <img src="data:image/jpeg;base64,${await base64(
+                  logo
+                )}" width="300" height="100"  />
+                `,
                 attachments: [{
-                    filename: "actaEntrega.pdf",
+                    filename: "ACTA-DE-ENTREGA.pdf",
                     contentType: "pdf",
                     path: path.join(
                         __dirname,

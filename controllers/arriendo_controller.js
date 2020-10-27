@@ -12,77 +12,36 @@ const {
 } = require("../db");
 const nodemailer = require("nodemailer");
 const path = require("path");
+const logo = require.resolve("../utils/images/logo2.png");
+const base64 = require("image-to-base64");
 
 class ArriendoController {
     async getArriendos(req, res) {
         try {
+            console.log(req.body);
             //preguntar si el usuario no es administrador
             const where = {};
             if (req.body.id_rol != 1) {
                 where.id_sucursal = req.body.id_sucursal;
             }
-
-            const arriendos = await Arriendo.findAll({
-                where: where,
-                include: [
-                    { model: Usuario, attributes: ["nombre_usuario"] },
-                    { model: Cliente, attributes: ["nombre_cliente"] },
-                    { model: Empresa, attributes: ["nombre_empresa"] },
-                    {
-                        model: Remplazo,
-                        attributes: ["nombreEmpresa_remplazo"],
-                        include: [{ model: Cliente, attributes: ["nombre_cliente"] }],
-                    },
-                ],
-                attributes: [
-                    "id_arriendo",
-                    "createdAt",
-                    "tipo_arriendo",
-                    "estado_arriendo",
-                ],
-            });
-            res.json({
-                success: true,
-                data: arriendos,
-            });
-        } catch (error) {
-            res.json({
-                success: false,
-                msg: "error: " + error,
-            });
-        }
-    }
-
-    async getArriendosListos(req, res) {
-        try {
-            //preguntar si el usuario no es administrador
-            const where = { estado_arriendo: "FIRMADO" };
-            if (req.body.id_rol != 1) {
-                where.id_sucursal = req.body.id_sucursal;
+            if (req.body.filtro) {
+                where.estado_arriendo = req.body.filtro;
             }
 
             const arriendos = await Arriendo.findAll({
                 where: where,
                 include: [
                     { model: Usuario, attributes: ["nombre_usuario"] },
-                    { model: Vehiculo, attributes: ["patente_vehiculo"] },
                     { model: Cliente, attributes: ["nombre_cliente"] },
                     { model: Empresa, attributes: ["nombre_empresa"] },
+                    { model: Vehiculo, attributes: ["patente_vehiculo"] },
                     {
                         model: Remplazo,
                         attributes: ["nombreEmpresa_remplazo"],
                         include: [{ model: Cliente, attributes: ["nombre_cliente"] }],
                     },
                 ],
-                attributes: [
-                    "id_arriendo",
-                    "tipo_arriendo",
-                    "estado_arriendo",
-                    "fechaEntrega_arriendo",
-                    "fechaRecepcion_arriendo",
-                ],
             });
-
             res.json({
                 success: true,
                 data: arriendos,
@@ -242,7 +201,6 @@ class ArriendoController {
                     break;
             }
 
-
             //datos del email hosting
             const transporter = nodemailer.createTransport({
                 host: process.env.EMAIL_HOST,
@@ -262,10 +220,18 @@ class ArriendoController {
                 from: "'Rent A Car - Grupo Firma' <api.rentacarmaule@grupofirma.cl>",
                 to: client.correo,
                 subject: "COPIA DE CONTRATO RENT A CAR",
-                text: "se adjunta copia del contrato Rent a Car",
-                html: "<h4>se adjunta copia del contrato de arriendo Rent a Car</h4>",
+                text: "Se adjunta copia del contrato Rent a Car",
+                html: `
+                <p>Se adjunta copia del contrato de arriendo de Rent a Car del cliente ${
+                  client.name
+                }.</p> 
+                <br><br><br>
+                <img src="data:image/jpeg;base64,${await base64(
+                  logo
+                )}" width="300" height="100"  />
+                `,
                 attachments: [{
-                    filename: "contrato.pdf",
+                    filename: "CONSTRATO.pdf",
                     contentType: "pdf",
                     path: path.join(
                         __dirname,
