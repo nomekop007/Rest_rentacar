@@ -9,12 +9,15 @@ const morgan = require("morgan");
 const path = require("path");
 const https = require("https");
 const fs = require("fs");
+const cors = require("cors");
 const app = express();
+
+const c = [process.env.ORIGEN, process.env.LOCAL];
 
 app.use(morgan("dev"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-
+app.use(cors(c));
 //static files (hace publica la carpeta uploads)
 app.use(express.static(path.join(__dirname, "uploads")));
 
