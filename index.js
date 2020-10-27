@@ -24,8 +24,8 @@ app.use("/rentacar", apiRouter);
 const PORT = process.env.PORT || 3000;
 
 if (process.env.NODE_ENV == "production") {
-    const cert = fs.readFileSync("./fullchain4.pem");
-    const key = fs.readFileSync("./privkey.pem");
+    const cert = fs.readFileSync("./cert4.pem");
+    const key = fs.readFileSync("./privkey4.pem");
 
     https.createServer({ cert: cert, key: key }, app).listen(PORT, () => {
         console.log("Servidor arrancado! https production Puerto ", PORT);
