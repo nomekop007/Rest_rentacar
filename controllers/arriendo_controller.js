@@ -18,7 +18,6 @@ const base64 = require("image-to-base64");
 class ArriendoController {
     async getArriendos(req, res) {
         try {
-            console.log(req.body);
             //preguntar si el usuario no es administrador
             const where = {};
             if (req.body.id_rol != 1) {

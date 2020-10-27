@@ -3,7 +3,6 @@ const logo = require.resolve("../images/logo.png");
 const pagare = require.resolve("../images/pagare.png");
 
 async function contratoPlantilla(data) {
-    console.log(data);
     //clase para cambiar numeros a monedas
     const formatter = new Intl.NumberFormat("CL");
     const image = await base64(pagare);
@@ -69,7 +68,6 @@ async function contratoPlantilla(data) {
             break;
     }
 
-
     //tipo pago
     switch (data.tipoPago) {
         case "EFECTIVO":
@@ -88,7 +86,6 @@ async function contratoPlantilla(data) {
             var tarjeta = "X";
             break;
     }
-
 
     //tipo garantia
     var garantiaTarjeta = "";
@@ -115,7 +112,6 @@ async function contratoPlantilla(data) {
             break;
     }
 
-
     const firmaCliente = () => {
         if (data.firmaPNG) {
             return {
@@ -131,7 +127,7 @@ async function contratoPlantilla(data) {
                 text: "",
             };
         }
-    }
+    };
     const firmaPagare = () => {
         if (data.firmaPNG) {
             return {
@@ -143,7 +139,7 @@ async function contratoPlantilla(data) {
         } else {
             return {};
         }
-    }
+    };
     const fechaHoraFirma = () => {
         if (data.firmaPNG) {
             return {
@@ -152,9 +148,9 @@ async function contratoPlantilla(data) {
                 fontSize: 5,
             };
         } else {
-            return {}
+            return {};
         }
-    }
+    };
 
     return {
         content: [{
@@ -404,7 +400,9 @@ async function contratoPlantilla(data) {
                                         `FECHA - HORA \n ${data.fecha_recepcion} `,
                                     ],
                                     [{
-                                            text: `TIPO ARRIENDO: \n  ${data.tipo_arriendo} ${data.remplazo?data.remplazo:""}`,
+                                            text: `TIPO ARRIENDO: \n  ${data.tipo_arriendo} ${
+                        data.remplazo ? data.remplazo : ""
+                      }`,
                                             colSpan: 2,
                                         },
                                         {},
@@ -432,7 +430,8 @@ async function contratoPlantilla(data) {
                                     [
                                         "SUB TOTAL NETO:",
                                         {
-                                            text: "$ " + formatter.format(data.valorArriendo - data.valorCopago),
+                                            text: "$ " +
+                                                formatter.format(data.valorArriendo - data.valorCopago),
                                             fontSize: 7,
                                         },
                                     ],
@@ -722,7 +721,6 @@ async function contratoPlantilla(data) {
     };
 }
 
-
 // PAGARE CONSTRUIDO MANUALMENTE, USAR EN CASO DE ALGUNA MODIFICACION FUTURA
 /*
 {
@@ -758,7 +756,5 @@ async function contratoPlantilla(data) {
                 }
             },		
 */
-
-
 
 module.exports = contratoPlantilla;

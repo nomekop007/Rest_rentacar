@@ -44,9 +44,7 @@ const Remplazo = RemplazoModel(database, Sequelize);
 const ActaEntrega = ActaEntregaModel(database, Sequelize);
 const Despacho = DespachoModel(database, Sequelize);
 
-
 //Asociaciones de tablas
-
 
 // un arriento tiene una despacho
 Arriendo.hasOne(Despacho, { foreignKey: { name: "id_arriendo" } });
@@ -185,5 +183,4 @@ module.exports = {
     Remplazo,
     Despacho,
     ActaEntrega,
-
 };
