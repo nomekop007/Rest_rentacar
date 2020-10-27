@@ -12,12 +12,10 @@ const fs = require("fs");
 const cors = require("cors");
 const app = express();
 
-const c = [process.env.ORIGEN, process.env.LOCAL];
-
 app.use(morgan("dev"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors(c));
+
 //static files (hace publica la carpeta uploads)
 app.use(express.static(path.join(__dirname, "uploads")));
 
@@ -29,7 +27,8 @@ const PORT = process.env.PORT || 3000;
 if (process.env.NODE_ENV == "production") {
     const cert = fs.readFileSync("./cert4.pem");
     const key = fs.readFileSync("./privkey4.pem");
-
+    const c = [process.env.ORIGEN, process.env.LOCAL];
+    app.use(cors(c));
     https.createServer({ cert: cert, key: key }, app).listen(PORT, () => {
         console.log("Servidor arrancado! https production Puerto ", PORT);
     });
