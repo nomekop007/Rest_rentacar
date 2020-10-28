@@ -156,7 +156,7 @@ router.get("/cargarVehiculos", async(req, res) => {
                 fechaCompra_vehiculo: vehiculos[i].fechaCompra,
                 estado_vehiculo: "DISPONIBLE",
                 kilometraje_vehiculo: 0,
-                id_sucursal: getRandomInt(1, 4),
+                id_sucursal: 1,
                 userAt: "default",
             };
             console.log(vehiculo);
