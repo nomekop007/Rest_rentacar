@@ -8,7 +8,7 @@ async function actaEntregaPlantilla(data) {
             images.push({
                 margin: [0, 30, 0, 0],
                 width: 520,
-                height: 300,
+                height: 310,
                 image: data.arrayImages[i],
             });
         }

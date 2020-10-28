@@ -1,5 +1,10 @@
 
-uploads/*
+
+uploads/fotosVehiculos/*
+uploads/documentos/actaEntrega/*
+uploads/documentos/contratos/*
+uploads/documentos/requisitosArriendo/*
+
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
