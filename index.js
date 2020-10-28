@@ -29,11 +29,13 @@ if (process.env.NODE_ENV == "production") {
     const key = fs.readFileSync("./privkey4.pem");
     const c = [process.env.ORIGEN, process.env.LOCAL];
     app.use(cors(c));
-    https.createServer({ cert: cert, key: key }, app).listen(PORT, () => {
-        console.log("Servidor arrancado! https production Puerto ", PORT);
+    const server = https.createServer({ cert: cert, key: key }, app).listen(PORT, () => {
+        const { port } = server.address();
+        console.log("Servidor arrancado! https production Puerto ", port);
     });
 } else {
-    app.listen(PORT, () => {
-        console.log("Servidor arrancado! http development Puerto ", PORT);
+    const server = app.listen(PORT, () => {
+        const { port } = server.address();
+        console.log("Servidor arrancado! http development Puerto ", port);
     });
 }
