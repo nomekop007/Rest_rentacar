@@ -41,7 +41,7 @@ class ClienteController {
     async createCliente(req, res, next) {
         try {
             const response = req.body;
-
+            console.log(response);
             if (response.fechaNacimiento_cliente == "") {
                 response.fechaNacimiento_cliente = null;
             }

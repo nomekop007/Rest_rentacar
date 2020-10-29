@@ -41,7 +41,7 @@ class ConductorController {
     async createConductor(req, res, next) {
         try {
             const response = req.body;
-
+            console.log(response);
             if (response.vcto_conductor == "") {
                 response.vcto_conductor = null;
             }

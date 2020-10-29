@@ -86,7 +86,7 @@ class ArriendoController {
     async createArriendo(req, res, next) {
         try {
             let response = req.body;
-
+            console.log(response);
             switch (response.tipo_arriendo) {
                 case "PARTICULAR":
                     response.rut_empresa = null;
