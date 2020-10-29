@@ -126,7 +126,7 @@ class ArriendoController {
             });
 
             // en caso de querer crear un accesorio
-            if (response.inputOtros != "") {
+            if (response.inputOtros != "" && response.inputOtros != null) {
                 const accesorio = await Accesorio.create({
                     nombre_accesorio: response.inputOtros,
                 });
