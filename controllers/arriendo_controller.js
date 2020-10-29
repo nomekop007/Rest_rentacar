@@ -71,10 +71,17 @@ class ArriendoController {
                     },
                 ],
             });
-            res.json({
-                success: true,
-                data: arriendo,
-            });
+            if (arriendo) {
+                res.json({
+                    success: true,
+                    data: arriendo,
+                });
+            } else {
+                res.json({
+                    success: false,
+                    msg: "error: " + "arriendo no encontrado",
+                });
+            }
         } catch (error) {
             res.json({
                 success: false,

@@ -26,10 +26,18 @@ class EmpresaController {
     async findEmpresa(req, res) {
         try {
             const empresa = await Empresa.findByPk(req.params.id);
-            res.json({
-                success: true,
-                data: empresa,
-            });
+
+            if (empresa) {
+                res.json({
+                    success: true,
+                    data: empresa,
+                });
+            } else {
+                res.json({
+                    success: false,
+                    msg: "error: " + "empresa no encontrada",
+                });
+            }
         } catch (error) {
             res.json({
                 success: false,
