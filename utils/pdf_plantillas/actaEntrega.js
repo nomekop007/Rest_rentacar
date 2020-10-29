@@ -7,8 +7,7 @@ async function actaEntregaPlantilla(data) {
         for (let i = 0; i < data.arrayImages.length; i++) {
             images.push({
                 margin: [0, 30, 0, 0],
-                width: 520,
-                height: 310,
+                fit: [500, 500],
                 image: data.arrayImages[i],
             });
         }
