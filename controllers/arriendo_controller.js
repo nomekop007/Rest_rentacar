@@ -26,7 +26,6 @@ class ArriendoController {
             if (req.body.filtro) {
                 where.estado_arriendo = req.body.filtro;
             }
-
             const arriendos = await Arriendo.findAll({
                 where: where,
                 include: [

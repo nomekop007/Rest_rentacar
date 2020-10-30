@@ -63,7 +63,6 @@ class VehiculoController {
     async createVehiculo(req, res, next) {
         try {
             const response = req.body;
-
             const [v, created] = await Vehiculo.findOrCreate({
                 where: { patente_vehiculo: response.patente_vehiculo },
                 defaults: response,
@@ -107,7 +106,6 @@ class VehiculoController {
         try {
             const v = await Vehiculo.update(req.body, {
                 where: { patente_vehiculo: req.params.id },
-
             });
 
             const vehiculo = await Vehiculo.findOne({

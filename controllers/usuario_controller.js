@@ -57,7 +57,7 @@ class UsuarioController {
             if (!errors.isEmpty()) {
                 return res.json({
                     success: false,
-                    msg: "error: " + errors.array()
+                    msg: "error: " + errors.array(),
                 });
             }
             //encripta la password
