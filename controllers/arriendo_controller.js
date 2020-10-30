@@ -135,6 +135,7 @@ class ArriendoController {
             if (response.inputOtros != "" && response.inputOtros != null) {
                 const accesorio = await Accesorio.create({
                     nombre_accesorio: response.inputOtros,
+                    userAt: response.userAt,
                 });
                 //se registra en la tabla arriendos-accesorios
                 await a.addAccesorios(accesorio);
