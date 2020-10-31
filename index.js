@@ -25,17 +25,19 @@ app.use("/rentacar", apiRouter);
 const PORT = process.env.PORT || 3000;
 
 if (process.env.NODE_ENV == "production") {
-    const cert = fs.readFileSync("./cert4.pem");
-    const key = fs.readFileSync("./privkey4.pem");
-    const c = [process.env.ORIGEN, process.env.LOCAL];
-    app.use(cors(c));
-    const server = https.createServer({ cert: cert, key: key }, app).listen(PORT, () => {
-        const { port } = server.address();
-        console.log("Servidor arrancado! https production Puerto ", port);
+  const cert = fs.readFileSync("./cert4.pem");
+  const key = fs.readFileSync("./privkey4.pem");
+  const c = [process.env.ORIGEN, process.env.LOCAL];
+  app.use(cors(c));
+  const server = https
+    .createServer({ cert: cert, key: key }, app)
+    .listen(PORT, () => {
+      const { port } = server.address();
+      console.log("Servidor arrancado! https production Puerto ", port);
     });
 } else {
-    const server = app.listen(PORT, () => {
-        const { port } = server.address();
-        console.log("Servidor arrancado! http development Puerto ", port);
-    });
+  const server = app.listen(PORT, () => {
+    const { port } = server.address();
+    console.log("Servidor arrancado! http development Puerto ", port);
+  });
 }
