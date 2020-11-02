@@ -1,4 +1,4 @@
-const { ActaEntrega, Arriendo, Vehiculo } = require("../db");
+const { ActaEntrega, Arriendo, Vehiculo, Despacho } = require("../db");
 const fs = require("fs");
 const path = require("path");
 const moment = require("moment");
@@ -12,24 +12,26 @@ class ActaEntregaController {
             const response = req.body;
             const arriendo = await Arriendo.findOne({
                 where: { id_arriendo: response.id_arriendo },
-                include: [{
-                    model: Vehiculo,
-                    attributes: [
-                        "marca_vehiculo",
-                        "modelo_vehiculo",
-                        "año_vehiculo",
-                        "color_vehiculo",
-                        "patente_vehiculo",
-                    ],
-                }, ],
+                include: [
+                    { model: Despacho },
+                    {
+                        model: Vehiculo,
+                        attributes: [
+                            "marca_vehiculo",
+                            "modelo_vehiculo",
+                            "año_vehiculo",
+                            "color_vehiculo",
+                            "patente_vehiculo",
+                        ],
+                    },
+                ],
             });
             response.vehiculo = arriendo.vehiculo;
             response.kilometraje = arriendo.kilometrosEntrada_arriendo;
             response.id_arriendo = arriendo.id_arriendo;
             response.fecha = fecha();
             response.hora = hora();
-
-            if (arriendo.estado_arriendo === "FIRMADO") {
+            if (arriendo.estado_arriendo === "FIRMADO" && arriendo.despacho == null) {
                 const docDefinition = await actaEntregaPlantilla(response);
                 const fonts = {
                     Roboto: {
