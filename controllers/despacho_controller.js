@@ -96,14 +96,13 @@ class DespachoController {
                 text: "Se adjunta copia del Acta de entrega de Rent a Car",
                 html: `
                 <p>Sr.(a) ${client.name}:</p>
-                <br> 
-                <p>Por este medio confirmo su copia del Acta de entrega de Rent a Car./p>
-                <br><br><br>
-                <p>------------------------------------------------------------------------------</p>
+                <p>Por este medio envio su copia del Acta de entrega de Rent a Car.</p>
+                <br><br>
+                <p>------------------------------------------------------------------------------------------------------------------------------</p>
                 <p>Atentamente, Rent a Car Maule Ltda. </p>
                 <img src="data:image/jpeg;base64,${await base64(
                   logo
-                )}" width="200" height="80"  />
+                )}" width="200" height="50"  />
                 `,
                 attachments: [{
                     filename: "ACTA-DE-ENTREGA.pdf",

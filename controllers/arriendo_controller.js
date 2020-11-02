@@ -231,14 +231,13 @@ class ArriendoController {
                 text: "Se adjunta copia del contrato Rent a Car",
                 html: `
                 <p>Sr.(a) ${client.name}:</p>
-                <br> 
-                <p>Por este medio confirmo su copia del contrato de arriendo de Rent a Car./p>
-                <br><br><br>
-                <p>------------------------------------------------------------------------------</p>
+                <p>Por este medio envio su copia del contrato de arriendo de Rent a Car.</p>
+                <br><br>
+                <p>------------------------------------------------------------------------------------------------------------------------------</p>
                 <p>Atentamente, Rent a Car Maule Ltda. </p>
                 <img src="data:image/jpeg;base64,${await base64(
                   logo
-                )}" width="200" height="80"  />
+                )}" width="200" height="50"  />
                 `,
                 attachments: [{
                     filename: "CONSTRATO.pdf",
