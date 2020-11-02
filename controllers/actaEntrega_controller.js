@@ -6,16 +6,22 @@ const { v5: uuidv5 } = require("uuid");
 const PdfPrinter = require("pdfmake");
 const actaEntregaPlantilla = require("../utils/pdf_plantillas/actaEntrega");
 
-
 class ActaEntregaController {
     async generatePDFactaEntrega(req, res) {
         try {
             const response = req.body;
             const arriendo = await Arriendo.findOne({
                 where: { id_arriendo: response.id_arriendo },
-                include: [
-                    { model: Vehiculo, attributes: ["marca_vehiculo", "modelo_vehiculo", "año_vehiculo", "color_vehiculo", "patente_vehiculo"] },
-                ],
+                include: [{
+                    model: Vehiculo,
+                    attributes: [
+                        "marca_vehiculo",
+                        "modelo_vehiculo",
+                        "año_vehiculo",
+                        "color_vehiculo",
+                        "patente_vehiculo",
+                    ],
+                }, ],
             });
             response.vehiculo = arriendo.vehiculo;
             response.kilometraje = arriendo.kilometrosEntrada_arriendo;
@@ -36,7 +42,10 @@ class ActaEntregaController {
                     },
                 };
                 //se genera un nombre combinado con la id del arriendo
-                const nameFile = uuidv5("actaEntrega-" + arriendo.id_arriendo, uuidv5.URL);
+                const nameFile = uuidv5(
+                    "actaEntrega-" + arriendo.id_arriendo,
+                    uuidv5.URL
+                );
 
                 const printer = new PdfPrinter(fonts);
                 const pdfDoc = printer.createPdfKitDocument(docDefinition);
@@ -69,9 +78,10 @@ class ActaEntregaController {
                 });
             }
         } catch (error) {
-            res.json({
+            console.log(error);
+            res.status(501).json({
                 success: false,
-                msg: "error: " + error,
+                msg: "Server error 501",
             });
         }
     }
@@ -86,9 +96,10 @@ class ActaEntregaController {
                 data: actaEntrega,
             });
         } catch (error) {
-            res.json({
+            console.log(error);
+            res.status(501).json({
                 success: false,
-                msg: "error: " + error,
+                msg: "Server error 501",
             });
         }
     }
@@ -97,11 +108,11 @@ class ActaEntregaController {
 const fecha = () => {
     let f = new Date();
     return moment(f).format("DD-MM-YYYY");
-}
+};
 
 const hora = () => {
     let f = new Date();
     return moment(f).format("HH:mm:ss a");
-}
+};
 
 module.exports = ActaEntregaController;

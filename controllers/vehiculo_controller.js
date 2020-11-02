@@ -10,7 +10,6 @@ class VehiculoController {
             if (req.body.id_rol != 1) {
                 where.id_sucursal = req.body.id_sucursal;
             }
-
             const vehiculos = await Vehiculo.findAll({
                 where: where,
                 include: [{ model: Sucursal, attributes: ["nombre_sucursal"] }],
@@ -29,9 +28,10 @@ class VehiculoController {
                 data: vehiculos,
             });
         } catch (error) {
-            res.json({
+            console.log(error);
+            res.status(501).json({
                 success: false,
-                msg: "error: " + error,
+                msg: "Server error 501",
             });
         }
     }
@@ -53,9 +53,10 @@ class VehiculoController {
                 });
             }
         } catch (error) {
-            res.json({
+            console.log(error);
+            res.status(501).json({
                 success: false,
-                msg: "error: " + error,
+                msg: "Server error 501",
             });
         }
     }
@@ -95,9 +96,10 @@ class VehiculoController {
                 });
             }
         } catch (error) {
-            res.json({
+            console.log(error);
+            res.status(501).json({
                 success: false,
-                msg: "error: " + error,
+                msg: "Server error 501",
             });
         }
     }
@@ -129,9 +131,10 @@ class VehiculoController {
             });
             next(v.logging);
         } catch (error) {
-            res.json({
+            console.log(error);
+            res.status(501).json({
                 success: false,
-                msg: "error: " + error,
+                msg: "Server error 501",
             });
         }
     }
@@ -148,9 +151,10 @@ class VehiculoController {
             });
             next(vehiculo.logging);
         } catch (error) {
-            res.json({
+            console.log(error);
+            res.status(501).json({
                 success: false,
-                msg: "error: " + error,
+                msg: "Server error 501",
             });
         }
     }
@@ -177,9 +181,10 @@ class VehiculoController {
             });
             next(vehiculo.logging);
         } catch (error) {
-            res.json({
+            console.log(error);
+            res.status(501).json({
                 success: false,
-                msg: "error: " + error,
+                msg: "Server error 501",
             });
         }
     }

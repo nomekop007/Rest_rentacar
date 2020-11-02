@@ -16,9 +16,10 @@ class ClienteController {
                 data: cliente,
             });
         } catch (error) {
-            res.json({
+            console.log(error);
+            res.status(501).json({
                 success: false,
-                msg: "error: " + error,
+                msg: "Server error 501",
             });
         }
     }
@@ -38,9 +39,10 @@ class ClienteController {
                 });
             }
         } catch (error) {
-            res.json({
+            console.log(error);
+            res.status(501).json({
                 success: false,
-                msg: "error: " + error,
+                msg: "Server error 501",
             });
         }
     }
@@ -74,9 +76,10 @@ class ClienteController {
                 next(cliente.logging);
             }
         } catch (error) {
-            res.json({
+            console.log(error);
+            res.status(501).json({
                 success: false,
-                msg: "error: " + error,
+                msg: "Server error 501",
             });
         }
     }

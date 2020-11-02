@@ -25,9 +25,10 @@ class DespachoController {
 
             next(despacho.logging);
         } catch (error) {
-            res.json({
+            console.log(error);
+            res.status(501).json({
                 success: false,
-                msg: "error: " + error,
+                msg: "Server error 501",
             });
         }
     }
@@ -94,13 +95,15 @@ class DespachoController {
                 subject: "COPIA DE ACTA DE ENTREGA RENT A CAR",
                 text: "Se adjunta copia del Acta de entrega de Rent a Car",
                 html: `
-                <p>Se adjunta copia del Acta de entrega de arriendo Rent a Car del cliente ${
-                  client.name
-                }.</p> 
+                <p>Sr.(a) ${client.name}:</p>
+                <br> 
+                <p>Por este medio confirmo su copia del Acta de entrega de Rent a Car./p>
                 <br><br><br>
+                <p>------------------------------------------------------------------------------</p>
+                <p>Atentamente, Rent a Car Maule Ltda. </p>
                 <img src="data:image/jpeg;base64,${await base64(
                   logo
-                )}" width="300" height="100"  />
+                )}" width="200" height="80"  />
                 `,
                 attachments: [{
                     filename: "ACTA-DE-ENTREGA.pdf",
@@ -119,9 +122,10 @@ class DespachoController {
                 msg: resp,
             });
         } catch (error) {
-            res.json({
+            console.log(error);
+            res.status(501).json({
                 success: false,
-                msg: "error: " + error,
+                msg: "Server error 501",
             });
         }
     }

@@ -55,7 +55,8 @@ class contrato_controller {
                 clase_conductor: arriendo.conductore.clase_conductor,
                 numero_conductor: arriendo.conductore.numero_conductor,
                 vcto_conductor: arriendo.conductore.vcto_conductor ?
-                    formatFecha(arriendo.conductore.vcto_conductor) : "",
+                    formatFecha(arriendo.conductore.vcto_conductor) :
+                    "",
                 municipalidad_conductor: arriendo.conductore.municipalidad_conductor,
                 direccion_conductor: arriendo.conductore.direccion_conductor,
 
@@ -181,9 +182,10 @@ class contrato_controller {
                 });
             }
         } catch (error) {
-            res.json({
+            console.log(error);
+            res.status(501).json({
                 success: false,
-                msg: "error: " + error,
+                msg: "Server error 501",
             });
         }
     }
@@ -197,9 +199,10 @@ class contrato_controller {
                 data: contrato,
             });
         } catch (error) {
-            res.json({
+            console.log(error);
+            res.status(501).json({
                 success: false,
-                msg: "error: " + error,
+                msg: "Server error 501",
             });
         }
     }
@@ -208,16 +211,16 @@ class contrato_controller {
 const fechahorafirma = () => {
     let f = new Date();
     return moment(f).format("DD-MM-YYYY HH:mm a");
-}
+};
 
 const formatFecha = (fecha) => {
     let f = new Date(fecha);
     return moment(f).format("DD-MM-YYYY");
-}
+};
 
 const formatFechahora = (fecha) => {
     var f = new Date(fecha);
     return moment(f).format("DD-MM-YYYY  HH:mm a");
-}
+};
 
 module.exports = contrato_controller;
