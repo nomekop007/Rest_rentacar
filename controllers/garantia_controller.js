@@ -1,4 +1,5 @@
 const { Garantia } = require("../db");
+const { sendError } = require("../helpers/components");
 
 class GarantiaController {
     async createGarantia(req, res) {
@@ -34,11 +35,7 @@ class GarantiaController {
                 msg: "registro exitoso",
             });
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 }

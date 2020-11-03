@@ -1,4 +1,5 @@
 const { Remplazo } = require("../db");
+const { sendError } = require("../helpers/components");
 
 class RemplazoController {
     async createRemplazo(req, res) {
@@ -12,11 +13,7 @@ class RemplazoController {
                 },
             });
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 }

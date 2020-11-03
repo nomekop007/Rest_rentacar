@@ -1,12 +1,11 @@
 const { Despacho } = require("../db");
+const { sendError } = require("../helpers/components");
 
 class DespachoController {
     async createDespacho(req, res, next) {
         try {
             const response = req.body;
-
             const despacho = await Despacho.create(response);
-
             res.json({
                 success: true,
                 id_despacho: despacho.id_despacho,
@@ -14,11 +13,7 @@ class DespachoController {
 
             next(despacho.logging);
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 }

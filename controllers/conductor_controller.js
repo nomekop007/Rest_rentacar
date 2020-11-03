@@ -1,4 +1,5 @@
 const { Conductor } = require("../db");
+const { sendError } = require("../helpers/components");
 
 class ConductorController {
     async getConductores(req, res) {
@@ -16,11 +17,7 @@ class ConductorController {
                 data: conductores,
             });
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 
@@ -40,11 +37,7 @@ class ConductorController {
                 });
             }
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 
@@ -75,11 +68,7 @@ class ConductorController {
                 next(conductor.logging);
             }
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 }

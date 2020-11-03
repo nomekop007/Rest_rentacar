@@ -1,4 +1,5 @@
 const { Sucursal, Vehiculo } = require("../db");
+const { sendError } = require("../helpers/components");
 
 class SucursalController {
     async getSucursales(req, res) {
@@ -11,11 +12,7 @@ class SucursalController {
                 data: sucursales,
             });
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 
@@ -43,11 +40,7 @@ class SucursalController {
                 data: sucursal,
             });
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 }

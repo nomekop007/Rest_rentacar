@@ -1,4 +1,5 @@
 const { Pago, Facturacion } = require("../db");
+const { sendError } = require("../helpers/components");
 
 class PagoController {
     async createPagoFacturacion(req, res) {
@@ -45,11 +46,7 @@ class PagoController {
                 msg: "registro exitoso",
             });
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 }

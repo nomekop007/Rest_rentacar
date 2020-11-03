@@ -1,4 +1,5 @@
 const { Accesorio, Arriendo } = require("../db");
+const { sendError } = require("../helpers/components");
 
 class AccesorioController {
     async getAccesorios(req, res) {
@@ -9,11 +10,7 @@ class AccesorioController {
                 data: accesorio,
             });
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 
@@ -38,11 +35,7 @@ class AccesorioController {
                 msg: "registro exitoso",
             });
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 }

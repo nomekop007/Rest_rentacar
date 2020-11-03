@@ -27,11 +27,7 @@ class VehiculoController {
                 data: vehiculos,
             });
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 
@@ -52,11 +48,7 @@ class VehiculoController {
                 });
             }
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 
@@ -95,11 +87,7 @@ class VehiculoController {
                 });
             }
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 
@@ -130,11 +118,7 @@ class VehiculoController {
             });
             next(v.logging);
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 
@@ -150,11 +134,7 @@ class VehiculoController {
             });
             next(vehiculo.logging);
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 
@@ -180,11 +160,7 @@ class VehiculoController {
             });
             next(vehiculo.logging);
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 }

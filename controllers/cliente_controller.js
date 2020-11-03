@@ -1,4 +1,5 @@
 const { Cliente } = require("../db");
+const { sendError } = require("../helpers/components");
 
 class ClienteController {
     async getClientes(req, res) {
@@ -16,11 +17,7 @@ class ClienteController {
                 data: cliente,
             });
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 
@@ -39,11 +36,7 @@ class ClienteController {
                 });
             }
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 
@@ -76,11 +69,7 @@ class ClienteController {
                 next(cliente.logging);
             }
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 }

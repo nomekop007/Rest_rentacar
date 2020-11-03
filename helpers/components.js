@@ -3,6 +3,14 @@ const jwt = require("jwt-simple");
 const fs = require("fs");
 const path = require("path");
 
+const sendError = (error, res) => {
+    console.log(error);
+    res.status(310).json({
+        success: false,
+        msg: "Server error 310",
+    });
+};
+
 const crearToken = (usuario) => {
     const payload = {
         usuarioId: usuario.id_usuario,
@@ -47,6 +55,7 @@ function borrarImagenDeStorage(name) {
 }
 
 module.exports = {
+    sendError,
     crearToken,
     fecha,
     hora,

@@ -16,6 +16,7 @@ const {
     formatFechahora,
     formatFecha,
     fechahorafirma,
+    sendError,
 } = require("../helpers/components");
 const fs = require("fs");
 const path = require("path");
@@ -36,11 +37,7 @@ class contrato_controller {
                 data: contrato,
             });
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 
@@ -71,6 +68,7 @@ class contrato_controller {
             //variables
             const dataList = {
                 firmaPNG: response.firmaPNG,
+                geolocalizacion: response.geolocalizacion,
                 fechaHoraFirma: fechahorafirma(),
                 rut_conductor: arriendo.conductore.rut_conductor,
                 nombre_conductor: arriendo.conductore.nombre_conductor,
@@ -205,11 +203,7 @@ class contrato_controller {
                 });
             }
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 
@@ -291,10 +285,7 @@ class contrato_controller {
                 msg: resp,
             });
         } catch (error) {
-            res.json({
-                success: false,
-                msg: "error: " + error,
-            });
+            sendError(error, res);
         }
     }
 }

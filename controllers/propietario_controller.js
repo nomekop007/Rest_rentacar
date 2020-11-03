@@ -1,4 +1,5 @@
 const { Propietario } = require("../db");
+const { sendError } = require("../helpers/components");
 
 class PropietarioController {
     async getPropietario(req, res) {
@@ -11,11 +12,7 @@ class PropietarioController {
                 data: propietario,
             });
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 }

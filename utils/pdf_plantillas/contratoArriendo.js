@@ -116,8 +116,8 @@ async function contratoPlantilla(data) {
         if (data.firmaPNG) {
             return {
                 alignment: "center",
-                width: 175,
-                height: 75,
+                width: 171,
+                height: 71,
                 image: data.firmaPNG,
             };
         } else {
@@ -144,8 +144,9 @@ async function contratoPlantilla(data) {
         if (data.firmaPNG) {
             return {
                 alignment: "center",
-                text: data.fechaHoraFirma,
-                fontSize: 5,
+                text: `${data.fechaHoraFirma}
+                ${data.geolocalizacion}`,
+                fontSize: 3,
             };
         } else {
             return {};

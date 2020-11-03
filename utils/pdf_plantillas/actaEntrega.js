@@ -64,6 +64,19 @@ async function actaEntregaPlantilla(data) {
         }
     };
 
+    const fechaHoraFirma = () => {
+        if (data.firma1PNG && data.firma2PNG) {
+            return {
+                alignment: "center",
+                text: `${data.fechaHoraFirma}
+                    ${data.geolocalizacion}`,
+                fontSize: 3,
+            };
+        } else {
+            return {};
+        }
+    };
+
     return {
         content: [{
                 margin: [0, 0, 0, 5],
@@ -320,6 +333,7 @@ async function actaEntregaPlantilla(data) {
                 columns: [
                     [
                         firmaRecibidor(),
+                        fechaHoraFirma(),
                         {
                             alignment: "center",
                             text: "________________________",
@@ -332,6 +346,7 @@ async function actaEntregaPlantilla(data) {
                     ],
                     [
                         firmaEntregador(),
+                        fechaHoraFirma(),
                         {
                             alignment: "center",
                             text: "________________________",

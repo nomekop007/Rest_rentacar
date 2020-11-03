@@ -13,7 +13,12 @@ const { v5: uuidv5 } = require("uuid");
 const PdfPrinter = require("pdfmake");
 const nodemailer = require("nodemailer");
 const logo = require.resolve("../utils/images/logo2.png");
-const { fecha, hora } = require("../helpers/components");
+const {
+    fecha,
+    hora,
+    fechahorafirma,
+    sendError,
+} = require("../helpers/components");
 const base64 = require("image-to-base64");
 const actaEntregaPlantilla = require("../utils/pdf_plantillas/actaEntrega");
 
@@ -28,11 +33,7 @@ class ActaEntregaController {
                 data: actaEntrega,
             });
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
     async generatePDFactaEntrega(req, res) {
@@ -59,6 +60,7 @@ class ActaEntregaController {
             response.id_arriendo = arriendo.id_arriendo;
             response.fecha = fecha();
             response.hora = hora();
+            response.fechaHoraFirma = fechahorafirma();
             if (arriendo.estado_arriendo === "FIRMADO" && arriendo.despacho == null) {
                 const docDefinition = await actaEntregaPlantilla(response);
                 const fonts = {
@@ -108,11 +110,7 @@ class ActaEntregaController {
                 });
             }
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 
@@ -204,11 +202,7 @@ class ActaEntregaController {
                 msg: resp,
             });
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 }

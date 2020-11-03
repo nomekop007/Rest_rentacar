@@ -10,7 +10,7 @@ const {
     Requisito,
     Garantia,
 } = require("../db");
-
+const { sendError } = require("../helpers/components");
 class ArriendoController {
     async getArriendos(req, res) {
         try {
@@ -41,10 +41,7 @@ class ArriendoController {
                 data: arriendos,
             });
         } catch (error) {
-            res.json({
-                success: false,
-                msg: "error: " + error,
-            });
+            sendError(error, res);
         }
     }
 
@@ -79,10 +76,7 @@ class ArriendoController {
                 });
             }
         } catch (error) {
-            res.json({
-                success: false,
-                msg: "error: " + error,
-            });
+            sendError(error, res);
         }
     }
 
@@ -144,10 +138,7 @@ class ArriendoController {
             });
             next(a.logging);
         } catch (error) {
-            res.json({
-                success: false,
-                msg: "error: " + error,
-            });
+            sendError(error, res);
         }
     }
 
@@ -166,10 +157,15 @@ class ArriendoController {
             });
             next(arriendo.logging);
         } catch (error) {
-            res.json({
-                success: false,
-                msg: "error: " + error,
-            });
+            sendError(error, res);
+        }
+    }
+
+    async notificateArriendo(req, res) {
+        try {
+            //logica
+        } catch (error) {
+            sendError(error, res);
         }
     }
 }

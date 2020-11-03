@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
-const { crearToken } = require("../helpers/components");
+const { crearToken, sendError } = require("../helpers/components");
 const { Usuario, Rol, Sucursal } = require("../db");
 
 class UsuarioController {
@@ -24,11 +24,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 
@@ -42,11 +38,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 
@@ -98,6 +90,7 @@ class UsuarioController {
 
     async loginUsuario(req, res) {
         try {
+            console.log(req.body);
             const usuario = await Usuario.findOne({
                 where: { email_usuario: req.body.email_usuario },
             });
@@ -130,11 +123,7 @@ class UsuarioController {
                 });
             }
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 
@@ -181,11 +170,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 
@@ -224,11 +209,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 }

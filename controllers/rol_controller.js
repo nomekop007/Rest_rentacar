@@ -1,4 +1,5 @@
 const { Rol } = require("../db");
+const { sendError } = require("../helpers/components");
 
 class RolController {
     async getRoles(req, res) {
@@ -11,11 +12,7 @@ class RolController {
                 data: roles,
             });
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error, res);
         }
     }
 }
