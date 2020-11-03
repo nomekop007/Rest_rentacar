@@ -1,6 +1,5 @@
 const { Vehiculo, Sucursal } = require("../db");
-const fs = require("fs");
-const path = require("path");
+const { borrarImagenDeStorage } = require("../helpers/components");
 
 class VehiculoController {
     async getVehiculos(req, res) {
@@ -187,15 +186,6 @@ class VehiculoController {
                 msg: "Server error 501",
             });
         }
-    }
-}
-
-function borrarImagenDeStorage(name) {
-    try {
-        fs.unlinkSync(path.join(__dirname, "../uploads/fotosVehiculos/" + name));
-        return true;
-    } catch (err) {
-        return console.log(err);
     }
 }
 

@@ -4,7 +4,4 @@ const despacho = new Despacho_controller();
 
 router.post("/registrarDespacho", despacho.createDespacho.bind(despacho));
 
-router.post("/enviarCorreoDespacho", despacho.sendEmailActaEntrega.bind(despacho));
-
-
 module.exports = router;

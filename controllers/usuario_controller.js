@@ -1,8 +1,6 @@
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
-const moment = require("moment");
-const jwt = require("jwt-simple");
-
+const { crearToken } = require("../helpers/components");
 const { Usuario, Rol, Sucursal } = require("../db");
 
 class UsuarioController {
@@ -234,14 +232,5 @@ class UsuarioController {
         }
     }
 }
-
-const crearToken = (usuario) => {
-    const payload = {
-        usuarioId: usuario.id_usuario,
-        createAt: moment().unix(),
-        expiredAt: moment().add(12, "hours").unix(),
-    };
-    return jwt.encode(payload, process.env.SECRET_PHRASE);
-};
 
 module.exports = UsuarioController;
