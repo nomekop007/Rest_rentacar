@@ -1,8 +1,7 @@
 const router = require("express").Router();
-const { subirImageVehiculo } = require("../middlewares/upload_middleware");
+const { subirImageVehiculo } = require("../../middlewares/upload_middleware");
 const VehiculoController = require("../../controllers/vehiculo_controller");
 const vehiculo = new VehiculoController();
-
 
 router.post("/cargarVehiculos", vehiculo.getVehiculos.bind(vehiculo));
 router.get("/buscarVehiculo/:id", vehiculo.findVehiculo.bind(vehiculo));

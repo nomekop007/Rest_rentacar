@@ -19,25 +19,29 @@ app.use(bodyParser.urlencoded({ limit: "100mb", extended: true }));
 //static files (hace publica la carpeta uploads)
 app.use(express.static(path.join(__dirname, "uploads")));
 
-app.use("/rentacar", apiRouter);
+//middlewares
+const log = require("./middlewares/log_middleware");
+
+// ruta padre
+app.use("/rentacar", apiRouter, log.logRegister);
 
 //start server
 const PORT = process.env.PORT || 3000;
 
 if (process.env.NODE_ENV == "production") {
-  const cert = fs.readFileSync("./cert4.pem");
-  const key = fs.readFileSync("./privkey4.pem");
-  const c = [process.env.ORIGEN, process.env.LOCAL];
-  app.use(cors(c));
-  const server = https
-    .createServer({ cert: cert, key: key }, app)
-    .listen(PORT, () => {
-      const { port } = server.address();
-      console.log("Servidor arrancado! https production Puerto ", port);
-    });
+    const cert = fs.readFileSync("./cert4.pem");
+    const key = fs.readFileSync("./privkey4.pem");
+    const c = [process.env.ORIGEN, process.env.LOCAL];
+    app.use(cors(c));
+    const server = https
+        .createServer({ cert: cert, key: key }, app)
+        .listen(PORT, () => {
+            const { port } = server.address();
+            console.log("Servidor arrancado! https production Puerto ", port);
+        });
 } else {
-  const server = app.listen(PORT, () => {
-    const { port } = server.address();
-    console.log("Servidor arrancado! http development Puerto ", port);
-  });
+    const server = app.listen(PORT, () => {
+        const { port } = server.address();
+        console.log("Servidor arrancado! http development Puerto ", port);
+    });
 }

@@ -1,4 +1,4 @@
-const { Log } = require("../../db");
+const { Log } = require("../db");
 
 const logRegister = async(req, res) => {
     try {

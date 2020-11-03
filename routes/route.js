@@ -1,8 +1,7 @@
 const router = require("express").Router();
 
 //middlewares
-const check = require("./middlewares/check_middleware");
-const log = require("./middlewares/log_middleware");
+const check = require("../middlewares/check_middleware");
 
 //default routes
 const defaultValues = require("./defaultValues");
@@ -32,51 +31,21 @@ if (process.env.DEFAULT_VALUE === "TRUE") {
 }
 
 router.use("/usuarios", apiUsuariosRouter);
-router.use(
-    "/requisitos",
-    check.checkToken,
-    apiRequisitosRouter,
-    log.logRegister
-);
-router.use(
-    "/propietarios",
-    check.checkToken,
-    apiPropietarioRouter,
-    log.logRegister
-);
-router.use("/roles", check.checkToken, apiRolesRouter, log.logRegister);
-router.use("/vehiculos", check.checkToken, apiVehiculosRouter, log.logRegister);
-router.use(
-    "/sucursales",
-    check.checkToken,
-    apiSucursalesRouter,
-    log.logRegister
-);
-router.use(
-    "/accesorios",
-    check.checkToken,
-    apiAccesoriosRouter,
-    log.logRegister
-);
-router.use("/clientes", check.checkToken, apiClientesRouter, log.logRegister);
-router.use("/empresas", check.checkToken, apiEmpresasRouter, log.logRegister);
-router.use(
-    "/conductores",
-    check.checkToken,
-    apiConductoresRouter,
-    log.logRegister
-);
-router.use("/contratos", check.checkToken, apiContratosRouter, log.logRegister);
-router.use("/pagos", check.checkToken, apiPagosRouter, log.logRegister);
-router.use("/garantias", check.checkToken, apiGarantiasRouter, log.logRegister);
-router.use("/arriendos", check.checkToken, apiArriendosRouter, log.logRegister);
-router.use("/remplazos", check.checkToken, apiRemplazoRouter, log.logRegister);
-router.use(
-    "/actasEntregas",
-    check.checkToken,
-    apiActaEntregaRouter,
-    log.logRegister
-);
-router.use("/despachos", check.checkToken, apiDespachoRouter, log.logRegister);
+router.use("/requisitos", check.checkToken, apiRequisitosRouter);
+router.use("/propietarios", check.checkToken, apiPropietarioRouter);
+router.use("/roles", check.checkToken, apiRolesRouter);
+router.use("/vehiculos", check.checkToken, apiVehiculosRouter);
+router.use("/sucursales", check.checkToken, apiSucursalesRouter);
+router.use("/accesorios", check.checkToken, apiAccesoriosRouter);
+router.use("/clientes", check.checkToken, apiClientesRouter);
+router.use("/empresas", check.checkToken, apiEmpresasRouter);
+router.use("/conductores", check.checkToken, apiConductoresRouter);
+router.use("/contratos", check.checkToken, apiContratosRouter);
+router.use("/pagos", check.checkToken, apiPagosRouter);
+router.use("/garantias", check.checkToken, apiGarantiasRouter);
+router.use("/arriendos", check.checkToken, apiArriendosRouter);
+router.use("/remplazos", check.checkToken, apiRemplazoRouter);
+router.use("/actasEntregas", check.checkToken, apiActaEntregaRouter);
+router.use("/despachos", check.checkToken, apiDespachoRouter);
 
 module.exports = router;
