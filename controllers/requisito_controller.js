@@ -1,4 +1,4 @@
-const { Requisito } = require("../db");
+const { Requisito } = require("../database/db");
 const { sendError } = require("../helpers/components");
 
 class RequisitoController {
@@ -14,14 +14,14 @@ class RequisitoController {
                 carnetTrasera_requisito: files.fotoCarnetTrasera ?
                     files.fotoCarnetTrasera[0].filename :
                     null,
-                tarjetaCreditoFrontal_requisito: files.fotoTarjetaFrontal ?
-                    files.fotoTarjetaFrontal[0].filename :
+                licenciaConducirFrontal_requisito: files.fotoLicenciaFrontal ?
+                    files.fotoLicenciaFrontal[0].filename :
                     null,
-                tarjetaCreditoTrasera_requisito: files.fotoTarjetaTrasera ?
-                    files.fotoTarjetaTrasera[0].filename :
+                licenciaConducirTrasera_requisito: files.fotoLicenciaTrasera ?
+                    files.fotoLicenciaTrasera[0].filename :
                     null,
-                licenciaConducir_requisito: files.fotoLicencia ?
-                    files.fotoLicencia[0].filename :
+                tarjetaCredito_requisito: files.fotoTarjeta ?
+                    files.fotoTarjeta[0].filename :
                     null,
                 chequeGarantia_requisito: files.fotoCheque ?
                     files.fotoCheque[0].filename :

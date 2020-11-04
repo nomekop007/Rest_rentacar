@@ -1,4 +1,4 @@
-const { Accesorio, Arriendo } = require("../db");
+const { Accesorio, Arriendo } = require("../database/db");
 const { sendError } = require("../helpers/components");
 
 class AccesorioController {

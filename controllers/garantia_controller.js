@@ -1,4 +1,4 @@
-const { Garantia } = require("../db");
+const { Garantia } = require("../database/db");
 const { sendError } = require("../helpers/components");
 
 class GarantiaController {

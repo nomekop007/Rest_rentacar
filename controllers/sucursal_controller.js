@@ -1,4 +1,4 @@
-const { Sucursal, Vehiculo } = require("../db");
+const { Sucursal, Vehiculo } = require("../database/db");
 const { sendError } = require("../helpers/components");
 
 class SucursalController {

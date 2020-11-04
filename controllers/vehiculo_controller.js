@@ -1,4 +1,4 @@
-const { Vehiculo, Sucursal } = require("../db");
+const { Vehiculo, Sucursal } = require("../database/db");
 const { borrarImagenDeStorage } = require("../helpers/components");
 
 class VehiculoController {
@@ -140,6 +140,7 @@ class VehiculoController {
 
     async uploadImageVehiculo(req, res, next) {
         try {
+            console.log(req.file);
             const v = await Vehiculo.findOne({
                 where: { patente_vehiculo: req.params.id },
             });

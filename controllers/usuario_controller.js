@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const { crearToken, sendError } = require("../helpers/components");
-const { Usuario, Rol, Sucursal } = require("../db");
+const { Usuario, Rol, Sucursal } = require("../database/db");
 
 class UsuarioController {
     async getUsuarios(req, res) {
@@ -90,11 +90,9 @@ class UsuarioController {
 
     async loginUsuario(req, res) {
         try {
-            console.log(req.body);
             const usuario = await Usuario.findOne({
                 where: { email_usuario: req.body.email_usuario },
             });
-
             if (usuario) {
                 //compara las password
                 if (bcrypt.compareSync(req.body.clave_usuario, usuario.clave_usuario)) {

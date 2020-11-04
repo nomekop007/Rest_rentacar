@@ -1,22 +1,22 @@
 const {
-    Usuario,
-    Arriendo,
-    Cliente,
-    Conductor,
-    Empresa,
-    Accesorio,
-    Vehiculo,
-    Sucursal,
-    Contrato,
-    Remplazo,
-    Garantia,
-    ModoPago,
-} = require("../db");
+  Usuario,
+  Arriendo,
+  Cliente,
+  Conductor,
+  Empresa,
+  Accesorio,
+  Vehiculo,
+  Sucursal,
+  Contrato,
+  Remplazo,
+  Garantia,
+  ModoPago,
+} = require("../database/db");
 const {
-    formatFechahora,
-    formatFecha,
-    fechahorafirma,
-    sendError,
+  formatFechahora,
+  formatFecha,
+  fechahorafirma,
+  sendError,
 } = require("../helpers/components");
 const fs = require("fs");
 const path = require("path");
@@ -28,237 +28,237 @@ const PdfPrinter = require("pdfmake");
 const contratoPlantilla = require("../utils/pdf_plantillas/contratoArriendo");
 
 class contrato_controller {
-    async createContrato(req, res) {
-        try {
-            const response = req.body;
-            const contrato = await Contrato.create(response);
-            res.json({
-                success: true,
-                data: contrato,
-            });
-        } catch (error) {
-            sendError(error, res);
-        }
+  async createContrato(req, res) {
+    try {
+      const response = req.body;
+      const contrato = await Contrato.create(response);
+      res.json({
+        success: true,
+        data: contrato,
+      });
+    } catch (error) {
+      sendError(error, res);
     }
+  }
 
-    async generatePDFContrato(req, res) {
-        try {
-            const response = req.body;
-            const arriendo = await Arriendo.findOne({
-                where: { id_arriendo: response.id_arriendo },
-                include: [
-                    { model: Cliente },
-                    { model: Empresa },
-                    { model: Vehiculo },
-                    { model: Accesorio },
-                    { model: Conductor },
-                    { model: Sucursal },
-                    {
-                        model: Remplazo,
-                        include: [{ model: Cliente }],
-                    },
-                    {
-                        model: Garantia,
-                        include: [{ model: ModoPago }],
-                    },
-                    { model: Usuario, attributes: ["nombre_usuario"] },
-                ],
-            });
+  async generatePDFContrato(req, res) {
+    try {
+      const response = req.body;
+      const arriendo = await Arriendo.findOne({
+        where: { id_arriendo: response.id_arriendo },
+        include: [
+          { model: Cliente },
+          { model: Empresa },
+          { model: Vehiculo },
+          { model: Accesorio },
+          { model: Conductor },
+          { model: Sucursal },
+          {
+            model: Remplazo,
+            include: [{ model: Cliente }],
+          },
+          {
+            model: Garantia,
+            include: [{ model: ModoPago }],
+          },
+          { model: Usuario, attributes: ["nombre_usuario"] },
+        ],
+      });
 
-            //variables
-            const dataList = {
-                firmaPNG: response.firmaPNG,
-                geolocalizacion: response.geolocalizacion,
-                fechaHoraFirma: fechahorafirma(),
-                rut_conductor: arriendo.conductore.rut_conductor,
-                nombre_conductor: arriendo.conductore.nombre_conductor,
-                telefono_conductor: arriendo.conductore.telefono_conductor,
-                clase_conductor: arriendo.conductore.clase_conductor,
-                numero_conductor: arriendo.conductore.numero_conductor,
-                vcto_conductor: arriendo.conductore.vcto_conductor ?
-                    formatFecha(arriendo.conductore.vcto_conductor) :
-                    "",
-                municipalidad_conductor: arriendo.conductore.municipalidad_conductor,
-                direccion_conductor: arriendo.conductore.direccion_conductor,
+      //variables
+      const dataList = {
+        firmaPNG: response.firmaPNG,
+        geolocalizacion: response.geolocalizacion,
+        fechaHoraFirma: fechahorafirma(),
+        rut_conductor: arriendo.conductore.rut_conductor,
+        nombre_conductor: arriendo.conductore.nombre_conductor,
+        telefono_conductor: arriendo.conductore.telefono_conductor,
+        clase_conductor: arriendo.conductore.clase_conductor,
+        numero_conductor: arriendo.conductore.numero_conductor,
+        vcto_conductor: arriendo.conductore.vcto_conductor
+          ? formatFecha(arriendo.conductore.vcto_conductor)
+          : "",
+        municipalidad_conductor: arriendo.conductore.municipalidad_conductor,
+        direccion_conductor: arriendo.conductore.direccion_conductor,
 
-                tipo_vehiculo: arriendo.vehiculo.tipo_vehiculo,
-                marca_vehiculo: arriendo.vehiculo.marca_vehiculo,
-                modelo_vehiculo: arriendo.vehiculo.modelo_vehiculo,
-                patente_vehiculo: arriendo.vehiculo.patente_vehiculo,
+        tipo_vehiculo: arriendo.vehiculo.tipo_vehiculo,
+        marca_vehiculo: arriendo.vehiculo.marca_vehiculo,
+        modelo_vehiculo: arriendo.vehiculo.modelo_vehiculo,
+        patente_vehiculo: arriendo.vehiculo.patente_vehiculo,
 
-                agencia: arriendo.sucursale.nombre_sucursal,
-                vendedor: arriendo.usuario.nombre_usuario,
-                kilometrosEntrada_arriendo: arriendo.kilometrosEntrada_arriendo,
-                kilometrosMantencion_arriendo: arriendo.kilometrosMantencion_arriendo,
-                id_arriendo: arriendo.id_arriendo,
-                ciudad_entrega: arriendo.ciudadEntrega_arriendo,
-                ciudad_recepcion: arriendo.ciudadRecepcion_arriendo,
-                fecha_entrega: formatFechahora(arriendo.fechaEntrega_arriendo),
-                fecha_recepcion: formatFechahora(arriendo.fechaRecepcion_arriendo),
-                tipo_arriendo: arriendo.tipo_arriendo,
-                cantidad_dias: arriendo.numerosDias_arriendo,
+        agencia: arriendo.sucursale.nombre_sucursal,
+        vendedor: arriendo.usuario.nombre_usuario,
+        kilometrosEntrada_arriendo: arriendo.kilometrosEntrada_arriendo,
+        kilometrosMantencion_arriendo: arriendo.kilometrosMantencion_arriendo,
+        id_arriendo: arriendo.id_arriendo,
+        ciudad_entrega: arriendo.ciudadEntrega_arriendo,
+        ciudad_recepcion: arriendo.ciudadRecepcion_arriendo,
+        fecha_entrega: formatFechahora(arriendo.fechaEntrega_arriendo),
+        fecha_recepcion: formatFechahora(arriendo.fechaRecepcion_arriendo),
+        tipo_arriendo: arriendo.tipo_arriendo,
+        cantidad_dias: arriendo.numerosDias_arriendo,
 
-                tipoGarantia: arriendo.garantia.modosPago.nombre_modoPago,
-                numero_tarjeta: arriendo.garantia.numeroTarjeta_garantia,
-                fecha_tarjeta: arriendo.garantia.fechaTarjeta_garantia,
-                codigo_tarjeta: arriendo.garantia.codigoTarjeta_garantia,
-                numero_cheque: arriendo.garantia.numeroCheque_garantia,
-                codigo_cheque: arriendo.garantia.codigoCheque_garantia,
-                abono: arriendo.garantia.monto_garantia,
+        tipoGarantia: arriendo.garantia.modosPago.nombre_modoPago,
+        numero_tarjeta: arriendo.garantia.numeroTarjeta_garantia,
+        fecha_tarjeta: arriendo.garantia.fechaTarjeta_garantia,
+        codigo_tarjeta: arriendo.garantia.codigoTarjeta_garantia,
+        numero_cheque: arriendo.garantia.numeroCheque_garantia,
+        codigo_cheque: arriendo.garantia.codigoCheque_garantia,
+        abono: arriendo.garantia.monto_garantia,
 
-                tipoPago: response.tipoPago,
-                tipoFacturacion: response.tipoFacturacion,
-                numeroFacturacion: response.numFacturacion,
-                valorArriendo: response.valorArriendo,
-                valorCopago: response.valorCopago,
-                neto: response.neto,
-                descuento: response.descuento,
-                iva: response.iva,
-                total: response.total,
-                observaciones: response.observaciones,
-                arrayNombreAccesorios: response.arrayNombreAccesorios,
-                arrayValorAccesorios: response.arrayValorAccesorios,
-            };
+        tipoPago: response.tipoPago,
+        tipoFacturacion: response.tipoFacturacion,
+        numeroFacturacion: response.numFacturacion,
+        valorArriendo: response.valorArriendo,
+        valorCopago: response.valorCopago,
+        neto: response.neto,
+        descuento: response.descuento,
+        iva: response.iva,
+        total: response.total,
+        observaciones: response.observaciones,
+        arrayNombreAccesorios: response.arrayNombreAccesorios,
+        arrayValorAccesorios: response.arrayValorAccesorios,
+      };
 
-            switch (arriendo.tipo_arriendo) {
-                case "PARTICULAR":
-                    dataList.nombre_cliente = arriendo.cliente.nombre_cliente;
-                    dataList.direccion_cliente = arriendo.cliente.direccion_cliente;
-                    dataList.ciudad_cliente = arriendo.cliente.ciudad_cliente;
-                    dataList.estadoCivil_cliente = arriendo.cliente.estadoCivil_cliente;
-                    dataList.rut_cliente = arriendo.cliente.rut_cliente;
-                    dataList.nacimiento_cliente = arriendo.cliente.fechaNacimiento_cliente ?
-                        formatFecha(arriendo.cliente.fechaNacimiento_cliente) :
-                        "";
-                    dataList.telefono_cliente = arriendo.cliente.telefono_cliente;
-                    break;
-                case "REMPLAZO":
-                    dataList.nombre_cliente = arriendo.remplazo.cliente.nombre_cliente;
-                    dataList.direccion_cliente =
-                        arriendo.remplazo.cliente.direccion_cliente;
-                    dataList.ciudad_cliente = arriendo.remplazo.cliente.ciudad_cliente;
-                    dataList.rut_cliente = arriendo.remplazo.cliente.rut_cliente;
-                    dataList.nacimiento_cliente = arriendo.remplazo.cliente
-                        .fechaNacimiento_cliente ?
-                        formatFecha(arriendo.remplazo.cliente.fechaNacimiento_cliente) :
-                        "";
-                    dataList.telefono_cliente =
-                        arriendo.remplazo.cliente.telefono_cliente;
-                    dataList.remplazo = arriendo.remplazo.nombreEmpresa_remplazo;
-                    break;
-                case "EMPRESA":
-                    dataList.nombre_cliente = arriendo.empresa.nombre_empresa;
-                    dataList.direccion_cliente = arriendo.empresa.direccion_empresa;
-                    dataList.ciudad_cliente = arriendo.empresa.ciudad_empresa;
-                    dataList.rut_cliente = arriendo.empresa.rut_empresa;
-                    dataList.telefono_cliente = arriendo.empresa.telefono_empresa;
-                    dataList.nacimiento_cliente = arriendo.empresa.vigencia_empresa;
-                    break;
-            }
+      switch (arriendo.tipo_arriendo) {
+        case "PARTICULAR":
+          dataList.nombre_cliente = arriendo.cliente.nombre_cliente;
+          dataList.direccion_cliente = arriendo.cliente.direccion_cliente;
+          dataList.ciudad_cliente = arriendo.cliente.ciudad_cliente;
+          dataList.estadoCivil_cliente = arriendo.cliente.estadoCivil_cliente;
+          dataList.rut_cliente = arriendo.cliente.rut_cliente;
+          dataList.nacimiento_cliente = arriendo.cliente.fechaNacimiento_cliente
+            ? formatFecha(arriendo.cliente.fechaNacimiento_cliente)
+            : "";
+          dataList.telefono_cliente = arriendo.cliente.telefono_cliente;
+          break;
+        case "REMPLAZO":
+          dataList.nombre_cliente = arriendo.remplazo.cliente.nombre_cliente;
+          dataList.direccion_cliente =
+            arriendo.remplazo.cliente.direccion_cliente;
+          dataList.ciudad_cliente = arriendo.remplazo.cliente.ciudad_cliente;
+          dataList.rut_cliente = arriendo.remplazo.cliente.rut_cliente;
+          dataList.nacimiento_cliente = arriendo.remplazo.cliente
+            .fechaNacimiento_cliente
+            ? formatFecha(arriendo.remplazo.cliente.fechaNacimiento_cliente)
+            : "";
+          dataList.telefono_cliente =
+            arriendo.remplazo.cliente.telefono_cliente;
+          dataList.remplazo = arriendo.remplazo.nombreEmpresa_remplazo;
+          break;
+        case "EMPRESA":
+          dataList.nombre_cliente = arriendo.empresa.nombre_empresa;
+          dataList.direccion_cliente = arriendo.empresa.direccion_empresa;
+          dataList.ciudad_cliente = arriendo.empresa.ciudad_empresa;
+          dataList.rut_cliente = arriendo.empresa.rut_empresa;
+          dataList.telefono_cliente = arriendo.empresa.telefono_empresa;
+          dataList.nacimiento_cliente = arriendo.empresa.vigencia_empresa;
+          break;
+      }
 
-            //valida para asegurar que no se cree otro contrato
-            if (arriendo.estado_arriendo === "PENDIENTE") {
-                //se genera el documento
-                const docDefinition = await contratoPlantilla(dataList);
+      //valida para asegurar que no se cree otro contrato
+      if (arriendo.estado_arriendo === "PENDIENTE") {
+        //se genera el documento
+        const docDefinition = await contratoPlantilla(dataList);
 
-                const fonts = {
-                    Roboto: {
-                        normal: require.resolve("../utils/fonts/Roboto-Regular.ttf"),
-                        bold: require.resolve("../utils/fonts/Roboto-Medium.ttf"),
-                        italics: require.resolve("../utils/fonts/Roboto-Italic.ttf"),
-                        bolditalics: require.resolve(
-                            "../utils/fonts/Roboto-MediumItalic.ttf"
-                        ),
-                    },
-                };
-                const nameFile = uuidv5("contrato-" + arriendo.id_arriendo, uuidv5.URL);
+        const fonts = {
+          Roboto: {
+            normal: require.resolve("../utils/fonts/Roboto-Regular.ttf"),
+            bold: require.resolve("../utils/fonts/Roboto-Medium.ttf"),
+            italics: require.resolve("../utils/fonts/Roboto-Italic.ttf"),
+            bolditalics: require.resolve(
+              "../utils/fonts/Roboto-MediumItalic.ttf"
+            ),
+          },
+        };
+        const nameFile = uuidv5("contrato-" + arriendo.id_arriendo, uuidv5.URL);
 
-                const printer = new PdfPrinter(fonts);
-                const pdfDoc = printer.createPdfKitDocument(docDefinition);
+        const printer = new PdfPrinter(fonts);
+        const pdfDoc = printer.createPdfKitDocument(docDefinition);
 
-                //se guarda el pdf en una ruta predeterminada
-                pdfDoc.pipe(
-                    fs.createWriteStream(
-                        path.join(
-                            __dirname,
-                            "../uploads/documentos/contratos/" + nameFile + ".pdf"
-                        )
-                    )
-                );
-                pdfDoc.end();
+        //se guarda el pdf en una ruta predeterminada
+        pdfDoc.pipe(
+          fs.createWriteStream(
+            path.join(
+              __dirname,
+              "../uploads/documentos/contratos/" + nameFile + ".pdf"
+            )
+          )
+        );
+        pdfDoc.end();
 
-                setTimeout(() => {
-                    res.json({
-                        success: true,
-                        data: {
-                            nombre_documento: nameFile,
-                            firma: response.firmaPNG,
-                        },
-                    });
-                }, 2000);
-            } else {
-                res.json({
-                    success: false,
-                    msg: "el contrato ya esta firmado!",
-                });
-            }
-        } catch (error) {
-            sendError(error, res);
-        }
+        setTimeout(() => {
+          res.json({
+            success: true,
+            data: {
+              nombre_documento: nameFile,
+              firma: response.firmaPNG,
+            },
+          });
+        }, 2000);
+      } else {
+        res.json({
+          success: false,
+          msg: "el contrato ya esta firmado!",
+        });
+      }
+    } catch (error) {
+      sendError(error, res);
     }
+  }
 
-    async sendEmailContrato(req, res) {
-        try {
-            const response = req.body;
-            const arriendo = await Arriendo.findOne({
-                where: { id_arriendo: response.id_arriendo },
-                include: [
-                    { model: Cliente, attributes: ["correo_cliente", "nombre_cliente"] },
-                    { model: Empresa, attributes: ["correo_empresa", "nombre_empresa"] },
-                    { model: Contrato },
-                    {
-                        model: Remplazo,
-                        include: [{ model: Cliente }],
-                    },
-                ],
-            });
-            const client = {};
-            switch (arriendo.tipo_arriendo) {
-                case "PARTICULAR":
-                    client.name = arriendo.cliente.nombre_cliente;
-                    client.correo = arriendo.cliente.correo_cliente;
-                    break;
-                case "REMPLAZO":
-                    client.name = arriendo.remplazo.cliente.nombre_cliente;
-                    client.correo = arriendo.remplazo.cliente.correo_cliente;
-                    break;
-                case "EMPRESA":
-                    client.name = arriendo.empresa.nombre_empresa;
-                    client.correo = arriendo.empresa.correo_empresa;
-                    break;
-            }
+  async sendEmailContrato(req, res) {
+    try {
+      const response = req.body;
+      const arriendo = await Arriendo.findOne({
+        where: { id_arriendo: response.id_arriendo },
+        include: [
+          { model: Cliente, attributes: ["correo_cliente", "nombre_cliente"] },
+          { model: Empresa, attributes: ["correo_empresa", "nombre_empresa"] },
+          { model: Contrato },
+          {
+            model: Remplazo,
+            include: [{ model: Cliente }],
+          },
+        ],
+      });
+      const client = {};
+      switch (arriendo.tipo_arriendo) {
+        case "PARTICULAR":
+          client.name = arriendo.cliente.nombre_cliente;
+          client.correo = arriendo.cliente.correo_cliente;
+          break;
+        case "REMPLAZO":
+          client.name = arriendo.remplazo.cliente.nombre_cliente;
+          client.correo = arriendo.remplazo.cliente.correo_cliente;
+          break;
+        case "EMPRESA":
+          client.name = arriendo.empresa.nombre_empresa;
+          client.correo = arriendo.empresa.correo_empresa;
+          break;
+      }
 
-            //datos del email hosting
-            const transporter = nodemailer.createTransport({
-                host: process.env.EMAIL_HOST,
-                port: process.env.EMAIL_PORT,
-                secure: false,
-                auth: {
-                    user: process.env.EMAIL_USER,
-                    pass: process.env.EMAIL_PASS,
-                },
-                tls: {
-                    rejectUnauthorized: false,
-                },
-            });
+      //datos del email hosting
+      const transporter = nodemailer.createTransport({
+        host: process.env.EMAIL_HOST,
+        port: process.env.EMAIL_PORT,
+        secure: false,
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+        tls: {
+          rejectUnauthorized: false,
+        },
+      });
 
-            //datos del mensaje y su destinatario
-            const mailOptions = {
-                from: "'Rent A Car - Grupo Firma' <api.rentacarmaule@grupofirma.cl>",
-                to: client.correo,
-                subject: "COPIA DE CONTRATO RENT A CAR",
-                text: "Se adjunta copia del contrato Rent a Car",
-                html: `
+      //datos del mensaje y su destinatario
+      const mailOptions = {
+        from: "'Rent A Car - Grupo Firma' <api.rentacarmaule@grupofirma.cl>",
+        to: client.correo,
+        subject: "COPIA DE CONTRATO RENT A CAR",
+        text: "Se adjunta copia del contrato Rent a Car",
+        html: `
                 <p>Sr.(a) ${client.name}:</p>
                 <p>Por este medio envio su copia del contrato de arriendo de Rent a Car.</p>
                 <br><br>
@@ -268,26 +268,28 @@ class contrato_controller {
                   logo
                 )}" width="200" height="50"  />
                 `,
-                attachments: [{
-                    filename: "CONSTRATO.pdf",
-                    contentType: "pdf",
-                    path: path.join(
-                        __dirname,
-                        "../uploads/documentos/contratos/" +
-                        arriendo.contratos[0].documento +
-                        ".pdf"
-                    ),
-                }, ],
-            };
-            const resp = await transporter.sendMail(mailOptions);
-            res.json({
-                success: true,
-                msg: resp,
-            });
-        } catch (error) {
-            sendError(error, res);
-        }
+        attachments: [
+          {
+            filename: "CONSTRATO.pdf",
+            contentType: "pdf",
+            path: path.join(
+              __dirname,
+              "../uploads/documentos/contratos/" +
+                arriendo.contratos[0].documento +
+                ".pdf"
+            ),
+          },
+        ],
+      };
+      const resp = await transporter.sendMail(mailOptions);
+      res.json({
+        success: true,
+        msg: resp,
+      });
+    } catch (error) {
+      sendError(error, res);
     }
+  }
 }
 
 module.exports = contrato_controller;

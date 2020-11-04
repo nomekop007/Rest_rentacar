@@ -11,7 +11,7 @@ const {
     ModoPago,
     Propietario,
     Vehiculo,
-} = require("../db");
+} = require("../database/db");
 
 router.get("/", async(req, res) => {
     try {
@@ -65,9 +65,17 @@ router.get("/", async(req, res) => {
             { id_accesorio: 2, nombre_accesorio: "DEDUCIBLE", userAt: "default" },
             { id_accesorio: 3, nombre_accesorio: "BENCINA", userAt: "default" },
             { id_accesorio: 4, nombre_accesorio: "ENGANCHE", userAt: "default" },
-            { id_accesorio: 5, nombre_accesorio: "SILLA PARA BEBE", userAt: "default" },
+            {
+                id_accesorio: 5,
+                nombre_accesorio: "SILLA PARA BEBE",
+                userAt: "default",
+            },
             { id_accesorio: 6, nombre_accesorio: "PASE DIARIO", userAt: "default" },
-            { id_accesorio: 7, nombre_accesorio: "RASTREO SATELITAL", userAt: "default" },
+            {
+                id_accesorio: 7,
+                nombre_accesorio: "RASTREO SATELITAL",
+                userAt: "default",
+            },
         ];
 
         const modoPagos = [

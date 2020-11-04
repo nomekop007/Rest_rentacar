@@ -1,4 +1,4 @@
-const { Conductor } = require("../db");
+const { Conductor } = require("../database/db");
 const { sendError } = require("../helpers/components");
 
 class ConductorController {

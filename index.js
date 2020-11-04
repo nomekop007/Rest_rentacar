@@ -1,7 +1,7 @@
 //variables de entorno
 require("dotenv").config();
 
-require("./db");
+require("./database/db");
 const express = require("express");
 const bodyParser = require("body-parser");
 const apiRouter = require("./routes/route");
@@ -13,8 +13,8 @@ const cors = require("cors");
 const app = express();
 
 app.use(morgan("dev"));
-app.use(bodyParser.json({ limit: "100mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "100mb", extended: true }));
+app.use(bodyParser.json({ limit: "50mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 //static files (hace publica la carpeta uploads)
 app.use(express.static(path.join(__dirname, "uploads")));

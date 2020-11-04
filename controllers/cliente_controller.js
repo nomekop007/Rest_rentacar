@@ -1,4 +1,4 @@
-const { Cliente } = require("../db");
+const { Cliente } = require("../database/db");
 const { sendError } = require("../helpers/components");
 
 class ClienteController {

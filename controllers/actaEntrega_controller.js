@@ -6,7 +6,7 @@ const {
     Cliente,
     Empresa,
     Remplazo,
-} = require("../db");
+} = require("../database/db");
 const fs = require("fs");
 const path = require("path");
 const { v5: uuidv5 } = require("uuid");

@@ -38,9 +38,9 @@ const subirDocumentoRequisitosArriendo = multer({
 }).fields([
     { name: "fotoCarnetFrontal", maxCount: 1 },
     { name: "fotoCarnetTrasera", maxCount: 1 },
-    { name: "fotoTarjetaFrontal", maxCount: 1 },
-    { name: "fotoTarjetaTrasera", maxCount: 1 },
-    { name: "fotoLicencia", maxCount: 1 },
+    { name: "fotoLicenciaFrontal", maxCount: 1 },
+    { name: "fotoLicenciaTrasera", maxCount: 1 },
+    { name: "fotoTarjeta", maxCount: 1 },
     { name: "fotoCheque", maxCount: 1 },
     { name: "fotoComprobante", maxCount: 1 },
     { name: "fotoCartaRemplazo", maxCount: 1 },

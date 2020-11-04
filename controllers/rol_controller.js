@@ -1,4 +1,4 @@
-const { Rol } = require("../db");
+const { Rol } = require("../database/db");
 const { sendError } = require("../helpers/components");
 
 class RolController {

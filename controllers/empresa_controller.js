@@ -1,4 +1,4 @@
-const { Empresa } = require("../db");
+const { Empresa } = require("../database/db");
 const { sendError } = require("../helpers/components");
 
 class EmpresaController {

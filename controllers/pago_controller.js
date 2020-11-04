@@ -1,4 +1,4 @@
-const { Pago, Facturacion } = require("../db");
+const { Pago, Facturacion } = require("../database/db");
 const { sendError } = require("../helpers/components");
 
 class PagoController {

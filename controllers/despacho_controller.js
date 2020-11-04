@@ -1,4 +1,4 @@
-const { Despacho } = require("../db");
+const { Despacho } = require("../database/db");
 const { sendError } = require("../helpers/components");
 
 class DespachoController {

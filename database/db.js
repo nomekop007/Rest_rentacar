@@ -1,26 +1,26 @@
 const { Sequelize, database } = require("./databaseConnect");
 
 //llamar al models
-const LogModel = require("./models/log");
-const RolModel = require("./models/roles");
-const UsuarioModel = require("./models/usuarios");
-const SucursalModel = require("./models/sucursales");
-const VehiculoModel = require("./models/vehiculos");
-const AccesoriosModel = require("./models/accesorios");
-const ArriendoModel = require("./models/arriendos");
-const ClienteModel = require("./models/clientes");
-const EmpresaModel = require("./models/empresas");
-const ConductorModel = require("./models/conductores");
-const RequistoModel = require("./models/requisitos");
-const ContratoModel = require("./models/contratos");
-const PagoModel = require("./models/pagos");
-const FacturacionModel = require("./models/facturaciones");
-const GarantiaModel = require("./models/garantias");
-const ModoPagoModel = require("./models/modosPagos");
-const PropietarioModel = require("./models/propietarios");
-const RemplazoModel = require("./models/remplazos");
-const ActaEntregaModel = require("./models/actaEntrega");
-const DespachoModel = require("./models/despacho");
+const LogModel = require("../models/log");
+const RolModel = require("../models/roles");
+const UsuarioModel = require("../models/usuarios");
+const SucursalModel = require("../models/sucursales");
+const VehiculoModel = require("../models/vehiculos");
+const AccesoriosModel = require("../models/accesorios");
+const ArriendoModel = require("../models/arriendos");
+const ClienteModel = require("../models/clientes");
+const EmpresaModel = require("../models/empresas");
+const ConductorModel = require("../models/conductores");
+const RequistoModel = require("../models/requisitos");
+const ContratoModel = require("../models/contratos");
+const PagoModel = require("../models/pagos");
+const FacturacionModel = require("../models/facturaciones");
+const GarantiaModel = require("../models/garantias");
+const ModoPagoModel = require("../models/modosPagos");
+const PropietarioModel = require("../models/propietarios");
+const RemplazoModel = require("../models/remplazos");
+const ActaEntregaModel = require("../models/actaEntrega");
+const DespachoModel = require("../models/despacho");
 
 //conectar modelo con base de datos
 const Log = LogModel(database, Sequelize);

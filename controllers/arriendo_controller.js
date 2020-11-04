@@ -9,7 +9,7 @@ const {
     Remplazo,
     Requisito,
     Garantia,
-} = require("../db");
+} = require("../database/db");
 const { sendError } = require("../helpers/components");
 class ArriendoController {
     async getArriendos(req, res) {
