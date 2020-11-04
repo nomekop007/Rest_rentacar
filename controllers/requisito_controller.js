@@ -8,32 +8,32 @@ class RequisitoController {
             console.log(files);
             const data = {
                 id_arriendo: req.params.id,
-                carnetFrontal_requisito: files.fotoCarnetFrontal ?
-                    files.fotoCarnetFrontal[0].filename :
+                carnetFrontal_requisito: files.inputCarnetFrontal ?
+                    files.inputCarnetFrontal[0].filename :
                     null,
-                carnetTrasera_requisito: files.fotoCarnetTrasera ?
-                    files.fotoCarnetTrasera[0].filename :
+                carnetTrasera_requisito: files.inputCarnetTrasera ?
+                    files.inputCarnetTrasera[0].filename :
                     null,
-                licenciaConducirFrontal_requisito: files.fotoLicenciaFrontal ?
-                    files.fotoLicenciaFrontal[0].filename :
+                licenciaConducirFrontal_requisito: files.inputlicenciaFrontal ?
+                    files.inputlicenciaFrontal[0].filename :
                     null,
-                licenciaConducirTrasera_requisito: files.fotoLicenciaTrasera ?
-                    files.fotoLicenciaTrasera[0].filename :
+                licenciaConducirTrasera_requisito: files.inputlicenciaTrasera ?
+                    files.inputlicenciaTrasera[0].filename :
                     null,
-                tarjetaCredito_requisito: files.fotoTarjeta ?
-                    files.fotoTarjeta[0].filename :
+                tarjetaCredito_requisito: files.inputTarjeta ?
+                    files.inputTarjeta[0].filename :
                     null,
-                chequeGarantia_requisito: files.fotoCheque ?
-                    files.fotoCheque[0].filename :
+                chequeGarantia_requisito: files.inputCheque ?
+                    files.inputCheque[0].filename :
                     null,
-                comprobanteDomicilio_requisito: files.fotoComprobante ?
-                    files.fotoComprobante[0].filename :
+                comprobanteDomicilio_requisito: files.inputComprobante ?
+                    files.inputComprobante[0].filename :
                     null,
-                cartaRemplazo_requisito: files.fotoCartaRemplazo ?
-                    files.fotoCartaRemplazo[0].filename :
+                cartaRemplazo_requisito: files.inputCartaRemplazo ?
+                    files.inputCartaRemplazo[0].filename :
                     null,
-                boletaEfectivo_requisito: files.fotoBoletaEfectivo ?
-                    files.fotoBoletaEfectivo[0].filename :
+                boletaEfectivo_requisito: files.inputBoletaEfectivo ?
+                    files.inputBoletaEfectivo[0].filename :
                     null,
             };
 

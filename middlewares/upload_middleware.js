@@ -36,15 +36,15 @@ const subirDocumentoRequisitosArriendo = multer({
     dest: path.join(__dirname, "../uploads/documentos/requisitosArriendo"),
     limits: { fieldSize: 20000000 },
 }).fields([
-    { name: "fotoCarnetFrontal", maxCount: 1 },
-    { name: "fotoCarnetTrasera", maxCount: 1 },
-    { name: "fotoLicenciaFrontal", maxCount: 1 },
-    { name: "fotoLicenciaTrasera", maxCount: 1 },
-    { name: "fotoTarjeta", maxCount: 1 },
-    { name: "fotoCheque", maxCount: 1 },
-    { name: "fotoComprobante", maxCount: 1 },
-    { name: "fotoCartaRemplazo", maxCount: 1 },
-    { name: "fotoBoletaEfectivo", maxCount: 1 },
+    { name: "inputlicenciaFrontal", maxCount: 1 },
+    { name: "inputlicenciaTrasera", maxCount: 1 },
+    { name: "inputCarnetFrontal", maxCount: 1 },
+    { name: "inputCarnetTrasera", maxCount: 1 },
+    { name: "inputCheque", maxCount: 1 },
+    { name: "inputComprobante", maxCount: 1 },
+    { name: "inputTarjeta", maxCount: 1 },
+    { name: "inputCartaRemplazo", maxCount: 1 },
+    { name: "inputBoletaEfectivo", maxCount: 1 },
 ]);
 
 module.exports = {
