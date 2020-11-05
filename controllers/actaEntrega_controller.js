@@ -113,7 +113,6 @@ class ActaEntregaController {
             sendError(error, res);
         }
     }
-
     async sendEmailActaEntrega(req, res) {
         try {
             const response = req.body;

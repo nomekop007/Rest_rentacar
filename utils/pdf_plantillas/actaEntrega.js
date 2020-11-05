@@ -65,10 +65,10 @@ async function actaEntregaPlantilla(data) {
     };
 
     const fechaHoraFirma = () => {
-        if (!data.geolocalizacion) {
-            data.geolocalizacion = "no location";
-        }
         if (data.firma1PNG && data.firma2PNG) {
+            if (data.geolocalizacion == null) {
+                data.geolocalizacion = "no location";
+            }
             return {
                 alignment: "center",
                 text: `${data.fechaHoraFirma}

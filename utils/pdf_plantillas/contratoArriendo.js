@@ -141,10 +141,10 @@ async function contratoPlantilla(data) {
         }
     };
     const fechaHoraFirma = () => {
-        if (!data.geolocalizacion) {
-            data.geolocalizacion = "no location";
-        }
         if (data.firmaPNG) {
+            if (data.geolocalizacion == null) {
+                data.geolocalizacion = "no location";
+            }
             return {
                 alignment: "center",
                 text: `${data.fechaHoraFirma}

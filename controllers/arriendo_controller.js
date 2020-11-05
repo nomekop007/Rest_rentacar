@@ -9,6 +9,7 @@ const {
     Remplazo,
     Requisito,
     Garantia,
+    Sucursal,
 } = require("../database/db");
 const { sendError } = require("../helpers/components");
 class ArriendoController {
@@ -26,13 +27,15 @@ class ArriendoController {
                 where: where,
                 include: [
                     { model: Usuario, attributes: ["nombre_usuario"] },
-                    { model: Cliente, attributes: ["nombre_cliente"] },
-                    { model: Empresa, attributes: ["nombre_empresa"] },
+                    { model: Cliente, attributes: ["nombre_cliente", "rut_cliente"] },
+                    { model: Empresa, attributes: ["nombre_empresa", "rut_empresa"] },
                     { model: Vehiculo, attributes: ["patente_vehiculo"] },
                     {
                         model: Remplazo,
                         attributes: ["nombreEmpresa_remplazo"],
-                        include: [{ model: Cliente, attributes: ["nombre_cliente"] }],
+                        include: [
+                            { model: Cliente, attributes: ["nombre_cliente", "rut_cliente"] },
+                        ],
                     },
                 ],
             });
@@ -57,6 +60,7 @@ class ArriendoController {
                     { model: Accesorio },
                     { model: Requisito },
                     { model: Garantia },
+                    { model: Sucursal, attributes: ["nombre_sucursal"] },
                     { model: Usuario, attributes: ["nombre_usuario"] },
                     {
                         model: Remplazo,
