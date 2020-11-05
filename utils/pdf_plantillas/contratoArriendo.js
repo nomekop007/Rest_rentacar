@@ -6,6 +6,9 @@ async function contratoPlantilla(data) {
     //clase para cambiar numeros a monedas
     const formatter = new Intl.NumberFormat("CL");
     const image = await base64(pagare);
+    console.log(data);
+
+    // !!!!!!!!!CORRECION COMPLETA!!!!!!!!!
 
     let traslado = 0;
     let deducible = 0;

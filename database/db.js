@@ -21,6 +21,7 @@ const PropietarioModel = require("../models/propietarios");
 const RemplazoModel = require("../models/remplazos");
 const ActaEntregaModel = require("../models/actaEntrega");
 const DespachoModel = require("../models/despacho");
+const PagoAccesoriosModel = require("../models//pagos-accesorios");
 
 //conectar modelo con base de datos
 const Log = LogModel(database, Sequelize);
@@ -43,8 +44,14 @@ const Propietario = PropietarioModel(database, Sequelize);
 const Remplazo = RemplazoModel(database, Sequelize);
 const ActaEntrega = ActaEntregaModel(database, Sequelize);
 const Despacho = DespachoModel(database, Sequelize);
+const PagoAccesorio = PagoAccesoriosModel(database, Sequelize);
 
 //Asociaciones de tablas
+
+// un pago tiene una pagoAccesorio
+Pago.hasOne(PagoAccesorio, { foreignKey: { name: "id_pago" } });
+//un pagoAccesorio pertenece a un pago
+PagoAccesorio.belongsTo(Pago, { foreignKey: { name: "id_pago" } });
 
 // un arriento tiene una despacho
 Arriendo.hasOne(Despacho, { foreignKey: { name: "id_arriendo" } });
