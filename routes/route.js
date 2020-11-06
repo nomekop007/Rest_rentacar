@@ -24,6 +24,8 @@ const apiPropietarioRouter = require("./api/propietarios");
 const apiRemplazoRouter = require("./api/remplazos");
 const apiActaEntregaRouter = require("./api/actasEntregas");
 const apiDespachoRouter = require("./api//despachos");
+const apiPagoAccesorioRouter = require("./api/pagosAccesorios");
+const apiFacturacionRouter = require("./api/facturaciones");
 
 if (process.env.DEFAULT_VALUE === "TRUE") {
     console.log("function default enable");
@@ -47,5 +49,7 @@ router.use("/arriendos", check.checkToken, apiArriendosRouter);
 router.use("/remplazos", check.checkToken, apiRemplazoRouter);
 router.use("/actasEntregas", check.checkToken, apiActaEntregaRouter);
 router.use("/despachos", check.checkToken, apiDespachoRouter);
+router.use("/pagosAccesorios", check.checkToken, apiPagoAccesorioRouter);
+router.use("/facturaciones", check.checkToken, apiFacturacionRouter);
 
 module.exports = router;

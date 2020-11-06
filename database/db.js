@@ -21,7 +21,7 @@ const PropietarioModel = require("../models/propietarios");
 const RemplazoModel = require("../models/remplazos");
 const ActaEntregaModel = require("../models/actaEntrega");
 const DespachoModel = require("../models/despacho");
-const PagoAccesoriosModel = require("../models//pagos-accesorios");
+const PagoAccesoriosModel = require("../models/pagoAccesorios");
 
 //conectar modelo con base de datos
 const Log = LogModel(database, Sequelize);
@@ -49,7 +49,7 @@ const PagoAccesorio = PagoAccesoriosModel(database, Sequelize);
 //Asociaciones de tablas
 
 // un pago tiene una pagoAccesorio
-Pago.hasOne(PagoAccesorio, { foreignKey: { name: "id_pago" } });
+Pago.hasMany(PagoAccesorio, { foreignKey: { name: "id_pago" } });
 //un pagoAccesorio pertenece a un pago
 PagoAccesorio.belongsTo(Pago, { foreignKey: { name: "id_pago" } });
 
@@ -83,10 +83,10 @@ ModoPago.hasMany(Garantia, { foreignKey: { name: "id_modoPago" } });
 // un garantia pertenece a un modoPago
 Garantia.belongsTo(ModoPago, { foreignKey: { name: "id_modoPago" } });
 
-//un factura  pertenece a un pago
-Facturacion.belongsTo(Pago, { foreignKey: { name: "id_pago" } });
-//un pago tiene una factura
-Pago.hasOne(Facturacion, { foreignKey: { name: "id_pago" } });
+//un facturacion tiene muchos pago
+Facturacion.hasMany(Pago, { foreignKey: { name: "id_facturacion" } });
+//un pago  pertenece a un facturacion
+Pago.belongsTo(Facturacion, { foreignKey: { name: "id_facturacion" } });
 
 // un arriendo tiene muchos pagos
 Arriendo.hasMany(Pago, { foreignKey: { name: "id_arriendo" } });
@@ -158,6 +158,11 @@ Contrato.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
 //un Arriendo tiene muchos Contrato
 Arriendo.hasMany(Contrato, { foreignKey: { name: "id_arriendo" } });
 
+//un Contrato pertenece a un Pago
+Contrato.belongsTo(Pago, { foreignKey: { name: "id_pago" } });
+//un pago tiene un Contrato
+Pago.hasOne(Contrato, { foreignKey: { name: "id_pago" } });
+
 // un arriendo tiene muchos accesorios
 Arriendo.belongsToMany(Accesorio, {
     through: "Arriendos-Accesorios",
@@ -190,4 +195,5 @@ module.exports = {
     Remplazo,
     Despacho,
     ActaEntrega,
+    PagoAccesorio,
 };

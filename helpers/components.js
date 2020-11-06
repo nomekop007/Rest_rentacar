@@ -45,14 +45,23 @@ const formatFechahora = (fecha) => {
     return moment(f).format("DD-MM-YYYY  HH:mm a");
 };
 
-function borrarImagenDeStorage(name) {
+const borrarImagenDeStorage = (name) => {
     try {
         fs.unlinkSync(path.join(__dirname, "../uploads/fotosVehiculos/" + name));
         return true;
     } catch (err) {
         return console.log(err);
     }
-}
+};
+
+const fontsPDF = {
+    Roboto: {
+        normal: require.resolve("../utils/fonts/Roboto-Regular.ttf"),
+        bold: require.resolve("../utils/fonts/Roboto-Medium.ttf"),
+        italics: require.resolve("../utils/fonts/Roboto-Italic.ttf"),
+        bolditalics: require.resolve("../utils/fonts/Roboto-MediumItalic.ttf"),
+    },
+};
 
 module.exports = {
     sendError,
@@ -63,4 +72,5 @@ module.exports = {
     formatFecha,
     formatFechahora,
     borrarImagenDeStorage,
+    fontsPDF,
 };

@@ -10,6 +10,7 @@ const {
     Requisito,
     Garantia,
     Sucursal,
+    Pago,
 } = require("../database/db");
 const { sendError } = require("../helpers/components");
 class ArriendoController {
@@ -30,6 +31,8 @@ class ArriendoController {
                     { model: Cliente, attributes: ["nombre_cliente", "rut_cliente"] },
                     { model: Empresa, attributes: ["nombre_empresa", "rut_empresa"] },
                     { model: Vehiculo, attributes: ["patente_vehiculo"] },
+                    { model: Pago },
+                    { model: Requisito },
                     {
                         model: Remplazo,
                         attributes: ["nombreEmpresa_remplazo"],
@@ -60,6 +63,7 @@ class ArriendoController {
                     { model: Accesorio },
                     { model: Requisito },
                     { model: Garantia },
+                    { model: Pago },
                     { model: Sucursal, attributes: ["nombre_sucursal"] },
                     { model: Usuario, attributes: ["nombre_usuario"] },
                     {

@@ -11,11 +11,11 @@ const {
     Remplazo,
     Garantia,
     Pago,
-    Facturacion,
-
     ModoPago,
+    PagoAccesorio,
+    Facturacion,
 } = require("../database/db");
-const { sendError } = require("../helpers/components");
+const { sendError, fontsPDF } = require("../helpers/components");
 const fs = require("fs");
 const path = require("path");
 const { v5: uuidv5 } = require("uuid");
@@ -51,8 +51,14 @@ class contrato_controller {
                     { model: Accesorio },
                     { model: Conductor },
                     { model: Sucursal },
-                    { model: Pago },
-                    { model: Facturacion },
+                    {
+                        model: Pago,
+                        include: [
+                            { model: Facturacion },
+                            { model: PagoAccesorio },
+                            { model: ModoPago },
+                        ],
+                    },
                     {
                         model: Remplazo,
                         include: [{ model: Cliente }],
@@ -66,53 +72,36 @@ class contrato_controller {
             });
 
             response.arriendo = arriendo;
+            //se genera el documento
+            const docDefinition = await contratoPlantilla(response);
 
-            //valida para asegurar que no se cree otro contrato
-            if (arriendo.estado_arriendo === "PENDIENTE") {
-                //se genera el documento
-                const docDefinition = await contratoPlantilla(response);
+            const nameFile = uuidv5(
+                "contrato-" + arriendo.fechaEntrega_arriendo + arriendo.id_arriendo,
+                uuidv5.URL
+            );
+            const printer = new PdfPrinter(fontsPDF);
+            const pdfDoc = printer.createPdfKitDocument(docDefinition);
 
-                const fonts = {
-                    Roboto: {
-                        normal: require.resolve("../utils/fonts/Roboto-Regular.ttf"),
-                        bold: require.resolve("../utils/fonts/Roboto-Medium.ttf"),
-                        italics: require.resolve("../utils/fonts/Roboto-Italic.ttf"),
-                        bolditalics: require.resolve(
-                            "../utils/fonts/Roboto-MediumItalic.ttf"
-                        ),
-                    },
-                };
-                const nameFile = uuidv5("contrato-" + arriendo.id_arriendo, uuidv5.URL);
-
-                const printer = new PdfPrinter(fonts);
-                const pdfDoc = printer.createPdfKitDocument(docDefinition);
-
-                //se guarda el pdf en una ruta predeterminada
-                pdfDoc.pipe(
-                    fs.createWriteStream(
-                        path.join(
-                            __dirname,
-                            "../uploads/documentos/contratos/" + nameFile + ".pdf"
-                        )
+            //se guarda el pdf en una ruta predeterminada
+            pdfDoc.pipe(
+                fs.createWriteStream(
+                    path.join(
+                        __dirname,
+                        "../uploads/documentos/contratos/" + nameFile + ".pdf"
                     )
-                );
-                pdfDoc.end();
+                )
+            );
+            pdfDoc.end();
 
-                setTimeout(() => {
-                    res.json({
-                        success: true,
-                        data: {
-                            nombre_documento: nameFile,
-                            firma: response.firmaPNG,
-                        },
-                    });
-                }, 2000);
-            } else {
+            setTimeout(() => {
                 res.json({
-                    success: false,
-                    msg: "el contrato ya esta firmado!",
+                    success: true,
+                    data: {
+                        nombre_documento: nameFile,
+                        firma: response.firmaPNG,
+                    },
                 });
-            }
+            }, 2000);
         } catch (error) {
             sendError(error, res);
         }

@@ -2,7 +2,7 @@ const { Pago } = require("../database/db");
 const { sendError } = require("../helpers/components");
 
 class PagoController {
-    async createPagoFacturacion(req, res) {
+    async createPago(req, res) {
         try {
             const response = req.body;
 
@@ -17,6 +17,8 @@ class PagoController {
                 case "EFECTIVO":
                     response.id_modoPago = 1;
                     break;
+                default:
+                    response.id_modoPago = null;
             }
             const pago = await Pago.create(response);
 

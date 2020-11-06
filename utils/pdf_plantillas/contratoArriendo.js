@@ -1,4 +1,5 @@
 const base64 = require("image-to-base64");
+const { fechahorafirma } = require("../../helpers/components");
 const logo = require.resolve("../images/logo.png");
 const pagare = require.resolve("../images/pagare.png");
 
@@ -6,114 +7,152 @@ async function contratoPlantilla(data) {
     //clase para cambiar numeros a monedas
     const formatter = new Intl.NumberFormat("CL");
     const image = await base64(pagare);
-    console.log(data);
 
-    // !!!!!!!!!CORRECION COMPLETA!!!!!!!!!
+    //i es lo del pago
 
-    let traslado = 0;
-    let deducible = 0;
-    let bencina = 0;
-    let enganche = 0;
-    let silla = 0;
-    let pase = 0;
-    let rastreo = 0;
-    let otros = 0;
+    const doc = {
+        P: 0,
+        cliente: {
+            nombre_cliente: "",
+            direccion_cliente: "",
+            ciudad_cliente: "",
+            rut_cliente: "",
+            nacimiento_cliente: "",
+            telefono_cliente: "",
+            estado_civil: "",
+        },
+        pago: {
+            boletaX: "",
+            facturaX: "",
+            codigoBoleta: "",
+            codigoFactura: "",
+            efectivoX: "",
+            chequeX: "",
+            tarjetaX: "",
+            observaciones: "",
+        },
+        garantia: {
+            numero_tarjeta: "",
+            fecha_tarjeta: "",
+            codigo_tarjeta: "",
+            garantiaTarjeta: "",
+            numero_cheque: "",
+            codigo_cheque: "",
+            garantiaEfectivo: "",
+        },
+        accesorios: {
+            traslado: 0,
+            deducible: 0,
+            bencina: 0,
+            enganche: 0,
+            silla: 0,
+            pase: 0,
+            rastreo: 0,
+            otros: 0,
+        },
+        fechaInicio: "",
+        fechaFin: "",
+        horaInicio: "",
+        horaFin: "",
+    };
 
-    //se añade los precios de los accesorios que se compro
-    if (data.arrayNombreAccesorios != null) {
-        var nombre = data.arrayNombreAccesorios.split(",");
-        var valor = data.arrayValorAccesorios.split(",");
-
-        for (let i = 0; i < nombre.length; i++) {
-            switch (nombre[i]) {
+    const arrayAccesorios = data.arriendo.pagos[doc.P].pagosAccesorios;
+    if (arrayAccesorios.length > 0) {
+        for (let i = 0; i < arrayAccesorios.length; i++) {
+            switch (arrayAccesorios[i].nombre_pagoAccesorio) {
                 case "TRASLADO":
-                    traslado = valor[i];
+                    doc.accesorios.traslado =
+                        arrayAccesorios[i].precioVenta_pagoAccesorio;
                     break;
                 case "DEDUCIBLE":
-                    deducible = valor[i];
+                    doc.accesorios.deducible =
+                        arrayAccesorios[i].precioVenta_pagoAccesorio;
                     break;
                 case "BENCINA":
-                    bencina = valor[i];
+                    doc.accesorios.bencina = arrayAccesorios[i].precioVenta_pagoAccesorio;
                     break;
                 case "ENGANCHE":
-                    enganche = valor[i];
+                    doc.accesorios.enganche =
+                        arrayAccesorios[i].precioVenta_pagoAccesorio;
                     break;
                 case "SILLA PARA BEBE":
-                    silla = valor[i];
+                    doc.accesorios.silla = arrayAccesorios[i].precioVenta_pagoAccesorio;
                     break;
                 case "PASE DIARIO":
-                    pase = valor[i];
+                    doc.accesorios.pase = arrayAccesorios[i].precioVenta_pagoAccesorio;
                     break;
                 case "RASTREO SATELITAL":
-                    rastreo = valor[i];
+                    doc.accesorios.rastreo = arrayAccesorios[i].precioVenta_pagoAccesorio;
                     break;
                 default:
-                    otros = valor[i];
+                    doc.accesorios.otros = arrayAccesorios[i].precioVenta_pagoAccesorio;
                     break;
             }
         }
     }
 
-    //tipos de facturacion
-    switch (data.tipoFacturacion) {
-        case "BOLETA":
-            var boleta = "X";
-            var factura = "";
-            var numBoleta = data.numeroFacturacion;
-            var numFactura = "";
-            break;
+    /* 
+                                                     switch (data.arriendo.pagos[doc.P].facturacion) {
+                                                          case "BOLETA":
+                                                              var boleta = "X";
+                                                              var factura = "";
+                                                              var numBoleta = data.numeroFacturacion;
+                                                              var numFactura = "";
+                                                              break;
 
-        case "FACTURA":
-            var boleta = "";
-            var factura = "X";
-            var numBoleta = "";
-            var numFactura = data.numeroFacturacion;
-            break;
-    }
+                                                          case "FACTURA":
+                                                              var boleta = "";
+                                                              var factura = "X";
+                                                              var numBoleta = "";
+                                                              var numFactura = data.numeroFacturacion;
+                                                              break;
+                                                      }
+                                                   */
+    //tipos de facturacion
 
     //tipo pago
-    switch (data.tipoPago) {
-        case "EFECTIVO":
-            var efectivo = "X";
-            var cheque = "";
-            var tarjeta = "";
-            break;
-        case "CHEQUE":
-            var efectivo = "";
-            var cheque = "X";
-            var tarjeta = "";
-            break;
-        case "TARJETA":
-            var efectivo = "";
-            var cheque = "";
-            var tarjeta = "X";
-            break;
-    }
+    /*     switch (data.tipoPago) {
+                                                                                            case "EFECTIVO":
+                                                                                                var efectivo = "X";
+                                                                                                var cheque = "";
+                                                                                                var tarjeta = "";
+                                                                                                break;
+                                                                                            case "CHEQUE":
+                                                                                                var efectivo = "";
+                                                                                                var cheque = "X";
+                                                                                                var tarjeta = "";
+                                                                                                break;
+                                                                                            case "TARJETA":
+                                                                                                var efectivo = "";
+                                                                                                var cheque = "";
+                                                                                                var tarjeta = "X";
+                                                                                                break;
+                                                                                        } */
 
     //tipo garantia
-    var garantiaTarjeta = "";
-    var garantiaEfectivo = "";
-    switch (data.tipoGarantia) {
-        case "EFECTIVO":
-            data.numero_tarjeta = "";
-            data.fecha_tarjeta = "";
-            data.codigo_tarjeta = "";
-            data.numero_cheque = "";
-            data.codigo_cheque = "";
-            garantiaEfectivo = "$ " + formatter.format(data.abono);
-            break;
-        case "CHEQUE":
-            data.numero_tarjeta = "";
-            data.fecha_tarjeta = "";
-            data.codigo_tarjeta = "";
-            data.abono = "";
-            break;
-        case "TARJETA":
-            data.numero_cheque = "";
-            data.codigo_cheque = "";
-            garantiaTarjeta = "$ " + formatter.format(data.abono);
-            break;
-    }
+    /*   var garantiaTarjeta = "";
+                                                                                        var garantiaEfectivo = "";
+                                                                                        switch (data.tipoGarantia) {
+                                                                                            case "EFECTIVO":
+                                                                                                data.numero_tarjeta = "";
+                                                                                                data.fecha_tarjeta = "";
+                                                                                                data.codigo_tarjeta = "";
+                                                                                                data.numero_cheque = "";
+                                                                                                data.codigo_cheque = "";
+                                                                                                garantiaEfectivo = "$ " + formatter.format(data.abono);
+                                                                                                break;
+                                                                                            case "CHEQUE":
+                                                                                                data.numero_tarjeta = "";
+                                                                                                data.fecha_tarjeta = "";
+                                                                                                data.codigo_tarjeta = "";
+                                                                                                data.abono = "";
+                                                                                                break;
+                                                                                            case "TARJETA":
+                                                                                                data.numero_cheque = "";
+                                                                                                data.codigo_cheque = "";
+                                                                                                garantiaTarjeta = "$ " + formatter.format(data.abono);
+                                                                                                break;
+                                                                                        } */
 
     const firmaCliente = () => {
         if (data.firmaPNG) {
@@ -150,7 +189,7 @@ async function contratoPlantilla(data) {
             }
             return {
                 alignment: "center",
-                text: `${data.fechaHoraFirma}
+                text: `${fechahorafirma()}
                 ${data.geolocalizacion}`,
                 fontSize: 3,
             };
@@ -186,7 +225,7 @@ async function contratoPlantilla(data) {
                         ],
                     },
                     {
-                        text: `Nº  ${data.id_arriendo}`,
+                        text: `Nº  ${data.arriendo.id_arriendo}`,
                     },
                 ],
             },
@@ -200,48 +239,53 @@ async function contratoPlantilla(data) {
                                 heights: 25,
                                 widths: [5, 90, 60, 60, 90],
                                 body: [
-                                    [
-                                        { text: `CLIENTE: \n ${data.nombre_cliente}`, colSpan: 4 },
+                                    [{
+                                            text: `CLIENTE: \n ${doc.cliente.nombre_cliente}`,
+                                            colSpan: 4,
+                                        },
                                         {},
                                         {},
                                         {},
                                         {
-                                            text: `AUTO/CAMIONETA: \n ${data.tipo_vehiculo}`,
+                                            text: `AUTO/CAMIONETA: \n ${data.arriendo.vehiculo.tipo_vehiculo}`,
                                             colSpan: 1,
                                         },
                                     ],
                                     [{
-                                            text: `DIRECCION: \n ${data.direccion_cliente}`,
+                                            text: `DIRECCION: \n ${doc.cliente.direccion_cliente}`,
                                             colSpan: 3,
                                         },
                                         {},
                                         {},
-                                        { text: `CIUDAD: \n ${data.ciudad_cliente}`, colSpan: 1 },
                                         {
-                                            text: `MARCA MODELO: \n ${data.marca_vehiculo}  ${data.modelo_vehiculo}`,
+                                            text: `CIUDAD: \n ${doc.cliente.ciudad_cliente}`,
+                                            colSpan: 1,
+                                        },
+                                        {
+                                            text: `MARCA MODELO: \n ${data.arriendo.vehiculo.marca_vehiculo}  ${data.arriendo.vehiculo.modelo_vehiculo}`,
                                             colSpan: 1,
                                         },
                                     ],
                                     [{
-                                            text: `RUT O PASAPORTE: \n ${data.rut_cliente}`,
+                                            text: `RUT O PASAPORTE: \n ${doc.cliente.rut_cliente}`,
                                             colSpan: 2,
                                         },
                                         {},
                                         {
-                                            text: `NACIMIENTO: \n ${data.nacimiento_cliente}`,
+                                            text: `NACIMIENTO: \n ${doc.cliente.nacimiento_cliente}`,
                                             colSpan: 1,
                                         },
                                         {
-                                            text: `TELEFONO: \n +569 ${data.telefono_cliente}`,
+                                            text: `TELEFONO: \n +569 ${doc.cliente.telefono_cliente}`,
                                             colSpan: 1,
                                         },
                                         {
-                                            text: `PATENTE: \n ${data.patente_vehiculo}`,
+                                            text: `PATENTE: \n ${data.arriendo.vehiculo.patente_vehiculo}`,
                                             colSpan: 1,
                                         },
                                     ],
                                     [{
-                                            text: `CONDUCTOR: \n ${data.nombre_conductor}`,
+                                            text: `CONDUCTOR: \n ${data.arriendo.conductore.nombre_conductor}`,
                                             colSpan: 5,
                                         },
                                         {},
@@ -252,16 +296,16 @@ async function contratoPlantilla(data) {
                                     [
                                         { text: `LICENCIA`, colSpan: 1 },
                                         {
-                                            text: `CLASE : \n  ${data.clase_conductor} \n\n NUMERO: \n ${data.numero_conductor} \n\n VCTO: \n ${data.vcto_conductor} \n\n MUNIC: \n ${data.municipalidad_conductor} `,
+                                            text: `CLASE : \n  ${data.arriendo.conductore.clase_conductor} \n\n NUMERO: \n ${data.arriendo.conductore.numero_conductor} \n\n VCTO: \n ${data.arriendo.conductore.vcto_conductor} \n\n MUNIC: \n ${data.arriendo.conductore.municipalidad_conductor} `,
                                             colSpan: 1,
                                         },
                                         {
-                                            text: `RUT: \n ${data.rut_conductor} \n\n TELEFONO: \n  +569 ${data.telefono_conductor} \n\n  DIRECCION: \n ${data.direccion_conductor}    `,
+                                            text: `RUT: \n ${data.arriendo.conductore.rut_conductor} \n\n TELEFONO: \n  +569 ${data.arriendo.conductore.telefono_conductor} \n\n  DIRECCION: \n ${data.arriendo.conductore.direccion_conductor}    `,
                                             colSpan: 2,
                                         },
                                         {},
                                         {
-                                            text: `KILOMETROS: \n\n  ---------------------------------------- \n   ENTRADA: ${data.kilometrosEntrada_arriendo}  \n ----------------------------------------  \n  ---------------------------------------- \n  SALIDA:       \n ----------------------------------------`,
+                                            text: `KILOMETROS: \n\n  ---------------------------------------- \n   ENTRADA: ${data.arriendo.kilometrosEntrada_arriendo}  \n ----------------------------------------  \n  ---------------------------------------- \n  SALIDA:       \n ----------------------------------------`,
                                             colSpan: 1,
                                         },
                                     ],
@@ -284,33 +328,36 @@ async function contratoPlantilla(data) {
                                 widths: ["*", "*", "*", "*"],
                                 body: [
                                     [{
-                                            text: `TARJETA DE CREDITO: \n ${data.numero_tarjeta}`,
+                                            text: `TARJETA DE CREDITO: \n ${doc.garantia.numero_tarjeta}`,
                                             colSpan: 1,
                                         },
 
                                         {
-                                            text: `FECHA VENCIMIENTO \n ${data.fecha_tarjeta}`,
+                                            text: `FECHA VENCIMIENTO \n ${doc.garantia.fecha_tarjeta}`,
                                             colSpan: 1,
                                         },
-                                        { text: `CODIGO \n ${data.codigo_tarjeta}`, colSpan: 1 },
                                         {
-                                            text: `MONTO  \n ${garantiaTarjeta}`,
+                                            text: `CODIGO \n ${doc.garantia.codigo_tarjeta}`,
+                                            colSpan: 1,
+                                        },
+                                        {
+                                            text: `MONTO  \n ${doc.garantia.garantiaTarjeta}`,
                                             colSpan: 1,
                                         },
                                     ],
                                     [{
-                                            text: `CHEQUE Nº: \n  ${data.numero_cheque}`,
+                                            text: `CHEQUE Nº: \n  ${doc.garantia.numero_cheque}`,
                                             colSpan: 2,
                                         },
                                         {},
                                         {
-                                            text: `CODIGO AUTORIZACION \n ${data.codigo_cheque}`,
+                                            text: `CODIGO AUTORIZACION \n ${doc.garantia.codigo_cheque}`,
                                             colSpan: 2,
                                         },
                                         {},
                                     ],
                                     [{
-                                            text: `EFECTIVO: ${garantiaEfectivo}`,
+                                            text: `EFECTIVO: ${doc.garantia.garantiaEfectivo}`,
                                             colSpan: 4,
                                         },
                                         {},
@@ -331,8 +378,8 @@ async function contratoPlantilla(data) {
                                 widths: ["*", "*"],
                                 body: [
                                     [
-                                        `AGENCIA DE ARRIENDO:  ${data.agencia} `,
-                                        `VENDEDOR/A:  ${data.vendedor} `,
+                                        `AGENCIA DE ARRIENDO:  ${data.arriendo.sucursale.nombre_sucursal} `,
+                                        `VENDEDOR/A:  ${data.arriendo.usuario.nombre_usuario} `,
                                     ],
                                 ],
                             },
@@ -354,7 +401,9 @@ async function contratoPlantilla(data) {
                                     width: 180,
                                     fontSize: 6,
                                     margin: [0, 5, 10, 0],
-                                    text: `Observaciones: \n ${data.observaciones} `,
+                                    text: `Observaciones: \n ${
+                    data.arriendo.pagos[doc.P].observaciones_pago
+                  } `,
                                 },
                             ],
                         },
@@ -399,23 +448,27 @@ async function contratoPlantilla(data) {
                                 widths: [73, 73],
                                 body: [
                                     [
-                                        `CIUDAD DE ENTREGA \n ${data.ciudad_entrega} `,
-                                        `CIUDAD DE RECEPCIÓN \n ${data.ciudad_recepcion}`,
+                                        `CIUDAD DE ENTREGA \n ${data.arriendo.ciudadEntrega_arriendo} `,
+                                        `CIUDAD DE RECEPCIÓN \n ${data.arriendo.ciudadRecepcion_arriendo}`,
                                     ],
                                     [
-                                        `FECHA - HORA \n ${data.fecha_entrega}`,
-                                        `FECHA - HORA \n ${data.fecha_recepcion} `,
+                                        `FECHA - HORA \n ${doc.fechaInicio + " " + doc.horaInicio}`,
+                                        `FECHA - HORA \n ${doc.fechaFin + " " + doc.horaFin} `,
                                     ],
                                     [{
-                                            text: `TIPO ARRIENDO: \n  ${data.tipo_arriendo} ${
-                        data.remplazo ? data.remplazo : ""
+                                            text: `TIPO ARRIENDO: \n  ${
+                        data.arriendo.tipo_arriendo
+                      } ${
+                        data.arriendo.remplazo
+                          ? data.arriendo.remplazo.nombreEmpresa_remplazo
+                          : ""
                       }`,
                                             colSpan: 2,
                                         },
                                         {},
                                     ],
                                     [{
-                                            text: `CANTIDAD DE DIAS: \n  ${data.cantidad_dias}`,
+                                            text: `CANTIDAD DE DIAS: \n  ${data.arriendo.numerosDias_arriendo}`,
                                             colSpan: 2,
                                         },
                                         {},
@@ -423,14 +476,20 @@ async function contratoPlantilla(data) {
                                     [
                                         "VALOR ARRIENDO:",
                                         {
-                                            text: "$ " + formatter.format(data.valorArriendo),
+                                            text: "$ " +
+                                                formatter.format(
+                                                    data.arriendo.pagos[doc.P].subtotal_pago
+                                                ),
                                             fontSize: 7,
                                         },
                                     ],
                                     [
                                         "VALOR COPAGO (-) :",
                                         {
-                                            text: "$ " + formatter.format(data.valorCopago),
+                                            text: "$ " +
+                                                formatter.format(
+                                                    data.arriendo.pagos[doc.P].copago_pago
+                                                ),
                                             fontSize: 7,
                                         },
                                     ],
@@ -438,14 +497,20 @@ async function contratoPlantilla(data) {
                                         "SUB TOTAL NETO:",
                                         {
                                             text: "$ " +
-                                                formatter.format(data.valorArriendo - data.valorCopago),
+                                                formatter.format(
+                                                    data.arriendo.pagos[doc.P].subtotal_pago -
+                                                    data.arriendo.pagos[doc.P].copago_pago
+                                                ),
                                             fontSize: 7,
                                         },
                                     ],
                                     [
                                         "DESCUENTO (-) :",
                                         {
-                                            text: "$ " + formatter.format(data.descuento),
+                                            text: "$ " +
+                                                formatter.format(
+                                                    data.arriendo.pagos[doc.P].descuento_pago
+                                                ),
                                             fontSize: 7,
                                         },
                                     ],
@@ -454,7 +519,7 @@ async function contratoPlantilla(data) {
                                         { heights: 6, text: "TRASLADO  (+)", fontSize: 6 },
                                         {
                                             heights: 6,
-                                            text: "$ " + formatter.format(traslado),
+                                            text: "$ " + formatter.format(doc.accesorios.traslado),
                                             fontSize: 6,
                                         },
                                     ],
@@ -462,7 +527,7 @@ async function contratoPlantilla(data) {
                                         { heights: 6, text: "DEDUCIBLE  (+)", fontSize: 6 },
                                         {
                                             heights: 6,
-                                            text: "$ " + formatter.format(deducible),
+                                            text: "$ " + formatter.format(doc.accesorios.deducible),
                                             fontSize: 6,
                                         },
                                     ],
@@ -470,7 +535,7 @@ async function contratoPlantilla(data) {
                                         { heights: 6, text: "BENCINA  (+)", fontSize: 6 },
                                         {
                                             heights: 6,
-                                            text: "$ " + formatter.format(bencina),
+                                            text: "$ " + formatter.format(doc.accesorios.bencina),
                                             fontSize: 6,
                                         },
                                     ],
@@ -478,7 +543,7 @@ async function contratoPlantilla(data) {
                                         { heights: 6, text: "ENGANCHE  (+)", fontSize: 6 },
                                         {
                                             heights: 6,
-                                            text: "$ " + formatter.format(enganche),
+                                            text: "$ " + formatter.format(doc.accesorios.enganche),
                                             fontSize: 6,
                                         },
                                     ],
@@ -486,7 +551,7 @@ async function contratoPlantilla(data) {
                                         { heights: 6, text: "SILLA PARA BEBE  (+)", fontSize: 6 },
                                         {
                                             heights: 6,
-                                            text: "$ " + formatter.format(silla),
+                                            text: "$ " + formatter.format(doc.accesorios.silla),
                                             fontSize: 6,
                                         },
                                     ],
@@ -494,7 +559,7 @@ async function contratoPlantilla(data) {
                                         { heights: 6, text: "PASE DIARIO  (+)", fontSize: 6 },
                                         {
                                             heights: 6,
-                                            text: "$ " + formatter.format(pase),
+                                            text: "$ " + formatter.format(doc.accesorios.pase),
                                             fontSize: 6,
                                         },
                                     ],
@@ -502,7 +567,7 @@ async function contratoPlantilla(data) {
                                         { heights: 6, text: "RASTREO SATELITAL  (+)", fontSize: 6 },
                                         {
                                             heights: 6,
-                                            text: "$ " + formatter.format(rastreo),
+                                            text: "$ " + formatter.format(doc.accesorios.rastreo),
                                             fontSize: 6,
                                         },
                                     ],
@@ -510,7 +575,7 @@ async function contratoPlantilla(data) {
                                         { heights: 6, text: "OTROS  (+)", fontSize: 6 },
                                         {
                                             heights: 6,
-                                            text: "$ " + formatter.format(otros),
+                                            text: "$ " + formatter.format(doc.accesorios.otros),
                                             fontSize: 6,
                                         },
                                     ],
@@ -520,17 +585,20 @@ async function contratoPlantilla(data) {
                                         "TOTAL NETO: \n\n IVA: \n\n TOTAL:",
                                         {
                                             text: `$ ${formatter.format(
-                        data.neto
+                        data.arriendo.pagos[doc.P].neto_pago
                       )} \n\n $ ${formatter.format(
-                        data.iva
-                      )} \n\n $ ${formatter.format(data.total)} `,
+                        data.arriendo.pagos[doc.P].iva_pago
+                      )} \n\n $ ${formatter.format(
+                        data.arriendo.pagos[doc.P].total_pago
+                      )} `,
                                             fontSize: 7,
                                         },
                                     ],
                                     [
                                         { text: "A PAGAR ", fontSize: 10 },
                                         {
-                                            text: "$ " + formatter.format(data.total),
+                                            text: "$ " +
+                                                formatter.format(data.arriendo.pagos[doc.P].total_pago),
                                             fontSize: 10,
                                             bold: true,
                                         },
@@ -547,8 +615,8 @@ async function contratoPlantilla(data) {
                                     table: {
                                         widths: [40, 3],
                                         body: [
-                                            ["Boleta", boleta],
-                                            ["Factura", factura],
+                                            ["Boleta", `${doc.pago.boletaX}`],
+                                            ["Factura", `${doc.pago.facturaX}`],
                                         ],
                                     },
                                 },
@@ -559,8 +627,8 @@ async function contratoPlantilla(data) {
                                     table: {
                                         widths: [85],
                                         body: [
-                                            [`Nº Boleta : ${numBoleta}`],
-                                            [`Nº Factura: ${numFactura}`],
+                                            [`Nº Boleta : ${doc.pago.codigoBoleta}`],
+                                            [`Nº Factura: ${doc.pago.codigoFactura}`],
                                         ],
                                     },
                                 },
@@ -576,19 +644,19 @@ async function contratoPlantilla(data) {
                                     [{
                                             text: [
                                                 { text: "EFECTIVO \n" },
-                                                { alignment: "center", text: efectivo },
+                                                { alignment: "center", text: `${doc.pago.efectivoX}` },
                                             ],
                                         },
                                         {
                                             text: [
                                                 { text: "CHEQUE \n" },
-                                                { alignment: "center", text: cheque },
+                                                { alignment: "center", text: `${doc.pago.chequeX}` },
                                             ],
                                         },
                                         {
                                             text: [
                                                 { text: "TARJETA \n" },
-                                                { alignment: "center", text: tarjeta },
+                                                { alignment: "center", text: `${doc.pago.tarjetaX}` },
                                             ],
                                         },
                                     ],
@@ -603,7 +671,7 @@ async function contratoPlantilla(data) {
                             table: {
                                 widths: [155],
                                 body: [
-                                    [`DIGITADO POR \n  ${data.vendedor}`]
+                                    [`DIGITADO POR \n  ${data.arriendo.usuario.nombre_usuario}`],
                                 ],
                             },
                         },
@@ -611,7 +679,7 @@ async function contratoPlantilla(data) {
                 ],
             },
             {
-                margin: [0, 20, 0, 0],
+                margin: [0, 10, 0, 0],
                 width: 521,
                 height: 200,
                 image: "data:image/jpeg;base64," + image,
@@ -626,19 +694,13 @@ async function contratoPlantilla(data) {
                         bold: true,
                     },
                     {
-                        text: `Comparecen, por una parte, la Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda, RUT 76.791.832-1, Representada por don Diego Antonio Vargas Garrido Rut: 18.891.594-9, Ambos domiciliados en 1 poniente 4 y 5 norte #1588, en la ciudad de Talca, en adelante, 'el arrendador'. Por otra parte, don ${data.nombre_cliente} , Rut: ${data.rut_cliente}  Dirección: ${data.direccion_cliente} Estado Civil : ${data.estadoCivil_cliente} , Profesión : SIN DATOS teléfono : +569 ${data.telefono_cliente}, en adelante 'el arrendatario', se acuerda lo siguiente:\n \n `,
+                        text: `Comparecen, por una parte, la Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda, RUT 76.791.832-1, Representada por don Diego Antonio Vargas Garrido Rut: 18.891.594-9, Ambos domiciliados en 1 poniente 4 y 5 norte #1588, en la ciudad de Talca, en adelante, 'el arrendador'. Por otra parte, don ${doc.cliente.nombre_cliente} , Rut: ${doc.cliente.rut_cliente}  Dirección: ${doc.cliente.direccion_cliente} Estado Civil : ${doc.cliente.estado_civil} , Profesión : SIN DATOS teléfono : +569 ${doc.cliente.telefono_cliente}, en adelante 'el arrendatario', se acuerda lo siguiente:\n \n `,
                     },
                     {
                         text: `PRIMERO: el vehículo individualizado en el anverso, quien lo acepta. El arrendatario declara haber recibido el vehículo en buen estado y conforme al acta de entrega que se firma entre ambas partes, la que declara haber revisado y refleja fielmente el estado en que recibe el vehículo. Será parte integrante de este contrato. \n \n`,
                     },
                     {
-                        text: `SEGUNDO: El arriendo regirá hasta el ${data.fecha_recepcion.substr(
-              0,
-              10
-            )} , a las ${data.fecha_recepcion.substr(
-              11,
-              19
-            )} horas. Vencido este plazo, si el arrendatario desea continuar usando el vehículo, deberá obtener una autorización de Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda, y en caso de que el vehículo no sea entregado en el horario pactado, el arrendador queda autorizado para iniciar la denuncia por apropiación indebida ante carabineros de chile o policía de investigaciones. \n \n`,
+                        text: `SEGUNDO: El arriendo regirá hasta el ${doc.fechaFin} , a las ${doc.horaFin} horas. Vencido este plazo, si el arrendatario desea continuar usando el vehículo, deberá obtener una autorización de Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda, y en caso de que el vehículo no sea entregado en el horario pactado, el arrendador queda autorizado para iniciar la denuncia por apropiación indebida ante carabineros de chile o policía de investigaciones. \n \n`,
                     },
                     {
                         text: `TERCERO: En caso que el arrendatario, devolviera el vehículo antes de la terminación del plazo del presente contrato, por la negativa al complimiento del presente contrato, este tendrá que indemnizar al arrendador con una multa ascendiente al 30% del valor total del arriendo, excepcionalmente los clientes que vienen por empresas de remplazo. \n \n`,
@@ -647,7 +709,7 @@ async function contratoPlantilla(data) {
                         text: `CUARTO: En caso que el trayecto del vehículo sea a Santiago, el arrendatario debe dar cuenta al arrendador, y se recargará el valor del pase diario más iva por día transitado en Santiago. \n \n`,
                     },
                     {
-                        text: `QUINTO : El vehículo debe venir a mantención a los ${data.kilometrosMantencion_arriendo} kilómetros, en caso de que el arrendatario se negara a realizar la mantención se le aplicará una multa de un mes de arriendo, además de aquello el arrendador queda autorizado para denunciar el vehículo por apropiación indebida ante Carabineros de Chile y/o Policía de Investigaciones, como también a ser retirado de circulación, quedando estrictamente prohibido ejecutar, realizar o manipular el motor o mantenciones mecánicas y eléctricas del vehículo, de no respetar esta disposición se cobrará la multa ya descrita. \n \n`,
+                        text: `QUINTO : El vehículo debe venir a mantención a los ${data.arriendo.kilometrosMantencion_arriendo} kilómetros, en caso de que el arrendatario se negara a realizar la mantención se le aplicará una multa de un mes de arriendo, además de aquello el arrendador queda autorizado para denunciar el vehículo por apropiación indebida ante Carabineros de Chile y/o Policía de Investigaciones, como también a ser retirado de circulación, quedando estrictamente prohibido ejecutar, realizar o manipular el motor o mantenciones mecánicas y eléctricas del vehículo, de no respetar esta disposición se cobrará la multa ya descrita. \n \n`,
                     },
                     {
                         text: `SEXTO: El arrendatario tendrá un límite de kilómetros a recorrer, el cual será de 5.000 (CINCO MIL) kilómetros mensuales, en caso de que este se exceda dicho kilometraje, la siguiente mantención será de cargo del arrendatario. \n \n`,
@@ -708,7 +770,7 @@ async function contratoPlantilla(data) {
                 return {};
             }
         },
-        pageMargins: [40, 30, 40, 20],
+        pageMargins: [40, 20, 40, 20],
         styles: {
             header: {
                 fontSize: 18,

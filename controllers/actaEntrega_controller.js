@@ -18,6 +18,7 @@ const {
     hora,
     fechahorafirma,
     sendError,
+    fontsPDF,
 } = require("../helpers/components");
 const base64 = require("image-to-base64");
 const actaEntregaPlantilla = require("../utils/pdf_plantillas/actaEntrega");
@@ -63,23 +64,13 @@ class ActaEntregaController {
             response.fechaHoraFirma = fechahorafirma();
             if (arriendo.estado_arriendo === "FIRMADO" && arriendo.despacho == null) {
                 const docDefinition = await actaEntregaPlantilla(response);
-                const fonts = {
-                    Roboto: {
-                        normal: require.resolve("../utils/fonts/Roboto-Regular.ttf"),
-                        bold: require.resolve("../utils/fonts/Roboto-Medium.ttf"),
-                        italics: require.resolve("../utils/fonts/Roboto-Italic.ttf"),
-                        bolditalics: require.resolve(
-                            "../utils/fonts/Roboto-MediumItalic.ttf"
-                        ),
-                    },
-                };
                 //se genera un nombre combinado con la id del arriendo
                 const nameFile = uuidv5(
                     "actaEntrega-" + arriendo.id_arriendo,
                     uuidv5.URL
                 );
 
-                const printer = new PdfPrinter(fonts);
+                const printer = new PdfPrinter(fontsPDF);
                 const pdfDoc = printer.createPdfKitDocument(docDefinition);
 
                 //se guarda el pdf en una ruta predeterminada
