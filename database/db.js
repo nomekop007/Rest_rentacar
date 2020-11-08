@@ -73,10 +73,10 @@ Arriendo.hasOne(Garantia, { foreignKey: { name: "id_arriendo" } });
 //un garantia pertenece a un arriendo
 Garantia.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
 
-// un modoPago tiene muchos pagos
-ModoPago.hasMany(Pago, { foreignKey: { name: "id_modoPago" } });
-// un Pago pertenece a un modoPago
-Pago.belongsTo(ModoPago, { foreignKey: { name: "id_modoPago" } });
+// un modoPago tiene muchos facturacion
+ModoPago.hasMany(Facturacion, { foreignKey: { name: "id_modoPago" } });
+// un Facturacion pertenece a un modoPago
+Facturacion.belongsTo(ModoPago, { foreignKey: { name: "id_modoPago" } });
 
 // un modoPago tiene muchos garantias
 ModoPago.hasMany(Garantia, { foreignKey: { name: "id_modoPago" } });
@@ -165,35 +165,35 @@ Pago.hasOne(Contrato, { foreignKey: { name: "id_pago" } });
 
 // un arriendo tiene muchos accesorios
 Arriendo.belongsToMany(Accesorio, {
-    through: "Arriendos-Accesorios",
-    foreignKey: { name: "id_arriendo" },
+  through: "Arriendos-Accesorios",
+  foreignKey: { name: "id_arriendo" },
 });
 // un accesorio tiene muchos arriendos
 Accesorio.belongsToMany(Arriendo, {
-    through: "Arriendos-Accesorios",
-    foreignKey: { name: "id_accesorio" },
+  through: "Arriendos-Accesorios",
+  foreignKey: { name: "id_accesorio" },
 });
 
 module.exports = {
-    Log,
-    Rol,
-    Usuario,
-    Sucursal,
-    Vehiculo,
-    Arriendo,
-    Accesorio,
-    Cliente,
-    Empresa,
-    Conductor,
-    Contrato,
-    Requisito,
-    Pago,
-    Facturacion,
-    ModoPago,
-    Garantia,
-    Propietario,
-    Remplazo,
-    Despacho,
-    ActaEntrega,
-    PagoAccesorio,
+  Log,
+  Rol,
+  Usuario,
+  Sucursal,
+  Vehiculo,
+  Arriendo,
+  Accesorio,
+  Cliente,
+  Empresa,
+  Conductor,
+  Contrato,
+  Requisito,
+  Pago,
+  Facturacion,
+  ModoPago,
+  Garantia,
+  Propietario,
+  Remplazo,
+  Despacho,
+  ActaEntrega,
+  PagoAccesorio,
 };
