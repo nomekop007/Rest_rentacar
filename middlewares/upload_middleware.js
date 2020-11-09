@@ -47,7 +47,33 @@ const subirDocumentoRequisitosArriendo = multer({
     { name: "inputBoletaEfectivo", maxCount: 1 },
 ]);
 
+
+
+const storage3 = multer.diskStorage({
+    destination: path.join(__dirname, "../uploads/facturaciones"),
+    filename: (req, file, cb) => {
+        cb(null, uuidv4() + path.extname(file.originalname).toLocaleLowerCase());
+    },
+});
+
+const subirDocumentoFacturacion = multer({
+    storage: storage3,
+    dest: path.join(__dirname, "../uploads/facturaciones"),
+    limits: { fieldSize: 20000000 },
+    fileFilter: (req, file, cb) => {
+        const fileTypes = /jpeg|jpg|png|gif/;
+        const mimetype = fileTypes.test(file.mimetype);
+        const extname = fileTypes.test(path.extname(file.originalname));
+        if (mimetype && extname) {
+            return cb(null, true);
+        }
+        cb("Error: Archivo debe ser una formato valida");
+    },
+}).single("documento_facturacion");
+
+
 module.exports = {
     subirImageVehiculo: subirImageVehiculo,
     subirDocumentoRequisitosArriendo: subirDocumentoRequisitosArriendo,
+    subirDocumentoFacturacion: subirDocumentoFacturacion
 };

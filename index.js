@@ -9,9 +9,11 @@ const morgan = require("morgan");
 const path = require("path");
 const https = require("https");
 const fs = require("fs");
+const compression = require("compression");
 const cors = require("cors");
 const app = express();
 
+app.use(compression());
 app.use(morgan("dev"));
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
