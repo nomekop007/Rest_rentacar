@@ -29,6 +29,20 @@ class contrato_controller {
     async createContrato(req, res) {
         try {
             const response = req.body;
+
+
+
+            const arriendo = await Arriendo.findOne({
+                where: { id_arriendo: response.id_arriendo },
+                include: [
+                    { model: Pago }
+                ]
+            })
+
+            //guarda el ultimo pago en el contrato
+            const fila = arriendo.pagos.length - 1;
+            response.id_pago = arriendo.pagos[fila].id_pago;
+
             const contrato = await Contrato.create(response);
             res.json({
                 success: true,

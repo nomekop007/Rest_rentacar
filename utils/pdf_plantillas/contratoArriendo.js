@@ -13,7 +13,7 @@ async function contratoPlantilla(data) {
     const image = await base64(pagare);
 
 
-    //P es lo del pago
+    //P es lo del pago al cual pertenece el contrato X
 
     const doc = {
         P: data.arriendo.pagos.length - 1,
@@ -61,7 +61,7 @@ async function contratoPlantilla(data) {
     };
 
     if (doc.P > 0) {
-        //significa que este no es el primer contrato del arriendo
+        //significa que este no es el primer contrato del arriendo y es una extencion
         doc.extencion = "EXTENDIDO";
     }
 
@@ -149,6 +149,7 @@ async function contratoPlantilla(data) {
             break;
         case "TARJETA":
             doc.garantia.numero_tarjeta = garantia.numeroTarjeta_garantia;
+            doc.garantia.codigo_tarjeta = garantia.codigoTarjeta_garantia;
             doc.garantia.fecha_tarjeta = garantia.fechaTarjeta_garantia;
             doc.garantia.garantiaTarjeta =
                 "$ " + formatter.format(garantia.monto_garantia);

@@ -10,20 +10,24 @@ const {
     Requisito,
     Garantia,
     Sucursal,
-    Pago,
+    Pago
 } = require("../database/db");
+const { Op } = require("sequelize");
 const { sendError } = require("../helpers/components");
 class ArriendoController {
     async getArriendos(req, res) {
         try {
             //preguntar si el usuario no es administrador
             const where = {};
+
             if (req.body.id_rol != 1) {
                 where.id_sucursal = req.body.id_sucursal;
             }
             if (req.body.filtro) {
                 where.estado_arriendo = req.body.filtro;
             }
+
+
             const arriendos = await Arriendo.findAll({
                 where: where,
                 include: [
