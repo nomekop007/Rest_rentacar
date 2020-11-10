@@ -10,7 +10,6 @@ const {
 const fs = require("fs");
 const path = require("path");
 const { v5: uuidv5 } = require("uuid");
-const PdfPrinter = require("pdfmake");
 const nodemailer = require("nodemailer");
 const logo = require.resolve("../utils/images/logo2.png");
 const {
@@ -18,10 +17,14 @@ const {
     hora,
     fechahorafirma,
     sendError,
-    fontsPDF,
 } = require("../helpers/components");
 const base64 = require("image-to-base64");
 const actaEntregaPlantilla = require("../utils/pdf_plantillas/actaEntrega");
+const pdfMake = require('pdfmake/build/pdfmake.js');
+const pdfFonts = require('pdfmake/build/vfs_fonts.js');
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+
 
 class ActaEntregaController {
     async createActaEntrega(req, res) {
@@ -65,35 +68,29 @@ class ActaEntregaController {
             if (arriendo.estado_arriendo === "FIRMADO" && arriendo.despacho == null) {
                 const docDefinition = await actaEntregaPlantilla(response);
                 //se genera un nombre combinado con la id del arriendo
-                const nameFile = uuidv5(
-                    "actaEntrega-" + arriendo.id_arriendo,
-                    uuidv5.URL
-                );
+                const nameFile = uuidv5(`actaEntrega-${arriendo.id_arriendo}`, uuidv5.URL);
+                const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+                const pathFile = path.join(__dirname, `../uploads/documentos/actaEntrega/${nameFile}.pdf`)
 
-                const printer = new PdfPrinter(fontsPDF);
-                const pdfDoc = printer.createPdfKitDocument(docDefinition);
+                pdfDocGenerator.getBase64((base64) => {
+                    fs.writeFileSync(pathFile, base64, "base64", (err) => {
+                        res.json({
+                            success: false,
+                            msg: err
+                        });
+                        return;
+                    });
 
-                //se guarda el pdf en una ruta predeterminada
-                pdfDoc.pipe(
-                    fs.createWriteStream(
-                        path.join(
-                            __dirname,
-                            "../uploads/documentos/actaEntrega/" + nameFile + ".pdf"
-                        )
-                    )
-                );
-                pdfDoc.end();
-
-                setTimeout(() => {
                     res.json({
                         success: true,
                         data: {
                             nombre_documento: nameFile,
                             firma1: response.firma1PNG,
                             firma2: response.firma2PNG,
+                            url: base64
                         },
                     });
-                }, 2000);
+                });
             } else {
                 res.json({
                     success: false,

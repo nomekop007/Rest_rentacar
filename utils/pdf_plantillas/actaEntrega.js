@@ -412,6 +412,12 @@ async function actaEntregaPlantilla(data) {
                 fontSize: 8,
             },
         },
+        info: {
+            title: 'Acta-Entrega-Arriendo',
+            author: 'Rent A Car maule',
+            subject: 'contrato',
+            creator: 'nomekop007',
+        },
     };
 }
 

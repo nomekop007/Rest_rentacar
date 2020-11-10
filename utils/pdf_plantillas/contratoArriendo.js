@@ -4,13 +4,12 @@ const {
     formatFechahora,
     formatFecha,
 } = require("../../helpers/components");
-const logo = require.resolve("../images/logo.png");
 const pagare = require.resolve("../images/pagare.png");
+const logo = require.resolve("../images/logo.png");
 
 async function contratoPlantilla(data) {
     //clase para cambiar numeros a monedas
     const formatter = new Intl.NumberFormat("CL");
-    const image = await base64(pagare);
 
 
     //P es lo del pago al cual pertenece el contrato X
@@ -200,7 +199,7 @@ async function contratoPlantilla(data) {
     const firmaPagare = () => {
         if (data.firmaPNG) {
             return {
-                margin: [400, 740, 0, 0],
+                margin: [400, 730, 0, 0],
                 width: 150,
                 height: 70,
                 image: data.firmaPNG,
@@ -228,7 +227,7 @@ async function contratoPlantilla(data) {
                 columns: [{
                         width: 80,
                         height: 80,
-                        image: "data:image/jpeg;base64," + (await base64(logo)),
+                        image: "data:image/png;base64," + (await base64(logo)),
                     },
                     {
                         margin: [10, 0, 0, 0],
@@ -320,7 +319,7 @@ async function contratoPlantilla(data) {
                                     [
                                         { text: `LICENCIA`, colSpan: 1 },
                                         {
-                                            text: `CLASE : \n  ${data.arriendo.conductore.clase_conductor} \n\n NUMERO: \n ${data.arriendo.conductore.numero_conductor} \n\n VCTO: \n ${data.arriendo.conductore.vcto_conductor} \n\n MUNIC: \n ${data.arriendo.conductore.municipalidad_conductor} `,
+                                            text: `CLASE : \n  ${data.arriendo.conductore.clase_conductor} \n\n NUMERO: \n ${data.arriendo.conductore.numero_conductor} \n\n VCTO: \n ${formatFecha(data.arriendo.conductore.vcto_conductor)} \n\n MUNIC: \n ${data.arriendo.conductore.municipalidad_conductor} `,
                                             colSpan: 1,
                                         },
                                         {
@@ -706,7 +705,7 @@ async function contratoPlantilla(data) {
                 margin: [0, 10, 0, 0],
                 width: 521,
                 height: 200,
-                image: "data:image/jpeg;base64," + image,
+                image: "data:image/png;base64," + await base64(pagare),
             },
             {
                 margin: [0, 200, 0, 0],
@@ -810,6 +809,12 @@ async function contratoPlantilla(data) {
             small: {
                 fontSize: 8,
             },
+        },
+        info: {
+            title: 'Contrato-Arriendo',
+            author: 'Rent A Car maule',
+            subject: 'contrato',
+            creator: 'nomekop007',
         },
     };
 }

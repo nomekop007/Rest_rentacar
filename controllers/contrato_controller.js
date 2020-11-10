@@ -15,14 +15,18 @@ const {
     PagoAccesorio,
     Facturacion,
 } = require("../database/db");
-const { sendError, fontsPDF } = require("../helpers/components");
+const { sendError } = require("../helpers/components");
 const fs = require("fs");
 const path = require("path");
 const { v5: uuidv5 } = require("uuid");
 const nodemailer = require("nodemailer");
 const logo = require.resolve("../utils/images/logo2.png");
 const base64 = require("image-to-base64");
-const PdfPrinter = require("pdfmake");
+const pdfMake = require('pdfmake/build/pdfmake.js');
+const pdfFonts = require('pdfmake/build/vfs_fonts.js');
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+
 const contratoPlantilla = require("../utils/pdf_plantillas/contratoArriendo");
 
 class contrato_controller {
@@ -92,34 +96,29 @@ class contrato_controller {
                 response.arriendo = arriendo;
                 //se genera el documento
                 const docDefinition = await contratoPlantilla(response);
-
                 const nameFile = uuidv5(
-                    "contrato-" + arriendo.fechaRecepcion_arriendo + arriendo.id_arriendo,
+                    `contrato-${arriendo.fechaRecepcion_arriendo}${arriendo.id_arriendo}`,
                     uuidv5.URL
                 );
-                const printer = new PdfPrinter(fontsPDF);
-                const pdfDoc = printer.createPdfKitDocument(docDefinition);
-
-                //se guarda el pdf en una ruta predeterminada
-                pdfDoc.pipe(
-                    fs.createWriteStream(
-                        path.join(
-                            __dirname,
-                            "../uploads/documentos/contratos/" + nameFile + ".pdf"
-                        )
-                    )
-                );
-                pdfDoc.end();
-
-                setTimeout(() => {
+                const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+                const pathFile = path.join(__dirname, `../uploads/documentos/contratos/${nameFile}.pdf`)
+                pdfDocGenerator.getBase64((base64) => {
+                    fs.writeFileSync(pathFile, base64, "base64", (err) => {
+                        res.json({
+                            success: false,
+                            msg: err
+                        });
+                        return;
+                    });
                     res.json({
                         success: true,
                         data: {
                             nombre_documento: nameFile,
                             firma: response.firmaPNG,
+                            url: base64
                         },
                     });
-                }, 2000);
+                });
             } else {
                 res.json({
                     success: false,
@@ -198,7 +197,7 @@ class contrato_controller {
                     path: path.join(
                         __dirname,
                         "../uploads/documentos/contratos/" +
-                        arriendo.contratos[0].documento +
+                        arriendo.contratos[arriendo.contratos.length - 1].documento +
                         ".pdf"
                     ),
                 }, ],
