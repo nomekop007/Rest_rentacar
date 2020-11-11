@@ -16,5 +16,6 @@ router.post(
     "/enviarCorreoActaEntrega",
     actaEntrega.sendEmailActaEntrega.bind(actaEntrega)
 );
+router.get("/buscarActaEntrega/:id", actaEntrega.findActaEntrega.bind(actaEntrega))
 
 module.exports = router;

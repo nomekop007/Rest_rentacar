@@ -48,7 +48,7 @@ const PagoAccesorio = PagoAccesoriosModel(database, Sequelize);
 
 //Asociaciones de tablas
 
-// un pago tiene una pagoAccesorio
+// un pago tiene muchos pagoAccesorio
 Pago.hasMany(PagoAccesorio, { foreignKey: { name: "id_pago" } });
 //un pagoAccesorio pertenece a un pago
 PagoAccesorio.belongsTo(Pago, { foreignKey: { name: "id_pago" } });
@@ -58,9 +58,9 @@ Arriendo.hasOne(Despacho, { foreignKey: { name: "id_arriendo" } });
 //un despacho pertenece a un arriendo
 Despacho.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
 
-// un despacho tiene una fotoDespacho
+// un despacho tiene una actaEntrega
 Despacho.hasOne(ActaEntrega, { foreignKey: { name: "id_despacho" } });
-//un fotoDespacho pertenece a un despacho
+//un actaEntrega pertenece a un despacho
 ActaEntrega.belongsTo(Despacho, { foreignKey: { name: "id_despacho" } });
 
 // un Propietario tiene muchos vehiculos

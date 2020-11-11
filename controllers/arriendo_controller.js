@@ -10,9 +10,11 @@ const {
     Requisito,
     Garantia,
     Sucursal,
-    Pago
+    Pago,
+    Despacho,
+    ActaEntrega,
+    Contrato
 } = require("../database/db");
-const { Op } = require("sequelize");
 const { sendError } = require("../helpers/components");
 class ArriendoController {
     async getArriendos(req, res) {
@@ -40,9 +42,7 @@ class ArriendoController {
                     {
                         model: Remplazo,
                         attributes: ["nombreEmpresa_remplazo"],
-                        include: [
-                            { model: Cliente, attributes: ["nombre_cliente", "rut_cliente"] },
-                        ],
+                        include: [{ model: Cliente, attributes: ["nombre_cliente", "rut_cliente"] }, ],
                     },
                 ],
             });
@@ -68,12 +68,11 @@ class ArriendoController {
                     { model: Requisito },
                     { model: Garantia },
                     { model: Pago },
-                    { model: Sucursal, attributes: ["nombre_sucursal"] },
+                    { model: Sucursal },
                     { model: Usuario, attributes: ["nombre_usuario"] },
-                    {
-                        model: Remplazo,
-                        include: [{ model: Cliente }],
-                    },
+                    { model: Remplazo, include: [{ model: Cliente }], },
+                    { model: Despacho, include: [{ model: ActaEntrega }] },
+                    { model: Contrato }
                 ],
             });
             if (arriendo) {

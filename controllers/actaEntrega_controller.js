@@ -7,17 +7,17 @@ const {
     Empresa,
     Remplazo,
 } = require("../database/db");
-const fs = require("fs");
-const path = require("path");
-const { v5: uuidv5 } = require("uuid");
-const nodemailer = require("nodemailer");
-const logo = require.resolve("../utils/images/logo2.png");
 const {
     fecha,
     hora,
     fechahorafirma,
     sendError,
 } = require("../helpers/components");
+const fs = require("fs");
+const path = require("path");
+const { v5: uuidv5 } = require("uuid");
+const nodemailer = require("nodemailer");
+const logo = require.resolve("../utils/images/logo2.png");
 const base64 = require("image-to-base64");
 const actaEntregaPlantilla = require("../utils/pdf_plantillas/actaEntrega");
 const pdfMake = require('pdfmake/build/pdfmake.js');
@@ -30,7 +30,6 @@ class ActaEntregaController {
     async createActaEntrega(req, res) {
         try {
             const response = req.body;
-
             const actaEntrega = await ActaEntrega.create(response);
             res.json({
                 success: true,
@@ -187,6 +186,21 @@ class ActaEntregaController {
             res.json({
                 success: true,
                 msg: resp,
+            });
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+    async findActaEntrega(req, res) {
+        try {
+            const actaEntrega = await ActaEntrega.findOne({
+                where: { id_despacho: req.params.id }
+            });
+            const pathFile = path.join(__dirname, `../uploads/documentos/actaEntrega/${actaEntrega.documento}.pdf`)
+            const base64 = fs.readFileSync(pathFile, { encoding: 'base64' });
+            res.json({
+                success: true,
+                data: { actaEntrega: actaEntrega, base64: base64 },
             });
         } catch (error) {
             sendError(error, res);
