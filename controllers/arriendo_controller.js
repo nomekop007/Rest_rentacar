@@ -172,13 +172,6 @@ class ArriendoController {
         }
     }
 
-    async notificateArriendo(req, res) {
-        try {
-            //logica
-        } catch (error) {
-            sendError(error, res);
-        }
-    }
 }
 
 module.exports = ArriendoController;

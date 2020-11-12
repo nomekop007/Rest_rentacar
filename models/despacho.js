@@ -8,6 +8,7 @@ module.exports = (sequelize, type) => {
         nombreRecibidor_despacho: type.STRING,
         nombreDespachador_despacho: type.STRING,
         observaciones_despacho: type.STRING,
+        revision_recepcion: type.STRING,
         userAt: type.STRING,
     });
 };

@@ -50,7 +50,7 @@ const subirDocumentoRequisitosArriendo = multer({
 
 
 const storage3 = multer.diskStorage({
-    destination: path.join(__dirname, "../uploads/facturaciones"),
+    destination: path.join(__dirname, "../uploads/documentos/facturaciones"),
     filename: (req, file, cb) => {
         cb(null, uuidv4() + path.extname(file.originalname).toLocaleLowerCase());
     },
@@ -58,17 +58,8 @@ const storage3 = multer.diskStorage({
 
 const subirDocumentoFacturacion = multer({
     storage: storage3,
-    dest: path.join(__dirname, "../uploads/facturaciones"),
+    dest: path.join(__dirname, "../uploads/documentos/facturaciones"),
     limits: { fieldSize: 20000000 },
-    fileFilter: (req, file, cb) => {
-        const fileTypes = /jpeg|jpg|png|gif/;
-        const mimetype = fileTypes.test(file.mimetype);
-        const extname = fileTypes.test(path.extname(file.originalname));
-        if (mimetype && extname) {
-            return cb(null, true);
-        }
-        cb("Error: Archivo debe ser una formato valida");
-    },
 }).single("documento_facturacion");
 
 
