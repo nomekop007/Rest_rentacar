@@ -1,5 +1,13 @@
 const { Despacho } = require("../database/db");
-const { sendError } = require("../helpers/components");
+const { sendError, fecha, hora } = require("../helpers/components");
+const fs = require("fs");
+const path = require("path");
+const { v5: uuidv5 } = require('uuid');
+const recepcionPlantilla = require("../utils/pdf_plantillas/recepcion")
+const pdfMake = require("pdfmake/build/pdfmake.js");
+const pdfFonts = require("pdfmake/build/vfs_fonts.js");
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
 
 class DespachoController {
     async createDespacho(req, res, next) {
@@ -17,19 +25,41 @@ class DespachoController {
         }
     }
 
-    async addRevision(req, res) {
+    async addRevision(req, res, next) {
         try {
             const response = req.body;
-            console.log(req.params.id);
-            console.log(response);
+            response.id_despacho = req.params.id;
+            response.fecha = fecha();
+            response.hora = hora();
 
-            //CREAR DOC CON LAS IMAGENES
-            // UPDATE DESPACHO CON EL NOMBRE DEL DOC
+            const docDefinition = await recepcionPlantilla(response);
+            const nameFile = uuidv5(`recepcion-${response.id_despacho}`, uuidv5.URL);
+            const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+            const pathFile = path.join(__dirname, `../uploads/documentos/recepciones/${nameFile}.pdf`)
+
+            pdfDocGenerator.getBase64((base64) => {
+                fs.writeFileSync(pathFile, base64, "base64", (err) => {
+                    res.json({
+                        success: false,
+                        msg: err
+                    });
+                    return;
+                })
+            });
+
+
+            const despacho = await Despacho.update({
+                revision_recepcion: nameFile
+            }, {
+                where: { id_despacho: req.params.id },
+            });
+
 
             res.json({
                 success: true,
-                msg: "llegooo"
+                msg: "revision existosa"
             });
+            next(despacho.logging)
         } catch (error) {
             sendError(error)
         }

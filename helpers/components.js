@@ -2,6 +2,9 @@ const moment = require("moment");
 const jwt = require("jwt-simple");
 const fs = require("fs");
 const path = require("path");
+const pdfMake = require("pdfmake/build/pdfmake.js");
+const pdfFonts = require("pdfmake/build/vfs_fonts.js");
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const sendError = (error, res) => {
     console.log(error);
@@ -53,6 +56,10 @@ const borrarImagenDeStorage = (name) => {
         return console.log(err);
     }
 };
+
+
+
+
 
 const fontsPDF = {
     Roboto: {
