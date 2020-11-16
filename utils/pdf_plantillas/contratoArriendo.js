@@ -16,6 +16,7 @@ async function contratoPlantilla(data) {
 
     const doc = {
         P: data.arriendo.pagos.length - 1,
+        n_extencion: "",
         extencion: "",
         cliente: {
             nombre_cliente: "",
@@ -61,7 +62,8 @@ async function contratoPlantilla(data) {
 
     if (doc.P > 0) {
         //significa que este no es el primer contrato del arriendo y es una extencion
-        doc.extencion = "EXTENDIDO";
+        doc.n_extencion = " - " + doc.P;
+        doc.extencion = "EXTENDIDO"
     }
 
     const arrayAccesorios = data.arriendo.pagos[doc.P].pagosAccesorios;
@@ -248,7 +250,9 @@ async function contratoPlantilla(data) {
                         ],
                     },
                     {
-                        text: `Nº  ${data.arriendo.id_arriendo} ${doc.extencion}`,
+                        text: `Nº  ${data.arriendo.id_arriendo} ${doc.n_extencion}
+                        ${doc.extencion}
+                        `,
                     },
                 ],
             },
@@ -491,7 +495,7 @@ async function contratoPlantilla(data) {
                                         {},
                                     ],
                                     [{
-                                            text: `CANTIDAD DE DIAS: \n  ${data.arriendo.numerosDias_arriendo}`,
+                                            text: `CANTIDAD TOTAL DIAS: \n  ${data.arriendo.numerosDias_arriendo}`,
                                             colSpan: 2,
                                         },
                                         {},

@@ -15,7 +15,7 @@ const {
 } = require("../helpers/components");
 const fs = require("fs");
 const path = require("path");
-const { v5: uuidv5 } = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 const nodemailer = require("nodemailer");
 const logo = require.resolve("../utils/images/logo2.png");
 const base64 = require("image-to-base64");
@@ -30,7 +30,22 @@ class ActaEntregaController {
     async createActaEntrega(req, res) {
         try {
             const response = req.body;
+
+            const nameFile = uuidv4();
+            const pathFile = path.join(__dirname, `../uploads/documentos/actaEntrega/${nameFile}.pdf`)
+            fs.writeFileSync(pathFile, response.base64, "base64", (err) => {
+                res.json({
+                    success: false,
+                    msg: err
+                });
+                return;
+            });
+
+            response.documento = nameFile;
+
+
             const actaEntrega = await ActaEntrega.create(response);
+
             res.json({
                 success: true,
                 data: actaEntrega,
@@ -39,6 +54,9 @@ class ActaEntregaController {
             sendError(error, res);
         }
     }
+
+
+
     async generatePDFactaEntrega(req, res) {
         try {
             const response = req.body;
@@ -66,27 +84,14 @@ class ActaEntregaController {
             response.fechaHoraFirma = fechahorafirma();
             if (arriendo.estado_arriendo === "FIRMADO" && arriendo.despacho == null) {
                 const docDefinition = await actaEntregaPlantilla(response);
-                //se genera un nombre combinado con la id del arriendo
-                const nameFile = uuidv5(`actaEntrega-${arriendo.id_arriendo}`, uuidv5.URL);
                 const pdfDocGenerator = pdfMake.createPdf(docDefinition);
-                const pathFile = path.join(__dirname, `../uploads/documentos/actaEntrega/${nameFile}.pdf`)
-
                 pdfDocGenerator.getBase64((base64) => {
-                    fs.writeFileSync(pathFile, base64, "base64", (err) => {
-                        res.json({
-                            success: false,
-                            msg: err
-                        });
-                        return;
-                    });
-
                     res.json({
                         success: true,
                         data: {
-                            nombre_documento: nameFile,
                             firma1: response.firma1PNG,
                             firma2: response.firma2PNG,
-                            url: base64
+                            base64: base64
                         },
                     });
                 });
