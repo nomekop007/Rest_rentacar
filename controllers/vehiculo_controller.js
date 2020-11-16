@@ -93,7 +93,8 @@ class VehiculoController {
 
     async updateVehiculo(req, res, next) {
         try {
-            const v = await Vehiculo.update(req.body, {
+            const response = req.body;
+            const v = await Vehiculo.update(response, {
                 where: { patente_vehiculo: req.params.id },
             });
 
@@ -117,6 +118,28 @@ class VehiculoController {
                 data: vehiculo,
             });
             next(v.logging);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+
+
+    async updateStateVehiculo(req, res, next) {
+        try {
+            const response = req.body;
+
+            if (response.kilometrosMantencion_vehiculo == null) {
+                delete response.kilometrosMantencion_vehiculo;
+            }
+            const vehiculo = await Vehiculo.update(response, {
+                where: { patente_vehiculo: req.params.id },
+            });
+            res.json({
+                success: true,
+                msg: "Vehiculo modificado exitosamente",
+                data: vehiculo,
+            });
+            next(vehiculo.logging);
         } catch (error) {
             sendError(error, res);
         }

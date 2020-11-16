@@ -10,6 +10,9 @@ router.post("/registrarVehiculo", vehiculo.createVehiculo.bind(vehiculo));
 
 router.put("/editarVehiculo/:id", vehiculo.updateVehiculo.bind(vehiculo));
 
+router.put("/cambiarEstadoVehiculo/:id", vehiculo.updateStateVehiculo.bind(vehiculo));
+
+
 router.delete("/eliminarVehiculo/:id", vehiculo.deleteVehiculo.bind(vehiculo));
 
 router.post(

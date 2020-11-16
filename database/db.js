@@ -13,7 +13,7 @@ const EmpresaModel = require("../models/empresas");
 const ConductorModel = require("../models/conductores");
 const RequistoModel = require("../models/requisitos");
 const ContratoModel = require("../models/contratos");
-const PagoModel = require("../models/pagos");
+const PagoArriendoModel = require("../models/pagoArriendos");
 const FacturacionModel = require("../models/facturaciones");
 const GarantiaModel = require("../models/garantias");
 const ModoPagoModel = require("../models/modosPagos");
@@ -22,6 +22,10 @@ const RemplazoModel = require("../models/remplazos");
 const ActaEntregaModel = require("../models/actaEntrega");
 const DespachoModel = require("../models/despacho");
 const PagoAccesoriosModel = require("../models/pagoAccesorios");
+const EmpresaRemplazoModel = require("../models/empresaRemplazos");
+const PagoModel = require("../models/pagos");
+
+
 
 //conectar modelo con base de datos
 const Log = LogModel(database, Sequelize);
@@ -36,7 +40,7 @@ const Empresa = EmpresaModel(database, Sequelize);
 const Conductor = ConductorModel(database, Sequelize);
 const Requisito = RequistoModel(database, Sequelize);
 const Contrato = ContratoModel(database, Sequelize);
-const Pago = PagoModel(database, Sequelize);
+const PagoArriendo = PagoArriendoModel(database, Sequelize);
 const Facturacion = FacturacionModel(database, Sequelize);
 const Garantia = GarantiaModel(database, Sequelize);
 const ModoPago = ModoPagoModel(database, Sequelize);
@@ -45,13 +49,16 @@ const Remplazo = RemplazoModel(database, Sequelize);
 const ActaEntrega = ActaEntregaModel(database, Sequelize);
 const Despacho = DespachoModel(database, Sequelize);
 const PagoAccesorio = PagoAccesoriosModel(database, Sequelize);
+const EmpresaRemplazo = EmpresaRemplazoModel(database, Sequelize);
+const Pago = PagoModel(database, Sequelize);
+
 
 //Asociaciones de tablas
 
-// un pago tiene muchos pagoAccesorio
-Pago.hasMany(PagoAccesorio, { foreignKey: { name: "id_pago" } });
-//un pagoAccesorio pertenece a un pago
-PagoAccesorio.belongsTo(Pago, { foreignKey: { name: "id_pago" } });
+// un pagoArriendo tiene muchos pagoAccesorio
+PagoArriendo.hasMany(PagoAccesorio, { foreignKey: { name: "id_pagoArriendo" } });
+//un pagoAccesorio pertenece a un pagoArriendo
+PagoAccesorio.belongsTo(PagoArriendo, { foreignKey: { name: "id_pagoArriendo" } });
 
 // un arriento tiene una despacho
 Arriendo.hasOne(Despacho, { foreignKey: { name: "id_arriendo" } });
@@ -88,10 +95,17 @@ Facturacion.hasMany(Pago, { foreignKey: { name: "id_facturacion" } });
 //un pago  pertenece a un facturacion
 Pago.belongsTo(Facturacion, { foreignKey: { name: "id_facturacion" } });
 
+
+//un pagoArrriendo tiene muchos pago
+PagoArriendo.hasMany(Pago, { foreignKey: { name: "id_pagoArriendo" } });
+//un pago  pertenece a un PagoArriendo
+Pago.belongsTo(PagoArriendo, { foreignKey: { name: "id_pagoArriendo" } });
+
+
 // un arriendo tiene muchos pagos
-Arriendo.hasMany(Pago, { foreignKey: { name: "id_arriendo" } });
+Arriendo.hasMany(PagoArriendo, { foreignKey: { name: "id_arriendo" } });
 //un pago arriendo pertenece a un arriendo
-Pago.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
+PagoArriendo.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
 
 // un Rol tiene muchos usuarios
 Rol.hasMany(Usuario, { foreignKey: { name: "id_rol" } });
@@ -122,6 +136,11 @@ Remplazo.hasOne(Arriendo, { foreignKey: { name: "id_remplazo" } });
 Remplazo.belongsTo(Cliente, { foreignKey: { name: "rut_cliente" } });
 //un cliente tiene muchos remplazo
 Cliente.hasMany(Remplazo, { foreignKey: { name: "rut_cliente" } });
+
+//un remplazo pertenece a un empresaRemplazo
+Remplazo.belongsTo(EmpresaRemplazo, { foreignKey: { name: "codigo_empresaRemplazo" } });
+//un EmpresaRempalzo tiene muchos remplazo
+EmpresaRemplazo.hasMany(Remplazo, { foreignKey: { name: "codigo_empresaRemplazo" } });
 
 //un arriendo pertenece a un Empresa
 Arriendo.belongsTo(Empresa, { foreignKey: { name: "rut_empresa" } });
@@ -159,18 +178,18 @@ Contrato.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
 Arriendo.hasMany(Contrato, { foreignKey: { name: "id_arriendo" } });
 
 //un Contrato pertenece a un Pago
-Contrato.belongsTo(Pago, { foreignKey: { name: "id_pago" } });
+Contrato.belongsTo(PagoArriendo, { foreignKey: { name: "id_pagoArriendo" } });
 //un pago tiene un Contrato
-Pago.hasOne(Contrato, { foreignKey: { name: "id_pago" } });
+PagoArriendo.hasOne(Contrato, { foreignKey: { name: "id_pagoArriendo" } });
 
 // un arriendo tiene muchos accesorios
 Arriendo.belongsToMany(Accesorio, {
-    through: "Arriendos-Accesorios",
+    through: "ArriendosAccesorios",
     foreignKey: { name: "id_arriendo" },
 });
 // un accesorio tiene muchos arriendos
 Accesorio.belongsToMany(Arriendo, {
-    through: "Arriendos-Accesorios",
+    through: "ArriendosAccesorios",
     foreignKey: { name: "id_accesorio" },
 });
 
@@ -187,7 +206,7 @@ module.exports = {
     Conductor,
     Contrato,
     Requisito,
-    Pago,
+    PagoArriendo,
     Facturacion,
     ModoPago,
     Garantia,
@@ -196,4 +215,6 @@ module.exports = {
     Despacho,
     ActaEntrega,
     PagoAccesorio,
+    EmpresaRemplazo,
+    Pago
 };

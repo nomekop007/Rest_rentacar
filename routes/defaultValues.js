@@ -11,6 +11,7 @@ const {
     ModoPago,
     Propietario,
     Vehiculo,
+    EmpresaRemplazo
 } = require("../database/db");
 
 router.get("/", async(req, res) => {
@@ -60,6 +61,29 @@ router.get("/", async(req, res) => {
             },
         ];
 
+
+        const empresasRemplazo = [{
+                codigo_empresaRemplazo: "RAC",
+                nombre_empresaRemplazo: null,
+                userAt: "default"
+            },
+            {
+                codigo_empresaRemplazo: "AUXILIA",
+                nombre_empresaRemplazo: null,
+                userAt: "default"
+            },
+            {
+                codigo_empresaRemplazo: "EUROP",
+                nombre_empresaRemplazo: null,
+                userAt: "default"
+            },
+            {
+                codigo_empresaRemplazo: "MOK",
+                nombre_empresaRemplazo: null,
+                userAt: "default"
+            }
+        ];
+
         const accesorios = [
             { id_accesorio: 1, nombre_accesorio: "TRASLADO", userAt: "default" },
             { id_accesorio: 2, nombre_accesorio: "DEDUCIBLE", userAt: "default" },
@@ -98,6 +122,9 @@ router.get("/", async(req, res) => {
         }
         for (let i = 0; i < modoPagos.length; i++) {
             await ModoPago.create(modoPagos[i]);
+        }
+        for (let i = 0; i < empresasRemplazo.length; i++) {
+            await EmpresaRemplazo.create(empresasRemplazo[i]);
         }
 
         const userAdmin = {
@@ -164,6 +191,7 @@ router.get("/cargarVehiculos", async(req, res) => {
                 fechaCompra_vehiculo: vehiculos[i].fechaCompra,
                 estado_vehiculo: "DISPONIBLE",
                 kilometraje_vehiculo: 0,
+                kilometraje_mantencion: 0,
                 id_sucursal: getRandomInt(1, 4),
                 userAt: "default",
             };

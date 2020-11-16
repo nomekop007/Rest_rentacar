@@ -13,7 +13,7 @@ class PagoAccesorioController {
                     nombre_pagoAccesorio: nombre,
                     precioVenta_pagoAccesorio: Number(precio),
                     userAt: response.userAt,
-                    id_pago: response.id_pago,
+                    id_pagoArriendo: response.id_pagoArriendo,
                 };
                 await PagoAccesorio.create(data);
             }

@@ -10,10 +10,11 @@ const {
     Requisito,
     Garantia,
     Sucursal,
-    Pago,
+    PagoArriendo,
     Despacho,
     ActaEntrega,
-    Contrato
+    Contrato,
+    EmpresaRemplazo
 } = require("../database/db");
 const { sendError } = require("../helpers/components");
 class ArriendoController {
@@ -37,12 +38,11 @@ class ArriendoController {
                     { model: Cliente, attributes: ["nombre_cliente", "rut_cliente"] },
                     { model: Empresa, attributes: ["nombre_empresa", "rut_empresa"] },
                     { model: Vehiculo, attributes: ["patente_vehiculo"] },
-                    { model: Pago },
+                    { model: PagoArriendo },
                     { model: Requisito },
                     {
                         model: Remplazo,
-                        attributes: ["nombreEmpresa_remplazo"],
-                        include: [{ model: Cliente, attributes: ["nombre_cliente", "rut_cliente"] }, ],
+                        include: [{ model: EmpresaRemplazo }, { model: Cliente, attributes: ["nombre_cliente", "rut_cliente"] }],
                     },
                 ],
             });
@@ -67,10 +67,10 @@ class ArriendoController {
                     { model: Accesorio },
                     { model: Requisito },
                     { model: Garantia },
-                    { model: Pago },
+                    { model: PagoArriendo },
                     { model: Sucursal },
                     { model: Usuario, attributes: ["nombre_usuario"] },
-                    { model: Remplazo, include: [{ model: Cliente }], },
+                    { model: Remplazo, include: [{ model: Cliente }, { model: EmpresaRemplazo }], },
                     { model: Despacho, include: [{ model: ActaEntrega }] },
                     { model: Contrato }
                 ],
@@ -110,28 +110,8 @@ class ArriendoController {
                     break;
             }
             //se crea el arriendo
-            const a = await Arriendo.create(response);
+            const arriendo = await Arriendo.create(response);
 
-            const arriendo = await Arriendo.findOne({
-                include: [
-                    { model: Usuario, attributes: ["nombre_usuario"] },
-                    { model: Cliente, attributes: ["nombre_cliente"] },
-                    { model: Empresa, attributes: ["nombre_empresa"] },
-                    {
-                        model: Remplazo,
-                        attributes: ["nombreEmpresa_remplazo"],
-                        include: [{ model: Cliente, attributes: ["nombre_cliente"] }],
-                    },
-                ],
-                where: { id_arriendo: a.id_arriendo },
-                attributes: [
-                    "id_arriendo",
-                    "createdAt",
-                    "tipo_arriendo",
-                    "estado_arriendo",
-                    "patente_vehiculo",
-                ],
-            });
 
             // en caso de querer crear un accesorio
             if (response.inputOtros != "" && response.inputOtros != null) {
@@ -140,20 +120,20 @@ class ArriendoController {
                     userAt: response.userAt,
                 });
                 //se registra en la tabla arriendos-accesorios
-                await a.addAccesorios(accesorio);
+                await arriendo.addAccesorios(accesorio);
             }
             res.json({
                 success: true,
                 msg: "registro exitoso",
                 data: arriendo,
             });
-            next(a.logging);
+            next(arriendo.logging);
         } catch (error) {
             sendError(error, res);
         }
     }
 
-    async updateArriendo(req, res, next) {
+    async updateStateArriendo(req, res, next) {
         try {
             const response = req.body;
 

@@ -17,7 +17,7 @@ const apiClientesRouter = require("./api/clientes");
 const apiEmpresasRouter = require("./api/empresas");
 const apiConductoresRouter = require("./api/conductores");
 const apiRequisitosRouter = require("./api/requisitos");
-const apiPagosRouter = require("./api/pagos");
+const apiPagoArriendoRouter = require("./api/pagosArriendos");
 const apiGarantiasRouter = require("./api/garantias");
 const apiContratosRouter = require("./api/contratos");
 const apiPropietarioRouter = require("./api/propietarios");
@@ -26,6 +26,9 @@ const apiActaEntregaRouter = require("./api/actasEntregas");
 const apiDespachoRouter = require("./api//despachos");
 const apiPagoAccesorioRouter = require("./api/pagosAccesorios");
 const apiFacturacionRouter = require("./api/facturaciones");
+const apiEmpresaRemplazoRouter = require("./api/empresasRemplazos");
+const apiPagoRouter = require("./api/pagos");
+
 
 if (process.env.DEFAULT_VALUE === "TRUE") {
     console.log("function default enable");
@@ -43,7 +46,7 @@ router.use("/clientes", check.checkToken, apiClientesRouter);
 router.use("/empresas", check.checkToken, apiEmpresasRouter);
 router.use("/conductores", check.checkToken, apiConductoresRouter);
 router.use("/contratos", check.checkToken, apiContratosRouter);
-router.use("/pagos", check.checkToken, apiPagosRouter);
+router.use("/pagosArriendos", check.checkToken, apiPagoArriendoRouter);
 router.use("/garantias", check.checkToken, apiGarantiasRouter);
 router.use("/arriendos", check.checkToken, apiArriendosRouter);
 router.use("/remplazos", check.checkToken, apiRemplazoRouter);
@@ -51,5 +54,7 @@ router.use("/actasEntregas", check.checkToken, apiActaEntregaRouter);
 router.use("/despachos", check.checkToken, apiDespachoRouter);
 router.use("/pagosAccesorios", check.checkToken, apiPagoAccesorioRouter);
 router.use("/facturaciones", check.checkToken, apiFacturacionRouter);
+router.use("/empresasRemplazo", check.checkToken, apiEmpresaRemplazoRouter);
+router.use("/pagos", check.checkToken, apiPagoRouter)
 
 module.exports = router;

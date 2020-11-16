@@ -10,10 +10,11 @@ const {
     Contrato,
     Remplazo,
     Garantia,
-    Pago,
+    PagoArriendo,
     ModoPago,
     PagoAccesorio,
     Facturacion,
+    Pago
 } = require("../database/db");
 const { sendError } = require("../helpers/components");
 const fs = require("fs");
@@ -36,7 +37,7 @@ class contrato_controller {
             const arriendo = await Arriendo.findOne({
                 where: { id_arriendo: response.id_arriendo },
                 include: [
-                    { model: Pago }
+                    { model: PagoArriendo }
                 ]
             })
 
@@ -52,8 +53,8 @@ class contrato_controller {
 
 
             //guarda el ultimo pago en el contrato
-            const fila = arriendo.pagos.length - 1;
-            response.id_pago = arriendo.pagos[fila].id_pago;
+            const fila = arriendo.pagosArriendos.length - 1;
+            response.id_pagoArriendo = arriendo.pagosArriendos[fila].id_pagoArriendo;
             response.documento = nameFile;
 
             const contrato = await Contrato.create(response);
@@ -79,11 +80,13 @@ class contrato_controller {
                     { model: Conductor },
                     { model: Sucursal },
                     {
-                        model: Pago,
+                        model: PagoArriendo,
                         include: [{
-                                model: Facturacion,
+                                model: Pago,
                                 include: {
-                                    model: ModoPago,
+                                    model: Facturacion,
+                                    include: { model: ModoPago },
+
                                 },
                             },
                             { model: PagoAccesorio },

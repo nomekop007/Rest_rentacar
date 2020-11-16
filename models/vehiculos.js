@@ -17,6 +17,7 @@ module.exports = (sequelize, type) => {
         año_vehiculo: type.INTEGER,
         foto_vehiculo: type.STRING,
         kilometraje_vehiculo: type.BIGINT(20),
+        kilometrosMantencion_vehiculo: type.BIGINT(20),
         userAt: type.STRING,
     });
 };

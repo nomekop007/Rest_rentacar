@@ -15,7 +15,7 @@ async function contratoPlantilla(data) {
     //P es lo del pago al cual pertenece el contrato X
 
     const doc = {
-        P: data.arriendo.pagos.length - 1,
+        P: data.arriendo.pagosArriendos.length - 1,
         n_extencion: "",
         extencion: "",
         cliente: {
@@ -66,24 +66,21 @@ async function contratoPlantilla(data) {
         doc.extencion = "EXTENDIDO"
     }
 
-    const arrayAccesorios = data.arriendo.pagos[doc.P].pagosAccesorios;
+    const arrayAccesorios = data.arriendo.pagosArriendos[doc.P].pagosAccesorios;
     if (arrayAccesorios.length > 0) {
         for (let i = 0; i < arrayAccesorios.length; i++) {
             switch (arrayAccesorios[i].nombre_pagoAccesorio) {
                 case "TRASLADO":
-                    doc.accesorios.traslado =
-                        arrayAccesorios[i].precioVenta_pagoAccesorio;
+                    doc.accesorios.traslado = arrayAccesorios[i].precioVenta_pagoAccesorio;
                     break;
                 case "DEDUCIBLE":
-                    doc.accesorios.deducible =
-                        arrayAccesorios[i].precioVenta_pagoAccesorio;
+                    doc.accesorios.deducible = arrayAccesorios[i].precioVenta_pagoAccesorio;
                     break;
                 case "BENCINA":
                     doc.accesorios.bencina = arrayAccesorios[i].precioVenta_pagoAccesorio;
                     break;
                 case "ENGANCHE":
-                    doc.accesorios.enganche =
-                        arrayAccesorios[i].precioVenta_pagoAccesorio;
+                    doc.accesorios.enganche = arrayAccesorios[i].precioVenta_pagoAccesorio;
                     break;
                 case "SILLA PARA BEBE":
                     doc.accesorios.silla = arrayAccesorios[i].precioVenta_pagoAccesorio;
@@ -157,7 +154,7 @@ async function contratoPlantilla(data) {
             break;
     }
 
-    const facturacion = data.arriendo.pagos[doc.P].facturacione;
+    const facturacion = data.arriendo.pagosArriendos[doc.P].pagos[0].facturacione;
     if (facturacion) {
         switch (facturacion.tipo_facturacion) {
             case "BOLETA":
@@ -429,8 +426,8 @@ async function contratoPlantilla(data) {
                                     fontSize: 6,
                                     margin: [0, 5, 10, 0],
                                     text: `Observaciones: \n ${
-                    data.arriendo.pagos[doc.P].observaciones_pago
-                  } `,
+                                    data.arriendo.pagosArriendos[doc.P].observaciones_pagoArriendo
+                                } `,
                                 },
                             ],
                         },
@@ -484,12 +481,12 @@ async function contratoPlantilla(data) {
                                     ],
                                     [{
                                             text: `TIPO ARRIENDO: \n  ${
-                        data.arriendo.tipo_arriendo
-                      } ${
-                        data.arriendo.remplazo
-                          ? data.arriendo.remplazo.nombreEmpresa_remplazo
-                          : ""
-                      }`,
+                                            data.arriendo.tipo_arriendo
+                                            } ${
+                                                data.arriendo.remplazo
+                                                ? data.arriendo.remplazo.codigo_empresaRemplazo
+                                             : ""
+                                            }`,
                                             colSpan: 2,
                                         },
                                         {},
@@ -501,32 +498,12 @@ async function contratoPlantilla(data) {
                                         {},
                                     ],
                                     [
-                                        "VALOR ARRIENDO:",
-                                        {
-                                            text: "$ " +
-                                                formatter.format(
-                                                    data.arriendo.pagos[doc.P].subtotal_pago
-                                                ),
-                                            fontSize: 7,
-                                        },
-                                    ],
-                                    [
-                                        "VALOR COPAGO (-) :",
-                                        {
-                                            text: "$ " +
-                                                formatter.format(
-                                                    data.arriendo.pagos[doc.P].copago_pago
-                                                ),
-                                            fontSize: 7,
-                                        },
-                                    ],
-                                    [
                                         "SUB TOTAL NETO:",
                                         {
                                             text: "$ " +
                                                 formatter.format(
-                                                    data.arriendo.pagos[doc.P].subtotal_pago -
-                                                    data.arriendo.pagos[doc.P].copago_pago
+                                                    data.arriendo.pagosArriendos[doc.P].subtotal_pagoArriendo -
+                                                    data.arriendo.pagosArriendos[doc.P].remplazo_pagoArriendo
                                                 ),
                                             fontSize: 7,
                                         },
@@ -536,12 +513,11 @@ async function contratoPlantilla(data) {
                                         {
                                             text: "$ " +
                                                 formatter.format(
-                                                    data.arriendo.pagos[doc.P].descuento_pago
+                                                    data.arriendo.pagosArriendos[doc.P].descuento_pagoArriendo
                                                 ),
                                             fontSize: 7,
                                         },
                                     ],
-
                                     [
                                         { heights: 6, text: "TRASLADO  (+)", fontSize: 6 },
                                         {
@@ -612,11 +588,11 @@ async function contratoPlantilla(data) {
                                         "TOTAL NETO: \n\n IVA: \n\n TOTAL:",
                                         {
                                             text: `$ ${formatter.format(
-                        data.arriendo.pagos[doc.P].neto_pago
+                        data.arriendo.pagosArriendos[doc.P].neto_pagoArriendo
                       )} \n\n $ ${formatter.format(
-                        data.arriendo.pagos[doc.P].iva_pago
+                        data.arriendo.pagosArriendos[doc.P].iva_pagoArriendo
                       )} \n\n $ ${formatter.format(
-                        data.arriendo.pagos[doc.P].total_pago
+                        data.arriendo.pagosArriendos[doc.P].total_pagoArriendo
                       )} `,
                                             fontSize: 7,
                                         },
@@ -625,7 +601,7 @@ async function contratoPlantilla(data) {
                                         { text: "A PAGAR ", fontSize: 10 },
                                         {
                                             text: "$ " +
-                                                formatter.format(data.arriendo.pagos[doc.P].total_pago),
+                                                formatter.format(data.arriendo.pagosArriendos[doc.P].total_pagoArriendo),
                                             fontSize: 10,
                                             bold: true,
                                         },

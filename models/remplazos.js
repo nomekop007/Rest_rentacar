@@ -5,7 +5,6 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        nombreEmpresa_remplazo: type.STRING,
         userAt: type.STRING,
     });
 };

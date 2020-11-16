@@ -8,6 +8,6 @@ router.get("/buscarArriendo/:id", arriendo.findArriendo.bind(arriendo));
 
 router.post("/registrarArriendo", arriendo.createArriendo.bind(arriendo));
 
-router.put("/editarArriendo/:id", arriendo.updateArriendo.bind(arriendo));
+router.put("/cambiarEstadoArriendo/:id", arriendo.updateStateArriendo.bind(arriendo));
 
 module.exports = router;

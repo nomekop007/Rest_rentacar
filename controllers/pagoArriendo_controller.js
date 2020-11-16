@@ -1,16 +1,15 @@
-const { Pago } = require("../database/db");
+const { PagoArriendo } = require("../database/db");
 const { sendError } = require("../helpers/components");
 
-class PagoController {
-    async createPago(req, res) {
+class PagoArriendoController {
+    async createPagoArriendo(req, res) {
         try {
             const response = req.body;
-            console.log(response);
-            const pago = await Pago.create(response);
+            const pagoArriendo = await PagoArriendo.create(response);
 
             res.json({
                 success: true,
-                pago: pago,
+                pagoArriendo: pagoArriendo,
                 msg: "registro exitoso",
             });
 
@@ -22,4 +21,4 @@ class PagoController {
 
 }
 
-module.exports = PagoController;
+module.exports = PagoArriendoController;

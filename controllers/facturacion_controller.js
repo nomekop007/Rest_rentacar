@@ -24,7 +24,7 @@ class FacturacionController {
             const facturacion = await Facturacion.create(response);
             res.json({
                 success: true,
-                facturacion: facturacion,
+                data: facturacion,
                 msg: "registro exitoso",
             });
 
