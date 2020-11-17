@@ -8,6 +8,7 @@ const SucursalModel = require("../models/sucursales");
 const VehiculoModel = require("../models/vehiculos");
 const AccesoriosModel = require("../models/accesorios");
 const ArriendoModel = require("../models/arriendos");
+const ContactoModel = require("../models/contactos");
 const ClienteModel = require("../models/clientes");
 const EmpresaModel = require("../models/empresas");
 const ConductorModel = require("../models/conductores");
@@ -27,15 +28,17 @@ const PagoModel = require("../models/pagos");
 
 
 
+
+
 //conectar modelo con base de datos
 const Log = LogModel(database, Sequelize);
-const Rol = RolModel(database, Sequelize);
 const Usuario = UsuarioModel(database, Sequelize);
+const Rol = RolModel(database, Sequelize);
 const Sucursal = SucursalModel(database, Sequelize);
 const Vehiculo = VehiculoModel(database, Sequelize);
 const Arriendo = ArriendoModel(database, Sequelize);
-const Accesorio = AccesoriosModel(database, Sequelize);
 const Cliente = ClienteModel(database, Sequelize);
+const Accesorio = AccesoriosModel(database, Sequelize);
 const Empresa = EmpresaModel(database, Sequelize);
 const Conductor = ConductorModel(database, Sequelize);
 const Requisito = RequistoModel(database, Sequelize);
@@ -49,9 +52,9 @@ const Remplazo = RemplazoModel(database, Sequelize);
 const ActaEntrega = ActaEntregaModel(database, Sequelize);
 const Despacho = DespachoModel(database, Sequelize);
 const PagoAccesorio = PagoAccesoriosModel(database, Sequelize);
-const EmpresaRemplazo = EmpresaRemplazoModel(database, Sequelize);
 const Pago = PagoModel(database, Sequelize);
-
+const EmpresaRemplazo = EmpresaRemplazoModel(database, Sequelize);
+const Contacto = ContactoModel(database, Sequelize);
 
 //Asociaciones de tablas
 
@@ -79,6 +82,11 @@ Vehiculo.belongsTo(Propietario, { foreignKey: { name: "rut_propietario" } });
 Arriendo.hasOne(Garantia, { foreignKey: { name: "id_arriendo" } });
 //un garantia pertenece a un arriendo
 Garantia.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
+
+// un arriento tiene una contacto
+Arriendo.hasOne(Contacto, { foreignKey: { name: "id_arriendo" } });
+//un Contacto pertenece a un arriendo
+Contacto.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
 
 // un modoPago tiene muchos facturacion
 ModoPago.hasMany(Facturacion, { foreignKey: { name: "id_modoPago" } });
@@ -216,5 +224,6 @@ module.exports = {
     ActaEntrega,
     PagoAccesorio,
     EmpresaRemplazo,
-    Pago
+    Pago,
+    Contacto
 };
