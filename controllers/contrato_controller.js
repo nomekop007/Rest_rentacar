@@ -14,7 +14,8 @@ const {
     ModoPago,
     PagoAccesorio,
     Facturacion,
-    Pago
+    Pago,
+    Contacto
 } = require("../database/db");
 const { sendError } = require("../helpers/components");
 const fs = require("fs");
@@ -78,6 +79,7 @@ class contrato_controller {
                     { model: Vehiculo },
                     { model: Accesorio },
                     { model: Conductor },
+                    { model: Contacto },
                     { model: Sucursal },
                     {
                         model: PagoArriendo,
