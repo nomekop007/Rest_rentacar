@@ -136,7 +136,7 @@ class ArriendoController {
     async updateStateArriendo(req, res, next) {
         try {
             const response = req.body;
-
+            console.log(response);
             const arriendo = await Arriendo.update(response, {
                 where: { id_arriendo: req.params.id },
             });

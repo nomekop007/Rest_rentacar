@@ -16,7 +16,6 @@ async function contratoPlantilla(data) {
 
     const doc = {
         P: data.arriendo.pagosArriendos.length - 1,
-        n_extencion: "",
         extencion: "",
         cliente: {
             nombre_cliente: "",
@@ -62,8 +61,7 @@ async function contratoPlantilla(data) {
 
     if (doc.P > 0) {
         //significa que este no es el primer contrato del arriendo y es una extencion
-        doc.n_extencion = " - " + doc.P;
-        doc.extencion = "EXTENDIDO"
+        doc.extencion = "EXTENCION - " + doc.P
     }
 
     const arrayAccesorios = data.arriendo.pagosArriendos[doc.P].pagosAccesorios;
@@ -92,7 +90,7 @@ async function contratoPlantilla(data) {
                     doc.accesorios.rastreo = arrayAccesorios[i].precioVenta_pagoAccesorio;
                     break;
                 default:
-                    doc.accesorios.otros = arrayAccesorios[i].precioVenta_pagoAccesorio;
+                    doc.accesorios.otros = doc.accesorios.otros + arrayAccesorios[i].precioVenta_pagoAccesorio;
                     break;
             }
         }
@@ -247,9 +245,14 @@ async function contratoPlantilla(data) {
                         ],
                     },
                     {
-                        text: `Nº  ${data.arriendo.id_arriendo} ${doc.n_extencion}
-                        ${doc.extencion}
-                        `,
+                        text: [{
+                                text: `Nº  ${data.arriendo.id_arriendo} \n`,
+                            },
+                            {
+                                fontSize: 8,
+                                text: `${doc.extencion}`
+                            }
+                        ]
                     },
                 ],
             },
@@ -492,7 +495,7 @@ async function contratoPlantilla(data) {
                                         {},
                                     ],
                                     [{
-                                            text: `CANTIDAD TOTAL DIAS: \n  ${data.arriendo.numerosDias_arriendo}`,
+                                            text: `CANTIDAD DE DIAS: \n  ${data.arriendo.diasActuales_arriendo}`,
                                             colSpan: 2,
                                         },
                                         {},

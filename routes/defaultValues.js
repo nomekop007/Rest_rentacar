@@ -63,25 +63,61 @@ router.get("/", async(req, res) => {
 
 
         const empresasRemplazo = [{
-                codigo_empresaRemplazo: "RAC",
-                nombre_empresaRemplazo: null,
-                userAt: "default"
-            },
-            {
-                codigo_empresaRemplazo: "AUXILIA",
-                nombre_empresaRemplazo: null,
+                codigo_empresaRemplazo: "MOK",
+                nombre_empresaRemplazo: "MULTI ASSIST S.A",
+                rut_empresaRemplazo: "96.809.480-7",
+                direccion_empresaRemplazo: "EL BOSQUE CENTRAL 92, LAS CONDES, SANTIAGO",
+                giro_empresaRemplazo: "OTRAS ACTIVIDADES DE SERVICIOS DE APOYO",
                 userAt: "default"
             },
             {
                 codigo_empresaRemplazo: "EUROP",
-                nombre_empresaRemplazo: null,
+                nombre_empresaRemplazo: "EUROP SERVICIOS SPA",
+                rut_empresaRemplazo: "76.051.955-3",
+                direccion_empresaRemplazo: "AV.ANDRES BELLO 2115 201, PROVIDENCIA, SANTIAGO",
+                giro_empresaRemplazo: "OTRAS ACTIVIDADES DE SERVICIOS DE APOYO",
                 userAt: "default"
             },
             {
-                codigo_empresaRemplazo: "MOK",
-                nombre_empresaRemplazo: null,
+                codigo_empresaRemplazo: "AUXILIA",
+                nombre_empresaRemplazo: "AUXILIA CLUB ASISTENCIA S.A.",
+                rut_empresaRemplazo: "77.078.150-7",
+                direccion_empresaRemplazo: "LAS URBINAS 68, PROVIDENCIA, SANTIAGO",
+                giro_empresaRemplazo: "ALQUILER DE VEHICULOS AUTOMOTORES SIN CH",
                 userAt: "default"
-            }
+            },
+            {
+                codigo_empresaRemplazo: "RAC",
+                nombre_empresaRemplazo: "RAC ASISTENCIA S.A.",
+                rut_empresaRemplazo: "76.036.929-2",
+                direccion_empresaRemplazo: "ANTONIO BELLET 292 OF101, PROVIDENCIA, SANTIAGO",
+                giro_empresaRemplazo: "ALQUILER DE VEHICULOS AUTOMOTORES SIN CH",
+                userAt: "default"
+            },
+            {
+                codigo_empresaRemplazo: "AXA",
+                nombre_empresaRemplazo: "AXA ASISTENCIA CHILE S A",
+                rut_empresaRemplazo: "96.828.860-1",
+                direccion_empresaRemplazo: "ISIDORA GOYENECHEA 2800 3403 PISO 34, LAS CONDES, SANTIAGO",
+                giro_empresaRemplazo: "OTRAS ACTIVIDADES DE SERVICIOS DE APOYO",
+                userAt: "default"
+            },
+            {
+                codigo_empresaRemplazo: "REALE",
+                nombre_empresaRemplazo: null,
+                rut_empresaRemplazo: null,
+                direccion_empresaRemplazo: null,
+                giro_empresaRemplazo: null,
+                userAt: "default"
+            },
+            {
+                codigo_empresaRemplazo: "ASPOR",
+                nombre_empresaRemplazo: "ASEGURADORA PORVENIR S.A",
+                rut_empresaRemplazo: "76.598.625-7",
+                direccion_empresaRemplazo: "AV. APOQUINDO 4501, OF 2003, LAS CONDES, SANTIAGO",
+                giro_empresaRemplazo: "COMPAÑÍA DE SEGUROS",
+                userAt: "default"
+            },
         ];
 
         const accesorios = [

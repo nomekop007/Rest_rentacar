@@ -104,7 +104,7 @@ class contrato_controller {
                 ],
             });
 
-            if (arriendo.estado_arriendo == "PENDIENTE" || arriendo.estado_arriendo == "EXTENDIDO") {
+            if (arriendo.estado_arriendo == "PAGADO" || arriendo.estado_arriendo == "PAGADO-EXTENDIDO") {
                 response.arriendo = arriendo;
                 //se genera el documento
                 const docDefinition = await contratoPlantilla(response);
