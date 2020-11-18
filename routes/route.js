@@ -39,7 +39,7 @@ if (process.env.DEFAULT_VALUE === "TRUE") {
     router.use("/defaultValues", defaultValues);
 }
 
-router.use("/api", apiQuerys);
+router.use("/api", check_api.checkTokenApiRest, apiQuerys);
 
 router.use("/usuarios", apiUsuariosRouter);
 router.use("/requisitos", check.checkToken, apiRequisitosRouter);
