@@ -1,6 +1,6 @@
 const { Facturacion, Pago } = require("../database/db");
 const { sendError } = require("../helpers/components");
-const sequealize = require("sequelize");
+const sequelize = require("sequelize");
 class FacturacionController {
 
     async getFacturacion(req, res) {
@@ -8,8 +8,19 @@ class FacturacionController {
 
             const facturacion = await Facturacion.findAll({
                 include: Pago,
+                attributes: [
+                    "id_facturacion",
+                    "tipo_facturacion",
+                    "numero_facturacion",
+                    [sequelize.fn('COUNT', sequelize.col('pagos.id_facturacion')), 'cantidadPagos'],
+                    "createdAt",
+                    "userAt"
+                ],
+                group: "pagos.id_facturacion",
+                raw: true
             });
 
+            console.log(facturacion);
             res.json({
                 success: true,
                 data: facturacion,
