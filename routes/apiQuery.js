@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { sendError, } = require("../helpers/components");
-const { Arriendo, Sucursal, Usuario, Cliente, Empresa, Vehiculo, PagoArriendo, PagoAccesorio, Pago, Facturacion, ModoPago, EmpresaRemplazo, Requisito, Remplazo } = require("../database/db");
+const { Arriendo, Sucursal, Usuario, Cliente, Empresa, Vehiculo, PagoArriendo, PagoAccesorio, Pago, Facturacion, ModoPago, EmpresaRemplazo, Requisito, Remplazo, Contrato } = require("../database/db");
 
 
 router.get("/mostrarArriendoFinanzas", async (req, res) => {
@@ -12,6 +12,7 @@ router.get("/mostrarArriendoFinanzas", async (req, res) => {
                 { model: Vehiculo },
                 { model: Cliente },
                 { model: Empresa },
+                { model: Requisito },
                 {
                     model: Remplazo,
                     include: [{ model: EmpresaRemplazo }, { model: Cliente }],
@@ -19,6 +20,7 @@ router.get("/mostrarArriendoFinanzas", async (req, res) => {
                 {
                     model: PagoArriendo,
                     include: [
+                        { model: Contrato },
                         { model: PagoAccesorio },
                         {
                             model: Pago,
