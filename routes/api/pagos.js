@@ -4,9 +4,10 @@ const pago = new Pago_controller();
 
 //middlewares
 const check = require("../../middlewares/check_middleware");
+const check_api = require("../../middlewares/checkApi_middleware")
 
 router.post("/registrarPago", check.checkToken, pago.createPago.bind(pago));
-router.get("/mostrarPagosFinanzas", pago.getPagoFinanzas.bind(pago));
+router.get("/mostrarPagosFinanzas", check_api.checkTokenApiRest, pago.getPagoFinanzas.bind(pago));
 
 
 module.exports = router;
