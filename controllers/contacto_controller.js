@@ -6,7 +6,6 @@ class ContactoController {
     async createContacto(req, res) {
         try {
             const response = req.body;
-            console.log(response);
 
             const contacto = await Contacto.create(response);
 

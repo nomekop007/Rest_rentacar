@@ -14,7 +14,11 @@ const {
     Despacho,
     ActaEntrega,
     Contrato,
-    EmpresaRemplazo
+    EmpresaRemplazo,
+    PagoAccesorio,
+    Pago,
+    Facturacion,
+    ModoPago
 } = require("../database/db");
 const { sendError } = require("../helpers/components");
 class ArriendoController {
@@ -54,6 +58,8 @@ class ArriendoController {
             sendError(error, res);
         }
     }
+
+
 
     async findArriendo(req, res) {
         try {

@@ -3,10 +3,9 @@ const Facturacion_controller = require("../../controllers/facturacion_controller
 const { subirDocumentoFacturacion } = require("../../middlewares/upload_middleware")
 const facturacion = new Facturacion_controller();
 
-router.post(
-    "/registrarFacturacion",
-    facturacion.createFacturacion.bind(facturacion)
-);
+router.get("/cargarFacturaciones", facturacion.getFacturacion.bind(facturacion));
+
+router.post("/registrarFacturacion", facturacion.createFacturacion.bind(facturacion));
 
 router.post("/guardarDocumentoFacturacion/:id", subirDocumentoFacturacion, facturacion.uploadDocumentFacturacion.bind(facturacion))
 

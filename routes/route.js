@@ -2,9 +2,12 @@ const router = require("express").Router();
 
 //middlewares
 const check = require("../middlewares/check_middleware");
+const check_api = require("../middlewares/checkApi_middleware");
 
-//default routes
+//otros routes
 const defaultValues = require("./defaultValues");
+const apiQuerys = require("./apiQuery");
+
 
 //routes
 const apiRolesRouter = require("./api/roles");
@@ -36,6 +39,8 @@ if (process.env.DEFAULT_VALUE === "TRUE") {
     router.use("/defaultValues", defaultValues);
 }
 
+router.use("/api", apiQuerys);
+
 router.use("/usuarios", apiUsuariosRouter);
 router.use("/requisitos", check.checkToken, apiRequisitosRouter);
 router.use("/propietarios", check.checkToken, apiPropietarioRouter);
@@ -57,7 +62,7 @@ router.use("/pagosAccesorios", check.checkToken, apiPagoAccesorioRouter);
 router.use("/facturaciones", check.checkToken, apiFacturacionRouter);
 router.use("/empresasRemplazo", check.checkToken, apiEmpresaRemplazoRouter);
 router.use("/contactos", check.checkToken, apiContactoRouter)
-router.use("/pagos", apiPagoRouter);
+router.use("/pagos", check.checkToken, apiPagoRouter);
 
 
 module.exports = router;

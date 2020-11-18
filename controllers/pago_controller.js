@@ -19,45 +19,6 @@ class PagoController {
         }
     }
 
-    async getPagoFinanzas(req, res) {
-        try {
-
-            const pago = await Pago.findAll({
-                include: [
-                    { model: Facturacion },
-                    {
-                        model: PagoArriendo,
-                        include: [
-                            { model: PagoAccesorio },
-                            {
-                                model: Arriendo,
-                                include: [
-                                    { model: Cliente },
-                                    { model: Empresa },
-                                    {
-                                        model: Remplazo,
-                                        include: [
-                                            { model: Cliente },
-                                            { model: EmpresaRemplazo }
-                                        ]
-                                    },
-                                ]
-                            }
-
-                        ]
-                    },
-                ],
-            });
-
-            res.json({
-                success: true,
-                pago: pago,
-            });
-
-        } catch (error) {
-            sendError(error, res);
-        }
-    }
 
 }
 

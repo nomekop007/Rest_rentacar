@@ -1,7 +1,25 @@
-const { Facturacion } = require("../database/db");
+const { Facturacion, Pago } = require("../database/db");
 const { sendError } = require("../helpers/components");
-
+const sequealize = require("sequelize");
 class FacturacionController {
+
+    async getFacturacion(req, res) {
+        try {
+
+            const facturacion = await Facturacion.findAll({
+                include: Pago,
+            });
+
+            res.json({
+                success: true,
+                data: facturacion,
+            })
+        } catch (error) {
+            sendError(error, res);
+        }
+
+    }
+
     async createFacturacion(req, res, next) {
         try {
             const response = req.body;
@@ -33,7 +51,6 @@ class FacturacionController {
             sendError(error, res);
         }
     }
-
 
     async uploadDocumentFacturacion(req, res) {
         try {

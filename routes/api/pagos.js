@@ -2,12 +2,6 @@ const router = require("express").Router();
 const Pago_controller = require("../../controllers/pago_controller");
 const pago = new Pago_controller();
 
-//middlewares
-const check = require("../../middlewares/check_middleware");
-const check_api = require("../../middlewares/checkApi_middleware")
-
-router.post("/registrarPago", check.checkToken, pago.createPago.bind(pago));
-router.get("/mostrarPagosFinanzas", check_api.checkTokenApiRest, pago.getPagoFinanzas.bind(pago));
-
+router.post("/registrarPago", pago.createPago.bind(pago));
 
 module.exports = router;

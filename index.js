@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 //static files (hace publica la carpeta uploads)
 app.use(express.static(path.join(__dirname, "uploads")));
 
+
 //middlewares
 const log = require("./middlewares/log_middleware");
 
