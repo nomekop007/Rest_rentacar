@@ -11,4 +11,6 @@ router.post(
     requisito.createRequisitoArriendo.bind(requisito)
 );
 
+
+
 module.exports = router;

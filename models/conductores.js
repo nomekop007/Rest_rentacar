@@ -8,6 +8,7 @@ module.exports = (sequelize, type) => {
         telefono_conductor: type.STRING,
         clase_conductor: type.STRING,
         numero_conductor: type.STRING,
+        nacionalidad_conductor: type.STRING,
         vcto_conductor: type.DATE,
         municipalidad_conductor: type.STRING,
         direccion_conductor: type.STRING,

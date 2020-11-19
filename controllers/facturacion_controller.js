@@ -8,19 +8,8 @@ class FacturacionController {
 
             const facturacion = await Facturacion.findAll({
                 include: Pago,
-                attributes: [
-                    "id_facturacion",
-                    "tipo_facturacion",
-                    "numero_facturacion",
-                    [sequelize.fn('COUNT', sequelize.col('pagos.id_facturacion')), 'cantidadPagos'],
-                    "createdAt",
-                    "userAt"
-                ],
-                group: "pagos.id_facturacion",
-                raw: true
             });
 
-            console.log(facturacion);
             res.json({
                 success: true,
                 data: facturacion,

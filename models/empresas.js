@@ -9,6 +9,7 @@ module.exports = (sequelize, type) => {
         vigencia_empresa: type.STRING,
         direccion_empresa: type.STRING,
         ciudad_empresa: type.STRING,
+        comuna_empresa: type.STRING,
         telefono_empresa: type.STRING,
         correo_empresa: type.STRING,
         userAt: type.STRING,

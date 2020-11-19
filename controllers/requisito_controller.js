@@ -1,6 +1,6 @@
 const { Requisito } = require("../database/db");
 const { sendError } = require("../helpers/components");
-
+const path = require('path');
 class RequisitoController {
     async createRequisitoArriendo(req, res) {
         try {
@@ -47,6 +47,8 @@ class RequisitoController {
             sendError(error, res);
         }
     }
+
+
 }
 
 module.exports = RequisitoController;

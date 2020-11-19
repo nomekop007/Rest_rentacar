@@ -55,8 +55,6 @@ class ActaEntregaController {
         }
     }
 
-
-
     async generatePDFactaEntrega(req, res) {
         try {
             const response = req.body;
@@ -122,7 +120,7 @@ class ActaEntregaController {
                         include: [{
                             model: Cliente,
                             attributes: ["correo_cliente", "nombre_cliente"],
-                        }, ],
+                        },],
                     },
                 ],
             });
@@ -173,7 +171,7 @@ class ActaEntregaController {
                 <p>------------------------------------------------------------------------------------------------------------------------------</p>
                 <p>Atentamente, Rent a Car Maule Ltda. </p>
                 <img src="data:image/jpeg;base64,${await base64(
-                  logo
+                    logo
                 )}" width="200" height="50"  />
                 `,
                 attachments: [{
@@ -185,7 +183,7 @@ class ActaEntregaController {
                         arriendo.despacho.actasEntrega.documento +
                         ".pdf"
                     ),
-                }, ],
+                },],
             };
             const resp = await transporter.sendMail(mailOptions);
             res.json({
@@ -196,6 +194,7 @@ class ActaEntregaController {
             sendError(error, res);
         }
     }
+
     async findActaEntrega(req, res) {
         try {
             const actaEntrega = await ActaEntrega.findOne({

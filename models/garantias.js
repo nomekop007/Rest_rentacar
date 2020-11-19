@@ -8,6 +8,8 @@ module.exports = (sequelize, type) => {
         numeroTarjeta_garantia: type.STRING,
         fechaTarjeta_garantia: type.STRING,
         codigoTarjeta_garantia: type.STRING,
+        bancoCheque_garantia: type.STRING,
+        folioTarjeta_garantia: type.STRING,
         numeroCheque_garantia: type.STRING,
         codigoCheque_garantia: type.STRING,
         monto_garantia: type.BIGINT(20),
