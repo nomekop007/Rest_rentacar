@@ -1,11 +1,11 @@
 module.exports = (sequelize, type) => {
-    return sequelize.define("pagosAccesorios", {
-        id_pagoAccesorio: {
+    return sequelize.define("regiones", {
+        id_region: {
             type: type.INTEGER,
             primaryKey: true,
             autoIncrement: true,
         },
-        precioVenta_pagoAccesorio: type.BIGINT(20),
+        nombre_region: type.STRING,
         userAt: type.STRING,
     });
 };

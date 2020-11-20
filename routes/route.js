@@ -32,7 +32,7 @@ const apiFacturacionRouter = require("./api/facturaciones");
 const apiEmpresaRemplazoRouter = require("./api/empresasRemplazos");
 const apiPagoRouter = require("./api/pagos");
 const apiContactoRouter = require("./api/contactos");
-
+const apiRegionRouter = require("./api/regiones");
 
 if (process.env.DEFAULT_VALUE === "TRUE") {
     console.log("function default enable");
@@ -40,9 +40,9 @@ if (process.env.DEFAULT_VALUE === "TRUE") {
 }
 
 router.use("/api", check_api.checkTokenApiRest, apiQuerys);
-
 router.use("/usuarios", apiUsuariosRouter);
-router.use("/requisitos", apiRequisitosRouter);
+router.use("/regiones", check.checkToken, apiRegionRouter);
+router.use("/requisitos", check.checkToken, apiRequisitosRouter);
 router.use("/propietarios", check.checkToken, apiPropietarioRouter);
 router.use("/roles", check.checkToken, apiRolesRouter);
 router.use("/vehiculos", check.checkToken, apiVehiculosRouter);

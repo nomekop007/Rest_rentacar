@@ -7,17 +7,16 @@ class PagoAccesorioController {
             const response = req.body;
 
             for (let i = 0; i < response.matrizAccesorios[0].length; i++) {
-                const nombre = response.matrizAccesorios[0][i];
-                const precio = response.matrizAccesorios[1][i];
+                const id_accesorio = response.matrizAccesorios[0][i];
+                const precioVenta = response.matrizAccesorios[1][i];
                 const data = {
-                    nombre_pagoAccesorio: nombre,
-                    precioVenta_pagoAccesorio: Number(precio),
-                    userAt: response.userAt,
+                    precioVenta_pagoAccesorio: Number(precioVenta),
+                    id_accesorio: id_accesorio,
                     id_pagoArriendo: response.id_pagoArriendo,
+                    userAt: response.userAt,
                 };
                 await PagoAccesorio.create(data);
             }
-
             res.json({
                 success: true,
                 msg: "registro exitoso",

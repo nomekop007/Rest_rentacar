@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { sendError, } = require("../helpers/components");
+const path = require("path");
 const { Arriendo, Requisito, Sucursal, Usuario, Cliente, Empresa, Vehiculo, PagoArriendo, PagoAccesorio, Pago, Facturacion, ModoPago, EmpresaRemplazo, Remplazo, Contrato } = require("../database/db");
 
 

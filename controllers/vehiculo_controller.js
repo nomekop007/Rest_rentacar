@@ -1,17 +1,12 @@
-const { Vehiculo, Sucursal } = require("../database/db");
+const { Vehiculo, Region } = require("../database/db");
 const { borrarImagenDeStorage } = require("../helpers/components");
 
 class VehiculoController {
     async getVehiculos(req, res) {
         try {
-            //preguntar si el usuario no es administrador
-            const where = {};
-            if (req.body.id_rol != 1) {
-                where.id_sucursal = req.body.id_sucursal;
-            }
+
             const vehiculos = await Vehiculo.findAll({
-                where: where,
-                include: [{ model: Sucursal, attributes: ["nombre_sucursal"] }],
+                include: [{ model: Region }],
                 attributes: [
                     "patente_vehiculo",
                     "marca_vehiculo",
@@ -60,24 +55,9 @@ class VehiculoController {
                 defaults: response,
             });
             if (created) {
-                const vehiculo = await Vehiculo.findOne({
-                    include: [{ model: Sucursal, attributes: ["nombre_sucursal"] }],
-                    where: { patente_vehiculo: v.patente_vehiculo },
-                    attributes: [
-                        "patente_vehiculo",
-                        "marca_vehiculo",
-                        "modelo_vehiculo",
-                        "año_vehiculo",
-                        "tipo_vehiculo",
-                        "transmision_vehiculo",
-                        "estado_vehiculo",
-                    ],
-                });
-
                 res.json({
                     success: true,
-                    msg: " Vehiculo creado exitosamente",
-                    data: vehiculo,
+                    msg: " Vehiculo registrado exitosamente",
                 });
                 next(v.logging);
             } else {
@@ -98,24 +78,9 @@ class VehiculoController {
                 where: { patente_vehiculo: req.params.id },
             });
 
-            const vehiculo = await Vehiculo.findOne({
-                include: [{ model: Sucursal, attributes: ["nombre_sucursal"] }],
-                where: { patente_vehiculo: req.params.id },
-                attributes: [
-                    "patente_vehiculo",
-                    "marca_vehiculo",
-                    "modelo_vehiculo",
-                    "año_vehiculo",
-                    "tipo_vehiculo",
-                    "transmision_vehiculo",
-                    "estado_vehiculo",
-                ],
-            });
-
             res.json({
                 success: true,
                 msg: "Vehiculo modificado exitosamente",
-                data: vehiculo,
             });
             next(v.logging);
         } catch (error) {

@@ -15,10 +15,6 @@ const {
     ActaEntrega,
     Contrato,
     EmpresaRemplazo,
-    PagoAccesorio,
-    Pago,
-    Facturacion,
-    ModoPago
 } = require("../database/db");
 const { sendError } = require("../helpers/components");
 class ArriendoController {
@@ -70,7 +66,6 @@ class ArriendoController {
                     { model: Empresa },
                     { model: Vehiculo },
                     { model: Conductor },
-                    { model: Accesorio },
                     { model: Requisito },
                     { model: Garantia },
                     { model: PagoArriendo },
@@ -99,7 +94,7 @@ class ArriendoController {
 
     async createArriendo(req, res, next) {
         try {
-            let response = req.body;
+            const response = req.body;
             console.log(response);
             switch (response.tipo_arriendo) {
                 case "PARTICULAR":
@@ -118,19 +113,9 @@ class ArriendoController {
             //se crea el arriendo
             const arriendo = await Arriendo.create(response);
 
-
-            // en caso de querer crear un accesorio
-            if (response.inputOtros != "" && response.inputOtros != null) {
-                const accesorio = await Accesorio.create({
-                    nombre_accesorio: response.inputOtros,
-                    userAt: response.userAt,
-                });
-                //se registra en la tabla arriendos-accesorios
-                await arriendo.addAccesorios(accesorio);
-            }
             res.json({
                 success: true,
-                msg: "registro exitoso",
+                msg: ` arriendo Nº${arriendo.id_arriendo} registrado exitosamente`,
                 data: arriendo,
             });
             next(arriendo.logging);

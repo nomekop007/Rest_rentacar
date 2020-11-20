@@ -77,21 +77,20 @@ class contrato_controller {
                     { model: Cliente },
                     { model: Empresa },
                     { model: Vehiculo },
-                    { model: Accesorio },
                     { model: Conductor },
                     { model: Contacto },
                     { model: Sucursal },
                     {
                         model: PagoArriendo,
                         include: [{
-                                model: Pago,
-                                include: {
-                                    model: Facturacion,
-                                    include: { model: ModoPago },
+                            model: Pago,
+                            include: {
+                                model: Facturacion,
+                                include: { model: ModoPago },
 
-                                },
                             },
-                            { model: PagoAccesorio },
+                        },
+                        { model: PagoAccesorio, include: [{ model: Accesorio }] },
                         ],
                     },
                     {
@@ -189,7 +188,7 @@ class contrato_controller {
                 <p>------------------------------------------------------------------------------------------------------------------------------</p>
                 <p>Atentamente, Rent a Car Maule Ltda. </p>
                 <img src="data:image/jpeg;base64,${await base64(
-                  logo
+                    logo
                 )}" width="200" height="50"  />
                 `,
                 attachments: [{
@@ -201,7 +200,7 @@ class contrato_controller {
                         arriendo.contratos[arriendo.contratos.length - 1].documento +
                         ".pdf"
                     ),
-                }, ],
+                },],
             };
             const resp = await transporter.sendMail(mailOptions);
             res.json({

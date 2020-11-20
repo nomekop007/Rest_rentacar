@@ -25,7 +25,7 @@ const DespachoModel = require("../models/despacho");
 const PagoAccesoriosModel = require("../models/pagoAccesorios");
 const EmpresaRemplazoModel = require("../models/empresaRemplazos");
 const PagoModel = require("../models/pagos");
-
+const RegionModel = require("../models/regiones");
 
 
 
@@ -55,6 +55,8 @@ const PagoAccesorio = PagoAccesoriosModel(database, Sequelize);
 const Pago = PagoModel(database, Sequelize);
 const EmpresaRemplazo = EmpresaRemplazoModel(database, Sequelize);
 const Contacto = ContactoModel(database, Sequelize);
+const Region = RegionModel(database, Sequelize);
+
 
 //Asociaciones de tablas
 
@@ -62,6 +64,11 @@ const Contacto = ContactoModel(database, Sequelize);
 PagoArriendo.hasMany(PagoAccesorio, { foreignKey: { name: "id_pagoArriendo" } });
 //un pagoAccesorio pertenece a un pagoArriendo
 PagoAccesorio.belongsTo(PagoArriendo, { foreignKey: { name: "id_pagoArriendo" } });
+
+// un accesorio tiene muchos pagosAccesorios
+Accesorio.hasMany(PagoAccesorio, { foreignKey: { name: "id_accesorio" } });
+// un pagoAccesorios pertenece a un accesorio
+PagoAccesorio.belongsTo(Accesorio, { foreignKey: { name: "id_accesorio" } });
 
 // un arriento tiene una despacho
 Arriendo.hasOne(Despacho, { foreignKey: { name: "id_arriendo" } });
@@ -125,10 +132,15 @@ Sucursal.hasMany(Usuario, { foreignKey: { name: "id_sucursal" } });
 //un usuario pertenecen a una sucursal
 Usuario.belongsTo(Sucursal, { foreignKey: { name: "id_sucursal" } });
 
-//un vehiculo pertenecen a una sucursal
-Vehiculo.belongsTo(Sucursal, { foreignKey: { name: "id_sucursal" } });
-// una sucursal tiene muchos vehiculos
-Sucursal.hasMany(Vehiculo, { foreignKey: { name: "id_sucursal" } });
+// una region tiene muchos vehiculos
+Region.hasMany(Vehiculo, { foreignKey: { name: "id_region" } });
+//un vehiculo pertenecen a una region
+Vehiculo.belongsTo(Region, { foreignKey: { name: "id_region" } });
+
+// un region tiene muchas Sucursales
+Region.hasMany(Sucursal, { foreignKey: { name: "id_region" } });
+// una sucursal pertenece a una region
+Sucursal.belongsTo(Region, { foreignKey: { name: "id_region" } });
 
 //un arriendo pertenece a un Cliente
 Arriendo.belongsTo(Cliente, { foreignKey: { name: "rut_cliente" } });
@@ -190,16 +202,8 @@ Contrato.belongsTo(PagoArriendo, { foreignKey: { name: "id_pagoArriendo" } });
 //un pago tiene un Contrato
 PagoArriendo.hasOne(Contrato, { foreignKey: { name: "id_pagoArriendo" } });
 
-// un arriendo tiene muchos accesorios
-Arriendo.belongsToMany(Accesorio, {
-    through: "ArriendosAccesorios",
-    foreignKey: { name: "id_arriendo" },
-});
-// un accesorio tiene muchos arriendos
-Accesorio.belongsToMany(Arriendo, {
-    through: "ArriendosAccesorios",
-    foreignKey: { name: "id_accesorio" },
-});
+
+
 
 module.exports = {
     Log,
@@ -225,5 +229,6 @@ module.exports = {
     PagoAccesorio,
     EmpresaRemplazo,
     Pago,
-    Contacto
+    Contacto,
+    Region
 };

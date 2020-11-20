@@ -4,8 +4,5 @@ const accesorio = new AccesorioController();
 
 router.get("/cargarAccesorios", accesorio.getAccesorios.bind(accesorio));
 
-router.post("/registrarArriendoAccesorio", accesorio.createArriendoAccesorio.bind(accesorio));
-
-
 
 module.exports = router;

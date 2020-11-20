@@ -1,4 +1,4 @@
-const { Sucursal, Vehiculo } = require("../database/db");
+const { Sucursal, Vehiculo, Region } = require("../database/db");
 const { sendError } = require("../helpers/components");
 
 class SucursalController {
@@ -7,6 +7,7 @@ class SucursalController {
             const sucursales = await Sucursal.findAll({
                 attributes: ["id_sucursal", "nombre_sucursal"],
             });
+
             res.json({
                 success: true,
                 data: sucursales,
@@ -20,19 +21,23 @@ class SucursalController {
         try {
             const sucursal = await Sucursal.findOne({
                 where: {
-                    id_sucursal: req.params.id_sucursal,
+                    nombre_sucursal: req.params.id_sucursal,
                 },
-                include: [{
-                    model: Vehiculo,
-                    where: { estado_vehiculo: "DISPONIBLE" },
-                    attributes: [
-                        "patente_vehiculo",
-                        "modelo_vehiculo",
-                        "año_vehiculo",
-                        "marca_vehiculo",
-                        "kilometraje_vehiculo",
-                    ],
-                }, ],
+                include: [
+                    {
+                        model: Region,
+                        include: [{
+                            model: Vehiculo,
+                            where: { estado_vehiculo: "DISPONIBLE" },
+                            attributes: [
+                                "patente_vehiculo",
+                                "modelo_vehiculo",
+                                "año_vehiculo",
+                                "marca_vehiculo",
+                            ],
+                        },]
+                    }
+                ],
             });
 
             res.json({
