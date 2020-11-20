@@ -6,7 +6,7 @@ const check_api = require("../middlewares/checkApi_middleware");
 
 //otros routes
 const defaultValues = require("./defaultValues");
-const apiQuerys = require("./apiQuery");
+const apiFinanzasRouter = require("./finanzasApi");
 
 
 //routes
@@ -34,12 +34,15 @@ const apiPagoRouter = require("./api/pagos");
 const apiContactoRouter = require("./api/contactos");
 const apiRegionRouter = require("./api/regiones");
 
+
 if (process.env.DEFAULT_VALUE === "TRUE") {
     console.log("function default enable");
     router.use("/defaultValues", defaultValues);
 }
+// router para la api de finanzas
+router.use("/api", check_api.checkTokenApiRest, apiFinanzasRouter);
 
-router.use("/api", check_api.checkTokenApiRest, apiQuerys);
+
 router.use("/usuarios", apiUsuariosRouter);
 router.use("/regiones", check.checkToken, apiRegionRouter);
 router.use("/requisitos", check.checkToken, apiRequisitosRouter);

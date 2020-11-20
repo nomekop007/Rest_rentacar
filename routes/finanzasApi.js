@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const { sendError, } = require("../helpers/components");
+const { sendError } = require("../helpers/components");
 const path = require("path");
-const { Arriendo, Requisito, Sucursal, Usuario, Cliente, Empresa, Vehiculo, PagoArriendo, PagoAccesorio, Pago, Facturacion, ModoPago, EmpresaRemplazo, Remplazo, Contrato } = require("../database/db");
+const { Arriendo, Conductor, Garantia, Despacho, ActaEntrega, Accesorio, Requisito, Sucursal, Usuario, Cliente, Empresa, Vehiculo, PagoArriendo, PagoAccesorio, Pago, Facturacion, ModoPago, EmpresaRemplazo, Remplazo, Contrato, Contacto } = require("../database/db");
 
 
 router.get("/mostrarArriendoFinanzas", async (req, res) => {
@@ -22,7 +22,7 @@ router.get("/mostrarArriendoFinanzas", async (req, res) => {
                     model: PagoArriendo,
                     include: [
                         { model: Contrato },
-                        { model: PagoAccesorio },
+                        { model: PagoAccesorio, include: [{ model: Accesorio }] },
                         {
                             model: Pago,
                             include: [
@@ -33,10 +33,8 @@ router.get("/mostrarArriendoFinanzas", async (req, res) => {
                                 }],
                         }],
                 },
-
             ],
         });
-
         res.json({
             success: true,
             data: arriendos,
@@ -45,7 +43,6 @@ router.get("/mostrarArriendoFinanzas", async (req, res) => {
         sendError(error, res);
     }
 });
-
 
 router.get("/buscarRequisitoArriendoFinanzas/:id", async (req, res) => {
     try {
@@ -100,6 +97,56 @@ router.get("/buscarRequisitoArriendoFinanzas/:id", async (req, res) => {
     }
 }
 )
+
+router.get("/buscarArriendoFinanzas/:id", async (req, res) => {
+    try {
+        const arriendo = await Arriendo.findOne({
+            where: { id_arriendo: req.params.id },
+            include: [
+                { model: Conductor },
+                { model: Requisito },
+                { model: Garantia },
+                { model: Sucursal },
+                { model: Contrato },
+                { model: Despacho, include: [{ model: ActaEntrega }] },
+                { model: Vehiculo },
+                { model: Usuario, attributes: ["nombre_usuario"] },
+                { model: Cliente },
+                { model: Contacto },
+                { model: Empresa },
+                { model: Remplazo, include: [{ model: Cliente }, { model: EmpresaRemplazo }], },
+                {
+                    model: PagoArriendo,
+                    include: [
+                        { model: Contrato },
+                        { model: PagoAccesorio, include: [{ model: Accesorio }] },
+                        {
+                            model: Pago,
+                            include: [
+                                {
+                                    model: Facturacion,
+                                    include: [
+                                        { model: ModoPago }],
+                                }],
+                        }],
+                },
+            ],
+        });
+        if (arriendo) {
+            res.json({
+                success: true,
+                data: arriendo,
+            });
+        } else {
+            res.json({
+                success: false,
+                msg: "error: " + "arriendo no encontrado",
+            });
+        }
+    } catch (error) {
+        sendError(error, res);
+    }
+})
 
 
 module.exports = router;
