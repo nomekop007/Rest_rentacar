@@ -6,6 +6,7 @@ module.exports = (sequelize, type) => {
             autoIncrement: true,
         },
         remplazo_pagoArriendo: type.BIGINT(20),
+        valorCopago_pagoArriendo: type.BIGINT(20),
         subtotal_pagoArriendo: type.BIGINT(20),
         descuento_pagoArriendo: type.BIGINT(20),
         neto_pagoArriendo: type.BIGINT(20),

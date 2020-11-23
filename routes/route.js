@@ -40,7 +40,7 @@ if (process.env.DEFAULT_VALUE === "TRUE") {
     router.use("/defaultValues", defaultValues);
 }
 // router para la api de finanzas
-router.use("/api", check_api.checkTokenApiRest, apiFinanzasRouter);
+router.use("/api", apiFinanzasRouter);
 
 
 router.use("/usuarios", apiUsuariosRouter);

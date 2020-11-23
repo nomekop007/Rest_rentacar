@@ -44,59 +44,6 @@ router.get("/mostrarArriendoFinanzas", async (req, res) => {
     }
 });
 
-router.get("/buscarRequisitoArriendoFinanzas/:id", async (req, res) => {
-    try {
-
-        const requisito = await Requisito.findOne({
-            where: { id_arriendo: req.params.id }
-        });
-
-        const paths = {};
-
-        if (requisito.carnetFrontal_requisito) {
-            paths.carnetFrontal = path.join(__dirname, `../uploads/documentos/requisitosArriendo/${requisito.carnetFrontal_requisito}`);
-        }
-        if (requisito.carnetTrasera_requisito) {
-            paths.carnetTrasera = path.join(__dirname, `../uploads/documentos/requisitosArriendo/${requisito.carnetTrasera_requisito}`);
-        }
-        if (requisito.licenciaConducirFrontal_requisito) {
-            paths.licenciaConducirFrontal = path.join(__dirname, `../uploads/documentos/requisitosArriendo/${requisito.licenciaConducirFrontal_requisito}`);
-        }
-        if (requisito.licenciaConducirTrasera_requisito) {
-            paths.licenciaConducirTrasera = path.join(__dirname, `../uploads/documentos/requisitosArriendo/${requisito.licenciaConducirTrasera_requisito}`);
-        }
-        if (requisito.tarjetaCredito_requisito) {
-            paths.tarjetaCredito = path.join(__dirname, `../uploads/documentos/requisitosArriendo/${requisito.tarjetaCredito_requisito}`);
-        }
-        if (requisito.chequeGarantia_requisito) {
-            paths.chequeGarantia = path.join(__dirname, `../uploads/documentos/requisitosArriendo/${requisito.chequeGarantia_requisito}`);
-        }
-
-        if (requisito.comprobanteDomicilio_requisito) {
-            paths.comprobanteDomicilio = path.join(__dirname, `../uploads/documentos/requisitosArriendo/${requisito.comprobanteDomicilio_requisito}`);
-        }
-
-        if (requisito.cartaRemplazo_requisito) {
-            paths.cartaRemplazo = path.join(__dirname, `../uploads/documentos/requisitosArriendo/${requisito.cartaRemplazo_requisito}`);
-
-        }
-        if (requisito.boletaEfectivo_requisito) {
-            paths.boletaEfectivo = path.join(__dirname, `../uploads/documentos/requisitosArriendo/${requisito.boletaEfectivo_requisito}`);
-        }
-
-
-        res.json({
-            success: true,
-            data: {
-                requisito: requisito,
-                paths: paths
-            },
-        });
-    } catch (error) {
-        sendError(error, res);
-    }
-}
-)
 
 router.get("/buscarArriendoFinanzas/:id", async (req, res) => {
     try {
@@ -146,7 +93,54 @@ router.get("/buscarArriendoFinanzas/:id", async (req, res) => {
     } catch (error) {
         sendError(error, res);
     }
-})
+});
+
+
+router.post("/buscarDocumentosArriendoFinanzas/", async (req, res) => {
+    try {
+        const { documento, tipo } = req.body;
+
+        switch (tipo) {
+            case "contrato":
+                paths = path.join(__dirname, `../uploads/documentos/contratos/${documento}`);
+                break;
+            case "acta":
+                paths = path.join(__dirname, `../uploads/documentos/actaEntrega/${documento}`);
+                break;
+            case "requisito":
+                paths = path.join(__dirname, `../uploads/documentos/requisitosArriendo/${documento}`);
+                break;
+            case "facturacion":
+                paths = path.join(__dirname, `../uploads/documentos/facturaciones/${documento}`);
+                break;
+            case "recepcione":
+                paths = path.join(__dirname, `../uploads/documentos/recepciones/${documento}`);
+                break;
+            default:
+                res.json({
+                    success: false,
+                    msg: "tipo no encontrado"
+                });
+                return;
+        }
+
+        res.json({
+            success: true,
+            data: {
+                nombre: documento,
+                tipo: tipo,
+                paths: paths
+            },
+        });
+
+    } catch (error) {
+        sendError(error, res);
+    }
+
+
+});
+
+
 
 
 module.exports = router;

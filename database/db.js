@@ -58,149 +58,155 @@ const Contacto = ContactoModel(database, Sequelize);
 const Region = RegionModel(database, Sequelize);
 
 
+//opciones
+//RESTRICT, CASCADE, NO ACTION, SET DEFAULTy SET NULL.
+const onDelete = "CASCADE";
+const onUpdate = "CASCADE";
+
 //Asociaciones de tablas
 
+
 // un pagoArriendo tiene muchos pagoAccesorio
-PagoArriendo.hasMany(PagoAccesorio, { foreignKey: { name: "id_pagoArriendo" } });
+PagoArriendo.hasMany(PagoAccesorio, { foreignKey: { name: "id_pagoArriendo" }, onDelete: onDelete, onUpdate: onUpdate });
 //un pagoAccesorio pertenece a un pagoArriendo
-PagoAccesorio.belongsTo(PagoArriendo, { foreignKey: { name: "id_pagoArriendo" } });
+PagoAccesorio.belongsTo(PagoArriendo, { foreignKey: { name: "id_pagoArriendo", onDelete: onDelete, onUpdate: onUpdate } });
 
 // un accesorio tiene muchos pagosAccesorios
-Accesorio.hasMany(PagoAccesorio, { foreignKey: { name: "id_accesorio" } });
+Accesorio.hasMany(PagoAccesorio, { foreignKey: { name: "id_accesorio", onDelete: onDelete, onUpdate: onUpdate } });
 // un pagoAccesorios pertenece a un accesorio
-PagoAccesorio.belongsTo(Accesorio, { foreignKey: { name: "id_accesorio" } });
+PagoAccesorio.belongsTo(Accesorio, { foreignKey: { name: "id_accesorio", onDelete: onDelete, onUpdate: onUpdate } });
 
 // un arriento tiene una despacho
-Arriendo.hasOne(Despacho, { foreignKey: { name: "id_arriendo" } });
+Arriendo.hasOne(Despacho, { foreignKey: { name: "id_arriendo", onDelete: onDelete, onUpdate: onUpdate } });
 //un despacho pertenece a un arriendo
-Despacho.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
+Despacho.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo", onDelete: onDelete, onUpdate: onUpdate } });
 
 // un despacho tiene una actaEntrega
-Despacho.hasOne(ActaEntrega, { foreignKey: { name: "id_despacho" } });
+Despacho.hasOne(ActaEntrega, { foreignKey: { name: "id_despacho", onDelete: onDelete, onUpdate: onUpdate } });
 //un actaEntrega pertenece a un despacho
-ActaEntrega.belongsTo(Despacho, { foreignKey: { name: "id_despacho" } });
+ActaEntrega.belongsTo(Despacho, { foreignKey: { name: "id_despacho", onDelete: onDelete, onUpdate: onUpdate } });
 
 // un Propietario tiene muchos vehiculos
-Propietario.hasMany(Vehiculo, { foreignKey: { name: "rut_propietario" } });
+Propietario.hasMany(Vehiculo, { foreignKey: { name: "rut_propietario", onDelete: onDelete, onUpdate: onUpdate } });
 // un vehiculos pertenece a un Propietario
-Vehiculo.belongsTo(Propietario, { foreignKey: { name: "rut_propietario" } });
+Vehiculo.belongsTo(Propietario, { foreignKey: { name: "rut_propietario", onDelete: onDelete, onUpdate: onUpdate } });
 
 // un arriento tiene una garantia
-Arriendo.hasOne(Garantia, { foreignKey: { name: "id_arriendo" } });
+Arriendo.hasOne(Garantia, { foreignKey: { name: "id_arriendo", onDelete: onDelete, onUpdate: onUpdate } });
 //un garantia pertenece a un arriendo
-Garantia.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
+Garantia.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo", onDelete: onDelete, onUpdate: onUpdate } });
 
 // un arriento tiene una contacto
-Arriendo.hasOne(Contacto, { foreignKey: { name: "id_arriendo" } });
+Arriendo.hasOne(Contacto, { foreignKey: { name: "id_arriendo", onDelete: onDelete, onUpdate: onUpdate } });
 //un Contacto pertenece a un arriendo
-Contacto.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
+Contacto.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo", onDelete: onDelete, onUpdate: onUpdate } });
 
 // un modoPago tiene muchos facturacion
-ModoPago.hasMany(Facturacion, { foreignKey: { name: "id_modoPago" } });
+ModoPago.hasMany(Facturacion, { foreignKey: { name: "id_modoPago", onDelete: onDelete, onUpdate: onUpdate } });
 // un Facturacion pertenece a un modoPago
-Facturacion.belongsTo(ModoPago, { foreignKey: { name: "id_modoPago" } });
+Facturacion.belongsTo(ModoPago, { foreignKey: { name: "id_modoPago", onDelete: onDelete, onUpdate: onUpdate } });
 
 // un modoPago tiene muchos garantias
-ModoPago.hasMany(Garantia, { foreignKey: { name: "id_modoPago" } });
+ModoPago.hasMany(Garantia, { foreignKey: { name: "id_modoPago", onDelete: onDelete, onUpdate: onUpdate } });
 // un garantia pertenece a un modoPago
-Garantia.belongsTo(ModoPago, { foreignKey: { name: "id_modoPago" } });
+Garantia.belongsTo(ModoPago, { foreignKey: { name: "id_modoPago", onDelete: onDelete, onUpdate: onUpdate } });
 
 //un facturacion tiene muchos pago
-Facturacion.hasMany(Pago, { foreignKey: { name: "id_facturacion" } });
+Facturacion.hasMany(Pago, { foreignKey: { name: "id_facturacion", onDelete: onDelete, onUpdate: onUpdate } });
 //un pago  pertenece a un facturacion
-Pago.belongsTo(Facturacion, { foreignKey: { name: "id_facturacion" } });
+Pago.belongsTo(Facturacion, { foreignKey: { name: "id_facturacion", onDelete: onDelete, onUpdate: onUpdate } });
 
 
 //un pagoArrriendo tiene muchos pago
-PagoArriendo.hasMany(Pago, { foreignKey: { name: "id_pagoArriendo" } });
+PagoArriendo.hasMany(Pago, { foreignKey: { name: "id_pagoArriendo", onDelete: onDelete, onUpdate: onUpdate } });
 //un pago  pertenece a un PagoArriendo
-Pago.belongsTo(PagoArriendo, { foreignKey: { name: "id_pagoArriendo" } });
+Pago.belongsTo(PagoArriendo, { foreignKey: { name: "id_pagoArriendo", onDelete: onDelete, onUpdate: onUpdate } });
 
 
 // un arriendo tiene muchos pagos
-Arriendo.hasMany(PagoArriendo, { foreignKey: { name: "id_arriendo" } });
+Arriendo.hasMany(PagoArriendo, { foreignKey: { name: "id_arriendo", onDelete: onDelete, onUpdate: onUpdate } });
 //un pago arriendo pertenece a un arriendo
-PagoArriendo.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
+PagoArriendo.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo", onDelete: onDelete, onUpdate: onUpdate } });
 
 // un Rol tiene muchos usuarios
-Rol.hasMany(Usuario, { foreignKey: { name: "id_rol" } });
+Rol.hasMany(Usuario, { foreignKey: { name: "id_rol", onDelete: onDelete, onUpdate: onUpdate } });
 //un usuario pertenece a un rol
-Usuario.belongsTo(Rol, { foreignKey: { name: "id_rol" } });
+Usuario.belongsTo(Rol, { foreignKey: { name: "id_rol", onDelete: onDelete, onUpdate: onUpdate } });
 
 // una sucursal tiene muchos usuarios
-Sucursal.hasMany(Usuario, { foreignKey: { name: "id_sucursal" } });
+Sucursal.hasMany(Usuario, { foreignKey: { name: "id_sucursal", onDelete: onDelete, onUpdate: onUpdate } });
 //un usuario pertenecen a una sucursal
-Usuario.belongsTo(Sucursal, { foreignKey: { name: "id_sucursal" } });
+Usuario.belongsTo(Sucursal, { foreignKey: { name: "id_sucursal", onDelete: onDelete, onUpdate: onUpdate } });
 
 // una region tiene muchos vehiculos
-Region.hasMany(Vehiculo, { foreignKey: { name: "id_region" } });
+Region.hasMany(Vehiculo, { foreignKey: { name: "id_region", onDelete: onDelete, onUpdate: onUpdate } });
 //un vehiculo pertenecen a una region
-Vehiculo.belongsTo(Region, { foreignKey: { name: "id_region" } });
+Vehiculo.belongsTo(Region, { foreignKey: { name: "id_region", onDelete: onDelete, onUpdate: onUpdate } });
 
 // un region tiene muchas Sucursales
-Region.hasMany(Sucursal, { foreignKey: { name: "id_region" } });
+Region.hasMany(Sucursal, { foreignKey: { name: "id_region", onDelete: onDelete, onUpdate: onUpdate } });
 // una sucursal pertenece a una region
-Sucursal.belongsTo(Region, { foreignKey: { name: "id_region" } });
+Sucursal.belongsTo(Region, { foreignKey: { name: "id_region", onDelete: onDelete, onUpdate: onUpdate } });
 
 //un arriendo pertenece a un Cliente
-Arriendo.belongsTo(Cliente, { foreignKey: { name: "rut_cliente" } });
+Arriendo.belongsTo(Cliente, { foreignKey: { name: "rut_cliente", onDelete: onDelete, onUpdate: onUpdate } });
 //un Cliente tiene muchos Arriendo
-Cliente.hasMany(Arriendo, { foreignKey: { name: "rut_cliente" } });
+Cliente.hasMany(Arriendo, { foreignKey: { name: "rut_cliente", onDelete: onDelete, onUpdate: onUpdate } });
 
 //un arriendo pertenece a un Remplazo
-Arriendo.belongsTo(Remplazo, { foreignKey: { name: "id_remplazo" } });
+Arriendo.belongsTo(Remplazo, { foreignKey: { name: "id_remplazo", onDelete: onDelete, onUpdate: onUpdate } });
 //un Remplazo tiene un Arriendo
-Remplazo.hasOne(Arriendo, { foreignKey: { name: "id_remplazo" } });
+Remplazo.hasOne(Arriendo, { foreignKey: { name: "id_remplazo", onDelete: onDelete, onUpdate: onUpdate } });
 
 //un remplazo pertenece a un cliente
-Remplazo.belongsTo(Cliente, { foreignKey: { name: "rut_cliente" } });
+Remplazo.belongsTo(Cliente, { foreignKey: { name: "rut_cliente", onDelete: onDelete, onUpdate: onUpdate } });
 //un cliente tiene muchos remplazo
-Cliente.hasMany(Remplazo, { foreignKey: { name: "rut_cliente" } });
+Cliente.hasMany(Remplazo, { foreignKey: { name: "rut_cliente", onDelete: onDelete, onUpdate: onUpdate } });
 
 //un remplazo pertenece a un empresaRemplazo
-Remplazo.belongsTo(EmpresaRemplazo, { foreignKey: { name: "codigo_empresaRemplazo" } });
+Remplazo.belongsTo(EmpresaRemplazo, { foreignKey: { name: "codigo_empresaRemplazo", onDelete: onDelete, onUpdate: onUpdate } });
 //un EmpresaRempalzo tiene muchos remplazo
-EmpresaRemplazo.hasMany(Remplazo, { foreignKey: { name: "codigo_empresaRemplazo" } });
+EmpresaRemplazo.hasMany(Remplazo, { foreignKey: { name: "codigo_empresaRemplazo", onDelete: onDelete, onUpdate: onUpdate } });
 
 //un arriendo pertenece a un Empresa
-Arriendo.belongsTo(Empresa, { foreignKey: { name: "rut_empresa" } });
+Arriendo.belongsTo(Empresa, { foreignKey: { name: "rut_empresa", onDelete: onDelete, onUpdate: onUpdate } });
 //un Empresa tiene muchos Arriendo
-Empresa.hasMany(Arriendo, { foreignKey: { name: "rut_empresa" } });
+Empresa.hasMany(Arriendo, { foreignKey: { name: "rut_empresa", onDelete: onDelete, onUpdate: onUpdate } });
 
 //un arriendo pertenece a un Conductor
-Arriendo.belongsTo(Conductor, { foreignKey: { name: "rut_conductor" } });
+Arriendo.belongsTo(Conductor, { foreignKey: { name: "rut_conductor", onDelete: onDelete, onUpdate: onUpdate } });
 //un Conducto tiene muchos Arriendo
-Conductor.hasMany(Arriendo, { foreignKey: { name: "rut_conductor" } });
+Conductor.hasMany(Arriendo, { foreignKey: { name: "rut_conductor", onDelete: onDelete, onUpdate: onUpdate } });
 
 //un arriendo pertenece a un vehiculo
-Arriendo.belongsTo(Vehiculo, { foreignKey: { name: "patente_vehiculo" } });
+Arriendo.belongsTo(Vehiculo, { foreignKey: { name: "patente_vehiculo", onDelete: onDelete, onUpdate: onUpdate } });
 //un vehiculo tiene muchos Arriendo
-Vehiculo.hasMany(Arriendo, { foreignKey: { name: "patente_vehiculo" } });
+Vehiculo.hasMany(Arriendo, { foreignKey: { name: "patente_vehiculo", onDelete: onDelete, onUpdate: onUpdate } });
 
 //un arriendo pertenece a un Usuario
-Arriendo.belongsTo(Usuario, { foreignKey: { name: "id_usuario" } });
+Arriendo.belongsTo(Usuario, { foreignKey: { name: "id_usuario", onDelete: onDelete, onUpdate: onUpdate } });
 //un Usuario tiene muchos Arriendo
-Usuario.hasMany(Arriendo, { foreignKey: { name: "id_usuario" } });
+Usuario.hasMany(Arriendo, { foreignKey: { name: "id_usuario", onDelete: onDelete, onUpdate: onUpdate } });
 
 //un arriendo pertenece a un sucursal
-Arriendo.belongsTo(Sucursal, { foreignKey: { name: "id_sucursal" } });
+Arriendo.belongsTo(Sucursal, { foreignKey: { name: "id_sucursal", onDelete: onDelete, onUpdate: onUpdate } });
 //un Sucursal tiene muchos Arriendo
-Sucursal.hasMany(Arriendo, { foreignKey: { name: "id_sucursal" } });
+Sucursal.hasMany(Arriendo, { foreignKey: { name: "id_sucursal", onDelete: onDelete, onUpdate: onUpdate } });
 
 // un arriendo tiene un requisto
-Arriendo.hasOne(Requisito, { foreignKey: { name: "id_arriendo" } });
+Arriendo.hasOne(Requisito, { foreignKey: { name: "id_arriendo", onDelete: onDelete, onUpdate: onUpdate } });
 //un requisito  pertenece a un arriendo
-Requisito.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
+Requisito.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo", onDelete: onDelete, onUpdate: onUpdate } });
 
 //un Contrato pertenece a un Arriendo
-Contrato.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" } });
+Contrato.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo", onDelete: onDelete, onUpdate: onUpdate } });
 //un Arriendo tiene muchos Contrato
-Arriendo.hasMany(Contrato, { foreignKey: { name: "id_arriendo" } });
+Arriendo.hasMany(Contrato, { foreignKey: { name: "id_arriendo", onDelete: onDelete, onUpdate: onUpdate } });
 
 //un Contrato pertenece a un Pago
-Contrato.belongsTo(PagoArriendo, { foreignKey: { name: "id_pagoArriendo" } });
+Contrato.belongsTo(PagoArriendo, { foreignKey: { name: "id_pagoArriendo", onDelete: onDelete, onUpdate: onUpdate } });
 //un pago tiene un Contrato
-PagoArriendo.hasOne(Contrato, { foreignKey: { name: "id_pagoArriendo" } });
+PagoArriendo.hasOne(Contrato, { foreignKey: { name: "id_pagoArriendo", onDelete: onDelete, onUpdate: onUpdate } });
 
 
 
