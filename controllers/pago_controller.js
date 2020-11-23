@@ -1,4 +1,4 @@
-const { Pago, Facturacion, PagoArriendo, PagoAccesorio, Arriendo, Cliente, Empresa, Remplazo, EmpresaRemplazo } = require("../database/db");
+const { Pago } = require("../database/db");
 const { sendError } = require("../helpers/components");
 
 class PagoController {
@@ -18,8 +18,6 @@ class PagoController {
             sendError(error, res);
         }
     }
-
-
 }
 
 module.exports = PagoController;

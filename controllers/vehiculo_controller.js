@@ -147,6 +147,7 @@ class VehiculoController {
                 success: true,
                 msg: " imagen guardada",
             });
+
             next(vehiculo.logging);
         } catch (error) {
             sendError(error, res);

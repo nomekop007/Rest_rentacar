@@ -20,7 +20,7 @@ class FacturacionController {
 
     }
 
-    async createFacturacion(req, res, next) {
+    async createFacturacion(req, res) {
         try {
             const response = req.body;
             console.log(response);
@@ -45,8 +45,6 @@ class FacturacionController {
                 data: facturacion,
                 msg: "registro exitoso",
             });
-
-            next(facturacion.logging);
         } catch (error) {
             sendError(error, res);
         }

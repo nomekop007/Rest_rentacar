@@ -4,7 +4,6 @@ const {
     Cliente,
     Conductor,
     Empresa,
-    Accesorio,
     Vehiculo,
     Remplazo,
     Requisito,
@@ -54,8 +53,6 @@ class ArriendoController {
             sendError(error, res);
         }
     }
-
-
 
     async findArriendo(req, res) {
         try {
