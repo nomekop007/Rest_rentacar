@@ -4,7 +4,7 @@ const path = require("path");
 const { Arriendo, Conductor, Garantia, Despacho, ActaEntrega, Accesorio, Requisito, Sucursal, Usuario, Cliente, Empresa, Vehiculo, PagoArriendo, PagoAccesorio, Pago, Facturacion, ModoPago, EmpresaRemplazo, Remplazo, Contrato, Contacto } = require("../database/db");
 
 
-router.get("/mostrarArriendoFinanzas", async (req, res) => {
+router.get("/mostrarArriendoFinanzas", async(req, res) => {
     try {
         const arriendos = await Arriendo.findAll({
             include: [
@@ -25,13 +25,14 @@ router.get("/mostrarArriendoFinanzas", async (req, res) => {
                         { model: PagoAccesorio, include: [{ model: Accesorio }] },
                         {
                             model: Pago,
-                            include: [
-                                {
-                                    model: Facturacion,
-                                    include: [
-                                        { model: ModoPago }],
-                                }],
-                        }],
+                            include: [{
+                                model: Facturacion,
+                                include: [
+                                    { model: ModoPago }
+                                ],
+                            }],
+                        }
+                    ],
                 },
             ],
         });
@@ -45,7 +46,7 @@ router.get("/mostrarArriendoFinanzas", async (req, res) => {
 });
 
 
-router.get("/buscarArriendoFinanzas/:id", async (req, res) => {
+router.get("/buscarArriendoFinanzas/:id", async(req, res) => {
     try {
         const arriendo = await Arriendo.findOne({
             where: { id_arriendo: req.params.id },
@@ -69,13 +70,14 @@ router.get("/buscarArriendoFinanzas/:id", async (req, res) => {
                         { model: PagoAccesorio, include: [{ model: Accesorio }] },
                         {
                             model: Pago,
-                            include: [
-                                {
-                                    model: Facturacion,
-                                    include: [
-                                        { model: ModoPago }],
-                                }],
-                        }],
+                            include: [{
+                                model: Facturacion,
+                                include: [
+                                    { model: ModoPago }
+                                ],
+                            }],
+                        }
+                    ],
                 },
             ],
         });
@@ -96,7 +98,7 @@ router.get("/buscarArriendoFinanzas/:id", async (req, res) => {
 });
 
 
-router.post("/buscarDocumentosArriendoFinanzas/", async (req, res) => {
+router.post("/buscarDocumentosArriendoFinanzas/", async(req, res) => {
     try {
         const { documento, tipo } = req.body;
 
@@ -113,7 +115,7 @@ router.post("/buscarDocumentosArriendoFinanzas/", async (req, res) => {
             case "facturacion":
                 paths = path.join(__dirname, `../uploads/documentos/facturaciones/${documento}`);
                 break;
-            case "recepcione":
+            case "recepcion":
                 paths = path.join(__dirname, `../uploads/documentos/recepciones/${documento}`);
                 break;
             default:
