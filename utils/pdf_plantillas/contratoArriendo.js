@@ -19,6 +19,7 @@ async function contratoPlantilla(data) {
         extencion: "",
         cliente: {
             nombre_cliente: "",
+            nacionalidad_cliente: "",
             direccion_cliente: "",
             ciudad_cliente: "",
             comuna_cliente: "",
@@ -122,7 +123,8 @@ async function contratoPlantilla(data) {
         case "PARTICULAR":
             const cliente = data.arriendo.cliente;
             doc.cliente.nombre_cliente = cliente.nombre_cliente;
-            doc.cliente.rut_cliente = cliente.rut_cliente;
+            doc.cliente.nacionalidad_cliente = cliente.nacionalidad_cliente;
+            doc.cliente.rut_cliente = cliente.rut_cliente.replace("@", '');
             doc.cliente.ciudad_cliente = cliente.ciudad_cliente;
             doc.cliente.comuna_cliente = cliente.comuna_cliente;
             doc.cliente.direccion_cliente = cliente.direccion_cliente;
@@ -136,7 +138,8 @@ async function contratoPlantilla(data) {
             const remplazo = data.arriendo.remplazo.cliente;
             const pagoRemplazo = data.arriendo.pagosArriendos[doc.P];
             doc.cliente.nombre_cliente = remplazo.nombre_cliente;
-            doc.cliente.rut_cliente = remplazo.rut_cliente;
+            doc.cliente.nacionalidad_cliente = remplazo.nacionalidad_cliente;
+            doc.cliente.rut_cliente = remplazo.rut_cliente.replace("@", '');
             doc.cliente.ciudad_cliente = remplazo.ciudad_cliente;
             doc.cliente.direccion_cliente = remplazo.direccion_cliente;
             doc.cliente.comuna_cliente = remplazo.comuna_cliente;
@@ -245,6 +248,7 @@ async function contratoPlantilla(data) {
         }
     };
 
+
     return {
         content: [{
                 margin: [0, 0, 0, 5],
@@ -295,10 +299,13 @@ async function contratoPlantilla(data) {
                                 body: [
                                     [{
                                             text: `CLIENTE: \n ${doc.cliente.nombre_cliente}`,
-                                            colSpan: 4,
+                                            colSpan: 2,
                                         },
                                         {},
-                                        {},
+                                        {
+                                            text: `NACIONALIDAD: \n ${doc.cliente.nacionalidad_cliente}`,
+                                            colSpan: 2,
+                                        },
                                         {},
                                         {
                                             text: `AUTO/CAMIONETA: \n ${data.arriendo.vehiculo.tipo_vehiculo}`,
@@ -354,7 +361,7 @@ async function contratoPlantilla(data) {
                                             colSpan: 1,
                                         },
                                         {
-                                            text: `RUT: \n ${data.arriendo.conductore.rut_conductor} \n\n TELEFONO: \n  +569 ${data.arriendo.conductore.telefono_conductor} \n\n  DIRECCION: \n ${data.arriendo.conductore.direccion_conductor}    `,
+                                            text: `RUT: \n ${data.arriendo.conductore.rut_conductor.replace("@", '')} \n\n NACIONALIDAD:\n ${data.arriendo.conductore.nacionalidad_conductor}  \n\n TELEFONO: \n  +569 ${data.arriendo.conductore.telefono_conductor} \n\n  DIRECCION: \n ${data.arriendo.conductore.direccion_conductor}    `,
                                             colSpan: 2,
                                         },
                                         {},

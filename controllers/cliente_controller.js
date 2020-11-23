@@ -43,7 +43,14 @@ class ClienteController {
     async createCliente(req, res, next) {
         try {
             const response = req.body;
-            console.log(response);
+
+
+            //si es extranjero
+            if (response.nacionalidad_cliente != "CHILENO/A") {
+                response.rut_cliente = "@" + response.rut_cliente
+            }
+
+
             if (response.fechaNacimiento_cliente == "") {
                 response.fechaNacimiento_cliente = null;
             }

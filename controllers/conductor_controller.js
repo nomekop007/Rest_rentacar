@@ -49,6 +49,12 @@ class ConductorController {
                 response.vcto_conductor = null;
             }
 
+
+            //si es extranjero
+            if (response.nacionalidad_conductor != "CHILENO/A") {
+                response.rut_conductor = "@" + response.rut_conductor
+            }
+
             const [conductor, created] = await Conductor.findOrCreate({
                 where: { rut_conductor: response.rut_conductor },
                 defaults: response,
