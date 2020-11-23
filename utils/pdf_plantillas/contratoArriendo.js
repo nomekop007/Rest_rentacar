@@ -105,11 +105,11 @@ async function contratoPlantilla(data) {
                 widths: [73, 73],
                 body: [
                     [{
-                        alignment: "center",
-                        text: `SIN ACCESORIOS`,
-                        colSpan: 2,
-                    },
-                    {},
+                            alignment: "center",
+                            text: `SIN ACCESORIOS`,
+                            colSpan: 2,
+                        },
+                        {},
                     ],
                 ]
             },
@@ -171,7 +171,7 @@ async function contratoPlantilla(data) {
             doc.garantia.codigo_cheque = garantia.codigoCheque_garantia;
             break;
         case "TARJETA":
-            doc.garantia.numero_tarjeta = garantia.numeroTarjeta_garantia;
+            doc.garantia.numero_tarjeta = "************" + garantia.numeroTarjeta_garantia.slice(-4);
             doc.garantia.codigo_tarjeta = garantia.codigoTarjeta_garantia;
             doc.garantia.fecha_tarjeta = garantia.fechaTarjeta_garantia;
             doc.garantia.garantiaTarjeta =
@@ -247,513 +247,513 @@ async function contratoPlantilla(data) {
 
     return {
         content: [{
-            margin: [0, 0, 0, 5],
-            columns: [{
-                width: 80,
-                height: 80,
-                image: "data:image/png;base64," + (await base64(logo)),
-            },
-            {
-                margin: [10, 0, 0, 0],
-                width: 378,
-                fontSize: 9,
-                style: "header",
-                bold: true,
-                text: [
-                    { text: "Rent A Car Maule Ltda. \n", fontSize: 20 },
-                    "Sociedad Teresa del Carmen Garrido Rojas e Hijos Limitada. \n RUT: 76.791.832-1 \n",
-                    "2 Norte 22 y 23 Oriente N°3030, Talca. - Tlfs: +712401552 / +56941143456 - Casa Matriz \n",
-                    "Calle Kurt Moller N° 22, Linares. - Tlfs: +712439489/ +56992191603 - Sucursal \n",
-                    "Calle Villota N° 262, Curicó. - Tlfs: +752606081 / +56981947756 - Sucursal \n",
+                margin: [0, 0, 0, 5],
+                columns: [{
+                        width: 80,
+                        height: 80,
+                        image: "data:image/png;base64," + (await base64(logo)),
+                    },
                     {
-                        text: "contacto@rentacarmaule.cl - www.rentacarmaule.cl",
+                        margin: [10, 0, 0, 0],
+                        width: 378,
+                        fontSize: 9,
+                        style: "header",
                         bold: true,
+                        text: [
+                            { text: "Rent A Car Maule Ltda. \n", fontSize: 20 },
+                            "Sociedad Teresa del Carmen Garrido Rojas e Hijos Limitada. \n RUT: 76.791.832-1 \n",
+                            "2 Norte 22 y 23 Oriente N°3030, Talca. - Tlfs: +712401552 / +56941143456 - Casa Matriz \n",
+                            "Calle Kurt Moller N° 22, Linares. - Tlfs: +712439489/ +56992191603 - Sucursal \n",
+                            "Calle Villota N° 262, Curicó. - Tlfs: +752606081 / +56981947756 - Sucursal \n",
+                            {
+                                text: "contacto@rentacarmaule.cl - www.rentacarmaule.cl",
+                                bold: true,
+                            },
+                        ],
+                    },
+                    {
+                        text: [{
+                                text: `Nº  ${data.arriendo.id_arriendo} \n`,
+                            },
+                            {
+                                fontSize: 8,
+                                text: `${doc.extencion}`
+                            }
+                        ]
                     },
                 ],
             },
             {
-                text: [{
-                    text: `Nº  ${data.arriendo.id_arriendo} \n`,
-                },
-                {
-                    fontSize: 8,
-                    text: `${doc.extencion}`
-                }
-                ]
-            },
-            ],
-        },
-        {
-            columns: [
-                [{
-                    fontSize: 8,
-                    margin: [0, 0, 5, 0],
-                    style: "tableExample",
-                    table: {
-                        heights: 25,
-                        widths: [5, 90, 60, 60, 90],
-                        body: [
-                            [{
-                                text: `CLIENTE: \n ${doc.cliente.nombre_cliente}`,
-                                colSpan: 4,
+                columns: [
+                    [{
+                            fontSize: 8,
+                            margin: [0, 0, 5, 0],
+                            style: "tableExample",
+                            table: {
+                                heights: 25,
+                                widths: [5, 90, 60, 60, 90],
+                                body: [
+                                    [{
+                                            text: `CLIENTE: \n ${doc.cliente.nombre_cliente}`,
+                                            colSpan: 4,
+                                        },
+                                        {},
+                                        {},
+                                        {},
+                                        {
+                                            text: `AUTO/CAMIONETA: \n ${data.arriendo.vehiculo.tipo_vehiculo}`,
+                                            colSpan: 1,
+                                        },
+                                    ],
+                                    [{
+                                            text: `DIRECCION: \n ${doc.cliente.direccion_cliente}`,
+                                            colSpan: 3,
+                                        },
+                                        {},
+                                        {},
+                                        {
+                                            text: `CIUDAD: \n ${doc.cliente.ciudad_cliente}`,
+                                            colSpan: 1,
+                                        },
+                                        {
+                                            text: `MARCA MODELO: \n ${data.arriendo.vehiculo.marca_vehiculo}  ${data.arriendo.vehiculo.modelo_vehiculo}`,
+                                            colSpan: 1,
+                                        },
+                                    ],
+                                    [{
+                                            text: `RUT O PASAPORTE: \n ${doc.cliente.rut_cliente}`,
+                                            colSpan: 2,
+                                        },
+                                        {},
+                                        {
+                                            text: `NACIMIENTO: \n ${doc.cliente.nacimiento_cliente}`,
+                                            colSpan: 1,
+                                        },
+                                        {
+                                            text: `TELEFONO: \n +569 ${doc.cliente.telefono_cliente}`,
+                                            colSpan: 1,
+                                        },
+                                        {
+                                            text: `PATENTE: \n ${data.arriendo.vehiculo.patente_vehiculo}`,
+                                            colSpan: 1,
+                                        },
+                                    ],
+                                    [{
+                                            text: `CONDUCTOR: \n ${data.arriendo.conductore.nombre_conductor}`,
+                                            colSpan: 5,
+                                        },
+                                        {},
+                                        {},
+                                        {},
+                                        {},
+                                    ],
+                                    [
+                                        { text: `LICENCIA`, colSpan: 1 },
+                                        {
+                                            text: `CLASE : \n  ${data.arriendo.conductore.clase_conductor} \n\n NUMERO: \n ${data.arriendo.conductore.numero_conductor} \n\n VCTO: \n ${formatFecha(data.arriendo.conductore.vcto_conductor)} \n\n MUNIC: \n ${data.arriendo.conductore.municipalidad_conductor} `,
+                                            colSpan: 1,
+                                        },
+                                        {
+                                            text: `RUT: \n ${data.arriendo.conductore.rut_conductor} \n\n TELEFONO: \n  +569 ${data.arriendo.conductore.telefono_conductor} \n\n  DIRECCION: \n ${data.arriendo.conductore.direccion_conductor}    `,
+                                            colSpan: 2,
+                                        },
+                                        {},
+                                        {
+                                            text: `KILOMETROS: \n\n  ---------------------------------------- \n   ENTRADA: ${data.arriendo.kilometrosEntrada_arriendo}  \n ----------------------------------------  \n  ---------------------------------------- \n  SALIDA:       \n ----------------------------------------`,
+                                            colSpan: 1,
+                                        },
+                                    ],
+                                ],
                             },
-                            {},
-                            {},
-                            {},
-                            {
-                                text: `AUTO/CAMIONETA: \n ${data.arriendo.vehiculo.tipo_vehiculo}`,
-                                colSpan: 1,
+                        },
+                        {
+                            margin: [0, 10, 5, 0],
+                            alignment: "center",
+                            fontSize: 9,
+                            text: "GARANTIA",
+                        },
+
+                        {
+                            margin: [0, 0, 5, 0],
+                            fontSize: 7,
+                            style: "tableExample",
+                            table: {
+                                heights: 10,
+                                widths: ["*", "*", "*", "*"],
+                                body: [
+                                    [{
+                                            text: `TARJETA DE CREDITO: \n ${doc.garantia.numero_tarjeta}`,
+                                            colSpan: 1,
+                                        },
+
+                                        {
+                                            text: `FECHA VENCIMIENTO \n ${doc.garantia.fecha_tarjeta}`,
+                                            colSpan: 1,
+                                        },
+                                        {
+                                            text: `CODIGO \n ${doc.garantia.codigo_tarjeta}`,
+                                            colSpan: 1,
+                                        },
+                                        {
+                                            text: `MONTO  \n ${doc.garantia.garantiaTarjeta}`,
+                                            colSpan: 1,
+                                        },
+                                    ],
+                                    [{
+                                            text: `CHEQUE Nº: \n  ${doc.garantia.numero_cheque}`,
+                                            colSpan: 2,
+                                        },
+                                        {},
+                                        {
+                                            text: `CODIGO AUTORIZACION \n ${doc.garantia.codigo_cheque}`,
+                                            colSpan: 2,
+                                        },
+                                        {},
+                                    ],
+                                    [{
+                                            text: `EFECTIVO: ${doc.garantia.garantiaEfectivo}`,
+                                            colSpan: 4,
+                                        },
+                                        {},
+                                        {},
+                                        {},
+                                    ],
+                                ],
                             },
-                            ],
-                            [{
-                                text: `DIRECCION: \n ${doc.cliente.direccion_cliente}`,
-                                colSpan: 3,
+                        },
+
+                        {
+                            margin: [0, 10, 5, 0],
+                            fontSize: 7,
+
+                            style: "tableExample",
+                            table: {
+                                heights: 10,
+                                widths: ["*", "*", "*"],
+                                body: [
+                                    [
+                                        `AGENCIA DE ARRIENDO:  ${data.arriendo.sucursale.nombre_sucursal}  `,
+                                        `VENDEDOR/A:  ${data.arriendo.usuario.nombre_usuario} `,
+                                        `ACTA DE ENTREGA Nº:  ${data.arriendo.id_arriendo} `,
+                                    ],
+                                ],
                             },
-                            {},
-                            {},
-                            {
-                                text: `CIUDAD: \n ${doc.cliente.ciudad_cliente}`,
-                                colSpan: 1,
-                            },
-                            {
-                                text: `MARCA MODELO: \n ${data.arriendo.vehiculo.marca_vehiculo}  ${data.arriendo.vehiculo.modelo_vehiculo}`,
-                                colSpan: 1,
-                            },
-                            ],
-                            [{
-                                text: `RUT O PASAPORTE: \n ${doc.cliente.rut_cliente}`,
-                                colSpan: 2,
-                            },
-                            {},
-                            {
-                                text: `NACIMIENTO: \n ${doc.cliente.nacimiento_cliente}`,
-                                colSpan: 1,
-                            },
-                            {
-                                text: `TELEFONO: \n +569 ${doc.cliente.telefono_cliente}`,
-                                colSpan: 1,
-                            },
-                            {
-                                text: `PATENTE: \n ${data.arriendo.vehiculo.patente_vehiculo}`,
-                                colSpan: 1,
-                            },
-                            ],
-                            [{
-                                text: `CONDUCTOR: \n ${data.arriendo.conductore.nombre_conductor}`,
-                                colSpan: 5,
-                            },
-                            {},
-                            {},
-                            {},
-                            {},
-                            ],
-                            [
-                                { text: `LICENCIA`, colSpan: 1 },
-                                {
-                                    text: `CLASE : \n  ${data.arriendo.conductore.clase_conductor} \n\n NUMERO: \n ${data.arriendo.conductore.numero_conductor} \n\n VCTO: \n ${formatFecha(data.arriendo.conductore.vcto_conductor)} \n\n MUNIC: \n ${data.arriendo.conductore.municipalidad_conductor} `,
-                                    colSpan: 1,
+                        },
+                        {
+                            columns: [{
+                                    margin: [0, 5, 10, 0],
+                                    fontSize: 5,
+                                    ol: [
+                                        "Acepto íntegramente las condiciones del contrato de acuerdo con tarifas y plazos pactados.",
+                                        "Autorizo a Rent A Car Maule a verificar antecedentes comerciales.",
+                                        "Deducible UF. 20 + IVA Autos y Camionetas.",
+                                        "Deducible pérdida total o volcamiento. 75 UF + IVA para todas las unidades.",
+
+                                    ],
                                 },
                                 {
-                                    text: `RUT: \n ${data.arriendo.conductore.rut_conductor} \n\n TELEFONO: \n  +569 ${data.arriendo.conductore.telefono_conductor} \n\n  DIRECCION: \n ${data.arriendo.conductore.direccion_conductor}    `,
-                                    colSpan: 2,
-                                },
-                                {},
-                                {
-                                    text: `KILOMETROS: \n\n  ---------------------------------------- \n   ENTRADA: ${data.arriendo.kilometrosEntrada_arriendo}  \n ----------------------------------------  \n  ---------------------------------------- \n  SALIDA:       \n ----------------------------------------`,
-                                    colSpan: 1,
-                                },
-                            ],
-                        ],
-                    },
-                },
-                {
-                    margin: [0, 10, 5, 0],
-                    alignment: "center",
-                    fontSize: 9,
-                    text: "GARANTIA",
-                },
-
-                {
-                    margin: [0, 0, 5, 0],
-                    fontSize: 7,
-                    style: "tableExample",
-                    table: {
-                        heights: 10,
-                        widths: ["*", "*", "*", "*"],
-                        body: [
-                            [{
-                                text: `TARJETA DE CREDITO: \n ${doc.garantia.numero_tarjeta}`,
-                                colSpan: 1,
-                            },
-
-                            {
-                                text: `FECHA VENCIMIENTO \n ${doc.garantia.fecha_tarjeta}`,
-                                colSpan: 1,
-                            },
-                            {
-                                text: `CODIGO \n ${doc.garantia.codigo_tarjeta}`,
-                                colSpan: 1,
-                            },
-                            {
-                                text: `MONTO  \n ${doc.garantia.garantiaTarjeta}`,
-                                colSpan: 1,
-                            },
-                            ],
-                            [{
-                                text: `CHEQUE Nº: \n  ${doc.garantia.numero_cheque}`,
-                                colSpan: 2,
-                            },
-                            {},
-                            {
-                                text: `CODIGO AUTORIZACION \n ${doc.garantia.codigo_cheque}`,
-                                colSpan: 2,
-                            },
-                            {},
-                            ],
-                            [{
-                                text: `EFECTIVO: ${doc.garantia.garantiaEfectivo}`,
-                                colSpan: 4,
-                            },
-                            {},
-                            {},
-                            {},
-                            ],
-                        ],
-                    },
-                },
-
-                {
-                    margin: [0, 10, 5, 0],
-                    fontSize: 7,
-
-                    style: "tableExample",
-                    table: {
-                        heights: 10,
-                        widths: ["*", "*", "*"],
-                        body: [
-                            [
-                                `AGENCIA DE ARRIENDO:  ${data.arriendo.sucursale.nombre_sucursal}  `,
-                                `VENDEDOR/A:  ${data.arriendo.usuario.nombre_usuario} `,
-                                `ACTA DE ENTREGA Nº:  ${data.arriendo.id_arriendo} `,
-                            ],
-                        ],
-                    },
-                },
-                {
-                    columns: [{
-                        margin: [0, 5, 10, 0],
-                        fontSize: 5,
-                        ol: [
-                            "Acepto íntegramente las condiciones del contrato de acuerdo con tarifas y plazos pactados.",
-                            "Autorizo a Rent A Car Maule a verificar antecedentes comerciales.",
-                            "Deducible UF. 20 + IVA Autos y Camionetas.",
-                            "Deducible pérdida total o volcamiento. 75 UF + IVA para todas las unidades.",
-
-                        ],
-                    },
-                    {
-                        width: 180,
-                        fontSize: 6,
-                        margin: [0, 5, 10, 0],
-                        text: `Observaciones: \n ${
+                                    width: 180,
+                                    fontSize: 6,
+                                    margin: [0, 5, 10, 0],
+                                    text: `Observaciones: \n ${
                             data.arriendo.pagosArriendos[doc.P].observaciones_pagoArriendo
                             } `,
-                    },
-                    ],
-                },
-                {
-                    columns: [{
-                        columns: [
-                            [
-                                firmaCliente(),
-                                fechaHoraFirma(),
-                                { text: "_______________________________" },
-
-                                {
-                                    text: "ARRENDATARIO/A",
-                                    fontSize: 6,
-                                    alignment: "center",
                                 },
                             ],
-                        ],
-                    },
+                        },
+                        {
+                            columns: [{
+                                    columns: [
+                                        [
+                                            firmaCliente(),
+                                            fechaHoraFirma(),
+                                            { text: "_______________________________" },
 
-                    {
-                        columns: [
-                            [{
-                                margin: [0, 80, 0, 0],
-                                alignment: "center",
-                                text: "",
-                            },
-                            {
-                                text: "_______________________________",
-                            },
-                            { text: "RENT A CAR", fontSize: 6, alignment: "center" },
+                                            {
+                                                text: "ARRENDATARIO/A",
+                                                fontSize: 6,
+                                                alignment: "center",
+                                            },
+                                        ],
+                                    ],
+                                },
+
+                                {
+                                    columns: [
+                                        [{
+                                                margin: [0, 80, 0, 0],
+                                                alignment: "center",
+                                                text: "",
+                                            },
+                                            {
+                                                text: "_______________________________",
+                                            },
+                                            { text: "RENT A CAR", fontSize: 6, alignment: "center" },
+                                        ],
+                                    ],
+                                },
                             ],
-                        ],
-                    },
+                        },
                     ],
-                },
-                ],
-                [{
-                    fontSize: 6,
-                    style: `tableExample`,
-                    table: {
-                        widths: [73, 73],
-                        body: [
-                            [
-                                `CIUDAD DE ENTREGA \n ${data.arriendo.ciudadEntrega_arriendo} `,
-                                `CIUDAD DE RECEPCIÓN \n ${data.arriendo.ciudadRecepcion_arriendo}`,
-                            ],
-                            [
-                                `FECHA - HORA \n ${doc.fechaInicio}`,
-                                `FECHA - HORA \n ${doc.fechaFin}`,
-                            ],
-                            [{
-                                text: `TIPO ARRIENDO: \n  ${
+                    [{
+                            fontSize: 6,
+                            style: `tableExample`,
+                            table: {
+                                widths: [73, 73],
+                                body: [
+                                    [
+                                        `CIUDAD DE ENTREGA \n ${data.arriendo.ciudadEntrega_arriendo} `,
+                                        `CIUDAD DE RECEPCIÓN \n ${data.arriendo.ciudadRecepcion_arriendo}`,
+                                    ],
+                                    [
+                                        `FECHA - HORA \n ${doc.fechaInicio}`,
+                                        `FECHA - HORA \n ${doc.fechaFin}`,
+                                    ],
+                                    [{
+                                            text: `TIPO ARRIENDO: \n  ${
                                     data.arriendo.tipo_arriendo
                                     } ${
                                     data.arriendo.remplazo
                                         ? data.arriendo.remplazo.codigo_empresaRemplazo
                                         : ""
                                     }`,
-                                colSpan: 2,
+                                            colSpan: 2,
+                                        },
+                                        {},
+                                    ],
+                                    [
+                                        "CODIGO:", {
+                                            text: `${doc.remplazo.codigo}`,
+                                            fontSize: 7,
+                                        }
+                                    ],
+                                    [
+                                        "VALOR COPAGO $",
+                                        {
+                                            text: `${doc.remplazo.valorCopago}`,
+                                            fontSize: 7,
+                                        }
+                                    ],
+                                    [{
+                                            text: `CANTIDAD DE DIAS: \n  ${data.arriendo.diasActuales_arriendo}`,
+                                            colSpan: 2,
+                                        },
+                                        {},
+                                    ],
+                                    [
+                                        "SUB TOTAL NETO:",
+                                        {
+                                            text: "$ " +
+                                                formatter.format(
+                                                    data.arriendo.pagosArriendos[doc.P].subtotal_pagoArriendo
+                                                ),
+                                            fontSize: 7,
+                                        },
+                                    ],
+                                    [
+                                        "DESCUENTO (-) :",
+                                        {
+                                            text: "$ " +
+                                                formatter.format(
+                                                    data.arriendo.pagosArriendos[doc.P].descuento_pagoArriendo
+                                                ),
+                                            fontSize: 7,
+                                        },
+                                    ],
+                                ],
                             },
-                            {},
-                            ],
-                            [
-                                "CODIGO:", {
-                                    text: `${doc.remplazo.codigo}`,
-                                    fontSize: 7,
-                                }
-                            ],
-                            [
-                                "VALOR COPAGO $",
-                                {
-                                    text: `${doc.remplazo.valorCopago}`,
-                                    fontSize: 7,
-                                }
-                            ],
-                            [{
-                                text: `CANTIDAD DE DIAS: \n  ${data.arriendo.diasActuales_arriendo}`,
-                                colSpan: 2,
-                            },
-                            {},
-                            ],
-                            [
-                                "SUB TOTAL NETO:",
-                                {
-                                    text: "$ " +
-                                        formatter.format(
-                                            data.arriendo.pagosArriendos[doc.P].subtotal_pagoArriendo
-                                        ),
-                                    fontSize: 7,
-                                },
-                            ],
-                            [
-                                "DESCUENTO (-) :",
-                                {
-                                    text: "$ " +
-                                        formatter.format(
-                                            data.arriendo.pagosArriendos[doc.P].descuento_pagoArriendo
-                                        ),
-                                    fontSize: 7,
-                                },
-                            ],
-                        ],
-                    },
-                },
-                //array de accesorios
-                mostrarAccesorios(),
-                {
-                    fontSize: 6,
-                    style: `tableExample`,
-                    table: {
-                        widths: [73, 73],
-                        body: [
-                            [
-                                "TOTAL NETO: \n\n IVA: \n\n TOTAL:",
-                                {
-                                    text: `$ ${formatter.format(
+                        },
+                        //array de accesorios
+                        mostrarAccesorios(),
+                        {
+                            fontSize: 6,
+                            style: `tableExample`,
+                            table: {
+                                widths: [73, 73],
+                                body: [
+                                    [
+                                        "TOTAL NETO: \n\n IVA: \n\n TOTAL:",
+                                        {
+                                            text: `$ ${formatter.format(
                                         data.arriendo.pagosArriendos[doc.P].neto_pagoArriendo
                                     )} \n\n $ ${formatter.format(
                                         data.arriendo.pagosArriendos[doc.P].iva_pagoArriendo
                                     )} \n\n $ ${formatter.format(
                                         data.arriendo.pagosArriendos[doc.P].total_pagoArriendo
                                     )} `,
-                                    fontSize: 7,
+                                            fontSize: 7,
+                                        },
+                                    ],
+                                    [
+                                        { text: "A PAGAR ", fontSize: 10 },
+                                        {
+                                            text: "$ " +
+                                                formatter.format(data.arriendo.pagosArriendos[doc.P].total_pagoArriendo),
+                                            fontSize: 10,
+                                            bold: true,
+                                        },
+                                    ],
+                                ],
+                            },
+                        },
+                        {
+                            columns: [{
+                                    margin: [0, 10, 0, 0],
+                                    width: 70,
+                                    fontSize: 6,
+                                    style: "tableExample",
+                                    table: {
+                                        widths: [40, 3],
+                                        body: [
+                                            ["Boleta", `${doc.pago.boletaX}`],
+                                            ["Factura", `${doc.pago.facturaX}`],
+                                        ],
+                                    },
                                 },
-                            ],
-                            [
-                                { text: "A PAGAR ", fontSize: 10 },
                                 {
-                                    text: "$ " +
-                                        formatter.format(data.arriendo.pagosArriendos[doc.P].total_pagoArriendo),
-                                    fontSize: 10,
-                                    bold: true,
+                                    margin: [0, 10, 0, 0],
+                                    fontSize: 6,
+                                    style: "tableExample",
+                                    table: {
+                                        widths: [85],
+                                        body: [
+                                            [`Nº Boleta : ${doc.pago.codigoBoleta}`],
+                                            [`Nº Factura: ${doc.pago.codigoFactura}`],
+                                        ],
+                                    },
                                 },
-                            ],
-                        ],
-                    },
-                },
-                {
-                    columns: [{
-                        margin: [0, 10, 0, 0],
-                        width: 70,
-                        fontSize: 6,
-                        style: "tableExample",
-                        table: {
-                            widths: [40, 3],
-                            body: [
-                                ["Boleta", `${doc.pago.boletaX}`],
-                                ["Factura", `${doc.pago.facturaX}`],
                             ],
                         },
+                        {
+                            margin: [0, 10, 0, 0],
+                            style: "tableExample",
+                            fontSize: 6,
+                            table: {
+                                widths: [46, 45, 46],
+                                body: [
+                                    [{
+                                            text: [
+                                                { text: "EFECTIVO \n" },
+                                                { alignment: "center", text: `${doc.pago.efectivoX}` },
+                                            ],
+                                        },
+                                        {
+                                            text: [
+                                                { text: "CHEQUE \n" },
+                                                { alignment: "center", text: `${doc.pago.chequeX}` },
+                                            ],
+                                        },
+                                        {
+                                            text: [
+                                                { text: "TARJETA \n" },
+                                                { alignment: "center", text: `${doc.pago.tarjetaX}` },
+                                            ],
+                                        },
+                                    ],
+                                ],
+                            },
+                        },
+
+                        {
+                            margin: [0, 10, 0, 0],
+                            style: "tableExample",
+                            fontSize: 8,
+                            table: {
+                                widths: [155],
+                                body: [
+                                    [`DIGITADO POR \n  ${data.arriendo.usuario.nombre_usuario}`],
+                                ],
+                            },
+                        },
+                    ],
+                ],
+            },
+            {
+                margin: [0, 10, 0, 0],
+                width: 521,
+                height: 200,
+                image: "data:image/png;base64," + await base64(pagare),
+            },
+            {
+                margin: [0, 200, 0, 0],
+                fontSize: 7,
+                text: [{
+                        alignment: "center",
+                        text: "CONDICIONES DEL CONTRATO DE ARRIENDO \n\n",
+                        fontSize: 10,
+                        bold: true,
                     },
                     {
-                        margin: [0, 10, 0, 0],
-                        fontSize: 6,
-                        style: "tableExample",
-                        table: {
-                            widths: [85],
-                            body: [
-                                [`Nº Boleta : ${doc.pago.codigoBoleta}`],
-                                [`Nº Factura: ${doc.pago.codigoFactura}`],
-                            ],
-                        },
+                        text: `Comparecen, por una parte, la Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda, RUT 76.791.832-1, Representada por don Diego Antonio Vargas Garrido Rut: 18.891.594-9, Ambos domiciliados en 1 poniente 4 y 5 norte #1588, en la ciudad de Talca, en adelante, 'el arrendador'. Por otra parte, don ${doc.cliente.nombre_cliente} , Rut: ${doc.cliente.rut_cliente}  Dirección: ${doc.cliente.direccion_cliente} Estado Civil : ${doc.cliente.estado_civil} , Profesión : SIN DATOS teléfono : +569 ${doc.cliente.telefono_cliente}, en adelante 'el arrendatario', se acuerda lo siguiente:\n \n `,
                     },
-                    ],
-                },
-                {
-                    margin: [0, 10, 0, 0],
-                    style: "tableExample",
-                    fontSize: 6,
-                    table: {
-                        widths: [46, 45, 46],
-                        body: [
-                            [{
-                                text: [
-                                    { text: "EFECTIVO \n" },
-                                    { alignment: "center", text: `${doc.pago.efectivoX}` },
-                                ],
-                            },
-                            {
-                                text: [
-                                    { text: "CHEQUE \n" },
-                                    { alignment: "center", text: `${doc.pago.chequeX}` },
-                                ],
-                            },
-                            {
-                                text: [
-                                    { text: "TARJETA \n" },
-                                    { alignment: "center", text: `${doc.pago.tarjetaX}` },
-                                ],
-                            },
-                            ],
-                        ],
+                    {
+                        text: `PRIMERO: el vehículo individualizado en el anverso, quien lo acepta. El arrendatario declara haber recibido el vehículo en buen estado y conforme al acta de entrega que se firma entre ambas partes, la que declara haber revisado y refleja fielmente el estado en que recibe el vehículo. Será parte integrante de este contrato. \n \n`,
                     },
-                },
-
-                {
-                    margin: [0, 10, 0, 0],
-                    style: "tableExample",
-                    fontSize: 8,
-                    table: {
-                        widths: [155],
-                        body: [
-                            [`DIGITADO POR \n  ${data.arriendo.usuario.nombre_usuario}`],
-                        ],
+                    {
+                        text: `SEGUNDO: El arriendo regirá hasta el ${doc.fechaFin} horas. Vencido este plazo, si el arrendatario desea continuar usando el vehículo, deberá obtener una autorización de Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda, y en caso de que el vehículo no sea entregado en el horario pactado, el arrendador queda autorizado para iniciar la denuncia por apropiación indebida ante carabineros de chile o policía de investigaciones. \n \n`,
                     },
-                },
+                    {
+                        text: `TERCERO: En caso que el arrendatario, devolviera el vehículo antes de la terminación del plazo del presente contrato, por la negativa al complimiento del presente contrato, este tendrá que indemnizar al arrendador con una multa ascendiente al 30% del valor total del arriendo, excepcionalmente los clientes que vienen por empresas de remplazo. \n \n`,
+                    },
+                    {
+                        text: `CUARTO: En caso que el trayecto del vehículo sea a Santiago, el arrendatario debe dar cuenta al arrendador, y se recargará el valor del pase diario más iva por día transitado en Santiago. \n \n`,
+                    },
+                    {
+                        text: `QUINTO : El vehículo debe venir a mantención a los  ${data.arriendo.vehiculo.kilometrosMantencion_vehiculo}  kilómetros, en caso de que el arrendatario se negara a realizar la mantención se le aplicará una multa de un mes de arriendo, además de aquello el arrendador queda autorizado para denunciar el vehículo por apropiación indebida ante Carabineros de Chile y/o Policía de Investigaciones, como también a ser retirado de circulación, quedando estrictamente prohibido ejecutar, realizar o manipular el motor o mantenciones mecánicas y eléctricas del vehículo, de no respetar esta disposición se cobrará la multa ya descrita. \n \n`,
+                    },
+                    {
+                        text: `SEXTO: El arrendatario tendrá un límite de kilómetros a recorrer, el cual será de 5.000 (CINCO MIL) kilómetros mensuales, en caso de que este se exceda dicho kilometraje, la siguiente mantención será de cargo del arrendatario. \n \n`,
+                    },
+                    {
+                        text: `SÉPTIMO: Los vehículos se encuentran asegurados por daños propios y a terceros y la Cía. Aseguradora responde solamente en caso de que los daños causados en accidente de tránsito no le sean imputables al usuario. Si los perjuicios ocasionados fueren de riesgo, dejan en poder de Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda una garantía consistente en $ ${data.arriendo.garantia.monto_garantia} Con todo el arrendatario responderá de todo daño. \n \n`,
+                    },
+                    {
+                        text: `OCTAVO: Respecto del vehículo arrendado, queda prohibido al arrendatario: \n` +
+                            `1. Permitir su manejo por otra persona que el mismo o quien se encuentre expresamente autorizado por Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda.\n` +
+                            `2. Destinarlo a un uso distinto de aquel que fuera estipulado según la cláusula décimo primera de este contrato\n` +
+                            `3. Cargar el vehículo con mayor peso del estipulado, tirar o empujar otro vehículo o ser usado en labores peligrosas.\n` +
+                            `4. Conducirlo bajo la influencia del alcohol, en estado de ebriedad, bajo los efectos de drogas o sin portar licencia de conductor y documentos ordenados por la Ley.\n` +
+                            `5. Llevar el vehículo fuera del radio máximo expresado en este contrato o sacarlo del territorio nacional.\n\n`,
+                    },
+                    {
+                        text: `NOVENO : En caso de incurrir el arrendatario en alguno de los casos del artículo anterior se compromete a cancelar, a manera de cláusula penal, una suma igual al doble de la renta de arrendamiento pactada en este contrato, sin contar los recargos por seguro e impuestos. Estos sin perjuicio del precio pactado. \n` +
+                            `Si por causa de accidente o robo el vehículo debe ser reparado o, si por violación a las Ordenanzas del Tránsito el vehículo es retenido por las  autoridades, el arrendatario pagará a Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. el importe del alquiler convenido por todo el tiempo que dure la reparación o los trámites legales para la liberación del vehículo, así como todos los gastos en que se incurra.\n\n`,
+                    },
+                    {
+                        text: `DÉCIMO: El arrendatario se obliga a respetar rigurosamente todas las Ordenanzas del Tránsito, indicaciones de Carabineros y Autoridades. Serán de su cargo todas las multas aplicadas por infracciones cometidas por el arrendatario durante el uso del vehículo. En el caso de que se curse una infracción por padrón, por un hecho o culpa del arrendatario durante el tiempo en que el vehículo se encuentre a su cargo y Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. resulte obligado a cancelar, el arrendatario tendrá la obligación de restituirle la suma que pague por dicha multa doblada en su valor.\n\n`,
+                    },
+                    {
+                        text: `DÉCIMO PRIMERO: En caso de que ocurra algún siniestro en el transcurso del arriendo, en que el conductor se encuentre en manifiesto estado de ebriedad o bajos influencias del alcohol o drogas, el arrendatario quedará obligado al pago del total del siniestro, el cual no podrá ser inferior a 500 UF \n \n`,
+                    },
+                    {
+                        text: `DÉCIMO SEGUNDO: En caso de daño en el vehículo, accidente o choque, el arrendatario deberá dar aviso por escrito a Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. dentro de las 24 horas siguientes de ocurrido el hecho. Transcurrido este plazo, el arrendatario resultará único responsable de todos los perjuicios ocasionados, quedando obligado a pagarlos de su peculio personal dentro del lapso de 10 días. En caso de no cumplir, Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. quedará autorizado para hacer efectiva la garantía expresada en la cláusula quinta de este contrato.\n\n`,
+                    },
+                    {
+                        text: `DÉCIMO TERCERO: Si el accidente o siniestro ocurre a más de 200 kilómetros a la redonda de la sucursal ubicada en 1 Poniente 4 y 5 Norte, 1558, Talca, será de cargo al arrendador él gasto de la grúa de traslado.\n\n`,
+                    },
+                    {
+                        text: `DÉCIMO CUARTO: En caso que se deba realizar reparaciones al vehículo arrendado, que fueran por causas de este arriendo, el arrendatario queda obligado a cancelar 3 días de arriendo para poder realizar dichos trabajos.\n\n`,
+                    },
+                    {
+                        text: `DÉCIMO QUINTO: El incumplimiento de una sola de las obligaciones de este contrato que contrae el arrendatario, dará derecho al Arrendador para poner término inmediato al contrato, sin esperar vencimiento de plazo alguno, en la cual se cobra como multa un arriendo igual al de contrato.\n\n`,
+                    },
+                    {
+                        text: `DÉCIMO SEXTO: El arrendatario se obliga a informar a Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. sobre cualquier cambio de su domicilio, el que ha señalado en el contrato, así como ha de indicar como referencia el nombre y domicilio de alguna persona con quien Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. pueda comunicarse en caso de emergencia. Don  ${data.arriendo.contacto.nombre_contacto}   domicilio ${data.arriendo.contacto.domicilio_contacto}   N° ${data.arriendo.contacto.numeroCasa_contacto}   Ciudad  ${data.arriendo.contacto.ciudad_contacto}   Fono +569 ${data.arriendo.contacto.telefono_contacto} . \n\n`,
+                    },
+                    {
+                        text: `DÉCIMO SÉPTIMO: Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. no se hace responsable por objetos y/o valores de cualquier especie dejados por el arrendatario en el vehículo. Asimismo, no se responsabiliza por cualquier robo que pudiera sufrir o sus acompañantes. \n\n`,
+                    },
+                    {
+                        text: `DÉCIMO OCTAVO: Las partes declaran haber leído íntegramente este contrato, conocerlo y aceptarlo totalmente. El arrendatario declara expresamente conocer todas y cada una de las cláusulas penales establecidas en este contrato, las que acepta. \n\n`,
+                    },
+                    {
+                        text: `DÉCIMO NOVENO: Para todo lo relacionado con el cumplimiento y ejecución del contrato, las partes fijan domicilio en la ciudad de Talca, prorrogando para ésta la competencia de los Tribunales de Justicia. \n\n`,
+                    },
+                    {
+                        text: `Yo, ${doc.cliente.nombre_cliente}   , RUT  ${doc.cliente.rut_cliente} , Dirección   ${doc.cliente.direccion_cliente}   , Comuna  ${doc.cliente.comuna_cliente}  , Ciudad ${doc.cliente.ciudad_cliente} Autorizo a Teresa del Carmen Garrido Rojas E Hijos Limitada Rut 76.791.832-1, para que en caso de simple retardo, mora o incumplimiento de las obligaciones contraídas en el presente contrato mis datos personales y los demás derivados del presente documento puedan ser tratados y/o comunicados a terceros sin restricciones, en la base de datos del Boletín Electrónico Dicom de EQUIFAX CHILE S.A.`
+                    }
                 ],
-            ],
-        },
-        {
-            margin: [0, 10, 0, 0],
-            width: 521,
-            height: 200,
-            image: "data:image/png;base64," + await base64(pagare),
-        },
-        {
-            margin: [0, 200, 0, 0],
-            fontSize: 7,
-            text: [{
-                alignment: "center",
-                text: "CONDICIONES DEL CONTRATO DE ARRIENDO \n\n",
-                fontSize: 10,
-                bold: true,
             },
-            {
-                text: `Comparecen, por una parte, la Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda, RUT 76.791.832-1, Representada por don Diego Antonio Vargas Garrido Rut: 18.891.594-9, Ambos domiciliados en 1 poniente 4 y 5 norte #1588, en la ciudad de Talca, en adelante, 'el arrendador'. Por otra parte, don ${doc.cliente.nombre_cliente} , Rut: ${doc.cliente.rut_cliente}  Dirección: ${doc.cliente.direccion_cliente} Estado Civil : ${doc.cliente.estado_civil} , Profesión : SIN DATOS teléfono : +569 ${doc.cliente.telefono_cliente}, en adelante 'el arrendatario', se acuerda lo siguiente:\n \n `,
-            },
-            {
-                text: `PRIMERO: el vehículo individualizado en el anverso, quien lo acepta. El arrendatario declara haber recibido el vehículo en buen estado y conforme al acta de entrega que se firma entre ambas partes, la que declara haber revisado y refleja fielmente el estado en que recibe el vehículo. Será parte integrante de este contrato. \n \n`,
-            },
-            {
-                text: `SEGUNDO: El arriendo regirá hasta el ${doc.fechaFin} horas. Vencido este plazo, si el arrendatario desea continuar usando el vehículo, deberá obtener una autorización de Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda, y en caso de que el vehículo no sea entregado en el horario pactado, el arrendador queda autorizado para iniciar la denuncia por apropiación indebida ante carabineros de chile o policía de investigaciones. \n \n`,
-            },
-            {
-                text: `TERCERO: En caso que el arrendatario, devolviera el vehículo antes de la terminación del plazo del presente contrato, por la negativa al complimiento del presente contrato, este tendrá que indemnizar al arrendador con una multa ascendiente al 30% del valor total del arriendo, excepcionalmente los clientes que vienen por empresas de remplazo. \n \n`,
-            },
-            {
-                text: `CUARTO: En caso que el trayecto del vehículo sea a Santiago, el arrendatario debe dar cuenta al arrendador, y se recargará el valor del pase diario más iva por día transitado en Santiago. \n \n`,
-            },
-            {
-                text: `QUINTO : El vehículo debe venir a mantención a los  ${data.arriendo.vehiculo.kilometrosMantencion_vehiculo}  kilómetros, en caso de que el arrendatario se negara a realizar la mantención se le aplicará una multa de un mes de arriendo, además de aquello el arrendador queda autorizado para denunciar el vehículo por apropiación indebida ante Carabineros de Chile y/o Policía de Investigaciones, como también a ser retirado de circulación, quedando estrictamente prohibido ejecutar, realizar o manipular el motor o mantenciones mecánicas y eléctricas del vehículo, de no respetar esta disposición se cobrará la multa ya descrita. \n \n`,
-            },
-            {
-                text: `SEXTO: El arrendatario tendrá un límite de kilómetros a recorrer, el cual será de 5.000 (CINCO MIL) kilómetros mensuales, en caso de que este se exceda dicho kilometraje, la siguiente mantención será de cargo del arrendatario. \n \n`,
-            },
-            {
-                text: `SÉPTIMO: Los vehículos se encuentran asegurados por daños propios y a terceros y la Cía. Aseguradora responde solamente en caso de que los daños causados en accidente de tránsito no le sean imputables al usuario. Si los perjuicios ocasionados fueren de riesgo, dejan en poder de Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda una garantía consistente en $ ${data.arriendo.garantia.monto_garantia} Con todo el arrendatario responderá de todo daño. \n \n`,
-            },
-            {
-                text: `OCTAVO: Respecto del vehículo arrendado, queda prohibido al arrendatario: \n` +
-                    `1. Permitir su manejo por otra persona que el mismo o quien se encuentre expresamente autorizado por Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda.\n` +
-                    `2. Destinarlo a un uso distinto de aquel que fuera estipulado según la cláusula décimo primera de este contrato\n` +
-                    `3. Cargar el vehículo con mayor peso del estipulado, tirar o empujar otro vehículo o ser usado en labores peligrosas.\n` +
-                    `4. Conducirlo bajo la influencia del alcohol, en estado de ebriedad, bajo los efectos de drogas o sin portar licencia de conductor y documentos ordenados por la Ley.\n` +
-                    `5. Llevar el vehículo fuera del radio máximo expresado en este contrato o sacarlo del territorio nacional.\n\n`,
-            },
-            {
-                text: `NOVENO : En caso de incurrir el arrendatario en alguno de los casos del artículo anterior se compromete a cancelar, a manera de cláusula penal, una suma igual al doble de la renta de arrendamiento pactada en este contrato, sin contar los recargos por seguro e impuestos. Estos sin perjuicio del precio pactado. \n` +
-                    `Si por causa de accidente o robo el vehículo debe ser reparado o, si por violación a las Ordenanzas del Tránsito el vehículo es retenido por las  autoridades, el arrendatario pagará a Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. el importe del alquiler convenido por todo el tiempo que dure la reparación o los trámites legales para la liberación del vehículo, así como todos los gastos en que se incurra.\n\n`,
-            },
-            {
-                text: `DÉCIMO: El arrendatario se obliga a respetar rigurosamente todas las Ordenanzas del Tránsito, indicaciones de Carabineros y Autoridades. Serán de su cargo todas las multas aplicadas por infracciones cometidas por el arrendatario durante el uso del vehículo. En el caso de que se curse una infracción por padrón, por un hecho o culpa del arrendatario durante el tiempo en que el vehículo se encuentre a su cargo y Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. resulte obligado a cancelar, el arrendatario tendrá la obligación de restituirle la suma que pague por dicha multa doblada en su valor.\n\n`,
-            },
-            {
-                text: `DÉCIMO PRIMERO: En caso de que ocurra algún siniestro en el transcurso del arriendo, en que el conductor se encuentre en manifiesto estado de ebriedad o bajos influencias del alcohol o drogas, el arrendatario quedará obligado al pago del total del siniestro, el cual no podrá ser inferior a 500 UF \n \n`,
-            },
-            {
-                text: `DÉCIMO SEGUNDO: En caso de daño en el vehículo, accidente o choque, el arrendatario deberá dar aviso por escrito a Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. dentro de las 24 horas siguientes de ocurrido el hecho. Transcurrido este plazo, el arrendatario resultará único responsable de todos los perjuicios ocasionados, quedando obligado a pagarlos de su peculio personal dentro del lapso de 10 días. En caso de no cumplir, Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. quedará autorizado para hacer efectiva la garantía expresada en la cláusula quinta de este contrato.\n\n`,
-            },
-            {
-                text: `DÉCIMO TERCERO: Si el accidente o siniestro ocurre a más de 200 kilómetros a la redonda de la sucursal ubicada en 1 Poniente 4 y 5 Norte, 1558, Talca, será de cargo al arrendador él gasto de la grúa de traslado.\n\n`,
-            },
-            {
-                text: `DÉCIMO CUARTO: En caso que se deba realizar reparaciones al vehículo arrendado, que fueran por causas de este arriendo, el arrendatario queda obligado a cancelar 3 días de arriendo para poder realizar dichos trabajos.\n\n`,
-            },
-            {
-                text: `DÉCIMO QUINTO: El incumplimiento de una sola de las obligaciones de este contrato que contrae el arrendatario, dará derecho al Arrendador para poner término inmediato al contrato, sin esperar vencimiento de plazo alguno, en la cual se cobra como multa un arriendo igual al de contrato.\n\n`,
-            },
-            {
-                text: `DÉCIMO SEXTO: El arrendatario se obliga a informar a Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. sobre cualquier cambio de su domicilio, el que ha señalado en el contrato, así como ha de indicar como referencia el nombre y domicilio de alguna persona con quien Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. pueda comunicarse en caso de emergencia. Don  ${data.arriendo.contacto.nombre_contacto}   domicilio ${data.arriendo.contacto.domicilio_contacto}   N° ${data.arriendo.contacto.numeroCasa_contacto}   Ciudad  ${data.arriendo.contacto.ciudad_contacto}   Fono +569 ${data.arriendo.contacto.telefono_contacto} . \n\n`,
-            },
-            {
-                text: `DÉCIMO SÉPTIMO: Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda. no se hace responsable por objetos y/o valores de cualquier especie dejados por el arrendatario en el vehículo. Asimismo, no se responsabiliza por cualquier robo que pudiera sufrir o sus acompañantes. \n\n`,
-            },
-            {
-                text: `DÉCIMO OCTAVO: Las partes declaran haber leído íntegramente este contrato, conocerlo y aceptarlo totalmente. El arrendatario declara expresamente conocer todas y cada una de las cláusulas penales establecidas en este contrato, las que acepta. \n\n`,
-            },
-            {
-                text: `DÉCIMO NOVENO: Para todo lo relacionado con el cumplimiento y ejecución del contrato, las partes fijan domicilio en la ciudad de Talca, prorrogando para ésta la competencia de los Tribunales de Justicia. \n\n`,
-            },
-            {
-                text: `Yo, ${doc.cliente.nombre_cliente}   , RUT  ${doc.cliente.rut_cliente} , Dirección   ${doc.cliente.direccion_cliente}   , Comuna  ${doc.cliente.comuna_cliente}  , Ciudad ${doc.cliente.ciudad_cliente} Autorizo a Teresa del Carmen Garrido Rojas E Hijos Limitada Rut 76.791.832-1, para que en caso de simple retardo, mora o incumplimiento de las obligaciones contraídas en el presente contrato mis datos personales y los demás derivados del presente documento puedan ser tratados y/o comunicados a terceros sin restricciones, en la base de datos del Boletín Electrónico Dicom de EQUIFAX CHILE S.A.`
-            }
-            ],
-        },
         ],
 
         header: (page) => {

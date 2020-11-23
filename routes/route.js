@@ -40,11 +40,10 @@ if (process.env.DEFAULT_VALUE === "TRUE") {
     router.use("/defaultValues", defaultValues);
 }
 // router para la api de finanzas
-router.use("/api", apiFinanzasRouter);
+router.use("/api", check_api.checkTokenApiRest, apiFinanzasRouter);
 
 
 router.use("/usuarios", apiUsuariosRouter);
-router.use("/regiones", check.checkToken, apiRegionRouter);
 router.use("/requisitos", check.checkToken, apiRequisitosRouter);
 router.use("/propietarios", check.checkToken, apiPropietarioRouter);
 router.use("/roles", check.checkToken, apiRolesRouter);
@@ -66,6 +65,6 @@ router.use("/facturaciones", check.checkToken, apiFacturacionRouter);
 router.use("/empresasRemplazo", check.checkToken, apiEmpresaRemplazoRouter);
 router.use("/contactos", check.checkToken, apiContactoRouter)
 router.use("/pagos", check.checkToken, apiPagoRouter);
-
+router.use("/regiones", check.checkToken, apiRegionRouter);
 
 module.exports = router;
