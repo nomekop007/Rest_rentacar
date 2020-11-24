@@ -4,4 +4,5 @@ const pagoArriendo = new PagoArriendo_controller();
 
 router.post("/registrarPagoArriendo", pagoArriendo.createPagoArriendo.bind(pagoArriendo));
 
+router.get("/revisarEstadoPago/:id", pagoArriendo.consultarPagosPendientes.bind(pagoArriendo));
 module.exports = router;

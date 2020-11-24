@@ -140,6 +140,7 @@ class ArriendoController {
         }
     }
 
+
 }
 
 module.exports = ArriendoController;

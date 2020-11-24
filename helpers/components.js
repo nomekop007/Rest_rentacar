@@ -58,6 +58,22 @@ const borrarImagenDeStorage = (name) => {
 };
 
 
+const ordenarArrayporFecha = (array) => {
+
+    return array.sort(function (a, b) {
+        const fechaA = new Date(a.createdAt);
+        const fechaB = new Date(b.createdAt);
+        console.log("holaa")
+        if (fechaA > fechaB) {
+            return 1;
+        }
+        if (fechaA < fechaB) {
+            return -1;
+        }
+        return 0;
+    });
+
+}
 
 
 
@@ -79,5 +95,6 @@ module.exports = {
     formatFecha,
     formatFechahora,
     borrarImagenDeStorage,
+    ordenarArrayporFecha,
     fontsPDF,
 };
