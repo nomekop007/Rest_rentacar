@@ -141,7 +141,8 @@ router.get("/", async (req, res) => {
         const modoPagos = [
             { id_modoPago: 1, nombre_modoPago: "EFECTIVO", userAt: "default" },
             { id_modoPago: 2, nombre_modoPago: "CHEQUE", userAt: "default" },
-            { id_modoPago: 3, nombre_modoPago: "TARJETA", userAt: "default" },
+            { id_modoPago: 3, nombre_modoPago: "TARJETA DEBITO/CREDITO", userAt: "default" },
+            { id_modoPago: 4, nombre_modoPago: "TRANSFERENCIA ELECTRONICA", userAt: "default" },
         ];
 
         for (let i = 0; i < regiones.length; i++) {
