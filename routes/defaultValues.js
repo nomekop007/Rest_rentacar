@@ -231,7 +231,7 @@ router.get("/cargarVehiculos", async (req, res) => {
                 compra_vehiculo: vehiculos[i].compra,
                 fechaCompra_vehiculo: vehiculos[i].fechaCompra,
                 estado_vehiculo: "DISPONIBLE",
-                Tmantencion_vehiculo: 100000,
+                Tmantencion_vehiculo: 10000,
                 kilometraje_vehiculo: 0,
                 kilometrosMantencion_vehiculo: 0,
                 id_region: 1,

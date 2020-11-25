@@ -39,6 +39,7 @@ class ArriendoController {
                     { model: Vehiculo, attributes: ["patente_vehiculo"] },
                     { model: PagoArriendo },
                     { model: Requisito },
+                    { model: Garantia },
                     {
                         model: Remplazo,
                         include: [{ model: EmpresaRemplazo }, { model: Cliente, attributes: ["nombre_cliente", "rut_cliente"] }],
