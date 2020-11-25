@@ -12,11 +12,9 @@ async function contratoPlantilla(data) {
     //clase para cambiar numeros a monedas
     const formatter = new Intl.NumberFormat("CL");
 
-
-
-
     //funcion para ordenar el array de pagos por fecha de creacion y poner el mas nuevo al final
     const pagosArriendos = ordenarArrayporFecha(data.arriendo.pagosArriendos);
+
 
 
 
@@ -25,6 +23,14 @@ async function contratoPlantilla(data) {
     const doc = {
         P: pagosArriendos.length - 1,
         extencion: "",
+        conductores: {
+            nombre1: "",
+            nombre2: "",
+            nombre3: "",
+            conductor1: "",
+            conductor2: "",
+            conductor3: "",
+        },
         cliente: {
             nombre_cliente: "",
             nacionalidad_cliente: "",
@@ -44,6 +50,7 @@ async function contratoPlantilla(data) {
             efectivoX: "",
             chequeX: "",
             tarjetaX: "",
+            TrasferenciaX: "",
             observaciones: "",
         },
         remplazo: {
@@ -172,16 +179,16 @@ async function contratoPlantilla(data) {
     }
 
     const garantia = data.arriendo.garantia;
-    switch (garantia.modosPago.nombre_modoPago) {
-        case "EFECTIVO":
+    switch (garantia.modosPago.id_modoPago) {
+        case 1:
             doc.garantia.garantiaEfectivo =
                 "$ " + formatter.format(garantia.monto_garantia);
             break;
-        case "CHEQUE":
+        case 2:
             doc.garantia.numero_cheque = garantia.numeroCheque_garantia;
             doc.garantia.codigo_cheque = garantia.codigoCheque_garantia;
             break;
-        case "TARJETA":
+        case 3:
             doc.garantia.numero_tarjeta = "************" + garantia.numeroTarjeta_garantia.slice(-4);
             doc.garantia.codigo_tarjeta = garantia.codigoTarjeta_garantia;
             doc.garantia.fecha_tarjeta = garantia.fechaTarjeta_garantia;
@@ -202,18 +209,49 @@ async function contratoPlantilla(data) {
                 doc.pago.codigoFactura = facturacion.numero_facturacion;
                 break;
         }
-        switch (facturacion.modosPago.nombre_modoPago) {
-            case "EFECTIVO":
+        switch (facturacion.modosPago.id_modoPago) {
+            case 1:
                 doc.pago.efectivoX = "X";
                 break;
-            case "CHEQUE":
+            case 2:
                 doc.pago.chequeX = "X";
                 break;
-            case "TARJETA":
+            case 3:
                 doc.pago.tarjetaX = "X";
+                break;
+            case 4:
+                doc.pago.TrasferenciaX = "X";
                 break;
         }
     }
+
+    doc.conductores.nombre1 = `CONDUCTOR : ${data.arriendo.conductore.nombre_conductor} \n`;
+    doc.conductores.conductor1 = `
+    RUT: ${data.arriendo.conductore.rut_conductor.replace("@", '')}   NACIONALIDAD: ${data.arriendo.conductore.nacionalidad_conductor}  CLASE :  ${data.arriendo.conductore.clase_conductor} 
+    NUMERO:  ${data.arriendo.conductore.numero_conductor}    VCTO: ${formatFecha(data.arriendo.conductore.vcto_conductor)} TELEFONO:  +569 ${data.arriendo.conductore.telefono_conductor}
+    MUNIC: ${data.arriendo.conductore.municipalidad_conductor}    DIRECCION: ${data.arriendo.conductore.direccion_conductor}`;
+
+
+    if (data.conductor2) {
+        doc.conductores.nombre2 = `CONDUCTOR 2 : ${data.conductor2.nombre_conductor} \n`;
+        doc.conductores.conductor2 = `____________________________________________________________________________________
+        RUT: ${data.conductor2.rut_conductor.replace("@", '')}   NACIONALIDAD: ${data.conductor2.nacionalidad_conductor}  CLASE :  ${data.conductor2.clase_conductor} 
+        NUMERO:  ${data.conductor2.numero_conductor}    VCTO: ${formatFecha(data.conductor2.vcto_conductor)} TELEFONO:  +569 ${data.conductor2.telefono_conductor}
+        MUNIC: ${data.conductor2.municipalidad_conductor}    DIRECCION: ${data.conductor2.direccion_conductor}
+        `;
+    }
+
+
+    if (data.conductor3) {
+        doc.conductores.nombre3 = `CONDUCTOR 3 : ${data.conductor3.nombre_conductor} `;
+        doc.conductores.conductor3 = `____________________________________________________________________________________
+        RUT: ${data.conductor3.rut_conductor.replace("@", '')}   NACIONALIDAD: ${data.conductor3.nacionalidad_conductor}  CLASE :  ${data.conductor3.clase_conductor} 
+        NUMERO:  ${data.conductor3.numero_conductor}    VCTO: ${formatFecha(data.conductor3.vcto_conductor)} TELEFONO:  +569 ${data.conductor3.telefono_conductor}
+        MUNIC: ${data.conductor3.municipalidad_conductor}    DIRECCION: ${data.conductor3.direccion_conductor}`;
+    }
+
+
+
 
     const firmaCliente = () => {
         if (data.firmaPNG) {
@@ -354,7 +392,7 @@ async function contratoPlantilla(data) {
                             },
                             ],
                             [{
-                                text: `CONDUCTOR: \n ${data.arriendo.conductore.nombre_conductor}`,
+                                text: `${doc.conductores.nombre1} ${doc.conductores.nombre2} ${doc.conductores.nombre3}`,
                                 colSpan: 5,
                             },
                             {},
@@ -363,18 +401,22 @@ async function contratoPlantilla(data) {
                             {},
                             ],
                             [
-                                { text: `LICENCIA`, colSpan: 1 },
+                                { text: `LICENCIA`, colSpan: 1, fontSize: 9 },
                                 {
-                                    text: `CLASE : \n  ${data.arriendo.conductore.clase_conductor} \n\n NUMERO: \n ${data.arriendo.conductore.numero_conductor} \n\n VCTO: \n ${formatFecha(data.arriendo.conductore.vcto_conductor)} \n\n MUNIC: \n ${data.arriendo.conductore.municipalidad_conductor} `,
-                                    colSpan: 1,
+                                    text: `${doc.conductores.conductor1} ${doc.conductores.conductor2} ${doc.conductores.conductor3}
+                                    `,
+                                    fontSize: 6,
+                                    colSpan: 3,
                                 },
                                 {
-                                    text: `RUT: \n ${data.arriendo.conductore.rut_conductor.replace("@", '')} \n\n NACIONALIDAD:\n ${data.arriendo.conductore.nacionalidad_conductor}  \n\n TELEFONO: \n  +569 ${data.arriendo.conductore.telefono_conductor} \n\n  DIRECCION: \n ${data.arriendo.conductore.direccion_conductor}    `,
-                                    colSpan: 2,
                                 },
                                 {},
                                 {
-                                    text: `KILOMETROS: \n\n  ---------------------------------------- \n   ENTRADA: ${data.arriendo.kilometrosEntrada_arriendo}  \n ----------------------------------------  \n  ---------------------------------------- \n  SALIDA:       \n ----------------------------------------`,
+                                    text: `KILOMETROS:
+                                    
+                                    DESPACHO: ${data.arriendo.kilometrosEntrada_arriendo} 
+                                    _______________________
+                                    RECEPCION:  ********     `,
                                     colSpan: 1,
                                 },
                             ],
@@ -642,9 +684,9 @@ async function contratoPlantilla(data) {
                 {
                     margin: [0, 10, 0, 0],
                     style: "tableExample",
-                    fontSize: 6,
+                    fontSize: 5,
                     table: {
-                        widths: [46, 45, 46],
+                        widths: [30, 30, 30, 38],
                         body: [
                             [{
                                 text: [
@@ -664,9 +706,16 @@ async function contratoPlantilla(data) {
                                     { alignment: "center", text: `${doc.pago.tarjetaX}` },
                                 ],
                             },
+                            {
+                                text: [
+                                    { text: "TRANSFERENCIA \n" },
+                                    { alignment: "center", text: `${doc.pago.TrasferenciaX}` },
+                                ],
+                            },
                             ],
                         ],
                     },
+
                 },
 
                 {

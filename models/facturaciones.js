@@ -5,6 +5,7 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
             autoIncrement: true,
         },
+        tipo_facturacion: type.STRING,
         numero_facturacion: type.BIGINT(20),
         documento_facturacion: type.STRING,
         userAt: type.STRING,

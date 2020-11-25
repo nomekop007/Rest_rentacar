@@ -173,10 +173,7 @@ Arriendo.belongsTo(Empresa, { foreignKey: { name: "rut_empresa", onDelete: onDel
 //un Empresa tiene muchos Arriendo
 Empresa.hasMany(Arriendo, { foreignKey: { name: "rut_empresa", onDelete: onDelete, onUpdate: onUpdate } });
 
-//un arriendo pertenece a un Conductor
-Arriendo.belongsTo(Conductor, { foreignKey: { name: "rut_conductor", onDelete: onDelete, onUpdate: onUpdate } });
-//un Conducto tiene muchos Arriendo
-Conductor.hasMany(Arriendo, { foreignKey: { name: "rut_conductor", onDelete: onDelete, onUpdate: onUpdate } });
+
 
 //un arriendo pertenece a un vehiculo
 Arriendo.belongsTo(Vehiculo, { foreignKey: { name: "patente_vehiculo", onDelete: onDelete, onUpdate: onUpdate } });
@@ -209,6 +206,11 @@ Contrato.belongsTo(PagoArriendo, { foreignKey: { name: "id_pagoArriendo", onDele
 PagoArriendo.hasOne(Contrato, { foreignKey: { name: "id_pagoArriendo", onDelete: onDelete, onUpdate: onUpdate } });
 
 
+//un arriendo pertenece  un Conductor
+Arriendo.belongsTo(Conductor, { foreignKey: { name: "rut_conductor", onDelete: onDelete, onUpdate: onUpdate } });
+
+//un Conducto tiene muchos Arriendo
+Conductor.hasMany(Arriendo, { foreignKey: { name: "rut_conductor", onDelete: onDelete, onUpdate: onUpdate } });
 
 
 module.exports = {

@@ -105,7 +105,28 @@ class contrato_controller {
                 ],
             });
 
+
+
+
+            if (arriendo.rut_conductor2) {
+                response.conductor2 = await Conductor.findOne({ where: { rut_conductor: arriendo.rut_conductor2 } });
+            }
+
+            if (arriendo.rut_conductor3) {
+                response.conductor3 = await Conductor.findOne({ where: { rut_conductor: arriendo.rut_conductor3 } })
+            }
+
+
+            if (arriendo.garantia == null) {
+                res.json({
+                    success: false,
+                    msg: "falta registrar garantia!"
+                });
+                return
+            }
+
             if (arriendo.estado_arriendo == "CONFIRMADO" || arriendo.estado_arriendo == "E-CONFIRMADO") {
+
                 response.arriendo = arriendo;
                 //se genera el documento
                 const docDefinition = await contratoPlantilla(response);

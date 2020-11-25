@@ -15,6 +15,8 @@ module.exports = (sequelize, type) => {
         diasActuales_arriendo: type.BIGINT(20),
         diasAcumulados_arriendo: type.BIGINT(20),
         tipo_arriendo: type.STRING,
+        rut_conductor2: type.STRING,
+        rut_conductor3: type.STRING,
         userAt: type.STRING,
     });
 };
