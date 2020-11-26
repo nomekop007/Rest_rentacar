@@ -131,7 +131,7 @@ class ActaEntregaController {
                     client.name = arriendo.cliente.nombre_cliente;
                     client.correo = arriendo.cliente.correo_cliente;
                     break;
-                case "REMPLAZO":
+                case "REEMPLAZO":
                     client.name = arriendo.remplazo.cliente.nombre_cliente;
                     client.correo = arriendo.remplazo.cliente.correo_cliente;
                     break;

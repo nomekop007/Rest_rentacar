@@ -149,7 +149,7 @@ async function contratoPlantilla(data) {
 				cliente.fechaNacimiento_cliente
 			);
 			break;
-		case "REMPLAZO":
+		case "REEMPLAZO":
 			const remplazo = data.arriendo.remplazo.cliente;
 			const pagoRemplazo = data.arriendo.pagosArriendos[doc.P];
 			doc.cliente.nombre_cliente = remplazo.nombre_cliente;

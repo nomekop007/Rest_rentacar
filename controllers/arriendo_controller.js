@@ -100,7 +100,7 @@ class ArriendoController {
 					response.rut_empresa = null;
 					response.id_remplazo = null;
 					break;
-				case "REMPLAZO":
+				case "REEMPLAZO":
 					response.rut_empresa = null;
 					response.rut_cliente = null;
 					break;
