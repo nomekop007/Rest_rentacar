@@ -1,6 +1,6 @@
 const { Log } = require("../database/db");
 
-const logRegister = async(req, res) => {
+const logRegister = async (req, res) => {
     try {
         const consulta = {
             userAt_log: "" + req.headers.userat,

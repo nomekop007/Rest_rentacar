@@ -129,6 +129,7 @@ class VehiculoController {
     async uploadImageVehiculo(req, res, next) {
         try {
             console.log(req.file);
+
             const v = await Vehiculo.findOne({
                 where: { patente_vehiculo: req.params.id },
             });
@@ -148,7 +149,10 @@ class VehiculoController {
                 msg: " imagen guardada",
             });
 
+
             next(vehiculo.logging);
+
+
         } catch (error) {
             sendError(error, res);
         }
