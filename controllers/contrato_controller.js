@@ -135,7 +135,7 @@ class contrato_controller {
                     res.json({
                         success: true,
                         data: {
-                            firma: response.firmaPNG,
+                            firma: response.firmaClientePNG,
                             base64: base64
                         },
                     });
