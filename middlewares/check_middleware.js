@@ -3,10 +3,11 @@ const moment = require("moment");
 
 //se comprueba que exista un token en la cabecera
 const checkToken = (req, res, next) => {
+
     if (!req.headers["usertoken"]) {
         return res.json({
             success: false,
-            msg: "Necesitas incluir el usertoken en la cabecera",
+            msg: "error en la autentifacion del token , reinicie Sesion",
         });
     }
 
@@ -27,7 +28,7 @@ const checkToken = (req, res, next) => {
     if (payload.expiredAt < moment().unix()) {
         return res.json({
             success: false,
-            msg: "El token ah expirado",
+            msg: "El token ah expirado, reinicie sesion",
         });
     }
 
