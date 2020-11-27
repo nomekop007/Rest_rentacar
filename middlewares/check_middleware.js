@@ -28,7 +28,7 @@ const checkToken = (req, res, next) => {
     if (payload.expiredAt < moment().unix()) {
         return res.json({
             success: false,
-            msg: "El token ah expirado, reinicie sesion",
+            msg: "El token a expirado, reinicie sesion",
         });
     }
 

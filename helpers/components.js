@@ -63,7 +63,7 @@ const ordenarArrayporFecha = (array) => {
     return array.sort(function (a, b) {
         const fechaA = new Date(a.createdAt);
         const fechaB = new Date(b.createdAt);
-        console.log("holaa")
+
         if (fechaA > fechaB) {
             return 1;
         }
