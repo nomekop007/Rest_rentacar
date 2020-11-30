@@ -79,6 +79,24 @@ class PagoArriendoController {
     }
 
 
+    async getPagosRemplazosPendientes(req, res) {
+        try {
+
+
+            const pago = await Pago.findAll({
+                where: { estado_pago: "PENDIENTE" },
+            })
+            res.json({
+                success: true,
+                data: pago
+            })
+
+        } catch (error) {
+            sendError(error)
+        }
+    }
+
+
 }
 
 module.exports = PagoArriendoController;

@@ -56,7 +56,7 @@ router.use("/clientes", check.checkToken, apiClientesRouter);
 router.use("/empresas", check.checkToken, apiEmpresasRouter);
 router.use("/conductores", check.checkToken, apiConductoresRouter);
 router.use("/contratos", check.checkToken, apiContratosRouter);
-router.use("/pagosArriendos", check.checkToken, apiPagoArriendoRouter);
+router.use("/pagosArriendos", apiPagoArriendoRouter);
 router.use("/garantias", check.checkToken, apiGarantiasRouter);
 router.use("/arriendos", check.checkToken, apiArriendosRouter);
 router.use("/remplazos", check.checkToken, apiRemplazoRouter);
@@ -68,7 +68,7 @@ router.use("/empresasRemplazo", check.checkToken, apiEmpresaRemplazoRouter);
 router.use("/contactos", check.checkToken, apiContactoRouter)
 router.use("/pagos", check.checkToken, apiPagoRouter);
 router.use("/regiones", check.checkToken, apiRegionRouter);
-router.use("/danioVehiculos", apiDanioVehiculoRouter);
+router.use("/danioVehiculos", check.checkToken, apiDanioVehiculoRouter);
 
 
 module.exports = router;
