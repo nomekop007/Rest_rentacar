@@ -2,7 +2,7 @@ const { Despacho } = require("../database/db");
 const { sendError, fecha, hora } = require("../helpers/components");
 const fs = require("fs");
 const path = require("path");
-const { v5: uuidv5 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 const recepcionPlantilla = require("../utils/pdf_plantillas/recepcion")
 const pdfMake = require("pdfmake/build/pdfmake.js");
 const pdfFonts = require("pdfmake/build/vfs_fonts.js");
@@ -33,7 +33,7 @@ class DespachoController {
             response.hora = hora();
 
             const docDefinition = await recepcionPlantilla(response);
-            const nameFile = uuidv5(`recepcion-${response.id_despacho}`, uuidv5.URL);
+            const nameFile = uuidv4();
             const pdfDocGenerator = pdfMake.createPdf(docDefinition);
             const pathFile = path.join(__dirname, `../uploads/documentos/recepciones/${nameFile}.pdf`)
 

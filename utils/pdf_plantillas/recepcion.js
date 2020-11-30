@@ -17,61 +17,61 @@ async function recepcionPlantilla(data) {
 
     return {
         content: [{
-                margin: [0, 0, 0, 5],
-                columns: [{
-                        width: 80,
-                        height: 80,
-                        image: "data:image/jpeg;base64," + (await base64(logo)),
-                    },
-                    {
-                        margin: [10, 0, 0, 0],
-                        width: 378,
-                        fontSize: 9,
-                        style: "header",
-                        bold: true,
-                        text: [
-                            { text: "Rent A Car Maule Ltda. \n", fontSize: 20 },
-                            "Sociedad Teresa del Carmen Garrido Rojas e Hijos Limitada. \n RUT: 76.791.832-1 \n",
-                            "2 Norte 22 y 23 Oriente N°3030, Talca. - Tlfs: +712401552 / +56941143456 - Casa Matriz \n",
-                            "Calle Kurt Moller N° 22, Linares. - Tlfs: +712439489/ +56992191603 - Sucursal \n",
-                            "Calle Villota N° 262, Curicó. - Tlfs: +752606081 / +56981947756 - Sucursal \n",
-                            {
-                                text: "contacto@rentacarmaule.cl - www.rentacarmaule.cl",
-                                bold: true,
-                            },
-                        ],
-                    },
-                    {
-                        text: `Nº  ${data.id_despacho}`,
-                    },
-                ],
+            margin: [0, 0, 0, 5],
+            columns: [{
+                width: 80,
+                height: 80,
+                image: "data:image/jpeg;base64," + (await base64(logo)),
             },
             {
-                margin: [0, 10, 0, 20],
+                margin: [10, 0, 0, 0],
+                width: 378,
                 fontSize: 9,
-                alignment: "center",
-                columns: [{
-                        text: " [_]  ABOLLADURAS",
-                    },
+                style: "header",
+                bold: true,
+                text: [
+                    { text: "Rent A Car Maule Ltda. \n", fontSize: 20 },
+                    "Sociedad Teresa del Carmen Garrido Rojas e Hijos Limitada. \n RUT: 76.791.832-1 \n",
+                    "2 Norte 22 y 23 Oriente N°3030, Talca. - Tlfs: +712401552 / +56941143456 - Casa Matriz \n",
+                    "Calle Kurt Moller N° 22, Linares. - Tlfs: +712439489/ +56992191603 - Sucursal \n",
+                    "Calle Villota N° 262, Curicó. - Tlfs: +752606081 / +56981947756 - Sucursal \n",
                     {
-                        text: "O RAYADURAS",
-                    },
-                    {
-                        text: "X PIEZAS ROTAS",
+                        text: "contacto@rentacarmaule.cl - www.rentacarmaule.cl",
+                        bold: true,
                     },
                 ],
             },
-            /* lista de imagenes */
             {
-                columns: [
-                    [arrayImagenes()]
-                ],
+                text: `Nº  ${data.id_despacho}`,
+            },
+            ],
+        },
+        {
+            margin: [0, 10, 0, 20],
+            fontSize: 9,
+            alignment: "center",
+            columns: [{
+                text: " [_]  ABOLLADURAS",
             },
             {
-                margin: [0, 50, 0, 0],
-                fontSize: 10,
-                text: `Fecha: ${data.fecha}  Hora: ${data.hora}  Usuario: ${data.userAt}`,
+                text: "O RAYADURAS",
             },
+            {
+                text: "X PIEZAS ROTAS",
+            },
+            ],
+        },
+        /* lista de imagenes */
+        {
+            columns: [
+                [arrayImagenes()]
+            ],
+        },
+        {
+            margin: [0, 50, 0, 0],
+            fontSize: 10,
+            text: `Fecha: ${data.fecha}  Hora: ${data.hora}  Usuario: ${data.userAt}`,
+        },
         ],
 
         pageMargins: [40, 30, 40, 20],
@@ -92,9 +92,9 @@ async function recepcionPlantilla(data) {
             },
         },
         info: {
-            title: 'Acta-Entrega-Arriendo',
+            title: 'Recepcion-arriendo',
             author: 'Rent A Car maule',
-            subject: 'contrato',
+            subject: 'documento',
             creator: 'nomekop007',
         },
     };

@@ -33,6 +33,8 @@ const apiEmpresaRemplazoRouter = require("./api/empresasRemplazos");
 const apiPagoRouter = require("./api/pagos");
 const apiContactoRouter = require("./api/contactos");
 const apiRegionRouter = require("./api/regiones");
+const apiDanioVehiculoRouter = require("./api/danioVehiculos");
+
 
 
 if (process.env.DEFAULT_VALUE === "TRUE") {
@@ -66,5 +68,7 @@ router.use("/empresasRemplazo", check.checkToken, apiEmpresaRemplazoRouter);
 router.use("/contactos", check.checkToken, apiContactoRouter)
 router.use("/pagos", check.checkToken, apiPagoRouter);
 router.use("/regiones", check.checkToken, apiRegionRouter);
+router.use("/danioVehiculos", apiDanioVehiculoRouter);
+
 
 module.exports = router;
