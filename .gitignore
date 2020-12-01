@@ -1,14 +1,12 @@
 
 
 uploads/fotosVehiculos/*
-uploads/fotosDañoVehiculo/*
-
-uploads/documentos/actaEntrega/*
-uploads/documentos/contratos/*
-uploads/documentos/requisitosArriendo/*
-uploads/documentos/recepciones/*
-uploads/documentos/facturaciones/*
-
+uploads/requisitosArriendos/*
+uploads/facturaciones/*
+uploads/fotosDañoVehiculos/*
+uploads/actasEntregas/*
+uploads/contratos/*
+uploads/recepciones/*
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 

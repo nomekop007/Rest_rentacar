@@ -32,7 +32,7 @@ class ActaEntregaController {
             const response = req.body;
 
             const nameFile = uuidv4();
-            const pathFile = path.join(__dirname, `../uploads/documentos/actaEntrega/${nameFile}.pdf`)
+            const pathFile = path.join(__dirname, `${process.env.PATH_ACTA_ENTREGA}/${nameFile}.pdf`)
             fs.writeFileSync(pathFile, response.base64, "base64", (err) => {
                 res.json({
                     success: false,
@@ -177,12 +177,7 @@ class ActaEntregaController {
                 attachments: [{
                     filename: "ACTA-DE-ENTREGA.pdf",
                     contentType: "pdf",
-                    path: path.join(
-                        __dirname,
-                        "../uploads/documentos/actaEntrega/" +
-                        arriendo.despacho.actasEntrega.documento +
-                        ".pdf"
-                    ),
+                    path: path.join(__dirname, `${process.env.PATH_ACTA_ENTREGA}/${arriendo.despacho.actasEntrega.documento}.pdf`),
                 },],
             };
             const resp = await transporter.sendMail(mailOptions);
@@ -200,7 +195,7 @@ class ActaEntregaController {
             const actaEntrega = await ActaEntrega.findOne({
                 where: { id_despacho: req.params.id }
             });
-            const pathFile = path.join(__dirname, `../uploads/documentos/actaEntrega/${actaEntrega.documento}.pdf`)
+            const pathFile = path.join(__dirname, `${process.env.PATH_ACTA_ENTREGA}/${actaEntrega.documento}.pdf`)
             const base64 = fs.readFileSync(pathFile, { encoding: 'base64' });
             res.json({
                 success: true,

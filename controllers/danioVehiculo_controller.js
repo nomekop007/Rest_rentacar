@@ -28,7 +28,7 @@ class DanioVehiculoController {
             const docDefinition = await recepcionPlantilla(response);
             const nameFile = uuidv4();
             const pdfDocGenerator = pdfMake.createPdf(docDefinition);
-            const pathFile = path.join(__dirname, `../uploads/fotosDañoVehiculo/${nameFile}.pdf`)
+            const pathFile = path.join(__dirname, `${process.env.PATH_DANIO_VEHICULO}/${nameFile}.pdf`)
 
             pdfDocGenerator.getBase64((base64) => {
                 fs.writeFileSync(pathFile, base64, "base64", (err) => {

@@ -17,7 +17,7 @@ const {
     Pago,
     Contacto
 } = require("../database/db");
-const { sendError } = require("../helpers/components");
+const { sendError, ordenarArrayporFecha } = require("../helpers/components");
 const fs = require("fs");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
@@ -43,7 +43,7 @@ class contrato_controller {
             })
 
             const nameFile = uuidv4();
-            const pathFile = path.join(__dirname, `../uploads/documentos/contratos/${nameFile}.pdf`)
+            const pathFile = path.join(__dirname, `${process.env.PATH_CONTRATO}/${nameFile}.pdf`)
             fs.writeFileSync(pathFile, response.base64, "base64", (err) => {
                 res.json({
                     success: false,
@@ -182,6 +182,9 @@ class contrato_controller {
                     break;
             }
 
+
+
+
             //datos del email hosting
             const transporter = nodemailer.createTransport({
                 host: process.env.EMAIL_HOST,
@@ -208,19 +211,13 @@ class contrato_controller {
                 <br><br>
                 <p>------------------------------------------------------------------------------------------------------------------------------</p>
                 <p>Atentamente, Rent a Car Maule Ltda. </p>
-                <img src="data:image/jpeg;base64,${await base64(
-                    logo
-                )}" width="200" height="50"  />
+                <img src="data:image/jpeg;base64,${await base64(logo)}" width="200" height="50"  />
                 `,
                 attachments: [{
                     filename: "CONSTRATO.pdf",
                     contentType: "pdf",
                     path: path.join(
-                        __dirname,
-                        "../uploads/documentos/contratos/" +
-                        arriendo.contratos[arriendo.contratos.length - 1].documento +
-                        ".pdf"
-                    ),
+                        __dirname, `${process.env.PATH_CONTRATO}/${arriendo.contratos[arriendo.contratos.length - 1].documento}.pdf`),
                 },],
             };
             const resp = await transporter.sendMail(mailOptions);

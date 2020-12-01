@@ -35,7 +35,7 @@ class DespachoController {
             const docDefinition = await recepcionPlantilla(response);
             const nameFile = uuidv4();
             const pdfDocGenerator = pdfMake.createPdf(docDefinition);
-            const pathFile = path.join(__dirname, `../uploads/documentos/recepciones/${nameFile}.pdf`)
+            const pathFile = path.join(__dirname, `${process.env.PATH_RECEPCIONES}/${nameFile}.pdf`)
 
             pdfDocGenerator.getBase64((base64) => {
                 fs.writeFileSync(pathFile, base64, "base64", (err) => {
