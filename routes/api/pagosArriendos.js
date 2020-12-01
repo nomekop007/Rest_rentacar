@@ -6,6 +6,4 @@ router.post("/registrarPagoArriendo", pagoArriendo.createPagoArriendo.bind(pagoA
 
 router.get("/revisarEstadoPago/:id", pagoArriendo.consultarPagosPendientes.bind(pagoArriendo));
 
-router.get("/cargarPagosERpendientes", pagoArriendo.getPagosRemplazosPendientes.bind(pagoArriendo));
-
 module.exports = router;

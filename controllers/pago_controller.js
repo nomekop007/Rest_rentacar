@@ -1,4 +1,4 @@
-const { Pago } = require("../database/db");
+const { Pago, PagoArriendo } = require("../database/db");
 const { sendError } = require("../helpers/components");
 
 class PagoController {
@@ -21,15 +21,15 @@ class PagoController {
 
 
 
-    async updatePagos(req, res, next) {
+    async updatePagos(req, res) {
         try {
 
             const response = req.body;
             console.log(response)
 
-            response.arrayPagos.map(async (pago) => {
+            response.arrayPagos.map(async (id_pago) => {
                 await Pago.update({ id_facturacion: response.id_facturacion, estado_pago: response.estado_pago }, {
-                    where: { id_pago: pago.id_pago },
+                    where: { id_pago: id_pago },
                 });
             });
 
@@ -40,6 +40,38 @@ class PagoController {
 
         } catch (error) {
             sendError(error, res);
+        }
+    }
+
+    async getPagosRemplazosPendientes(req, res) {
+        try {
+            const pago = await Pago.findAll({
+                where: { estado_pago: "PENDIENTE" },
+                include: { model: PagoArriendo }
+            })
+            res.json({
+                success: true,
+                data: pago
+            })
+        } catch (error) {
+            sendError(error)
+        }
+    }
+
+
+    async findPagosRemplazosPendientes(req, res) {
+        try {
+            console.log(req.params.id)
+            const pago = await Pago.findAll({
+                where: { estado_pago: "PENDIENTE", deudor_pago: req.params.id },
+                include: { model: PagoArriendo }
+            })
+            res.json({
+                success: true,
+                data: pago
+            });
+        } catch (error) {
+            sendError(error);
         }
     }
 }

@@ -74,9 +74,6 @@ class VehiculoController {
     async updateVehiculo(req, res, next) {
         try {
             const response = req.body;
-
-            console.log(req.params.id)
-            console.log(response)
             const v = await Vehiculo.update(response, {
                 where: { patente_vehiculo: req.params.id },
             });
