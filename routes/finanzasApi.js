@@ -4,7 +4,7 @@ const path = require("path");
 const { Arriendo, Conductor, Garantia, Despacho, ActaEntrega, Accesorio, Requisito, Sucursal, Usuario, Cliente, Empresa, Vehiculo, PagoArriendo, PagoAccesorio, Pago, Facturacion, ModoPago, EmpresaRemplazo, Remplazo, Contrato, Contacto } = require("../database/db");
 
 
-router.get("/mostrarArriendoFinanzas", async(req, res) => {
+router.get("/mostrarArriendoFinanzas", async (req, res) => {
     try {
         const arriendos = await Arriendo.findAll({
             include: [
@@ -46,7 +46,7 @@ router.get("/mostrarArriendoFinanzas", async(req, res) => {
 });
 
 
-router.get("/buscarArriendoFinanzas/:id", async(req, res) => {
+router.get("/buscarArriendoFinanzas/:id", async (req, res) => {
     try {
         const arriendo = await Arriendo.findOne({
             where: { id_arriendo: req.params.id },
@@ -98,25 +98,31 @@ router.get("/buscarArriendoFinanzas/:id", async(req, res) => {
 });
 
 
-router.post("/buscarDocumentosArriendoFinanzas/", async(req, res) => {
+router.post("/buscarDocumentosArriendoFinanzas/", async (req, res) => {
     try {
         const { documento, tipo } = req.body;
 
         switch (tipo) {
             case "contrato":
-                paths = path.join(__dirname, `../uploads/documentos/contratos/${documento}`);
+                paths = path.join(__dirname, `${process.env.PATH_CONTRATO}/${documento}`);
                 break;
             case "acta":
-                paths = path.join(__dirname, `../uploads/documentos/actaEntrega/${documento}`);
+                paths = path.join(__dirname, `${process.env.PATH_ACTA_ENTREGA}/${documento}`);
                 break;
             case "requisito":
-                paths = path.join(__dirname, `../uploads/documentos/requisitosArriendo/${documento}`);
+                paths = path.join(__dirname, `${process.env.PATH_REQUISITO_ARRIENDO}/${documento}`);
                 break;
             case "facturacion":
-                paths = path.join(__dirname, `../uploads/documentos/facturaciones/${documento}`);
+                paths = path.join(__dirname, `${process.env.PATH_FACTURACIONES}/${documento}`);
                 break;
             case "recepcion":
-                paths = path.join(__dirname, `../uploads/documentos/recepciones/${documento}`);
+                paths = path.join(__dirname, `${process.env.PATH_RECEPCIONES}/${documento}`);
+                break;
+            case "fotosDañoVehiculo":
+                paths = path.join(__dirname, `${process.env.PATH_DANIO_VEHICULO}/${documento}`);
+                break;
+            case "fotoVehiculo":
+                paths = path.join(__dirname, `${process.env.PATH_FOTO_VEHICULO}/${documento}`);
                 break;
             default:
                 res.json({
