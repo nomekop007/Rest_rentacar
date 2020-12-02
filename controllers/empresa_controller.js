@@ -33,7 +33,7 @@ class EmpresaController {
             } else {
                 res.json({
                     success: false,
-                    msg: "error: " + "empresa no encontrada",
+                    msg: "empresa no encontrada",
                 });
             }
         } catch (error) {

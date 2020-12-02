@@ -33,7 +33,7 @@ class ConductorController {
             } else {
                 res.json({
                     success: false,
-                    msg: "error: " + "conductor no encontrado",
+                    msg: "conductor no encontrado",
                 });
             }
         } catch (error) {

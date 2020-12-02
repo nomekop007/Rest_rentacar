@@ -32,7 +32,7 @@ class ClienteController {
             } else {
                 res.json({
                     success: false,
-                    msg: "error: " + "cliente no encontrado",
+                    msg: "cliente no encontrado",
                 });
             }
         } catch (error) {
