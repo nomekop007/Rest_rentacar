@@ -119,7 +119,7 @@ class PagoController {
                 }
             } else {
                 res.json({
-                    success: false,
+                    success: true,
                     msg: "sin descuento"
                 });
             }
