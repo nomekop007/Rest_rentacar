@@ -10,4 +10,6 @@ router.get("/cargarPagosERpendientes", pago.getPagosRemplazosPendientes.bind(pag
 
 router.get("/buscarPagoERpendientes/:id", pago.findPagosRemplazosPendientes.bind(pago));
 
+router.post("/aplicarDescuentoPago", pago.aplicarDescuentoPago.bind(pago));
+
 module.exports = router;

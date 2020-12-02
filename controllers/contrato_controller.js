@@ -183,7 +183,8 @@ class contrato_controller {
             }
 
 
-
+            //funcion para ordenar el array de pagos por fecha de creacion y poner el mas nuevo al final
+            const pagosArriendos = ordenarArrayporFecha(arriendo.contratos);
 
             //datos del email hosting
             const transporter = nodemailer.createTransport({
@@ -217,7 +218,7 @@ class contrato_controller {
                     filename: "CONSTRATO.pdf",
                     contentType: "pdf",
                     path: path.join(
-                        __dirname, `${process.env.PATH_CONTRATO}/${arriendo.contratos[arriendo.contratos.length - 1].documento}.pdf`),
+                        __dirname, `${process.env.PATH_CONTRATO}/${pagosArriendos[pagosArriendos.length - 1].documento}.pdf`),
                 },],
             };
             const resp = await transporter.sendMail(mailOptions);

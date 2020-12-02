@@ -14,6 +14,7 @@ const {
 	ActaEntrega,
 	Contrato,
 	EmpresaRemplazo,
+	ModoPago,
 } = require("../database/db");
 const { sendError } = require("../helpers/components");
 class ArriendoController {
@@ -65,7 +66,7 @@ class ArriendoController {
 					{ model: Vehiculo },
 					{ model: Conductor },
 					{ model: Requisito },
-					{ model: Garantia },
+					{ model: Garantia, include: { model: ModoPago } },
 					{ model: PagoArriendo },
 					{ model: Sucursal },
 					{ model: Usuario, attributes: ["nombre_usuario"] },

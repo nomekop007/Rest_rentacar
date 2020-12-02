@@ -69,7 +69,8 @@ class PagoArriendoController {
                     deuda: true,
                     data: {
                         arrayPago: arrayPago,
-                        totalPago: totalPago
+                        totalPago: totalPago,
+                        arriendo: arriendo
                     }
                 });
             }
