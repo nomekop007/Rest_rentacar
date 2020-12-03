@@ -44,7 +44,6 @@ class UtilsController {
                 data: {
                     nombre: documento,
                     tipo: tipo,
-                    paths: paths,
                     base64: base64
                 },
             });
