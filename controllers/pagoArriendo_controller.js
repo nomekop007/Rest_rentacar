@@ -12,8 +12,9 @@ class PagoArriendoController {
             });
 
 
-            if (arriendo.estado_arriendo == "PENDIENTE" || arriendo.estado_arriendo == "EXTENDIDO") {
 
+            if (arriendo.estado_arriendo == "PENDIENTE" || arriendo.estado_arriendo == "EXTENDIDO") {
+                response.dias_pagoArriendo = arriendo.diasActuales_arriendo;
                 const pagoArriendo = await PagoArriendo.create(response);
 
                 res.json({

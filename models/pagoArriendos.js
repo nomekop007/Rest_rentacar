@@ -13,6 +13,7 @@ module.exports = (sequelize, type) => {
         iva_pagoArriendo: type.BIGINT(20),
         total_pagoArriendo: type.BIGINT(20),
         observaciones_pagoArriendo: type.TEXT,
+        dias_pagoArriendo: type.BIGINT(20),
         userAt: type.STRING,
     });
 };
