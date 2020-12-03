@@ -15,7 +15,8 @@ const {
     PagoAccesorio,
     Facturacion,
     Pago,
-    Contacto
+    Contacto,
+    Requisito
 } = require("../database/db");
 const { sendError, ordenarArrayporFecha } = require("../helpers/components");
 const fs = require("fs");
@@ -56,7 +57,7 @@ class contrato_controller {
             //guarda el ultimo pago en el contrato
             const fila = arriendo.pagosArriendos.length - 1;
             response.id_pagoArriendo = arriendo.pagosArriendos[fila].id_pagoArriendo;
-            response.documento = nameFile;
+            response.documento = nameFile + ".pdf";
 
             const contrato = await Contrato.create(response);
             res.json({
@@ -80,6 +81,7 @@ class contrato_controller {
                     { model: Conductor },
                     { model: Contacto },
                     { model: Sucursal },
+                    { model: Requisito },
                     {
                         model: PagoArriendo,
                         include: [{
@@ -117,10 +119,18 @@ class contrato_controller {
             }
 
 
-            if (arriendo.garantia == null) {
+            if (!arriendo.garantia) {
                 res.json({
                     success: false,
                     msg: "falta registrar garantia!"
+                });
+                return
+            }
+
+            if (!arriendo.requisito) {
+                res.json({
+                    success: false,
+                    msg: "falta subir los archivos requeridos!"
                 });
                 return
             }
@@ -218,7 +228,7 @@ class contrato_controller {
                     filename: "CONSTRATO.pdf",
                     contentType: "pdf",
                     path: path.join(
-                        __dirname, `${process.env.PATH_CONTRATO}/${pagosArriendos[pagosArriendos.length - 1].documento}.pdf`),
+                        __dirname, `${process.env.PATH_CONTRATO}/${pagosArriendos[pagosArriendos.length - 1].documento}`),
                 },],
             };
             const resp = await transporter.sendMail(mailOptions);

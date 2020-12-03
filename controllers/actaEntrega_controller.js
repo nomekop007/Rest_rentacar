@@ -41,7 +41,7 @@ class ActaEntregaController {
                 return;
             });
 
-            response.documento = nameFile;
+            response.documento = nameFile + ".pdf";
 
 
             const actaEntrega = await ActaEntrega.create(response);
@@ -177,7 +177,7 @@ class ActaEntregaController {
                 attachments: [{
                     filename: "ACTA-DE-ENTREGA.pdf",
                     contentType: "pdf",
-                    path: path.join(__dirname, `${process.env.PATH_ACTA_ENTREGA}/${arriendo.despacho.actasEntrega.documento}.pdf`),
+                    path: path.join(__dirname, `${process.env.PATH_ACTA_ENTREGA}/${arriendo.despacho.actasEntrega.documento}`),
                 },],
             };
             const resp = await transporter.sendMail(mailOptions);
@@ -195,7 +195,7 @@ class ActaEntregaController {
             const actaEntrega = await ActaEntrega.findOne({
                 where: { id_despacho: req.params.id }
             });
-            const pathFile = path.join(__dirname, `${process.env.PATH_ACTA_ENTREGA}/${actaEntrega.documento}.pdf`)
+            const pathFile = path.join(__dirname, `${process.env.PATH_ACTA_ENTREGA}/${actaEntrega.documento}`)
             const base64 = fs.readFileSync(pathFile, { encoding: 'base64' });
             res.json({
                 success: true,
