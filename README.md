@@ -16,10 +16,10 @@ esta es una aplicacion hecha con node js y express , destinada para ser consumid
 npm install
 ```
 
-- luego se debe crear un archivo .env en la carpeta y colocar los siguientes valores:
+- luego se debe crear un archivo .env en la raiz del proyecto y colocar los siguientes valores dentro:
 
 #puerto server
-PORT=3001
+- PORT=3001
 
 #variables database
 - DB_NAME=" "
@@ -52,8 +52,7 @@ PORT=3001
 - USER_STATE=1
 - USER_ROL=1
 
-
-LIST_CORS=["","","https://localhost"]
+- LIST_CORS=["","","https://localhost"]
 
 #rutas de todas las carpetas de uploads
 - PATH_FOTO_VEHICULO=" "
@@ -99,8 +98,6 @@ para el depliegue es necesario contar con un certificado SSL valido dentro del s
 
 
 ## Autores ✒️
-
-_Menciona a todos aquellos que ayudaron a levantar el proyecto desde sus inicios_
 
 * **Diego Antonio Rios Rojas** - *Desarrollador* - [nomekop007](https://github.com/nomekop007)
 * **Diego Antonio Rios Rojas** - *Documentación* - [nomekop007](#nomekop007)
