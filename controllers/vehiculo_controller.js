@@ -1,5 +1,5 @@
 const { Vehiculo, Region } = require("../database/db");
-const { borrarImagenDeStorage } = require("../helpers/components");
+const { borrarImagenDeStorage, sendError } = require("../helpers/components");
 
 class VehiculoController {
     async getVehiculos(req, res) {
