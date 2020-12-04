@@ -46,17 +46,22 @@ class UsuarioController {
         try {
             //valida los datos ingresados
             const errors = validationResult(req);
+
+
             if (!errors.isEmpty()) {
-                return res.json({
+                return res.status(310).json({
                     success: false,
                     msg: "error: " + errors.array(),
                 });
             }
+
+
             //encripta la password
             req.body.clave_usuario = bcrypt.hashSync(
                 req.body.clave_usuario,
                 Number(process.env.NUM_BCRYPT)
             );
+
             const u = await Usuario.create(req.body);
 
             const usuario = await Usuario.findOne({
@@ -80,11 +85,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            console.log(error);
-            res.status(501).json({
-                success: false,
-                msg: "Server error 501",
-            });
+            sendError(error)
         }
     }
 

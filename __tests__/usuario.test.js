@@ -43,16 +43,17 @@ describe("test get /buscarUsuario/:id ", () => {
 describe("test post /registrar", () => {
 
     it("devuelve el usuario creado", done => {
-
         const usuarioTest = {
-            estado_usuario: "INACTIVO",
-            nombre_usuario: "TEST USER",
-            email_usuario: "TESTŒTEST.COM",
-            clave_usuario: "123456",
             userAt: "TEST",
+            nombre_usuario: "TEST USER",
+            email_usuario: "TEST@TEST.CL",
+            clave_usuario: "estoEsLaClave",
+            estado_usuario: 2,
+            id_rol: 1,
+            id_sucursal: 1,
         }
 
-        require(app)
+        request(app)
             .post(`${url}registrar`)
             .send(usuarioTest)
             .set('Accept', 'application/json')
@@ -64,6 +65,5 @@ describe("test post /registrar", () => {
                 done()
             })
     })
-
 })
 
