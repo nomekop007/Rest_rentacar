@@ -49,3 +49,6 @@ if (process.env.NODE_ENV == "production") {
         console.log("Servidor arrancado! http development Puerto ", port);
     });
 }
+
+
+module.exports = app;

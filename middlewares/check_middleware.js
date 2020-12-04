@@ -5,7 +5,7 @@ const moment = require("moment");
 const checkToken = (req, res, next) => {
 
     if (!req.headers["usertoken"]) {
-        return res.json({
+        return res.status(310).json({
             success: false,
             msg: "error en la autentifacion del token , reinicie Sesion",
         });
@@ -18,7 +18,7 @@ const checkToken = (req, res, next) => {
     try {
         payload = jwt.decode(userToken, process.env.SECRET_PHRASE);
     } catch (err) {
-        return res.json({
+        return res.status(310).json({
             success: false,
             msg: "El token es incorrecto",
         });
