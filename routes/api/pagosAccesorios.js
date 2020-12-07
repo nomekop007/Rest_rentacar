@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const PagoAccesorio_controller = require("../../controllers/pagoAccesorio_controller");
+const PagoAccesorio_controller = require("../../controllers/pagoAccesorio.controller");
 const pagoAccesorio = new PagoAccesorio_controller();
 
 router.post(

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const ActaEntregaController = require("../../controllers/actaEntrega_controller");
+const ActaEntregaController = require("../../controllers/actaEntrega.controller");
 const actaEntrega = new ActaEntregaController();
 
 router.post(

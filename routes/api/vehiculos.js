@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const { subirImageVehiculo } = require("../../middlewares/upload_middleware");
-const VehiculoController = require("../../controllers/vehiculo_controller");
+const { subirImageVehiculo } = require("../../middlewares/upload.middleware");
+const VehiculoController = require("../../controllers/vehiculo.controller");
 const vehiculo = new VehiculoController();
 
 router.post("/cargarVehiculos", vehiculo.getVehiculos.bind(vehiculo));

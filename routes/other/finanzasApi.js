@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const FinanzasComponent = require("../../components/finanzas_component");
+const FinanzasComponent = require("../../components/finanzas.component");
 const finanzas = new FinanzasComponent();
 
 router.get("/mostrarArriendoFinanzas", finanzas.getArriendoFinanzas.bind(finanzas));

@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const {
     subirDocumentoRequisitosArriendo,
-} = require("../../middlewares/upload_middleware");
-const RequisitoController = require("../../controllers/requisito_controller");
+} = require("../../middlewares/upload.middleware");
+const RequisitoController = require("../../controllers/requisito.controller");
 const requisito = new RequisitoController();
 
 router.post(

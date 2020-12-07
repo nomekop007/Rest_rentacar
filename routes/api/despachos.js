@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Despacho_controller = require("../../controllers/despacho_controller");
+const Despacho_controller = require("../../controllers/despacho.controller");
 const despacho = new Despacho_controller();
 
 router.post("/registrarDespacho", despacho.createDespacho.bind(despacho));

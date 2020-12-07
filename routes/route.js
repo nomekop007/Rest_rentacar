@@ -38,8 +38,8 @@ const utilsApiRouter = require("./other/utilsApi");
 
 
 //middlewares
-const check = require("../middlewares/check_middleware");
-const check_api = require("../middlewares/checkApi_middleware");
+const check = require("../middlewares/check.middleware");
+const check_api = require("../middlewares/checkApi.middleware");
 
 
 

@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 
 //middlewares
-const log = require("./middlewares/log_middleware");
+const log = require("./middlewares/log.middleware");
 
 // ruta padre
 app.use("/rentacar", apiRouter, log.logRegister);

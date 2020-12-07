@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const ClienteController = require("../../controllers/cliente_controller");
+const ClienteController = require("../../controllers/cliente.controller");
 const cliente = new ClienteController();
 
 router.get("/cargarClientes", cliente.getClientes.bind(cliente));

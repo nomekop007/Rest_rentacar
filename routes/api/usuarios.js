@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const token = require("../../middlewares/check_middleware");
+const token = require("../../middlewares/check.middleware");
 const { check } = require("express-validator");
-const UsuarioController = require("../../controllers/usuario_controller");
+const UsuarioController = require("../../controllers/usuario.controller");
 const usuario = new UsuarioController();
 
 validacionPost = [

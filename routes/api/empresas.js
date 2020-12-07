@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const EmpresaController = require("../../controllers/empresa_controller");
+const EmpresaController = require("../../controllers/empresa.controller");
 const empresa = new EmpresaController();
 
 router.get("/cargarEmpresas", empresa.getEmpresas.bind(empresa));

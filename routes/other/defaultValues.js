@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const DefaultComponent = require("../../components/defaults_component")
+const DefaultComponent = require("../../components/defaults.component")
 const defautls = new DefaultComponent();
 
 router.get("/", defautls.createTableDefault.bind(defautls));

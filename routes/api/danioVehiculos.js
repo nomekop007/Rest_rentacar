@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const DanioVehiculoController = require("../../controllers/danioVehiculo_controller");
+const DanioVehiculoController = require("../../controllers/danioVehiculo.controller");
 const danioVehiculo = new DanioVehiculoController();
 
 router.post("/registrarDanioVehiculos", danioVehiculo.createDanioVehiculo.bind(danioVehiculo));

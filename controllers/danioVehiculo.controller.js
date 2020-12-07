@@ -42,7 +42,7 @@ class DanioVehiculoController {
 
             await DanioVehiculo.create({
                 descripcion_danioVehiculo: response.descripcion_danio,
-                documento_danioVehiculo: nameFile,
+                documento_danioVehiculo: +".pdf",
                 id_arriendo: arriendo.id_arriendo,
                 patente_vehiculo: arriendo.patente_vehiculo,
                 userAt: response.userAt

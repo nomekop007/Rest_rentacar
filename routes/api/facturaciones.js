@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const Facturacion_controller = require("../../controllers/facturacion_controller");
-const { subirDocumentoFacturacion } = require("../../middlewares/upload_middleware")
+const Facturacion_controller = require("../../controllers/facturacion.controller");
+const { subirDocumentoFacturacion } = require("../../middlewares/upload.middleware")
 const facturacion = new Facturacion_controller();
 
 router.get("/cargarFacturaciones", facturacion.getFacturacion.bind(facturacion));

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const ConductorController = require("../../controllers/conductor_controller");
+const ConductorController = require("../../controllers/conductor.controller");
 const conductor = new ConductorController();
 
 router.get("/cargarConductores", conductor.getConductores.bind(conductor));
