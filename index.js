@@ -11,9 +11,11 @@ const https = require("https");
 const fs = require("fs");
 const compression = require("compression");
 const cors = require("cors");
+const helmet = require("helmet");
 const app = express();
 
 app.use(compression());
+app.use(helmet());
 app.use(morgan("dev"));
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));

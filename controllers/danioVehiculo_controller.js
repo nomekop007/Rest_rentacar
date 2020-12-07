@@ -1,4 +1,4 @@
-const { DanioVehiculo, Arriendo } = require('../database/db');
+const { DanioVehiculo, Arriendo, Vehiculo, PresupuestoDanio, Empresa, Cliente, Remplazo } = require('../database/db');
 const { sendError, fecha, hora } = require("../helpers/components");
 const fs = require("fs");
 const path = require("path");
@@ -89,6 +89,23 @@ class DanioVehiculoController {
         }
     }
 
+
+    async getDanio(req, res) {
+        try {
+            const danios = await DanioVehiculo.findAll({
+                include: [
+                    { model: Arriendo, include: [{ model: Empresa }, { model: Cliente }, { model: Remplazo, include: { model: Cliente } }] },
+                    { model: Vehiculo },
+                    { model: PresupuestoDanio }]
+            });
+            res.json({
+                success: true,
+                data: danios
+            })
+        } catch (error) {
+            sendError(error)
+        }
+    }
 }
 
 module.exports = DanioVehiculoController;

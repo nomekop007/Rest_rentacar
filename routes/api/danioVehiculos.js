@@ -6,4 +6,6 @@ router.post("/registrarDanioVehiculos", danioVehiculo.createDanioVehiculo.bind(d
 
 router.get("/revisarDanioVehiculo/:id", danioVehiculo.consultarDanioVehiculo.bind(danioVehiculo));
 
+router.get("/cargarDanios", danioVehiculo.getDanio.bind(danioVehiculo))
+
 module.exports = router;
