@@ -5,8 +5,9 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
             autoIncrement: true,
         },
+        mecanico_pagoDanio: type.STRING,
+        pagador_pagoDanio: type.STRING,
         precioTotal_pagoDanio: type.BIGINT(20),
-        comprobante_pagoDanio: type.STRING,
         userAt: type.STRING,
     });
 };

@@ -14,6 +14,11 @@ async function recepcionPlantilla(data) {
         return images;
     };
 
+    let descripcion = "";
+    if (data.descripcion_danio) {
+        descripcion = data.descripcion_danio
+    }
+
 
     return {
         content: [{
@@ -47,8 +52,26 @@ async function recepcionPlantilla(data) {
             ],
         },
         {
-            margin: [0, 10, 0, 20],
-            fontSize: 9,
+            margin: [0, 10, 0, 0],
+            fontSize: 10,
+            text: `
+            NOMBRE MECANICO: _________________________________
+
+            PATENTE VEHICULO: _________________________________
+
+            COSTO DAÑO DEL VEHICULO: _____________________________
+
+            DESCRIPCION DEL DAÑO : ${descripcion}`,
+        },
+        {
+            margin: [0, 20, 0, 0],
+            fontSize: 10,
+            text: `FECHA: ${data.fecha}  HORA: ${data.hora}  USUARIO: ${data.userAt}`,
+        },
+        {
+            margin: [0, 50, 0, 0],
+            fontSize: 10,
+            bold: true,
             alignment: "center",
             columns: [{
                 text: " [_]  ABOLLADURAS",
@@ -67,11 +90,7 @@ async function recepcionPlantilla(data) {
                 [arrayImagenes()]
             ],
         },
-        {
-            margin: [0, 50, 0, 0],
-            fontSize: 10,
-            text: `Fecha: ${data.fecha}  Hora: ${data.hora}  Usuario: ${data.userAt}`,
-        },
+
         ],
 
         pageMargins: [40, 30, 40, 20],

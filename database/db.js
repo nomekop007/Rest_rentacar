@@ -28,6 +28,7 @@ const PagoModel = require("../models/pagos");
 const RegionModel = require("../models/regiones");
 const DanioVehiculoModel = require("../models/danioVehiculo");
 const PagoDanioModel = require("../models/pagosDanios");
+const pagosDanios = require("../models/pagosDanios");
 
 
 
@@ -118,6 +119,12 @@ Garantia.belongsTo(ModoPago, { foreignKey: { name: "id_modoPago" }, onDelete: on
 Facturacion.hasMany(Pago, { foreignKey: { name: "id_facturacion" }, onDelete: onDelete, onUpdate: onUpdate });
 //un pago  pertenece a un facturacion
 Pago.belongsTo(Facturacion, { foreignKey: { name: "id_facturacion" }, onDelete: onDelete, onUpdate: onUpdate });
+
+
+//un facturacion tiene muchos pagoDanio
+Facturacion.hasMany(PagoDanio, { foreignKey: { name: "id_facturacion" }, onDelete: onDelete, onUpdate: onUpdate })
+//un pago  pertenece a un facturacion
+PagoDanio.belongsTo(Facturacion, { foreignKey: { name: "id_facturacion" }, onDelete: onDelete, onUpdate: onUpdate });
 
 
 //un pagoArrriendo tiene muchos pago

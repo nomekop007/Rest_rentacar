@@ -9,9 +9,7 @@ class PagoDanioController {
             const pagoDanio = await PagoDanio.create(response);
             res.json({
                 success: true,
-                data: {
-                    id_pagoDanio: pagoDanio.id_pagoDanio
-                }
+                data: { id_pagoDanio: pagoDanio.id_pagoDanio }
             })
             next(pagoDanio.logging);
 
@@ -21,24 +19,6 @@ class PagoDanioController {
     }
 
 
-    async uploadComprobante(req, res) {
-        try {
-
-            console.log(req.file);
-
-            await PagoDanio.update({ comprobante_pagoDanio: req.file.filename }, {
-                where: { id_pagoDanio: req.params.id }
-            })
-
-            res.json({
-                success: true,
-                msg: " documento guardado",
-            });
-
-        } catch (error) {
-            sendError(error)
-        }
-    }
 
 }
 
