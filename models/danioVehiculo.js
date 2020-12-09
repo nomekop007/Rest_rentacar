@@ -7,6 +7,7 @@ module.exports = (sequelize, type) => {
         },
         descripcion_danioVehiculo: type.TEXT,
         documento_danioVehiculo: type.STRING,
+        estado_danioVehiculo: type.STRING,
         userAt: type.STRING,
     });
 };

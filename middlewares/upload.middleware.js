@@ -75,10 +75,8 @@ const subirDocumentoFacturacion = multer({
 
 
 
-
-
 module.exports = {
     subirImageVehiculo: subirImageVehiculo,
     subirDocumentoRequisitosArriendo: subirDocumentoRequisitosArriendo,
-    subirDocumentoFacturacion: subirDocumentoFacturacion
+    subirDocumentoFacturacion: subirDocumentoFacturacion,
 };

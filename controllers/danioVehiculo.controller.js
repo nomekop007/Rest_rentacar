@@ -1,4 +1,4 @@
-const { DanioVehiculo, Arriendo, Vehiculo, PresupuestoDanio, Empresa, Cliente, Remplazo } = require('../database/db');
+const { DanioVehiculo, Arriendo, Vehiculo, PagoDanio, Empresa, Cliente, Remplazo } = require('../database/db');
 const { sendError, fecha, hora } = require("../helpers/components");
 const fs = require("fs");
 const path = require("path");
@@ -10,7 +10,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 class DanioVehiculoController {
 
-    async createDanioVehiculo(req, res) {
+    async createDanioVehiculo(req, res, next) {
         try {
             const response = req.body;
 
@@ -40,11 +40,12 @@ class DanioVehiculoController {
                 })
             });
 
-            await DanioVehiculo.create({
+            const danioVehiculo = await DanioVehiculo.create({
                 descripcion_danioVehiculo: response.descripcion_danio,
                 documento_danioVehiculo: +".pdf",
                 id_arriendo: arriendo.id_arriendo,
                 patente_vehiculo: arriendo.patente_vehiculo,
+                estado_danioVehiculo: "PENDIENTE",
                 userAt: response.userAt
             })
 
@@ -55,7 +56,7 @@ class DanioVehiculoController {
                 msg: "daño registrado"
             })
 
-
+            next(danioVehiculo.logging);
         } catch (error) {
             sendError(error);
         }
@@ -90,13 +91,13 @@ class DanioVehiculoController {
     }
 
 
-    async getDanio(req, res) {
+    async getDanioVehiculo(req, res) {
         try {
             const danios = await DanioVehiculo.findAll({
                 include: [
                     { model: Arriendo, include: [{ model: Empresa }, { model: Cliente }, { model: Remplazo, include: { model: Cliente } }] },
                     { model: Vehiculo },
-                    { model: PresupuestoDanio }]
+                    { model: PagoDanio }]
             });
             res.json({
                 success: true,
@@ -104,6 +105,23 @@ class DanioVehiculoController {
             })
         } catch (error) {
             sendError(error)
+        }
+    }
+
+
+    async updateDanioVehiculo(req, res, next) {
+        try {
+            const response = req.body;
+            const danioVehiculo = await DanioVehiculo.update(response, {
+                where: { id_danioVehiculo: req.params.id },
+            });
+            res.json({
+                success: true,
+                msg: "estado daño actualizado",
+            });
+            next(danioVehiculo.logging);
+        } catch (error) {
+            sendError(error);
         }
     }
 }

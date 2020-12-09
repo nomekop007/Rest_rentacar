@@ -27,7 +27,7 @@ const EmpresaRemplazoModel = require("../models/empresaRemplazos");
 const PagoModel = require("../models/pagos");
 const RegionModel = require("../models/regiones");
 const DanioVehiculoModel = require("../models/danioVehiculo");
-const PresupuestoDanioModel = require("../models/presupuestoDanio");
+const PagoDanioModel = require("../models/pagosDanios");
 
 
 
@@ -58,7 +58,7 @@ const EmpresaRemplazo = EmpresaRemplazoModel(database, Sequelize);
 const Contacto = ContactoModel(database, Sequelize);
 const Region = RegionModel(database, Sequelize);
 const DanioVehiculo = DanioVehiculoModel(database, Sequelize);
-const PresupuestoDanio = PresupuestoDanioModel(database, Sequelize);
+const PagoDanio = PagoDanioModel(database, Sequelize);
 
 
 //opciones
@@ -226,10 +226,10 @@ DanioVehiculo.belongsTo(Vehiculo, { foreignKey: { name: "patente_vehiculo" }, on
 Vehiculo.hasMany(DanioVehiculo, { foreignKey: { name: "patente_vehiculo" }, onDelete: onDelete, onUpdate: onUpdate })
 
 
-// un PresupuestoDanio pertenece a un danioVehiculo
-PresupuestoDanio.belongsTo(DanioVehiculo, { foreignKey: { name: "id_danioVehiculo" }, onDelete: onDelete, onUpdate: onUpdate });
-// un danioVehiculo tiene un PresupuestoDanio
-DanioVehiculo.hasOne(PresupuestoDanio, { foreignKey: { name: "id_danioVehiculo" }, onDelete: onDelete, onUpdate: onUpdate })
+// un PagoDanio pertenece a un danioVehiculo
+PagoDanio.belongsTo(DanioVehiculo, { foreignKey: { name: "id_danioVehiculo" }, onDelete: onDelete, onUpdate: onUpdate });
+// un danioVehiculo tiene un PagoDanio
+DanioVehiculo.hasOne(PagoDanio, { foreignKey: { name: "id_danioVehiculo" }, onDelete: onDelete, onUpdate: onUpdate })
 
 
 
@@ -260,6 +260,6 @@ module.exports = {
     Pago,
     Contacto,
     Region,
-    PresupuestoDanio,
+    PagoDanio,
     DanioVehiculo
 };

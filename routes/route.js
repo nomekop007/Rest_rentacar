@@ -27,7 +27,7 @@ const apiPagoRouter = require("./api/pagos");
 const apiContactoRouter = require("./api/contactos");
 const apiRegionRouter = require("./api/regiones");
 const apiDanioVehiculoRouter = require("./api/danioVehiculos");
-
+const apiPagoDanioRouter = require("./api/pagosDanios");
 
 
 //otros 
@@ -81,6 +81,7 @@ router.use("/contactos", check.checkToken, apiContactoRouter)
 router.use("/pagos", check.checkToken, apiPagoRouter);
 router.use("/regiones", check.checkToken, apiRegionRouter);
 router.use("/danioVehiculos", check.checkToken, apiDanioVehiculoRouter);
+router.use("/pagosDanios", check.checkToken, apiPagoDanioRouter);
 router.use("/usuarios", apiUsuariosRouter);
 
 
