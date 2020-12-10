@@ -31,12 +31,10 @@ class DespachoController {
             response.id_despacho = req.params.id;
             response.fecha = fecha();
             response.hora = hora();
-
             const docDefinition = await recepcionPlantilla(response);
             const nameFile = uuidv4();
             const pdfDocGenerator = pdfMake.createPdf(docDefinition);
             const pathFile = path.join(__dirname, `${process.env.PATH_RECEPCIONES}/${nameFile}.pdf`)
-
             pdfDocGenerator.getBase64((base64) => {
                 fs.writeFileSync(pathFile, base64, "base64", (err) => {
                     res.json({
@@ -46,15 +44,11 @@ class DespachoController {
                     return;
                 })
             });
-
-
             const despacho = await Despacho.update({
                 revision_recepcion: nameFile
             }, {
                 where: { id_despacho: req.params.id },
             });
-
-
             res.json({
                 success: true,
                 msg: "revision existosa"
@@ -63,7 +57,6 @@ class DespachoController {
         } catch (error) {
             sendError(error)
         }
-
     }
 }
 
