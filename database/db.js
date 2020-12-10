@@ -28,8 +28,6 @@ const PagoModel = require("../models/pagos");
 const RegionModel = require("../models/regiones");
 const DanioVehiculoModel = require("../models/danioVehiculo");
 const PagoDanioModel = require("../models/pagosDanios");
-const pagosDanios = require("../models/pagosDanios");
-
 
 
 //conectar modelo con base de datos
