@@ -1,22 +1,20 @@
 const { ActaEntrega } = require("../database/db");
 
-class ActaEntregaServices {
+class ActaEntregaService {
 
     async postCreate(DATA) {
-        const actaEntrega = await ActaEntrega.create(DATA);
-        return actaEntrega;
+        return await ActaEntrega.create(DATA);
     }
+
 
     async getFindOneByIDdespacho(ID_DESPACHO) {
-        const actaEntrega = await ActaEntrega.findOne({
+        return await ActaEntrega.findOne({
             where: { id_despacho: ID_DESPACHO }
         });
-        return actaEntrega;
     }
-
 
 
 }
 
 
-module.exports = ActaEntregaServices;
+module.exports = ActaEntregaService;

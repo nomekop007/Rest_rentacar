@@ -1,17 +1,16 @@
-const { Conductor } = require("../database/db");
+const ConductorService = require("../services/conductor.service");
 const { sendError } = require("../helpers/components");
 
 class ConductorController {
+    constructor() {
+        this.serviceConductor = new ConductorService();
+    }
+
+
+
     async getConductores(req, res) {
         try {
-            const conductores = await Conductor.findAll({
-                attributes: [
-                    "rut_conductor",
-                    "nombre_conductor",
-                    "clase_conductor",
-                    "telefono_conductor",
-                ],
-            });
+            const conductores = await this.serviceConductor.getFindAll();
             res.json({
                 success: true,
                 data: conductores,
@@ -21,10 +20,11 @@ class ConductorController {
         }
     }
 
+
+
     async findConductor(req, res) {
         try {
-            const conductor = await Conductor.findByPk(req.params.id);
-
+            const conductor = await this.serviceConductor.getFindByPK(req.params.id);
             if (conductor) {
                 res.json({
                     success: true,
@@ -41,34 +41,22 @@ class ConductorController {
         }
     }
 
+
+
     async createConductor(req, res, next) {
         try {
             const response = req.body;
-            console.log(response);
-            if (response.vcto_conductor == "") {
-                response.vcto_conductor = null;
-            }
-
-
             //si es extranjero
-            if (response.nacionalidad_conductor != "CHILENO/A") {
-                response.rut_conductor = "@" + response.rut_conductor
-            }
-
-            const [conductor, created] = await Conductor.findOrCreate({
-                where: { rut_conductor: response.rut_conductor },
-                defaults: response,
-            });
+            if (response.nacionalidad_conductor != "CHILENO/A") response.rut_conductor = "@" + response.rut_conductor;
+            //si no existe lo crea
+            const [conductor, created] = await this.serviceConductor.postFindOrCreate(response, response.rut_conductor);
             //si existe conductor lo actualiza
-            if (!created) {
-                await Conductor.update(response, {
-                    where: { rut_conductor: conductor.rut_conductor },
-                });
-            }
-
+            if (!created) await this.serviceConductor.putUpdate(response, conductor.rut_conductor);
+            // se busca el conductor
+            const newConductor = await this.serviceConductor.getFindByPK(conductor.rut_conductor);
             res.json({
                 success: true,
-                data: conductor,
+                data: newConductor,
             });
             if (created) {
                 next(conductor.logging);

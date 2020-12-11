@@ -1,23 +1,4 @@
 const ArriendoService = require('../services/arriendo.service');
-
-const {
-	Usuario,
-	Arriendo,
-	Cliente,
-	Conductor,
-	Empresa,
-	Vehiculo,
-	Remplazo,
-	Requisito,
-	Garantia,
-	Sucursal,
-	PagoArriendo,
-	Despacho,
-	ActaEntrega,
-	Contrato,
-	EmpresaRemplazo,
-	ModoPago,
-} = require("../database/db");
 const { sendError } = require("../helpers/components");
 class ArriendoController {
 	constructor() {
@@ -41,6 +22,7 @@ class ArriendoController {
 		}
 	}
 
+
 	async findArriendo(req, res) {
 		try {
 			const arriendo = await this.serviceArriendo.getFindOnePublic(req.params.id);
@@ -60,10 +42,10 @@ class ArriendoController {
 		}
 	}
 
+
 	async createArriendo(req, res, next) {
 		try {
 			const response = req.body;
-
 			switch (response.tipo_arriendo) {
 				case "PARTICULAR":
 					response.rut_empresa = null;
@@ -78,19 +60,9 @@ class ArriendoController {
 					response.rut_cliente = null;
 					break;
 			}
-
-
-			if (response.rut_conductor2 == "undefined") {
-				response.rut_conductor2 = null
-			}
-			if (response.rut_conductor3 == "undefined") {
-				response.rut_conductor3 = null
-			}
-
-
-			//se crea el arriendo
-			const arriendo = await Arriendo.create(response);
-
+			if (response.rut_conductor2 == "undefined") response.rut_conductor2 = null;
+			if (response.rut_conductor3 == "undefined") response.rut_conductor3 = null;
+			const arriendo = await this.serviceArriendo.postCreate(response);
 			res.json({
 				success: true,
 				msg: ` arriendo Nº${arriendo.id_arriendo} registrado exitosamente`,
@@ -102,14 +74,11 @@ class ArriendoController {
 		}
 	}
 
+
 	async updateStateArriendo(req, res, next) {
 		try {
 			const response = req.body;
-			console.log(response);
-			const arriendo = await Arriendo.update(response, {
-				where: { id_arriendo: req.params.id },
-			});
-
+			const arriendo = await this.serviceArriendo.putUpdateState(response, req.params.id);
 			res.json({
 				success: true,
 				msg: "actualizacion exitoso",

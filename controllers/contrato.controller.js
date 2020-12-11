@@ -1,48 +1,31 @@
-const {
-    Usuario,
-    Arriendo,
-    Cliente,
-    Conductor,
-    Empresa,
-    Accesorio,
-    Vehiculo,
-    Sucursal,
-    Contrato,
-    Remplazo,
-    Garantia,
-    PagoArriendo,
-    ModoPago,
-    PagoAccesorio,
-    Facturacion,
-    Pago,
-    Contacto,
-    Requisito
-} = require("../database/db");
+const ContratoService = require("../services/contacto.service");
+const ArriendoService = require("../services/arriendo.service");
+const ConductorService = require("../services/conductor.service");
 const { sendError, ordenarArrayporFecha } = require("../helpers/components");
+const contratoPlantilla = require("../utils/pdf_plantillas/contratoArriendo");
+const logo = require.resolve("../utils/images/logo2.png");
 const fs = require("fs");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 const nodemailer = require("nodemailer");
-const logo = require.resolve("../utils/images/logo2.png");
 const base64 = require("image-to-base64");
 const pdfMake = require('pdfmake/build/pdfmake.js');
 const pdfFonts = require('pdfmake/build/vfs_fonts.js');
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-const contratoPlantilla = require("../utils/pdf_plantillas/contratoArriendo");
 
 class contrato_controller {
+    constructor() {
+        this.serviceContrato = new ContratoService();
+        this.serviceArriendo = new ArriendoService();
+        this.serviceConductor = new ConductorService();
+    }
+
+
     async createContrato(req, res) {
         try {
             const response = req.body;
-
-            const arriendo = await Arriendo.findOne({
-                where: { id_arriendo: response.id_arriendo },
-                include: [
-                    { model: PagoArriendo }
-                ]
-            })
-
+            const arriendo = await this.serviceArriendo.getFindOne(response.id_arriendo);
             const nameFile = uuidv4();
             const pathFile = path.join(__dirname, `${process.env.PATH_CONTRATO}/${nameFile}.pdf`)
             fs.writeFileSync(pathFile, response.base64, "base64", (err) => {
@@ -52,14 +35,11 @@ class contrato_controller {
                 });
                 return;
             });
-
-
             //guarda el ultimo pago en el contrato
             const fila = arriendo.pagosArriendos.length - 1;
             response.id_pagoArriendo = arriendo.pagosArriendos[fila].id_pagoArriendo;
             response.documento = nameFile + ".pdf";
-
-            const contrato = await Contrato.create(response);
+            const contrato = await this.serviceContrato.postCreate(response);
             res.json({
                 success: true,
                 data: contrato,
@@ -69,113 +49,54 @@ class contrato_controller {
         }
     }
 
+
+
     async generatePDFContrato(req, res) {
         try {
             const response = req.body;
-            const arriendo = await Arriendo.findOne({
-                where: { id_arriendo: response.id_arriendo },
-                include: [
-                    { model: Cliente },
-                    { model: Empresa },
-                    { model: Vehiculo },
-                    { model: Conductor },
-                    { model: Contacto },
-                    { model: Sucursal },
-                    { model: Requisito },
-                    {
-                        model: PagoArriendo,
-                        include: [{
-                            model: Pago,
-                            include: {
-                                model: Facturacion,
-                                include: { model: ModoPago },
-
-                            },
-                        },
-                        { model: PagoAccesorio, include: [{ model: Accesorio }] },
-                        ],
-                    },
-                    {
-                        model: Remplazo,
-                        include: [{ model: Cliente }],
-                    },
-                    {
-                        model: Garantia,
-                        include: [{ model: ModoPago }],
-                    },
-                    { model: Usuario, attributes: ["nombre_usuario"] },
-                ],
-            });
-
-
-
-
-            if (arriendo.rut_conductor2) {
-                response.conductor2 = await Conductor.findOne({ where: { rut_conductor: arriendo.rut_conductor2 } });
-            }
-
-            if (arriendo.rut_conductor3) {
-                response.conductor3 = await Conductor.findOne({ where: { rut_conductor: arriendo.rut_conductor3 } })
-            }
-
-
-            if (!arriendo.garantia) {
+            const arriendo = await this.serviceArriendo.getFindOne(response.id_arriendo);
+            //si existen mas conductores los busca
+            if (arriendo.rut_conductor2) response.conductor2 = await this.serviceConductor.getFindByPK(arriendo.rut_conductor2);
+            if (arriendo.rut_conductor3) response.conductor3 = await this.serviceConductor.getFindByPK(arriendo.rut_conductor3);
+            // si no hay garantia&archivos se detiene
+            if (!arriendo.garantia || !arriendo.requisito) {
                 res.json({
                     success: false,
-                    msg: "falta registrar garantia!"
+                    msg: "falta registrar garantia y subir archivos requeridos!"
                 });
-                return
+                return;
             }
-
-            if (!arriendo.requisito) {
-                res.json({
-                    success: false,
-                    msg: "falta subir los archivos requeridos!"
-                });
-                return
-            }
-
-            if (arriendo.estado_arriendo == "CONFIRMADO" || arriendo.estado_arriendo == "E-CONFIRMADO") {
-
-                response.arriendo = arriendo;
-                //se genera el documento
-                const docDefinition = await contratoPlantilla(response);
-                const pdfDocGenerator = pdfMake.createPdf(docDefinition);
-                pdfDocGenerator.getBase64((base64) => {
-                    res.json({
-                        success: true,
-                        data: {
-                            firma: response.firmaClientePNG,
-                            base64: base64
-                        },
-                    });
-                });
-            } else {
+            //si no es uno de estos estados se detiene
+            if (arriendo.estado_arriendo != "CONFIRMADO" && arriendo.estado_arriendo != "E-CONFIRMADO") {
                 res.json({
                     success: false,
                     msg: "el documento esta firmado!"
                 });
+                return;
             }
+            response.arriendo = arriendo;
+            //se genera el documento
+            const docDefinition = await contratoPlantilla(response);
+            const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+            pdfDocGenerator.getBase64((base64) => {
+                res.json({
+                    success: true,
+                    data: {
+                        firma: response.firmaClientePNG,
+                        base64: base64
+                    },
+                });
+            });
         } catch (error) {
             sendError(error, res);
         }
     }
 
+
     async sendEmailContrato(req, res) {
         try {
             const response = req.body;
-            const arriendo = await Arriendo.findOne({
-                where: { id_arriendo: response.id_arriendo },
-                include: [
-                    { model: Cliente, attributes: ["correo_cliente", "nombre_cliente"] },
-                    { model: Empresa, attributes: ["correo_empresa", "nombre_empresa"] },
-                    { model: Contrato },
-                    {
-                        model: Remplazo,
-                        include: [{ model: Cliente }],
-                    },
-                ],
-            });
+            const arriendo = await this.serviceArriendo.getFindOne(response.id_arriendo);
             const client = {};
             switch (arriendo.tipo_arriendo) {
                 case "PARTICULAR":
@@ -191,25 +112,16 @@ class contrato_controller {
                     client.correo = arriendo.empresa.correo_empresa;
                     break;
             }
-
-
             //funcion para ordenar el array de pagos por fecha de creacion y poner el mas nuevo al final
             const pagosArriendos = ordenarArrayporFecha(arriendo.contratos);
-
             //datos del email hosting
             const transporter = nodemailer.createTransport({
                 host: process.env.EMAIL_HOST,
                 port: process.env.EMAIL_PORT,
                 secure: false,
-                auth: {
-                    user: process.env.EMAIL_USER,
-                    pass: process.env.EMAIL_PASS,
-                },
-                tls: {
-                    rejectUnauthorized: false,
-                },
+                auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
+                tls: { rejectUnauthorized: false },
             });
-
             //datos del mensaje y su destinatario
             const mailOptions = {
                 from: "'Rent A Car - Grupo Firma' <api.rentacarmaule@grupofirma.cl>",
@@ -227,8 +139,7 @@ class contrato_controller {
                 attachments: [{
                     filename: "CONSTRATO.pdf",
                     contentType: "pdf",
-                    path: path.join(
-                        __dirname, `${process.env.PATH_CONTRATO}/${pagosArriendos[pagosArriendos.length - 1].documento}`),
+                    path: path.join(__dirname, `${process.env.PATH_CONTRATO}/${pagosArriendos[pagosArriendos.length - 1].documento}`)
                 },],
             };
             const resp = await transporter.sendMail(mailOptions);
@@ -240,6 +151,9 @@ class contrato_controller {
             sendError(error, res);
         }
     }
+
+
+
 }
 
 module.exports = contrato_controller;

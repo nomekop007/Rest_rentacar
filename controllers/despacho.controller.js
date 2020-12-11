@@ -1,29 +1,34 @@
-const { Despacho } = require("../database/db");
+const DespachoService = require("../services/despacho.service");
 const { sendError, fecha, hora } = require("../helpers/components");
+const recepcionPlantilla = require("../utils/pdf_plantillas/recepcion")
 const fs = require("fs");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
-const recepcionPlantilla = require("../utils/pdf_plantillas/recepcion")
 const pdfMake = require("pdfmake/build/pdfmake.js");
 const pdfFonts = require("pdfmake/build/vfs_fonts.js");
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
 class DespachoController {
+    constructor() {
+        this.serviceDespacho = new DespachoService();
+    }
+
+
     async createDespacho(req, res, next) {
         try {
             const response = req.body;
-            const despacho = await Despacho.create(response);
+            const despacho = await this.serviceDespacho.postCreate(response);
             res.json({
                 success: true,
                 id_despacho: despacho.id_despacho,
             });
-
             next(despacho.logging);
         } catch (error) {
             sendError(error, res);
         }
     }
+
 
     async addRevision(req, res, next) {
         try {
@@ -44,11 +49,8 @@ class DespachoController {
                     return;
                 })
             });
-            const despacho = await Despacho.update({
-                revision_recepcion: nameFile
-            }, {
-                where: { id_despacho: req.params.id },
-            });
+            const data = { revision_recepcion: nameFile };
+            const despacho = await this.serviceDespacho.putUpdate(data, req.params.id);
             res.json({
                 success: true,
                 msg: "revision existosa"
