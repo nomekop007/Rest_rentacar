@@ -30,7 +30,6 @@ class ActaEntregaController {
     async createActaEntrega(req, res) {
         try {
             const response = req.body;
-
             const nameFile = uuidv4();
             const pathFile = path.join(__dirname, `${process.env.PATH_ACTA_ENTREGA}/${nameFile}.pdf`)
             fs.writeFileSync(pathFile, response.base64, "base64", (err) => {
@@ -40,12 +39,8 @@ class ActaEntregaController {
                 });
                 return;
             });
-
             response.documento = nameFile + ".pdf";
-
-
             const actaEntrega = await ActaEntrega.create(response);
-
             res.json({
                 success: true,
                 data: actaEntrega,
@@ -54,6 +49,8 @@ class ActaEntregaController {
             sendError(error, res);
         }
     }
+
+
 
     async generatePDFactaEntrega(req, res) {
         try {
@@ -103,6 +100,9 @@ class ActaEntregaController {
             sendError(error, res);
         }
     }
+
+
+
     async sendEmailActaEntrega(req, res) {
         try {
             const response = req.body;
@@ -124,7 +124,6 @@ class ActaEntregaController {
                     },
                 ],
             });
-
             const client = {};
             switch (arriendo.tipo_arriendo) {
                 case "PARTICULAR":
@@ -140,7 +139,6 @@ class ActaEntregaController {
                     client.correo = arriendo.empresa.correo_empresa;
                     break;
             }
-
             //datos del email hosting
             const transporter = nodemailer.createTransport({
                 host: process.env.EMAIL_HOST,
@@ -154,9 +152,7 @@ class ActaEntregaController {
                     rejectUnauthorized: false,
                 },
             });
-
             //client.correo
-
             //datos del mensaje y su destinatario
             const mailOptions = {
                 from: "'Rent A Car - Grupo Firma' <api.rentacarmaule@grupofirma.cl>",

@@ -1,17 +1,17 @@
-const { Accesorio } = require("../database/db");
 const { sendError } = require("../helpers/components");
+const AccesoriosService = require("../services/accesorios.service");
 
 class AccesorioController {
+    constructor() {
+        this.service = new AccesoriosService();
+    }
+
     async getAccesorios(req, res) {
         try {
-            const accesorio = await Accesorio.findAll({
-                order: [
-                    ['id_accesorio', 'DESC'],
-                ]
-            });
+            const accesorios = await this.service.getFindAll();
             res.json({
                 success: true,
-                data: accesorio,
+                data: accesorios,
             });
         } catch (error) {
             sendError(error, res);

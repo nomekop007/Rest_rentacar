@@ -43,18 +43,13 @@ class ClienteController {
     async createCliente(req, res, next) {
         try {
             const response = req.body;
-
-
             //si es extranjero
             if (response.nacionalidad_cliente != "CHILENO/A") {
                 response.rut_cliente = "@" + response.rut_cliente
             }
-
-
             if (response.fechaNacimiento_cliente == "") {
                 response.fechaNacimiento_cliente = null;
             }
-
             //si no existe lo crea
             const [cliente, created] = await Cliente.findOrCreate({
                 where: { rut_cliente: response.rut_cliente },
@@ -65,13 +60,17 @@ class ClienteController {
                 await Cliente.update(response, {
                     where: { rut_cliente: cliente.rut_cliente },
                 });
+                const clienteM = await Cliente.findByPk(cliente.rut_cliente);
+                res.json({
+                    success: true,
+                    data: clienteM,
+                });
+            } else {
+                res.json({
+                    success: true,
+                    data: cliente,
+                });
             }
-
-            res.json({
-                success: true,
-                data: cliente,
-            });
-
             if (created) {
                 next(cliente.logging);
             }
