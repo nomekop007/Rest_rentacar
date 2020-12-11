@@ -45,7 +45,7 @@ class DespachoController {
                 })
             });
             const despacho = await Despacho.update({
-                revision_recepcion: nameFile
+                revision_recepcion: nameFile + ".pdf"
             }, {
                 where: { id_despacho: req.params.id },
             });
