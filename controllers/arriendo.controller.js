@@ -1,3 +1,5 @@
+const ArriendoService = require('../services/arriendo.service');
+
 const {
 	Usuario,
 	Arriendo,
@@ -18,35 +20,18 @@ const {
 } = require("../database/db");
 const { sendError } = require("../helpers/components");
 class ArriendoController {
+	constructor() {
+		this.serviceArriendo = new ArriendoService();
+	}
+
+
 	async getArriendos(req, res) {
 		try {
 			//preguntar si el usuario no es administrador
 			const where = {};
-
-			if (req.body.id_rol != 1) {
-				where.id_sucursal = req.body.id_sucursal;
-			}
-			if (req.body.filtro) {
-				where.estado_arriendo = req.body.filtro;
-			}
-
-
-			const arriendos = await Arriendo.findAll({
-				where: where,
-				include: [
-					{ model: Usuario, attributes: ["nombre_usuario"] },
-					{ model: Cliente, attributes: ["nombre_cliente", "rut_cliente"] },
-					{ model: Empresa, attributes: ["nombre_empresa", "rut_empresa"] },
-					{ model: Vehiculo, attributes: ["patente_vehiculo"] },
-					{ model: PagoArriendo },
-					{ model: Requisito },
-					{ model: Garantia },
-					{
-						model: Remplazo,
-						include: [{ model: EmpresaRemplazo }, { model: Cliente, attributes: ["nombre_cliente", "rut_cliente"] }],
-					},
-				],
-			});
+			if (req.body.id_rol != 1) where.id_sucursal = req.body.id_sucursal;
+			if (req.body.filtro) where.estado_arriendo = req.body.filtro;
+			const arriendos = await this.serviceArriendo.getFindAllPublic(where);
 			res.json({
 				success: true,
 				data: arriendos,
@@ -58,24 +43,7 @@ class ArriendoController {
 
 	async findArriendo(req, res) {
 		try {
-			const arriendo = await Arriendo.findOne({
-				where: { id_arriendo: req.params.id },
-				include: [
-					{ model: Cliente },
-					{ model: Empresa },
-					{ model: Vehiculo },
-					{ model: Conductor },
-					{ model: Requisito },
-					{ model: Garantia, include: { model: ModoPago } },
-					{ model: PagoArriendo },
-					{ model: Sucursal },
-					{ model: Usuario, attributes: ["nombre_usuario"] },
-					{ model: Remplazo, include: [{ model: Cliente }, { model: EmpresaRemplazo }], },
-					{ model: Despacho, include: [{ model: ActaEntrega }] },
-					{ model: Contrato }
-				],
-			});
-
+			const arriendo = await this.serviceArriendo.getFindOnePublic(req.params.id);
 			if (arriendo) {
 				res.json({
 					success: true,
