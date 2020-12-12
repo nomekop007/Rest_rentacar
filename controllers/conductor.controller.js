@@ -58,9 +58,7 @@ class ConductorController {
                 success: true,
                 data: newConductor,
             });
-            if (created) {
-                next(conductor.logging);
-            }
+            if (created) next(conductor.logging);
         } catch (error) {
             sendError(error, res);
         }

@@ -1,11 +1,15 @@
-const { Region } = require("../database/db");
+const RegionService = require("../services/regiones.service");
 const { sendError } = require('../helpers/components');
-
 class RegionController {
+
+    constructor() {
+        this.serviceRegion = new RegionService();
+    }
+
 
     async getRegiones(req, res) {
         try {
-            const regiones = await Region.findAll();
+            const regiones = await this.serviceRegion.getFindAll();
             res.json({
                 success: true,
                 data: regiones
@@ -14,7 +18,6 @@ class RegionController {
             sendError(error);
         }
     }
-
 
 
 }

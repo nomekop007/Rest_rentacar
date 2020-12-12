@@ -1,12 +1,15 @@
-const { Requisito } = require("../database/db");
+const RequisitoService = require("../services/requisito.service");
 const { sendError } = require("../helpers/components");
-const path = require('path');
 class RequisitoController {
+
+    constructor() {
+        this.serviceRequisito = new RequisitoService();
+    }
+
+
     async createRequisitoArriendo(req, res) {
         try {
-
             const files = req.files;
-            console.log(files);
             const data = {
                 id_arriendo: req.params.id,
                 userAt: req.headers["userat"],
@@ -29,9 +32,7 @@ class RequisitoController {
                 boletaEfectivo_requisito: files.inputBoletaEfectivo ?
                     files.inputBoletaEfectivo[0].filename : null,
             };
-
-            const requisito = await Requisito.create(data);
-
+            const requisito = await this.serviceRequisito.postCreate(data);
             res.json({
                 success: true,
                 data: requisito,

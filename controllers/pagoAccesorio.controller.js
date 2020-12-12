@@ -1,11 +1,14 @@
-const { PagoAccesorio } = require("../database/db");
+const PagoAccesorioService = require("../services/pagoAccesorio.service");
 const { sendError } = require("../helpers/components");
-
 class PagoAccesorioController {
+    constructor() {
+        this.servicioPagoAccesorio = new PagoAccesorioService();
+    }
+
+
     async createPagoAccesorios(req, res) {
         try {
             const response = req.body;
-
             for (let i = 0; i < response.matrizAccesorios[0].length; i++) {
                 const id_accesorio = response.matrizAccesorios[0][i];
                 const precioVenta = response.matrizAccesorios[1][i];
@@ -15,7 +18,7 @@ class PagoAccesorioController {
                     id_pagoArriendo: response.id_pagoArriendo,
                     userAt: response.userAt,
                 };
-                await PagoAccesorio.create(data);
+                await this.servicioPagoAccesorio.postCreate(data);
             }
             res.json({
                 success: true,
@@ -25,6 +28,8 @@ class PagoAccesorioController {
             sendError(error, res);
         }
     }
+
+
 }
 
 module.exports = PagoAccesorioController;

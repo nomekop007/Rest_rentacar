@@ -1,13 +1,15 @@
-const { Sucursal, Vehiculo, Region } = require("../database/db");
+const SucursalService = require("../services/sucursal.service");
 const { sendError } = require("../helpers/components");
-
 class SucursalController {
+
+    constructor() {
+        this.serviceSucursal = new SucursalService();
+    }
+
+
     async getSucursales(req, res) {
         try {
-            const sucursales = await Sucursal.findAll({
-                attributes: ["id_sucursal", "nombre_sucursal"],
-            });
-
+            const sucursales = await this.serviceSucursal.getFindAll();
             res.json({
                 success: true,
                 data: sucursales,
@@ -17,29 +19,10 @@ class SucursalController {
         }
     }
 
+
     async getFindVehiculosPorSucursal(req, res) {
         try {
-            const sucursal = await Sucursal.findOne({
-                where: {
-                    nombre_sucursal: req.params.id_sucursal,
-                },
-                include: [
-                    {
-                        model: Region,
-                        include: [{
-                            model: Vehiculo,
-                            where: { estado_vehiculo: "DISPONIBLE" },
-                            attributes: [
-                                "patente_vehiculo",
-                                "modelo_vehiculo",
-                                "año_vehiculo",
-                                "marca_vehiculo",
-                            ],
-                        },]
-                    }
-                ],
-            });
-
+            const sucursal = await this.serviceSucursal.getFindByName(req.params.name);
             res.json({
                 success: true,
                 data: sucursal,
@@ -48,6 +31,8 @@ class SucursalController {
             sendError(error, res);
         }
     }
+
+
 }
 
 module.exports = SucursalController;

@@ -1,5 +1,5 @@
 const { sendError } = require("../helpers/components");
-const AccesoriosService = require("../services/accesorios.service");
+const AccesoriosService = require("../services/accesorio.service");
 
 class AccesorioController {
     constructor() {

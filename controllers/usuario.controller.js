@@ -1,24 +1,17 @@
-const bcrypt = require("bcryptjs");
-const { validationResult } = require("express-validator");
+const UsuarioService = require("../services/usuario.service");
 const { crearToken, sendError } = require("../helpers/components");
-const { Usuario, Rol, Sucursal } = require("../database/db");
-
+const { validationResult } = require("express-validator");
+const bcrypt = require("bcryptjs");
 class UsuarioController {
+
+    constructor() {
+        this.serviceUsuario = new UsuarioService();
+    }
+
+
     async getUsuarios(req, res) {
         try {
-            const usuario = await Usuario.findAll({
-                include: [
-                    { model: Rol, attributes: ["nombre_rol"] },
-                    { model: Sucursal, attributes: ["nombre_sucursal"] },
-                ],
-                attributes: [
-                    "estado_usuario",
-                    "id_usuario",
-                    "nombre_usuario",
-                    "email_usuario",
-                    "createdAt",
-                ],
-            });
+            const usuario = await this.serviceUsuario.getFindAll();
             res.json({
                 success: true,
                 data: usuario,
@@ -27,12 +20,11 @@ class UsuarioController {
             sendError(error, res);
         }
     }
+
 
     async findUsuario(req, res) {
         try {
-            const usuario = await Usuario.findOne({
-                where: { id_usuario: req.params.id },
-            });
+            const usuario = await this.serviceUsuario.getFindOne(req.params.id);
             res.json({
                 success: true,
                 data: usuario,
@@ -41,44 +33,25 @@ class UsuarioController {
             sendError(error, res);
         }
     }
+
 
     async createUsuario(req, res) {
         try {
             //valida los datos ingresados
             const errors = validationResult(req);
-
-
             if (!errors.isEmpty()) {
                 return res.status(310).json({
                     success: false,
                     msg: "error: " + errors.array(),
                 });
             }
-
-
             //encripta la password
             req.body.clave_usuario = bcrypt.hashSync(
                 req.body.clave_usuario,
                 Number(process.env.NUM_BCRYPT)
             );
-
-            const u = await Usuario.create(req.body);
-
-            const usuario = await Usuario.findOne({
-                where: { id_usuario: u.id_usuario },
-                include: [
-                    { model: Rol, attributes: ["nombre_rol"] },
-                    { model: Sucursal, attributes: ["nombre_sucursal"] },
-                ],
-                attributes: [
-                    "estado_usuario",
-                    "id_usuario",
-                    "nombre_usuario",
-                    "email_usuario",
-                    "createdAt",
-                ],
-            });
-
+            const u = await this.serviceUsuario.postCreate(req.body);
+            const usuario = await this.serviceUsuario.getFindOne(u.id_usuario);
             res.json({
                 success: true,
                 msg: "Usuario creado exitosamente",
@@ -89,11 +62,10 @@ class UsuarioController {
         }
     }
 
+
     async loginUsuario(req, res) {
         try {
-            const usuario = await Usuario.findOne({
-                where: { email_usuario: req.body.email_usuario },
-            });
+            const usuario = await this.serviceUsuario.getFindByEmail(req.body.email_usuario);
             if (usuario) {
                 //compara las password
                 if (bcrypt.compareSync(req.body.clave_usuario, usuario.clave_usuario)) {
@@ -126,6 +98,7 @@ class UsuarioController {
         }
     }
 
+
     async updateUsuario(req, res) {
         try {
             const response = req.body;
@@ -136,7 +109,6 @@ class UsuarioController {
                 id_rol: response.id_rol,
                 id_sucursal: response.id_sucursal,
             };
-
             //si hay campos en contraseña para cambiar
             if (response.clave_usuario != "") {
                 userdata.clave_usuario = bcrypt.hashSync(
@@ -144,25 +116,8 @@ class UsuarioController {
                     Number(process.env.NUM_BCRYPT)
                 );
             }
-
-            const u = await Usuario.update(userdata, {
-                where: { id_usuario: req.params.id },
-            });
-
-            const usuario = await Usuario.findOne({
-                where: { id_usuario: req.params.id },
-                include: [
-                    { model: Rol, attributes: ["nombre_rol"] },
-                    { model: Sucursal, attributes: ["nombre_sucursal"] },
-                ],
-                attributes: [
-                    "estado_usuario",
-                    "id_usuario",
-                    "nombre_usuario",
-                    "email_usuario",
-                    "createdAt",
-                ],
-            });
+            await this.serviceUsuario.putUpdate(userdata, req.params.id);
+            const usuario = await this.serviceUsuario.getFindOne(req.params.id);
             res.json({
                 success: true,
                 msg: "Usuario actualizado exitosamente",
@@ -172,6 +127,7 @@ class UsuarioController {
             sendError(error, res);
         }
     }
+
 
     async stateUsuario(req, res) {
         try {
@@ -184,24 +140,9 @@ class UsuarioController {
                 state = true;
                 msg = "usuario Habilitado exitosamente";
             }
-            const u = await Usuario.update({ estado_usuario: state, userAt: req.body.userAt }, {
-                where: { id_usuario: req.params.id },
-            });
-
-            const usuario = await Usuario.findOne({
-                where: { id_usuario: req.params.id },
-                include: [
-                    { model: Rol, attributes: ["nombre_rol"] },
-                    { model: Sucursal, attributes: ["nombre_sucursal"] },
-                ],
-                attributes: [
-                    "estado_usuario",
-                    "id_usuario",
-                    "nombre_usuario",
-                    "email_usuario",
-                    "createdAt",
-                ],
-            });
+            const data = { estado_usuario: state, userAt: req.body.userAt };
+            await this.serviceUsuario.putUpdate(data, req.params.id);
+            const usuario = await this.serviceUsuario.getFindOne(req.params.id);
             res.json({
                 success: true,
                 msg: msg,
@@ -211,6 +152,8 @@ class UsuarioController {
             sendError(error, res);
         }
     }
+
+
 }
 
 module.exports = UsuarioController;

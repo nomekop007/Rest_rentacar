@@ -1,7 +1,11 @@
-const { Garantia } = require("../database/db");
+const GarantiaService = require("../services/garantia.service");
 const { sendError } = require("../helpers/components");
-
 class GarantiaController {
+    constructor() {
+        this.serviceGarantia = new GarantiaService();
+    }
+
+
     async createGarantia(req, res) {
         try {
             const response = req.body;
@@ -31,8 +35,7 @@ class GarantiaController {
                     response.bancoCheque_garantia = null;
                     break;
             }
-            const garantia = await Garantia.create(response);
-
+            const garantia = await this.serviceGarantia.postCreate(response);
             res.json({
                 success: true,
                 data: garantia,
@@ -42,6 +45,8 @@ class GarantiaController {
             sendError(error, res);
         }
     }
+
+
 }
 
 module.exports = GarantiaController;

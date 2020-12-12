@@ -54,9 +54,7 @@ class ClienteController {
                 success: true,
                 data: newCliente,
             });
-            if (created) {
-                next(cliente.logging);
-            }
+            if (created) next(cliente.logging);
         } catch (error) {
             sendError(error, res);
         }

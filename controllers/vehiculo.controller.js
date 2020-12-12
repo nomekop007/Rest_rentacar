@@ -1,22 +1,15 @@
-const { Vehiculo, Region } = require("../database/db");
+const VehiculoService = require("../services/vehiculo.service");
 const { borrarImagenDeStorage, sendError } = require("../helpers/components");
-
 class VehiculoController {
+
+    constructor() {
+        this.serviceVehiculo = new VehiculoService();
+    }
+
+
     async getVehiculos(req, res) {
         try {
-
-            const vehiculos = await Vehiculo.findAll({
-                include: [{ model: Region }],
-                attributes: [
-                    "patente_vehiculo",
-                    "marca_vehiculo",
-                    "modelo_vehiculo",
-                    "año_vehiculo",
-                    "tipo_vehiculo",
-                    "transmision_vehiculo",
-                    "estado_vehiculo",
-                ],
-            });
+            const vehiculos = await this.serviceVehiculo.getFindAll();
             res.json({
                 success: true,
                 data: vehiculos,
@@ -26,11 +19,10 @@ class VehiculoController {
         }
     }
 
+
     async findVehiculo(req, res) {
         try {
-            const vehiculo = await Vehiculo.findOne({
-                where: { patente_vehiculo: req.params.id },
-            });
+            const vehiculo = await this.serviceVehiculo.getFindOne(req.params.id);
             if (vehiculo) {
                 res.json({
                     success: true,
@@ -47,13 +39,11 @@ class VehiculoController {
         }
     }
 
+
     async createVehiculo(req, res, next) {
         try {
             const response = req.body;
-            const [v, created] = await Vehiculo.findOrCreate({
-                where: { patente_vehiculo: response.patente_vehiculo },
-                defaults: response,
-            });
+            const [v, created] = await this.serviceVehiculo.postFindOrCreate(response, response.patente_vehiculo);
             if (created) {
                 res.json({
                     success: true,
@@ -71,13 +61,11 @@ class VehiculoController {
         }
     }
 
+
     async updateVehiculo(req, res, next) {
         try {
             const response = req.body;
-            const v = await Vehiculo.update(response, {
-                where: { patente_vehiculo: req.params.id },
-            });
-
+            const v = await this.serviceVehiculo.putUpdate(response, req.params.id);
             res.json({
                 success: true,
                 msg: "Vehiculo modificado exitosamente",
@@ -92,13 +80,8 @@ class VehiculoController {
     async updateStateVehiculo(req, res, next) {
         try {
             const response = req.body;
-
-            if (response.kilometrosMantencion_vehiculo == null) {
-                delete response.kilometrosMantencion_vehiculo;
-            }
-            const vehiculo = await Vehiculo.update(response, {
-                where: { patente_vehiculo: req.params.id },
-            });
+            if (response.kilometrosMantencion_vehiculo == null) delete response.kilometrosMantencion_vehiculo;
+            const vehiculo = await this.serviceVehiculo.putUpdate(response, req.params.id);
             res.json({
                 success: true,
                 msg: "Vehiculo modificado exitosamente",
@@ -110,11 +93,10 @@ class VehiculoController {
         }
     }
 
+
     async deleteVehiculo(req, res, next) {
         try {
-            const vehiculo = await Vehiculo.destroy({
-                where: { patente_vehiculo: req.params.id },
-            });
+            const vehiculo = await this.serviceVehiculo.deleteDestroy(req.params.id);
             res.json({
                 success: true,
                 msg: " Vehiculo borrado exitosamente",
@@ -126,37 +108,25 @@ class VehiculoController {
         }
     }
 
+
     async uploadImageVehiculo(req, res, next) {
         try {
-            console.log(req.file);
-
-            const v = await Vehiculo.findOne({
-                where: { patente_vehiculo: req.params.id },
-            });
-
+            const v = await this.serviceVehiculo.getFindOne(req.params.id);
             // se pregunta si el vehiculo  tiene image asignada
-            if (v.foto_vehiculo) {
-                //se borra la actual para remplazarla por la nueva
-                borrarImagenDeStorage(v.foto_vehiculo);
-            }
-
-            const vehiculo = await Vehiculo.update({ foto_vehiculo: req.file.filename }, {
-                where: { patente_vehiculo: req.params.id },
-            });
-
+            if (v.foto_vehiculo) borrarImagenDeStorage(v.foto_vehiculo);
+            const data = { foto_vehiculo: req.file.filename };
+            const vehiculo = await this.serviceVehiculo.putUpdate(data, req.params.id);
             res.json({
                 success: true,
                 msg: " imagen guardada",
             });
-
-
             next(vehiculo.logging);
-
-
         } catch (error) {
             sendError(error, res);
         }
     }
+
+
 }
 
 module.exports = VehiculoController;
