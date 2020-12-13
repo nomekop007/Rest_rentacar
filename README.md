@@ -81,8 +81,11 @@ npm start
 
 ## Ejecutando las pruebas ⚙️
 
-aun no disponible.
+para iniciar en modo de testing con mochajs y superTest
 
+```
+npm test
+```
 
 ## Despliegue 📦
 
@@ -93,6 +96,8 @@ para el depliegue es necesario contar con un certificado SSL valido dentro del s
 * [node.js](https://nodejs.org/es/) - Node.js
 * [express](https://expressjs.com/) - express
 * [Sequealize](https://sequelize.org/) - Sequealize
+* [superTest](https://www.npmjs.com/package/supertest) - Supertest
+* [mochajs](https://mochajs.org/) - mochajs
 
 
 
