@@ -204,11 +204,7 @@ class DefaultsComponent {
                     fechaCompra: new Date((dato.fechaCompra - (25567 + 2)) * 86400 * 1000),
                 });
             }
-            function getRandomInt(min, max) {
-                min = Math.ceil(min);
-                max = Math.floor(max);
-                return Math.floor(Math.random() * (max - min + 1)) + min;
-            }
+
             // se guarda los vehiculos en la base de datos
             for (let i = 0; i < vehiculos.length; i++) {
                 let vehiculo = {

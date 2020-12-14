@@ -1,18 +1,6 @@
-const {
-    ActaEntrega,
-    Arriendo,
-    Vehiculo,
-    Despacho,
-    Cliente,
-    Empresa,
-    Remplazo,
-} = require("../database/db");
-const {
-    fecha,
-    hora,
-    fechahorafirma,
-    sendError,
-} = require("../helpers/components");
+const ActaEntregaServices = require("../services/actaEntrega.service");
+const ArriendoServices = require("../services/arriendo.service");
+const { fecha, hora, fechahorafirma, sendError } = require("../helpers/components");
 const fs = require("fs");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
@@ -27,10 +15,14 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
 class ActaEntregaController {
+    constructor() {
+        this.serviceActaEntrega = new ActaEntregaServices();
+        this.serviceArriendo = new ArriendoServices();
+    }
+
     async createActaEntrega(req, res) {
         try {
             const response = req.body;
-
             const nameFile = uuidv4();
             const pathFile = path.join(__dirname, `${process.env.PATH_ACTA_ENTREGA}/${nameFile}.pdf`)
             fs.writeFileSync(pathFile, response.base64, "base64", (err) => {
@@ -40,12 +32,8 @@ class ActaEntregaController {
                 });
                 return;
             });
-
             response.documento = nameFile + ".pdf";
-
-
-            const actaEntrega = await ActaEntrega.create(response);
-
+            const actaEntrega = await this.serviceActaEntrega.postCreate(response);
             res.json({
                 success: true,
                 data: actaEntrega,
@@ -55,25 +43,12 @@ class ActaEntregaController {
         }
     }
 
+
+
     async generatePDFactaEntrega(req, res) {
         try {
             const response = req.body;
-            const arriendo = await Arriendo.findOne({
-                where: { id_arriendo: response.id_arriendo },
-                include: [
-                    { model: Despacho },
-                    {
-                        model: Vehiculo,
-                        attributes: [
-                            "marca_vehiculo",
-                            "modelo_vehiculo",
-                            "año_vehiculo",
-                            "color_vehiculo",
-                            "patente_vehiculo",
-                        ],
-                    },
-                ],
-            });
+            const arriendo = await this.serviceArriendo.getFindOne(response.id_arriendo);
             response.vehiculo = arriendo.vehiculo;
             response.kilometraje = arriendo.kilometrosEntrada_arriendo;
             response.id_arriendo = arriendo.id_arriendo;
@@ -103,28 +78,13 @@ class ActaEntregaController {
             sendError(error, res);
         }
     }
+
+
+
     async sendEmailActaEntrega(req, res) {
         try {
             const response = req.body;
-            const arriendo = await Arriendo.findOne({
-                where: { id_arriendo: response.id_arriendo },
-                include: [
-                    { model: Cliente, attributes: ["correo_cliente", "nombre_cliente"] },
-                    { model: Empresa, attributes: ["correo_empresa", "nombre_empresa"] },
-                    {
-                        model: Despacho,
-                        include: [{ model: ActaEntrega }],
-                    },
-                    {
-                        model: Remplazo,
-                        include: [{
-                            model: Cliente,
-                            attributes: ["correo_cliente", "nombre_cliente"],
-                        },],
-                    },
-                ],
-            });
-
+            const arriendo = await this.serviceArriendo.getFindOne(response.id_arriendo);
             const client = {};
             switch (arriendo.tipo_arriendo) {
                 case "PARTICULAR":
@@ -140,7 +100,6 @@ class ActaEntregaController {
                     client.correo = arriendo.empresa.correo_empresa;
                     break;
             }
-
             //datos del email hosting
             const transporter = nodemailer.createTransport({
                 host: process.env.EMAIL_HOST,
@@ -154,9 +113,7 @@ class ActaEntregaController {
                     rejectUnauthorized: false,
                 },
             });
-
             //client.correo
-
             //datos del mensaje y su destinatario
             const mailOptions = {
                 from: "'Rent A Car - Grupo Firma' <api.rentacarmaule@grupofirma.cl>",
@@ -190,11 +147,11 @@ class ActaEntregaController {
         }
     }
 
+
+
     async findActaEntrega(req, res) {
         try {
-            const actaEntrega = await ActaEntrega.findOne({
-                where: { id_despacho: req.params.id }
-            });
+            const actaEntrega = await this.serviceActaEntrega.getFindOneByIDdespacho(req.params.id);
             const pathFile = path.join(__dirname, `${process.env.PATH_ACTA_ENTREGA}/${actaEntrega.documento}`)
             const base64 = fs.readFileSync(pathFile, { encoding: 'base64' });
             res.json({

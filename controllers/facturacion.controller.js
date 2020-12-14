@@ -1,15 +1,14 @@
-const { Facturacion, Pago } = require("../database/db");
+const FacturacionService = require("../services/facturcion.service");
 const { sendError } = require("../helpers/components");
-const sequelize = require("sequelize");
 class FacturacionController {
+    constructor() {
+        this.serviceFacturacion = new FacturacionService();
+    }
+
 
     async getFacturacion(req, res) {
         try {
-
-            const facturacion = await Facturacion.findAll({
-                include: Pago,
-            });
-
+            const facturacion = await this.serviceFacturacion.getFindAll();
             res.json({
                 success: true,
                 data: facturacion,
@@ -17,13 +16,13 @@ class FacturacionController {
         } catch (error) {
             sendError(error, res);
         }
-
     }
+
 
     async createFacturacion(req, res) {
         try {
             const response = req.body;
-            const facturacion = await Facturacion.create(response);
+            const facturacion = await this.serviceFacturacion.postCreate(response);
             res.json({
                 success: true,
                 data: facturacion,
@@ -34,15 +33,11 @@ class FacturacionController {
         }
     }
 
+
     async uploadDocumentFacturacion(req, res) {
         try {
-
-            console.log(req.file);
-
-            await Facturacion.update({ documento_facturacion: req.file.filename }, {
-                where: { id_facturacion: req.params.id },
-            });
-
+            const data = { documento_facturacion: req.file.filename };
+            await this.serviceFacturacion.putUpdate(data, req.params.id);
             res.json({
                 success: true,
                 msg: " documento guardada",
@@ -51,6 +46,8 @@ class FacturacionController {
             sendError(error, res);
         }
     }
+
+
 }
 
 module.exports = FacturacionController;

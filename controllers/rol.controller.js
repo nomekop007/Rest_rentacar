@@ -1,12 +1,15 @@
-const { Rol } = require("../database/db");
+const RolService = require("../services/rol.service");
 const { sendError } = require("../helpers/components");
-
 class RolController {
+
+    constructor() {
+        this.serviceRol = new RolService();
+    }
+
+
     async getRoles(req, res) {
         try {
-            const roles = await Rol.findAll({
-                attributes: ["id_rol", "nombre_rol"],
-            });
+            const roles = await this.serviceRol.getFindAll();
             res.json({
                 success: true,
                 data: roles,
@@ -15,6 +18,8 @@ class RolController {
             sendError(error, res);
         }
     }
+
+
 }
 
 module.exports = RolController;

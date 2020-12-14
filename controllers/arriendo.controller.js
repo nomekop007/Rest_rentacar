@@ -1,52 +1,18 @@
-const {
-	Usuario,
-	Arriendo,
-	Cliente,
-	Conductor,
-	Empresa,
-	Vehiculo,
-	Remplazo,
-	Requisito,
-	Garantia,
-	Sucursal,
-	PagoArriendo,
-	Despacho,
-	ActaEntrega,
-	Contrato,
-	EmpresaRemplazo,
-	ModoPago,
-} = require("../database/db");
+const ArriendoService = require('../services/arriendo.service');
 const { sendError } = require("../helpers/components");
 class ArriendoController {
+	constructor() {
+		this.serviceArriendo = new ArriendoService();
+	}
+
+
 	async getArriendos(req, res) {
 		try {
 			//preguntar si el usuario no es administrador
 			const where = {};
-
-			if (req.body.id_rol != 1) {
-				where.id_sucursal = req.body.id_sucursal;
-			}
-			if (req.body.filtro) {
-				where.estado_arriendo = req.body.filtro;
-			}
-
-
-			const arriendos = await Arriendo.findAll({
-				where: where,
-				include: [
-					{ model: Usuario, attributes: ["nombre_usuario"] },
-					{ model: Cliente, attributes: ["nombre_cliente", "rut_cliente"] },
-					{ model: Empresa, attributes: ["nombre_empresa", "rut_empresa"] },
-					{ model: Vehiculo, attributes: ["patente_vehiculo"] },
-					{ model: PagoArriendo },
-					{ model: Requisito },
-					{ model: Garantia },
-					{
-						model: Remplazo,
-						include: [{ model: EmpresaRemplazo }, { model: Cliente, attributes: ["nombre_cliente", "rut_cliente"] }],
-					},
-				],
-			});
+			if (req.body.id_rol != 1) where.id_sucursal = req.body.id_sucursal;
+			if (req.body.filtro) where.estado_arriendo = req.body.filtro;
+			const arriendos = await this.serviceArriendo.getFindAllPublic(where);
 			res.json({
 				success: true,
 				data: arriendos,
@@ -56,26 +22,10 @@ class ArriendoController {
 		}
 	}
 
+
 	async findArriendo(req, res) {
 		try {
-			const arriendo = await Arriendo.findOne({
-				where: { id_arriendo: req.params.id },
-				include: [
-					{ model: Cliente },
-					{ model: Empresa },
-					{ model: Vehiculo },
-					{ model: Conductor },
-					{ model: Requisito },
-					{ model: Garantia, include: { model: ModoPago } },
-					{ model: PagoArriendo },
-					{ model: Sucursal },
-					{ model: Usuario, attributes: ["nombre_usuario"] },
-					{ model: Remplazo, include: [{ model: Cliente }, { model: EmpresaRemplazo }], },
-					{ model: Despacho, include: [{ model: ActaEntrega }] },
-					{ model: Contrato }
-				],
-			});
-
+			const arriendo = await this.serviceArriendo.getFindOnePublic(req.params.id);
 			if (arriendo) {
 				res.json({
 					success: true,
@@ -92,10 +42,10 @@ class ArriendoController {
 		}
 	}
 
+
 	async createArriendo(req, res, next) {
 		try {
 			const response = req.body;
-
 			switch (response.tipo_arriendo) {
 				case "PARTICULAR":
 					response.rut_empresa = null;
@@ -110,19 +60,9 @@ class ArriendoController {
 					response.rut_cliente = null;
 					break;
 			}
-
-
-			if (response.rut_conductor2 == "undefined") {
-				response.rut_conductor2 = null
-			}
-			if (response.rut_conductor3 == "undefined") {
-				response.rut_conductor3 = null
-			}
-
-
-			//se crea el arriendo
-			const arriendo = await Arriendo.create(response);
-
+			if (response.rut_conductor2 == "undefined") response.rut_conductor2 = null;
+			if (response.rut_conductor3 == "undefined") response.rut_conductor3 = null;
+			const arriendo = await this.serviceArriendo.postCreate(response);
 			res.json({
 				success: true,
 				msg: ` arriendo Nº${arriendo.id_arriendo} registrado exitosamente`,
@@ -134,14 +74,11 @@ class ArriendoController {
 		}
 	}
 
+
 	async updateStateArriendo(req, res, next) {
 		try {
 			const response = req.body;
-			console.log(response);
-			const arriendo = await Arriendo.update(response, {
-				where: { id_arriendo: req.params.id },
-			});
-
+			const arriendo = await this.serviceArriendo.putUpdateState(response, req.params.id);
 			res.json({
 				success: true,
 				msg: "actualizacion exitoso",

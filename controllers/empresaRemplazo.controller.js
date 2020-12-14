@@ -1,10 +1,15 @@
-const { EmpresaRemplazo } = require("../database/db");
+const EmpresaRemplazoService = require('../services/empresaRemplazo.service');
 const { sendError } = require("../helpers/components");
 
 class EmpresaRemplazoController {
+    constructor() {
+        this.serviceEmpresaRemplazo = new EmpresaRemplazoService();
+    }
+
+
     async getEmpresasRemplazo(req, res) {
         try {
-            const empresasRemplazo = await EmpresaRemplazo.findAll();
+            const empresasRemplazo = await this.serviceEmpresaRemplazo.getFindAll();
             res.json({
                 success: true,
                 data: empresasRemplazo,
@@ -13,6 +18,7 @@ class EmpresaRemplazoController {
             sendError(error, res);
         }
     }
+
 
 }
 

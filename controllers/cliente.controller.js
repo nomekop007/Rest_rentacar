@@ -1,17 +1,15 @@
-const { Cliente } = require("../database/db");
+
+const ClienteService = require("../services/cliente.service");
 const { sendError } = require("../helpers/components");
 
 class ClienteController {
+    constructor() {
+        this.serviceCliente = new ClienteService();
+    }
+
     async getClientes(req, res) {
         try {
-            const cliente = await Cliente.findAll({
-                attributes: [
-                    "rut_cliente",
-                    "nombre_cliente",
-                    "telefono_cliente",
-                    "correo_cliente",
-                ],
-            });
+            const cliente = await this.serviceCliente.getFindAll();
             res.json({
                 success: true,
                 data: cliente,
@@ -21,9 +19,10 @@ class ClienteController {
         }
     }
 
+
     async findCliente(req, res) {
         try {
-            const cliente = await Cliente.findByPk(req.params.id);
+            const cliente = await this.serviceCliente.getFindByPk(req.params.id);
             if (cliente) {
                 res.json({
                     success: true,
@@ -43,38 +42,19 @@ class ClienteController {
     async createCliente(req, res, next) {
         try {
             const response = req.body;
-
-
             //si es extranjero
-            if (response.nacionalidad_cliente != "CHILENO/A") {
-                response.rut_cliente = "@" + response.rut_cliente
-            }
-
-
-            if (response.fechaNacimiento_cliente == "") {
-                response.fechaNacimiento_cliente = null;
-            }
-
+            if (response.nacionalidad_cliente != "CHILENO/A") response.rut_cliente = "@" + response.rut_cliente;
             //si no existe lo crea
-            const [cliente, created] = await Cliente.findOrCreate({
-                where: { rut_cliente: response.rut_cliente },
-                defaults: response,
-            });
+            const [cliente, created] = await this.serviceCliente.postFindOrCreate(response, response.rut_cliente);
             //si existia lo modifica
-            if (!created) {
-                await Cliente.update(response, {
-                    where: { rut_cliente: cliente.rut_cliente },
-                });
-            }
-
+            if (!created) await this.serviceCliente.putUpdate(response, cliente.rut_cliente);
+            //se buscar el cliente
+            const newCliente = await this.serviceCliente.getFindByPk(cliente.rut_cliente);
             res.json({
                 success: true,
-                data: cliente,
+                data: newCliente,
             });
-
-            if (created) {
-                next(cliente.logging);
-            }
+            if (created) next(cliente.logging);
         } catch (error) {
             sendError(error, res);
         }

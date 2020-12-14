@@ -1,12 +1,15 @@
-const { Propietario } = require("../database/db");
+const PropietarioService = require("../services/propietario.service");
 const { sendError } = require("../helpers/components");
-
 class PropietarioController {
+
+  constructor() {
+    this.servicePropietario = new PropietarioService();
+  }
+
+
   async getPropietario(req, res) {
     try {
-      const propietario = await Propietario.findAll({
-        attributes: ["rut_propietario", "nombre_propietario"],
-      });
+      const propietario = await this.servicePropietario.getFindAll();
       res.json({
         success: true,
         data: propietario,

@@ -1,21 +1,25 @@
-const { DanioVehiculo, Arriendo, Vehiculo, PagoDanio, Empresa, Cliente, Remplazo, Facturacion } = require('../database/db');
+const DanioVehiculoService = require("../services/danioVehiculo.service");
+const ArriendoService = require("../services/arriendo.service");
 const { sendError, fecha, hora } = require("../helpers/components");
+const recepcionPlantilla = require("../utils/pdf_plantillas/recepcion")
 const fs = require("fs");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
-const recepcionPlantilla = require("../utils/pdf_plantillas/recepcion")
 const pdfMake = require("pdfmake/build/pdfmake.js");
 const pdfFonts = require("pdfmake/build/vfs_fonts.js");
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 class DanioVehiculoController {
+    constructor() {
+        this.serviceArriendo = new ArriendoService();
+        this.serviceDanioVehiculo = new DanioVehiculoService();
+    }
+
 
     async createDanioVehiculo(req, res, next) {
         try {
             const response = req.body;
-            const arriendo = await Arriendo.findOne({
-                where: { id_arriendo: response.id_arriendo },
-            });
+            const arriendo = await this.serviceArriendo.getFindOne(response.id_arriendo);
             response.id_despacho = arriendo.id_arriendo;
             response.fecha = fecha();
             response.hora = hora();
@@ -32,14 +36,15 @@ class DanioVehiculoController {
                     return;
                 })
             });
-            const danioVehiculo = await DanioVehiculo.create({
+            const data = {
                 descripcion_danioVehiculo: response.descripcion_danio,
                 documento_danioVehiculo: nameFile + ".pdf",
                 id_arriendo: arriendo.id_arriendo,
                 patente_vehiculo: arriendo.patente_vehiculo,
                 estado_danioVehiculo: "PENDIENTE",
                 userAt: response.userAt
-            })
+            }
+            const danioVehiculo = await this.serviceDanioVehiculo.postCreate(data);
             res.json({
                 success: true,
                 msg: "daño registrado"
@@ -53,12 +58,7 @@ class DanioVehiculoController {
 
     async consultarDanioVehiculo(req, res) {
         try {
-            const arriendo = await Arriendo.findOne({
-                where: { id_arriendo: req.params.id },
-                include: {
-                    model: DanioVehiculo
-                }
-            });
+            const arriendo = await this.serviceArriendo.getFindOne(req.params.id);
             if (arriendo.danioVehiculos.length > 0) {
                 res.json({
                     success: true,
@@ -78,12 +78,7 @@ class DanioVehiculoController {
 
     async getDanioVehiculo(req, res) {
         try {
-            const danios = await DanioVehiculo.findAll({
-                include: [
-                    { model: Arriendo, include: [{ model: Empresa }, { model: Cliente }, { model: Remplazo, include: { model: Cliente } }] },
-                    { model: Vehiculo },
-                    { model: PagoDanio, include: { model: Facturacion } }]
-            });
+            const danios = await this.serviceDanioVehiculo.getFindAll();
             res.json({
                 success: true,
                 data: danios
@@ -94,25 +89,24 @@ class DanioVehiculoController {
     }
 
 
-    async updateDanioVehiculo(req, res, next) {
+    async updateDanioVehiculo(req, res,) {
         try {
             const response = req.body;
-            const danioVehiculo = await DanioVehiculo.update(response, {
-                where: { id_danioVehiculo: req.params.id },
-            });
-            const d = await DanioVehiculo.findByPk(req.params.id);
-            await Arriendo.update({ estado_arriendo: "FINALIZADO" }, {
-                where: { id_arriendo: d.id_arriendo }
-            })
+            await this.serviceDanioVehiculo.putUpdate(response, req.params.id);
+            const danioVehiculo = await this.serviceDanioVehiculo.getFindByPk(req.params.id);
+            const data = { estado_arriendo: "FINALIZADO" };
+            await this.serviceArriendo.putUpdateState(data, danioVehiculo.id_arriendo);
             res.json({
                 success: true,
                 msg: "estado daño actualizado",
             });
-            next(danioVehiculo.logging);
         } catch (error) {
             sendError(error);
         }
     }
+
+
+
 }
 
 module.exports = DanioVehiculoController;

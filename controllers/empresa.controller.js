@@ -1,17 +1,14 @@
-const { Empresa } = require("../database/db");
+const EmpresaService = require("../services/empresa.service");
 const { sendError } = require("../helpers/components");
 
 class EmpresaController {
+    constructor() {
+        this.serviceEmpresa = new EmpresaService();
+    }
+
     async getEmpresas(req, res) {
         try {
-            const empresas = await Empresa.findAll({
-                attributes: [
-                    "rut_empresa",
-                    "nombre_empresa",
-                    "rol_empresa",
-                    "correo_empresa",
-                ],
-            });
+            const empresas = await this.serviceEmpresa.getFindAll();
             res.json({
                 success: true,
                 data: empresas,
@@ -21,10 +18,10 @@ class EmpresaController {
         }
     }
 
+
     async findEmpresa(req, res) {
         try {
-            const empresa = await Empresa.findByPk(req.params.id);
-
+            const empresa = await this.serviceEmpresa.getFindByPk(req.params.id);
             if (empresa) {
                 res.json({
                     success: true,
@@ -41,31 +38,24 @@ class EmpresaController {
         }
     }
 
+
     async createEmpresa(req, res, next) {
         try {
             const response = req.body;
-
-            const [empresa, created] = await Empresa.findOrCreate({
-                where: { rut_empresa: response.rut_empresa },
-                defaults: response,
-            });
-            if (!created) {
-                await Empresa.update(response, {
-                    where: { rut_empresa: empresa.rut_empresa },
-                });
-            }
-
+            const [empresa, created] = await this.serviceEmpresa.postfindOrCreate(response, response.rut_empresa);
+            if (!created) await this.serviceEmpresa.putUpdate(response, response.rut_empresa);
+            const newEmpresa = await this.serviceEmpresa.getFindByPk(response.rut_empresa);
             res.json({
                 success: true,
-                data: empresa,
+                data: newEmpresa,
             });
-            if (created) {
-                next(empresa.logging);
-            }
+            if (created) next(empresa.logging);
         } catch (error) {
             sendError(error, res);
         }
     }
+
+
 }
 
 module.exports = EmpresaController;

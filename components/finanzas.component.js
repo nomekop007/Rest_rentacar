@@ -1,42 +1,16 @@
+const ArriendoService = require("../services/arriendo.service");
 const { sendError } = require("../helpers/components");
 const path = require("path");
-const { Arriendo, Conductor, Garantia, Despacho, ActaEntrega, Accesorio, Requisito, Sucursal, Usuario, Cliente, Empresa, Vehiculo, PagoArriendo, PagoAccesorio, Pago, Facturacion, ModoPago, EmpresaRemplazo, Remplazo, Contrato, Contacto } = require("../database/db");
-
 
 class FinanzasComponent {
+    constructor() {
+        this.serviceArriendo = new ArriendoService();
+    }
+
 
     async getArriendoFinanzas(req, res) {
         try {
-            const arriendos = await Arriendo.findAll({
-                include: [
-                    { model: Usuario, attributes: ["nombre_usuario"] },
-                    { model: Sucursal },
-                    { model: Vehiculo },
-                    { model: Cliente },
-                    { model: Empresa },
-                    { model: Requisito },
-                    {
-                        model: Remplazo,
-                        include: [{ model: EmpresaRemplazo }, { model: Cliente }],
-                    },
-                    {
-                        model: PagoArriendo,
-                        include: [
-                            { model: Contrato },
-                            { model: PagoAccesorio, include: [{ model: Accesorio }] },
-                            {
-                                model: Pago,
-                                include: [{
-                                    model: Facturacion,
-                                    include: [
-                                        { model: ModoPago }
-                                    ],
-                                }],
-                            }
-                        ],
-                    },
-                ],
-            });
+            const arriendos = await this.serviceArriendo.getFindAll();
             res.json({
                 success: true,
                 data: arriendos,
@@ -49,39 +23,7 @@ class FinanzasComponent {
 
     async findArriendoFinanzas(req, res) {
         try {
-            const arriendo = await Arriendo.findOne({
-                where: { id_arriendo: req.params.id },
-                include: [
-                    { model: Conductor },
-                    { model: Requisito },
-                    { model: Garantia },
-                    { model: Sucursal },
-                    { model: Contrato },
-                    { model: Despacho, include: [{ model: ActaEntrega }] },
-                    { model: Vehiculo },
-                    { model: Usuario, attributes: ["nombre_usuario"] },
-                    { model: Cliente },
-                    { model: Contacto },
-                    { model: Empresa },
-                    { model: Remplazo, include: [{ model: Cliente }, { model: EmpresaRemplazo }], },
-                    {
-                        model: PagoArriendo,
-                        include: [
-                            { model: Contrato },
-                            { model: PagoAccesorio, include: [{ model: Accesorio }] },
-                            {
-                                model: Pago,
-                                include: [{
-                                    model: Facturacion,
-                                    include: [
-                                        { model: ModoPago }
-                                    ],
-                                }],
-                            }
-                        ],
-                    },
-                ],
-            });
+            const arriendo = await this.serviceArriendo.getFindOne(req.params.id);
             if (arriendo) {
                 res.json({
                     success: true,
