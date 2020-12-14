@@ -47,11 +47,40 @@ class ArriendoService {
                 { model: Garantia, include: { model: ModoPago } },
                 { model: Remplazo, include: [{ model: Cliente }, { model: EmpresaRemplazo }], },
                 { model: Despacho, include: [{ model: ActaEntrega }] },
-
             ],
         });
     }
 
+
+    async getFindAll() {
+        return await Arriendo.findAll({
+            include: [
+                { model: Usuario, attributes: ["nombre_usuario"] },
+                { model: Sucursal },
+                { model: Vehiculo },
+                { model: Cliente },
+                { model: Empresa },
+                { model: Requisito },
+                { model: Remplazo, include: [{ model: EmpresaRemplazo }, { model: Cliente }] },
+                {
+                    model: PagoArriendo,
+                    include: [
+                        { model: Contrato },
+                        { model: PagoAccesorio, include: [{ model: Accesorio }] },
+                        {
+                            model: Pago,
+                            include: [{
+                                model: Facturacion,
+                                include: [
+                                    { model: ModoPago }
+                                ],
+                            }],
+                        }
+                    ],
+                },
+            ],
+        });
+    }
 
     async getFindOne(ID) {
         return await Arriendo.findOne({
@@ -63,6 +92,7 @@ class ArriendoService {
                 { model: Contacto },
                 { model: Empresa },
                 { model: Sucursal },
+                { model: Contrato },
                 { model: DanioVehiculo },
                 { model: Requisito },
                 { model: Usuario, attributes: ["nombre_usuario"] },
@@ -74,7 +104,26 @@ class ArriendoService {
                     include: [
                         { model: Pago, include: { model: Facturacion, include: { model: ModoPago } } },
                         { model: PagoAccesorio, include: [{ model: Accesorio }] },
+                        { model: Contrato },
                     ],
+                },
+            ],
+        });
+    }
+
+
+    async getFindOneMin(ID) {
+        return await Arriendo.findOne({
+            where: { id_arriendo: ID },
+            include: [
+                { model: Cliente },
+                { model: Empresa },
+                { model: Contrato },
+                { model: Remplazo, include: [{ model: Cliente }] },
+                { model: Usuario, attributes: ["nombre_usuario"] },
+                {
+                    model: PagoArriendo,
+                    include: [{ model: Contrato }],
                 },
             ],
         });

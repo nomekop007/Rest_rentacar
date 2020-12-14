@@ -1,7 +1,7 @@
 const request = require("supertest");
 const assert = require("assert");
 const app = require("../index");
-const { crearToken, getRandomInt, fecha } = require("../helpers/components")
+const { crearToken, getRandomInt } = require("../helpers/components")
 
 const token = crearToken({ id_usuario: 777 });
 const dataVehiculo = {
@@ -15,7 +15,7 @@ const dataVehiculo = {
     tipo_vehiculo: "AUTOMOVIL",
     color_vehiculo: "ROJO",
     compra_vehiculo: "ROSSELOT",
-    fechaCompra_vehiculo: fecha(),
+    fechaCompra_vehiculo: new Date(),
     año_vehiculo: 2020,
     foto_vehiculo: null,
     Tmantencion_vehiculo: 10000,

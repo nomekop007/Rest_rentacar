@@ -20,7 +20,7 @@ class EmpresaService {
 
 
     async postfindOrCreate(DATA, ID) {
-        return await Empresa.postfindOrCreate({
+        return await Empresa.findOrCreate({
             where: { rut_empresa: ID },
             defaults: DATA,
         });

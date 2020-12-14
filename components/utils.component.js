@@ -4,7 +4,6 @@ const path = require("path");
 
 class UtilsController {
 
-
     async findDocumento(req, res) {
         try {
             const { documento, tipo } = req.body;

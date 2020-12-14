@@ -1,10 +1,11 @@
 const request = require("supertest");
 const assert = require("assert");
 const app = require("../index")
-const { crearToken, fecha } = require("../helpers/components")
+const { crearToken, } = require("../helpers/components")
 
 
 const token = crearToken({ id_usuario: 777 });
+
 
 const dataCliente = {
     rut_cliente: "11.111.111-1",
@@ -16,7 +17,7 @@ const dataCliente = {
     nacionalidad_cliente: "CHILENO/A",
     telefono_cliente: "945404543",
     correo_cliente: "xxxxxxxx@xxxx.cl",
-    fechaNacimiento_cliente: fecha(),
+    fechaNacimiento_cliente: new Date(),
 }
 
 

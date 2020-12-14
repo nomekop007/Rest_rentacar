@@ -1,7 +1,7 @@
 const request = require("supertest");
 const assert = require("assert");
 const app = require("../index")
-const { crearToken, fecha } = require("../helpers/components")
+const { crearToken, } = require("../helpers/components")
 
 
 const token = crearToken({ id_usuario: 777 });
@@ -13,7 +13,7 @@ const dataConductor = {
     clase_conductor: "clase b",
     numero_conductor: "3232323",
     nacionalidad_conductor: "CHILENO/A",
-    vcto_conductor: fecha(),
+    vcto_conductor: new Date(),
     municipalidad_conductor: "TALCA",
     direccion_conductor: "30 oriente",
 }

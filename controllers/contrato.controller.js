@@ -1,4 +1,4 @@
-const ContratoService = require("../services/contacto.service");
+const ContratoService = require("../services/contrato.service");
 const ArriendoService = require("../services/arriendo.service");
 const ConductorService = require("../services/conductor.service");
 const { sendError, ordenarArrayporFecha } = require("../helpers/components");
@@ -96,8 +96,10 @@ class contrato_controller {
     async sendEmailContrato(req, res) {
         try {
             const response = req.body;
-            const arriendo = await this.serviceArriendo.getFindOne(response.id_arriendo);
+            const arriendo = await this.serviceArriendo.getFindOneMin(response.id_arriendo);
             const client = {};
+            //funcion para ordenar el array de pagos por fecha de creacion y poner el mas nuevo al final
+            const contratos = ordenarArrayporFecha(arriendo.contratos);
             switch (arriendo.tipo_arriendo) {
                 case "PARTICULAR":
                     client.name = arriendo.cliente.nombre_cliente;
@@ -112,8 +114,7 @@ class contrato_controller {
                     client.correo = arriendo.empresa.correo_empresa;
                     break;
             }
-            //funcion para ordenar el array de pagos por fecha de creacion y poner el mas nuevo al final
-            const pagosArriendos = ordenarArrayporFecha(arriendo.contratos);
+
             //datos del email hosting
             const transporter = nodemailer.createTransport({
                 host: process.env.EMAIL_HOST,
@@ -139,7 +140,7 @@ class contrato_controller {
                 attachments: [{
                     filename: "CONSTRATO.pdf",
                     contentType: "pdf",
-                    path: path.join(__dirname, `${process.env.PATH_CONTRATO}/${pagosArriendos[pagosArriendos.length - 1].documento}`)
+                    path: path.join(__dirname, `${process.env.PATH_CONTRATO}/${contratos[contratos.length - 1].documento}`)
                 },],
             };
             const resp = await transporter.sendMail(mailOptions);
