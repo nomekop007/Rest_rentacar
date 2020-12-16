@@ -9,9 +9,10 @@ class ArriendoController {
 	async getArriendos(req, res) {
 		try {
 			//preguntar si el usuario no es administrador
+			const { rol, sucursal, estado } = req.query;
 			const where = {};
-			if (req.body.id_rol != 1) where.id_sucursal = req.body.id_sucursal;
-			if (req.body.filtro) where.estado_arriendo = req.body.filtro;
+			if (rol != 1) where.id_sucursal = sucursal;
+			if (estado) where.estado_arriendo = estado;
 			const arriendos = await this.serviceArriendo.getFindAllPublic(where);
 			res.json({
 				success: true,

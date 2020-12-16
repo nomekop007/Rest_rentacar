@@ -1,15 +1,24 @@
 const VehiculoService = require("../services/vehiculo.service");
+const SucursalService = require("../services/sucursal.service");
 const { borrarImagenDeStorage, sendError } = require("../helpers/components");
 class VehiculoController {
 
     constructor() {
         this.serviceVehiculo = new VehiculoService();
+        this.serviceSucursal = new SucursalService();
     }
 
 
     async getVehiculos(req, res) {
         try {
-            const vehiculos = await this.serviceVehiculo.getFindAll();
+            const { sucursal, rol } = req.query;
+            const { id_region } = await this.serviceSucursal.getFindOne(sucursal);
+
+            let vehiculos = null;
+            if (rol === 1) vehiculos = await this.serviceVehiculo.getFindAll();
+            else vehiculos = await this.serviceVehiculo.getFindAllWithRegion(id_region);
+
+
             res.json({
                 success: true,
                 data: vehiculos,

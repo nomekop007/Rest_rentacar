@@ -6,6 +6,12 @@ class SucursalService {
         return await Sucursal.findAll();
     }
 
+    async getFindOne(ID) {
+        return await Sucursal.findOne({
+            where: { id_sucursal: ID },
+        })
+    }
+
     async getFindByName(NAME) {
         return await Sucursal.findOne({
             where: { nombre_sucursal: NAME },
