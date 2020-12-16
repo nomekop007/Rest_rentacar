@@ -12,7 +12,6 @@ class VehiculoService {
     }
 
     async getFindAllWithRegion(ID_REGION) {
-        console.log(ID_REGION);
         return await Vehiculo.findAll({
             where: { id_region: ID_REGION },
             include: { model: Region }

@@ -35,6 +35,8 @@ class UsuarioService {
             attributes: [
                 "estado_usuario",
                 "id_usuario",
+                "id_sucursal",
+                "id_rol",
                 "nombre_usuario",
                 "email_usuario",
                 "createdAt",

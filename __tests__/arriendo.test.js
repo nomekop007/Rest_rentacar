@@ -20,25 +20,20 @@ const dataArriendo = {
     rut_conductor3: null,
 }
 
-
-before(function () {
-
-    describe(" tests POST /registrarArriendo", () => {
-        it("devuelve el arriendo creado ", done => {
-            request(app)
-                .post("/rentacar/arriendos/registrarArriendo")
-                .send(dataArriendo)
-                .set("Accept", "application/json")
-                .set("usertoken", token)
-                .expect("Content-Type", /json/)
-                .expect(200)
-                .end((err, res) => {
-                    if (err) done(err)
-                    assert(res.body.success === true);
-                    done();
-                })
-
-        })
+describe(" tests POST /registrarArriendo", () => {
+    it("devuelve el arriendo creado ", done => {
+        request(app)
+            .post("/rentacar/arriendos/registrarArriendo")
+            .send(dataArriendo)
+            .set("Accept", "application/json")
+            .set("usertoken", token)
+            .expect("Content-Type", /json/)
+            .expect(200)
+            .end((err, res) => {
+                if (err) done(err)
+                assert(res.body.success === true);
+                done();
+            })
 
     })
 
