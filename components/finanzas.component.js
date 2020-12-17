@@ -86,9 +86,6 @@ class FinanzasComponent {
             sendError(error, res);
         }
     }
-
-
-
 }
 
 module.exports = FinanzasComponent;

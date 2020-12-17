@@ -2,7 +2,7 @@ const router = require("express").Router();
 const ArriendoController = require("../../controllers/arriendo.controller");
 const arriendo = new ArriendoController();
 
-router.post("/cargarArriendos", arriendo.getArriendos.bind(arriendo));
+router.get("/cargarArriendos", arriendo.getArriendos.bind(arriendo));
 
 router.get("/buscarArriendo/:id", arriendo.findArriendo.bind(arriendo));
 

@@ -1,0 +1,20 @@
+{
+    "plugins": [],
+    "source": {
+        "include": [
+            "controllers",
+            "services",
+            "components",
+            "routes"
+        ],
+        "includePattern": ".js$"
+    },
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false
+    },
+    "opts": {
+        "recurse": "true",
+        "destination": "./doc"
+    }
+}
