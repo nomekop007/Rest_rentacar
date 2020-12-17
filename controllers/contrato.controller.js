@@ -36,13 +36,36 @@ class contrato_controller {
                 return;
             });
             //guarda el ultimo pago en el contrato
-            const fila = arriendo.pagosArriendos.length - 1;
-            response.id_pagoArriendo = arriendo.pagosArriendos[fila].id_pagoArriendo;
+            const arrayPagos = ordenarArrayporFecha(arriendo.pagosArriendos);
+            const fila = arrayPagos.length - 1;
+            response.id_pagoArriendo = arrayPagos[fila].id_pagoArriendo;
             response.documento = nameFile + ".pdf";
             const contrato = await this.serviceContrato.postCreate(response);
             res.json({
                 success: true,
                 data: contrato,
+            });
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+
+
+    async subirContrato(req, res) {
+        try {
+            const arriendo = await this.serviceArriendo.getFindOne(req.params.id);
+            const arrayPagos = ordenarArrayporFecha(arriendo.pagosArriendos);
+            const fila = arrayPagos.length - 1;
+            const data = {
+                documento: req.file.filename,
+                id_pagoArriendo: arrayPagos[fila].id_pagoArriendo,
+                id_arriendo: req.params.id,
+                userAt: req.headers["userat"],
+            };
+            const contrato = await this.serviceContrato.postCreate(data);
+            res.json({
+                success: true,
+                data: contrato
             });
         } catch (error) {
             sendError(error, res);

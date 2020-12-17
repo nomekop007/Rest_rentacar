@@ -74,9 +74,21 @@ const subirDocumentoFacturacion = multer({
 
 
 
+const subirDocumentoContrato = multer({
+    storage: multer.diskStorage({
+        destination: path.join(__dirname, process.env.PATH_CONTRATO),
+        filename: (req, file, cb) => {
+            cb(null, uuidv4() + path.extname(file.originalname).toLocaleLowerCase());
+        },
+    }),
+    dest: path.join(__dirname, process.env.PATH_CONTRATO),
+    limits: { fieldSize: 20000000 },
+}).single("documento_contrato");
+
 
 module.exports = {
     subirImageVehiculo: subirImageVehiculo,
     subirDocumentoRequisitosArriendo: subirDocumentoRequisitosArriendo,
     subirDocumentoFacturacion: subirDocumentoFacturacion,
+    subirDocumentoContrato: subirDocumentoContrato
 };
