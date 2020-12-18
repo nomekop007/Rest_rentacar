@@ -28,6 +28,7 @@ router.get(
 
 router.get(
     "/buscarUsuario/:id",
+    token.checkToken,
     usuario.findUsuario.bind(usuario)
 );
 

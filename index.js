@@ -2,6 +2,7 @@
 require("dotenv").config();
 
 require("./database/db");
+const log = require("./middlewares/log.middleware");
 const express = require("express");
 const bodyParser = require("body-parser");
 const apiRouter = require("./routes/route");
@@ -14,6 +15,9 @@ const cors = require("cors");
 const helmet = require("helmet");
 const app = express();
 
+const PORT = process.env.PORT || 3000;
+const LIST = process.env.LIST_CORS;
+app.use(cors(LIST));
 app.use(compression());
 app.use(helmet());
 app.use(morgan("dev"));
@@ -24,21 +28,14 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 //app.use(express.static(path.join(__dirname, "uploads")));
 
 
-//middlewares
-const log = require("./middlewares/log.middleware");
-
 // ruta padre
 app.use("/rentacar", apiRouter, log.logRegister);
 
 //start server
-const PORT = process.env.PORT || 3000;
 
-const c = process.env.LIST_CORS;
-app.use(cors(c));
 if (process.env.NODE_ENV == "production") {
     const cert = fs.readFileSync("./cert4.pem");
     const key = fs.readFileSync("./privkey4.pem");
-
     const server = https
         .createServer({ cert: cert, key: key }, app)
         .listen(PORT, () => {
