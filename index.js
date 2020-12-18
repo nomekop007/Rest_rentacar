@@ -33,12 +33,12 @@ app.use("/rentacar", apiRouter, log.logRegister);
 //start server
 const PORT = process.env.PORT || 3000;
 
+const c = process.env.LIST_CORS;
+app.use(cors(c));
 if (process.env.NODE_ENV == "production") {
     const cert = fs.readFileSync("./cert4.pem");
     const key = fs.readFileSync("./privkey4.pem");
 
-    const c = process.env.LIST_CORS;
-    app.use(cors(c));
     const server = https
         .createServer({ cert: cert, key: key }, app)
         .listen(PORT, () => {
