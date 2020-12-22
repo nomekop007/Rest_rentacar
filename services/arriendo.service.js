@@ -1,4 +1,4 @@
-const { Arriendo, DanioVehiculo, PagoAccesorio, Accesorio, Usuario, Facturacion, Conductor, Sucursal, ModoPago, Contrato, PagoArriendo, Requisito, Garantia, EmpresaRemplazo, Despacho, Vehiculo, Cliente, Empresa, ActaEntrega, Remplazo, Contacto, Pago } = require("../database/db");
+const { Arriendo, DanioVehiculo, PagoAccesorio, DocumentoConductor, Accesorio, Usuario, Facturacion, Conductor, Sucursal, ModoPago, Contrato, PagoArriendo, Requisito, Garantia, EmpresaRemplazo, Despacho, Vehiculo, Cliente, Empresa, ActaEntrega, Remplazo, Contacto, Pago, DocumentoCliente, DocumentoEmpresa } = require("../database/db");
 
 class ArriendoService {
 
@@ -35,18 +35,30 @@ class ArriendoService {
         return await Arriendo.findOne({
             where: { id_arriendo: ID },
             include: [
-                { model: Cliente },
-                { model: Empresa },
+                { model: Cliente, include: [{ model: DocumentoCliente }] },
+                { model: Empresa, include: [{ model: DocumentoEmpresa }] },
+                { model: Conductor, include: [{ model: DocumentoConductor }] },
+                { model: Remplazo, include: [{ model: Cliente, include: [{ model: DocumentoCliente }] }, { model: EmpresaRemplazo }], },
                 { model: Vehiculo },
-                { model: Conductor },
                 { model: Requisito },
                 { model: PagoArriendo },
                 { model: Sucursal },
                 { model: Contrato },
                 { model: Usuario, attributes: ["nombre_usuario"] },
                 { model: Garantia, include: { model: ModoPago } },
-                { model: Remplazo, include: [{ model: Cliente }, { model: EmpresaRemplazo }], },
                 { model: Despacho, include: [{ model: ActaEntrega }] },
+            ],
+        });
+    }
+
+    async getFindOneClients(ID) {
+        return await Arriendo.findOne({
+            where: { id_arriendo: ID },
+            include: [
+                { model: Cliente, include: [{ model: DocumentoCliente }] },
+                { model: Empresa, include: [{ model: DocumentoEmpresa }] },
+                { model: Conductor, include: [{ model: DocumentoConductor }] },
+                { model: Remplazo, include: [{ model: Cliente, include: [{ model: DocumentoCliente }] }], },
             ],
         });
     }

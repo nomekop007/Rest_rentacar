@@ -28,6 +28,9 @@ const PagoModel = require("../models/pagos");
 const RegionModel = require("../models/regiones");
 const DanioVehiculoModel = require("../models/danioVehiculo");
 const PagoDanioModel = require("../models/pagosDanios");
+const DocumentoClienteModel = require("../models/documentosClientes");
+const DocumentoEmpresaModel = require("../models/documentosEmpresas");
+const DocumentoConductorModel = require("../models/documentosConductores");
 
 
 //conectar modelo con base de datos
@@ -58,7 +61,9 @@ const Contacto = ContactoModel(database, Sequelize);
 const Region = RegionModel(database, Sequelize);
 const DanioVehiculo = DanioVehiculoModel(database, Sequelize);
 const PagoDanio = PagoDanioModel(database, Sequelize);
-
+const DocumentoCliente = DocumentoClienteModel(database, Sequelize);
+const DocumentoEmpresa = DocumentoEmpresaModel(database, Sequelize);
+const DocumentoConductor = DocumentoConductorModel(database, Sequelize);
 
 //opciones
 //RESTRICT, CASCADE, NO ACTION, SET DEFAULTy SET NULL.
@@ -236,7 +241,20 @@ PagoDanio.belongsTo(DanioVehiculo, { foreignKey: { name: "id_danioVehiculo" }, o
 // un danioVehiculo tiene un PagoDanio
 DanioVehiculo.hasOne(PagoDanio, { foreignKey: { name: "id_danioVehiculo" }, onDelete: onDelete, onUpdate: onUpdate })
 
+// un cliente tiene un documentoCliente
+Cliente.hasOne(DocumentoCliente, { foreignKey: { name: "rut_cliente" }, onDelete: onDelete, onUpdate: onUpdate });
+// un documentoCliente pertenece a un cliente
+DocumentoCliente.belongsTo(Cliente, { foreignKey: { name: "rut_cliente" }, onDelete: onDelete, onUpdate: onUpdate });
 
+// un empresa tiene un documentoEmpresa
+Empresa.hasOne(DocumentoEmpresa, { foreignKey: { name: "rut_empresa" }, onDelete: onDelete, onUpdate: onUpdate });
+// un documentoEmpresa pertenece a un empresa
+DocumentoEmpresa.belongsTo(Empresa, { foreignKey: { name: "rut_empresa" }, onDelete: onDelete, onUpdate: onUpdate });
+
+// un Conductor tiene un documentoConductor
+Conductor.hasOne(DocumentoConductor, { foreignKey: { name: "rut_conductor" }, onDelete: onDelete, onUpdate: onUpdate });
+// un documentoConductor pertenece a un Conductor
+DocumentoConductor.belongsTo(Conductor, { foreignKey: { name: "rut_conductor" }, onDelete: onDelete, onUpdate: onUpdate });
 
 
 module.exports = {
@@ -266,5 +284,8 @@ module.exports = {
     Contacto,
     Region,
     PagoDanio,
-    DanioVehiculo
+    DanioVehiculo,
+    DocumentoCliente,
+    DocumentoEmpresa,
+    DocumentoConductor
 };
