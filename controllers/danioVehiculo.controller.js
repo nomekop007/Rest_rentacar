@@ -16,7 +16,7 @@ class DanioVehiculoController {
     }
 
 
-    async createDanioVehiculo(req, res, next) {
+    async createDanioVehiculo(req, res) {
         try {
             const response = req.body;
             const arriendo = await this.serviceArriendo.getFindOne(response.id_arriendo);
@@ -44,12 +44,11 @@ class DanioVehiculoController {
                 estado_danioVehiculo: "PENDIENTE",
                 userAt: response.userAt
             }
-            const danioVehiculo = await this.serviceDanioVehiculo.postCreate(data);
+            await this.serviceDanioVehiculo.postCreate(data);
             res.json({
                 success: true,
                 msg: "daño registrado"
             })
-            next(danioVehiculo.logging);
         } catch (error) {
             sendError(error);
         }
@@ -89,13 +88,13 @@ class DanioVehiculoController {
     }
 
 
-    async updateDanioVehiculo(req, res,) {
+    async updateDanioVehiculo(req, res) {
         try {
             const response = req.body;
             await this.serviceDanioVehiculo.putUpdate(response, req.params.id);
             const danioVehiculo = await this.serviceDanioVehiculo.getFindByPk(req.params.id);
-            const data = { estado_arriendo: "FINALIZADO" };
-            await this.serviceArriendo.putUpdateState(data, danioVehiculo.id_arriendo);
+            //  const data = { estado_arriendo: "FINALIZADO" };
+            // await this.serviceArriendo.putUpdateState(data, danioVehiculo.id_arriendo);
             res.json({
                 success: true,
                 msg: "estado daño actualizado",

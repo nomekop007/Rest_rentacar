@@ -23,6 +23,19 @@ class ArriendoController {
 		}
 	}
 
+	async getArriendosActivos(req, res) {
+		const { rol, sucursal, estado } = req.query;
+
+		const where = {};
+		if (rol != 1) where.id_sucursal = sucursal;
+		const arriendos = await this.serviceArriendo.getFindAllActivos(where, estado);
+		res.json({
+			success: true,
+			data: arriendos,
+		});
+
+
+	}
 
 	async findArriendo(req, res) {
 		try {

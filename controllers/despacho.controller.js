@@ -15,7 +15,7 @@ class DespachoController {
     }
 
 
-    async createDespacho(req, res, next) {
+    async createDespacho(req, res) {
         try {
             const response = req.body;
             const despacho = await this.serviceDespacho.postCreate(response);
@@ -23,14 +23,13 @@ class DespachoController {
                 success: true,
                 id_despacho: despacho.id_despacho,
             });
-            next(despacho.logging);
         } catch (error) {
             sendError(error, res);
         }
     }
 
 
-    async addRevision(req, res, next) {
+    async addRevision(req, res) {
         try {
             const response = req.body;
             response.id_despacho = req.params.id;
@@ -50,12 +49,11 @@ class DespachoController {
                 })
             });
             const data = { revision_recepcion: `${nameFile}.pdf` };
-            const despacho = await this.serviceDespacho.putUpdate(data, req.params.id);
+            await this.serviceDespacho.putUpdate(data, req.params.id);
             res.json({
                 success: true,
                 msg: "revision existosa"
             });
-            next(despacho.logging)
         } catch (error) {
             sendError(error)
         }
