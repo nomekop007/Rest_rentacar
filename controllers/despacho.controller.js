@@ -49,7 +49,7 @@ class DespachoController {
                     return;
                 })
             });
-            const data = { revision_recepcion: nameFile + ".pdf" };
+            const data = { revision_recepcion: `${nameFile}.pdf` };
             const despacho = await this.serviceDespacho.putUpdate(data, req.params.id);
             res.json({
                 success: true,

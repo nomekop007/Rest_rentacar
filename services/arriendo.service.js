@@ -41,7 +41,7 @@ class ArriendoService {
                 { model: Remplazo, include: [{ model: Cliente, include: [{ model: DocumentoCliente }] }, { model: EmpresaRemplazo }], },
                 { model: Vehiculo },
                 { model: Requisito },
-                { model: PagoArriendo },
+                { model: PagoArriendo, include: [{ model: Pago, include: [{ model: Facturacion }] }] },
                 { model: Sucursal },
                 { model: Contrato },
                 { model: Usuario, attributes: ["nombre_usuario"] },
