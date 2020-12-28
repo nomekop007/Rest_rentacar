@@ -151,6 +151,14 @@ Sucursal.hasMany(Usuario, { foreignKey: { name: "id_sucursal" }, onDelete: onDel
 //un usuario pertenecen a una sucursal
 Usuario.belongsTo(Sucursal, { foreignKey: { name: "id_sucursal" }, onDelete: onDelete, onUpdate: onUpdate });
 
+
+// una sucursal tiene muchos Accesorios
+Sucursal.hasMany(Accesorio, { foreignKey: { name: "id_sucursal" }, onDelete: onDelete, onUpdate: onUpdate });
+//un Accesorio pertenecen a una sucursal
+Accesorio.belongsTo(Sucursal, { foreignKey: { name: "id_sucursal" }, onDelete: onDelete, onUpdate: onUpdate });
+
+
+
 // una region tiene muchos vehiculos
 Region.hasMany(Vehiculo, { foreignKey: { name: "id_region" }, onDelete: onDelete, onUpdate: onUpdate });
 //un vehiculo pertenecen a una region
