@@ -32,7 +32,7 @@ class PagoArriendoController {
 	}
 
 
-	async consultarPagosPendientes(req, res) {
+	async consultarPagosArriendo(req, res) {
 		try {
 			const arriendo = await this.serviceArriendo.getFindOne(req.params.id);
 			const arrayTotalPagos = arriendo.pagosArriendos;
@@ -40,28 +40,18 @@ class PagoArriendoController {
 			let totalPago = 0;
 			arrayTotalPagos.map((pagosArriendo) => {
 				const pagos = ordenarArrayporFecha(pagosArriendo.pagos);
-				if (pagos[0].estado_pago == "PENDIENTE") {
-					totalPago += pagos[0].total_pago;
-					arrayPago.push({ pago: pagos[0], pagoArriendo: pagosArriendo })
-				}
+				totalPago += pagos[0].total_pago;
+				arrayPago.push({ pago: pagos[0], pagoArriendo: pagosArriendo })
 			})
-			if (arrayPago.length <= 0) {
-				res.json({
-					success: true,
-					deuda: false,
-					msg: "sin pagos pendientes"
-				});
-			} else {
-				res.json({
-					success: true,
-					deuda: true,
-					data: {
-						arrayPago: arrayPago,
-						totalPago: totalPago,
-						arriendo: arriendo
-					}
-				});
-			}
+			res.json({
+				success: true,
+				deuda: true,
+				data: {
+					arrayPago: arrayPago,
+					totalPago: totalPago,
+					arriendo: arriendo
+				}
+			});
 		} catch (error) {
 			sendError(error, res)
 		}

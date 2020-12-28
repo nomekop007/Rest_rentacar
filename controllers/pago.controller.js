@@ -72,10 +72,10 @@ class PagoController {
     async aplicarDescuentoPago(req, res) {
         try {
             const response = req.body;
-            if (Number(response.descuento_pago) != 0) {
+            if (Number(response.descuento_pago) != 0 || Number(response.extra_pago) != 0) {
                 const id_pago = response.arrayPagos[response.arrayPagos.length - 1];
                 const pago = await this.servicePago.getFindOne(id_pago);
-                const nuevo_monto = pago.total_pago - Number(response.descuento_pago);
+                const nuevo_monto = pago.total_pago - Number(response.descuento_pago) + Number(response.extra_pago);
                 if (nuevo_monto > 0) {
                     const dataPago = {
                         neto_pago: Math.round(nuevo_monto / 1.19),
@@ -83,7 +83,10 @@ class PagoController {
                         total_pago: nuevo_monto
                     }
                     const dataPagoArriendo = {
-                        observaciones_pagoArriendo: `${pago.pagosArriendo.observaciones_pagoArriendo}. ${response.observacion_pago}`
+                        observaciones_pagoArriendo: `${pago.pagosArriendo.observaciones_pagoArriendo}. ${response.observacion_pago}`,
+                        total_pagoArriendo: dataPago.total_pago,
+                        iva_pagoArriendo: dataPago.iva_pago,
+                        neto_pagoArriendo: dataPago.neto_pago
                     }
                     await this.servicePago.putUpdate(dataPago, id_pago);
                     await this.servicePagoArriendo.putUpdate(dataPagoArriendo, pago.pagosArriendo.id_pagoArriendo);

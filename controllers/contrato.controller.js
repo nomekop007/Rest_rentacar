@@ -82,10 +82,10 @@ class contrato_controller {
             if (arriendo.rut_conductor2) response.conductor2 = await this.serviceConductor.getFindByPK(arriendo.rut_conductor2);
             if (arriendo.rut_conductor3) response.conductor3 = await this.serviceConductor.getFindByPK(arriendo.rut_conductor3);
             // si no hay garantia&archivos se detiene
-            if (!arriendo.garantia || !arriendo.requisito) {
+            if (!arriendo.requisito) {
                 res.json({
                     success: false,
-                    msg: "falta registrar garantia y subir archivos requeridos!"
+                    msg: "falta subir archivos requeridos!"
                 });
                 return;
             }

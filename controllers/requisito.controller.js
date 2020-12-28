@@ -1,9 +1,17 @@
 const RequisitoService = require("../services/requisito.service");
+const DocumentoClienteService = require("../services/documentoCliente.service");
+const DocumentoEmpresaService = require("../services/documentoEmpresa.service");
+const DocumentoConductorService = require("../services/documentosConductor.service");
+const ArriendoService = require("../services/arriendo.service");
 const { sendError } = require("../helpers/components");
 class RequisitoController {
 
     constructor() {
+        this.serviceDocumentoEmpresa = new DocumentoEmpresaService();
+        this.serviceDocumentoCliente = new DocumentoClienteService();
+        this.serviceDocumentoConductor = new DocumentoConductorService();
         this.serviceRequisito = new RequisitoService();
+        this.serviceArriendo = new ArriendoService();
     }
 
 
@@ -32,7 +40,65 @@ class RequisitoController {
                 boletaEfectivo_requisito: files.inputBoletaEfectivo ?
                     files.inputBoletaEfectivo[0].filename : null,
             };
+
+            const arriendo = await this.serviceArriendo.getFindOneClients(data.id_arriendo);
+            //buscar los documentos del conductor y cliente , o empresa y si bienen vacios los archivos , se remplazan por lo que estan
+
+
+            // tambien se guardan los documentos en sus respectivos clientes , empresa y conductor
+
+            let dataDocumento = {
+                userAt: req.headers["userat"],
+                licenciaConducirFrontal: data.licenciaConducirFrontal_requisito,
+                licenciaConducirTrasera: data.licenciaConducirTrasera_requisito,
+                rut_conductor: arriendo.rut_conductor
+            };
+            const [doc0, created0] = await this.serviceDocumentoConductor.postFindOrCreate(dataDocumento, dataDocumento.rut_conductor);
+            if (!created0 && dataDocumento.licenciaConducirFrontal && dataDocumento.licenciaConducirTrasera) await this.serviceDocumentoConductor.putUpdate(dataDocumento, dataDocumento.rut_conductor);
+            if (!data.licenciaConducirFrontal_requisito) data.licenciaConducirFrontal_requisito = doc0.licenciaConducirFrontal;
+            if (!data.licenciaConducirTrasera_requisito) data.licenciaConducirTrasera_requisito = doc0.licenciaConducirTrasera;
+
+            switch (arriendo.tipo_arriendo) {
+                case "PARTICULAR":
+                    dataDocumento = {
+                        userAt: req.headers["userat"],
+                        carnetFrontal: data.carnetFrontal_requisito,
+                        carnetTrasera: data.carnetTrasera_requisito,
+                        rut_cliente: arriendo.rut_cliente
+                    }
+                    const [doc1, created1] = await this.serviceDocumentoCliente.postFindOrCreate(dataDocumento, dataDocumento.rut_cliente);
+                    if (!created1 && dataDocumento.carnetFrontal && dataDocumento.carnetTrasera) await this.serviceDocumentoCliente.putUpdate(dataDocumento, dataDocumento.rut_cliente);
+                    if (!data.carnetFrontal_requisito) data.carnetFrontal_requisito = doc1.carnetFrontal;
+                    if (!data.carnetTrasera_requisito) data.carnetTrasera_requisito = doc1.carnetTrasera;
+                    break;
+                case "REEMPLAZO":
+                    dataDocumento = {
+                        userAt: req.headers["userat"],
+                        carnetFrontal: data.carnetFrontal_requisito,
+                        carnetTrasera: data.carnetTrasera_requisito,
+                        rut_cliente: arriendo.remplazo.cliente.rut_cliente
+                    }
+                    const [doc2, created2] = await this.serviceDocumentoCliente.postFindOrCreate(dataDocumento, dataDocumento.rut_cliente);
+                    if (!created2 && dataDocumento.carnetFrontal && dataDocumento.carnetTrasera) await this.serviceDocumentoCliente.putUpdate(dataDocumento, dataDocumento.rut_cliente);
+                    if (!data.carnetFrontal_requisito) data.carnetFrontal_requisito = doc2.carnetFrontal;
+                    if (!data.carnetTrasera_requisito) data.carnetTrasera_requisito = doc2.carnetTrasera;
+                    break;
+                case "EMPRESA":
+                    dataDocumento = {
+                        userAt: req.headers["userat"],
+                        carnetFrontal: data.carnetFrontal_requisito,
+                        carnetTrasera: data.carnetTrasera_requisito,
+                        rut_empresa: arriendo.rut_empresa
+                    }
+                    const [doc3, created3] = await this.serviceDocumentoEmpresa.postFindOrCreate(dataDocumento, dataDocumento.rut_empresa);
+                    if (!created3 && dataDocumento.carnetFrontal && dataDocumento.carnetTrasera) await this.serviceDocumentoEmpresa.putUpdate(dataDocumento, dataDocumento.rut_empresa);
+                    if (!data.carnetFrontal_requisito) data.carnetFrontal_requisito = doc3.carnetFrontal;
+                    if (!data.carnetTrasera_requisito) data.carnetTrasera_requisito = doc3.carnetTrasera;
+                    break;
+            }
+
             const requisito = await this.serviceRequisito.postCreate(data);
+
             res.json({
                 success: true,
                 data: requisito,

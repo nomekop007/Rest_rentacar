@@ -1,4 +1,5 @@
-const { Arriendo, DanioVehiculo, PagoAccesorio, Accesorio, Usuario, Facturacion, Conductor, Sucursal, ModoPago, Contrato, PagoArriendo, Requisito, Garantia, EmpresaRemplazo, Despacho, Vehiculo, Cliente, Empresa, ActaEntrega, Remplazo, Contacto, Pago } = require("../database/db");
+const { Arriendo, DanioVehiculo, PagoAccesorio, DocumentoConductor, Accesorio, Usuario, Facturacion, Conductor, Sucursal, ModoPago, Contrato, PagoArriendo, Requisito, Garantia, EmpresaRemplazo, Despacho, Vehiculo, Cliente, Empresa, ActaEntrega, Remplazo, Contacto, Pago, DocumentoCliente, DocumentoEmpresa } = require("../database/db");
+const { Op } = require("sequelize");
 
 class ArriendoService {
 
@@ -13,6 +14,31 @@ class ArriendoService {
         });
     }
 
+
+    async getFindAllActivos(WHERE, FILTER) {
+        Op.or
+
+        return await Arriendo.findAll({
+            where: WHERE,
+            where: {
+                [Op.or]: [
+                    { estado_arriendo: FILTER[0] },
+                    { estado_arriendo: FILTER[1] },
+                ]
+            },
+            include: [
+                { model: Usuario, attributes: ["nombre_usuario"] },
+                { model: Cliente, attributes: ["nombre_cliente", "rut_cliente"] },
+                { model: Empresa, attributes: ["nombre_empresa", "rut_empresa"] },
+                { model: Vehiculo, attributes: ["patente_vehiculo"] },
+                { model: PagoArriendo },
+                { model: Requisito },
+                { model: Garantia },
+                { model: Remplazo, include: [{ model: EmpresaRemplazo }, { model: Cliente, attributes: ["nombre_cliente", "rut_cliente"] }] },
+            ],
+        });
+
+    }
 
     async getFindAllPublic(WHERE) {
         return await Arriendo.findAll({
@@ -35,18 +61,30 @@ class ArriendoService {
         return await Arriendo.findOne({
             where: { id_arriendo: ID },
             include: [
-                { model: Cliente },
-                { model: Empresa },
+                { model: Cliente, include: [{ model: DocumentoCliente }] },
+                { model: Empresa, include: [{ model: DocumentoEmpresa }] },
+                { model: Conductor, include: [{ model: DocumentoConductor }] },
+                { model: Remplazo, include: [{ model: Cliente, include: [{ model: DocumentoCliente }] }, { model: EmpresaRemplazo }], },
                 { model: Vehiculo },
-                { model: Conductor },
                 { model: Requisito },
-                { model: PagoArriendo },
+                { model: PagoArriendo, include: [{ model: Pago, include: [{ model: Facturacion }] }] },
                 { model: Sucursal },
                 { model: Contrato },
                 { model: Usuario, attributes: ["nombre_usuario"] },
                 { model: Garantia, include: { model: ModoPago } },
-                { model: Remplazo, include: [{ model: Cliente }, { model: EmpresaRemplazo }], },
                 { model: Despacho, include: [{ model: ActaEntrega }] },
+            ],
+        });
+    }
+
+    async getFindOneClients(ID) {
+        return await Arriendo.findOne({
+            where: { id_arriendo: ID },
+            include: [
+                { model: Cliente, include: [{ model: DocumentoCliente }] },
+                { model: Empresa, include: [{ model: DocumentoEmpresa }] },
+                { model: Conductor, include: [{ model: DocumentoConductor }] },
+                { model: Remplazo, include: [{ model: Cliente, include: [{ model: DocumentoCliente }] }], },
             ],
         });
     }

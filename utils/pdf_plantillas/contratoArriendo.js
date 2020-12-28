@@ -179,22 +179,24 @@ async function contratoPlantilla(data) {
 	}
 
 	const garantia = data.arriendo.garantia;
-	switch (garantia.modosPago.id_modoPago) {
-		case 1:
-			doc.garantia.garantiaEfectivo =
-				"$ " + formatter.format(garantia.monto_garantia);
-			break;
-		case 2:
-			doc.garantia.numero_cheque = garantia.numeroCheque_garantia;
-			doc.garantia.codigo_cheque = garantia.codigoCheque_garantia;
-			break;
-		case 3:
-			doc.garantia.numero_tarjeta = "************" + garantia.numeroTarjeta_garantia.slice(-4);
-			doc.garantia.codigo_tarjeta = garantia.codigoTarjeta_garantia;
-			doc.garantia.fecha_tarjeta = garantia.fechaTarjeta_garantia;
-			doc.garantia.garantiaTarjeta =
-				"$ " + formatter.format(garantia.monto_garantia);
-			break;
+	if (garantia) {
+		switch (garantia.modosPago.id_modoPago) {
+			case 1:
+				doc.garantia.garantiaEfectivo = "$ " + formatter.format(garantia.monto_garantia);
+				break;
+			case 2:
+				doc.garantia.numero_cheque = garantia.numeroCheque_garantia;
+				doc.garantia.codigo_cheque = garantia.codigoCheque_garantia;
+				break;
+			case 3:
+				doc.garantia.numero_tarjeta = "************" + garantia.numeroTarjeta_garantia.slice(-4);
+				doc.garantia.codigo_tarjeta = garantia.codigoTarjeta_garantia;
+				doc.garantia.fecha_tarjeta = garantia.fechaTarjeta_garantia;
+				doc.garantia.garantiaTarjeta = "$ " + formatter.format(garantia.monto_garantia);
+				break;
+		}
+	} else {
+		doc.garantia.garantiaEfectivo = "SIN GARANTIA";
 	}
 
 	const facturacion = data.arriendo.pagosArriendos[doc.P].pagos[0].facturacione;
@@ -788,7 +790,7 @@ async function contratoPlantilla(data) {
 				text: `SEXTO: El arrendatario tendrá un límite de kilómetros a recorrer, el cual será de 5.000 (CINCO MIL) kilómetros mensuales, en caso de que este se exceda dicho kilometraje, la siguiente mantención será de cargo del arrendatario. \n \n`,
 			},
 			{
-				text: `SÉPTIMO: Los vehículos se encuentran asegurados por daños propios y a terceros y la Cía. Aseguradora responde solamente en caso de que los daños causados en accidente de tránsito no le sean imputables al usuario. Si los perjuicios ocasionados fueren de riesgo, dejan en poder de Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda una garantía consistente en $ ${data.arriendo.garantia.monto_garantia ? data.arriendo.garantia.monto_garantia : "_____________"} Con todo el arrendatario responderá de todo daño. \n \n`,
+				text: `SÉPTIMO: Los vehículos se encuentran asegurados por daños propios y a terceros y la Cía. Aseguradora responde solamente en caso de que los daños causados en accidente de tránsito no le sean imputables al usuario. Si los perjuicios ocasionados fueren de riesgo, dejan en poder de Sociedad Teresa del Carmen Garrido Rojas e Hijos Ltda una garantía consistente en $ ${data.arriendo.garantia ? data.arriendo.garantia.monto_garantia : "_____________"} Con todo el arrendatario responderá de todo daño. \n \n`,
 			},
 			{
 				text: `OCTAVO: Respecto del vehículo arrendado, queda prohibido al arrendatario: \n` +
