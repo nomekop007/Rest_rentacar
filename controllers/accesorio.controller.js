@@ -18,6 +18,45 @@ class AccesorioController {
         }
     }
 
+
+    async createAccesorio(req, res, next) {
+        try {
+            const accesorio = await this.service.postCreate(req.body);
+            res.json({
+                success: true,
+                data: accesorio
+            })
+            next(accesorio.logging);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+
+    async findAccesorio(req, res) {
+        try {
+            const accesorio = await this.service.getFindByPk(req.params.id);
+            res.json({
+                success: true,
+                data: accesorio
+            })
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+
+    async updateAccesorio(req, res) {
+        try {
+            const accesorio = await this.service.putUpdate(req.body, req.params.id);
+            res.json({
+                success: true,
+                data: accesorio
+            })
+        } catch (error) {
+            sendError(error);
+        }
+    }
+
+
 }
 
 module.exports = AccesorioController;

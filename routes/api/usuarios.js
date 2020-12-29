@@ -20,6 +20,8 @@ router.post(
     usuario.createUsuario.bind(usuario)
 );
 
+router.get("/validarUsuario/:usertoken", token.checkToken, usuario.validarUsuario.bind(usuario));
+
 router.get(
     "/cargarUsuarios",
     token.checkToken,

@@ -1,6 +1,7 @@
 const UsuarioService = require("../services/usuario.service");
 const { crearToken, sendError } = require("../helpers/components");
 const { validationResult } = require("express-validator");
+const jwt = require("jwt-simple");
 const bcrypt = require("bcryptjs");
 class UsuarioController {
 
@@ -12,6 +13,22 @@ class UsuarioController {
     async getUsuarios(req, res) {
         try {
             const usuario = await this.serviceUsuario.getFindAll();
+            res.json({
+                success: true,
+                data: usuario,
+            });
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+
+
+    async validarUsuario(req, res) {
+        try {
+            const { usertoken } = req.params;
+            const payload = jwt.decode(usertoken, process.env.SECRET_PHRASE);
+            payload.usuarioId
+            const usuario = await this.serviceUsuario.getFindOne(payload.usuarioId);
             res.json({
                 success: true,
                 data: usuario,

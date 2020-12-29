@@ -33,6 +33,7 @@ const checkToken = (req, res, next) => {
     }
 
     req.usuarioId = payload.usuarioId;
+    req.body.userAt = payload.usuarioNombre;
 
     next();
 };

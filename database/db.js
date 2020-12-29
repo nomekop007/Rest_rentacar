@@ -31,6 +31,7 @@ const PagoDanioModel = require("../models/pagosDanios");
 const DocumentoClienteModel = require("../models/documentosClientes");
 const DocumentoEmpresaModel = require("../models/documentosEmpresas");
 const DocumentoConductorModel = require("../models/documentosConductores");
+const TarifaVehiculoModel = require("../models/tarifasVehiculos");
 
 
 //conectar modelo con base de datos
@@ -64,6 +65,8 @@ const PagoDanio = PagoDanioModel(database, Sequelize);
 const DocumentoCliente = DocumentoClienteModel(database, Sequelize);
 const DocumentoEmpresa = DocumentoEmpresaModel(database, Sequelize);
 const DocumentoConductor = DocumentoConductorModel(database, Sequelize);
+const TarifaVehiculo = TarifaVehiculoModel(database, Sequelize);
+
 
 //opciones
 //RESTRICT, CASCADE, NO ACTION, SET DEFAULTy SET NULL.
@@ -82,6 +85,12 @@ PagoAccesorio.belongsTo(PagoArriendo, { foreignKey: { name: "id_pagoArriendo" },
 Accesorio.hasMany(PagoAccesorio, { foreignKey: { name: "id_accesorio" }, onDelete: onDelete, onUpdate: onUpdate });
 // un pagoAccesorios pertenece a un accesorio
 PagoAccesorio.belongsTo(Accesorio, { foreignKey: { name: "id_accesorio" }, onDelete: onDelete, onUpdate: onUpdate });
+
+
+// un vehiculo tiene un tarifaVehiculoModel
+Vehiculo.hasOne(TarifaVehiculo, { foreignKey: { name: "patente_vehiculo" }, onDelete: onDelete, onUpdate: onUpdate });
+// una tarifaVehiculo pertenece a un vehiculo
+TarifaVehiculo.belongsTo(Vehiculo, { foreignKey: { name: "patente_vehiculo" }, onDelete: onDelete, onUpdate: onUpdate });
 
 // un arriento tiene una despacho
 Arriendo.hasOne(Despacho, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate });
@@ -295,5 +304,6 @@ module.exports = {
     DanioVehiculo,
     DocumentoCliente,
     DocumentoEmpresa,
-    DocumentoConductor
+    DocumentoConductor,
+    TarifaVehiculo
 };
