@@ -1,4 +1,4 @@
-const { Vehiculo, Region } = require("../database/db");
+const { Vehiculo, Region, Sucursal } = require("../database/db");
 
 class VehiculoService {
 
@@ -20,16 +20,7 @@ class VehiculoService {
 
     async getFindAll() {
         return await Vehiculo.findAll({
-            include: [{ model: Region }],
-            attributes: [
-                "patente_vehiculo",
-                "marca_vehiculo",
-                "modelo_vehiculo",
-                "año_vehiculo",
-                "tipo_vehiculo",
-                "transmision_vehiculo",
-                "estado_vehiculo",
-            ],
+            include: [{ model: Region, include: [{ model: Sucursal }] }],
         });
     }
 

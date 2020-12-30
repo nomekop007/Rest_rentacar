@@ -13,16 +13,26 @@ class VehiculoController {
         try {
             const { sucursal, rol } = req.query;
             const { id_region } = await this.serviceSucursal.getFindOne(sucursal);
-
             let vehiculos = null;
             if (rol === 1) vehiculos = await this.serviceVehiculo.getFindAll();
             else vehiculos = await this.serviceVehiculo.getFindAllWithRegion(id_region);
-
-
             res.json({
                 success: true,
                 data: vehiculos,
             });
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+
+
+    async getAllVehiculos(req, res) {
+        try {
+            const vehiculos = await this.serviceVehiculo.getFindAll();
+            res.json({
+                success: true,
+                data: vehiculos
+            })
         } catch (error) {
             sendError(error, res);
         }

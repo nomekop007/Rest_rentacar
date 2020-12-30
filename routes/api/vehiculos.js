@@ -6,6 +6,8 @@ const vehiculo = new VehiculoController();
 
 router.get("/cargarVehiculos", vehiculo.getVehiculos.bind(vehiculo));
 
+router.get("/cargarTotalVehiculos", vehiculo.getAllVehiculos.bind(vehiculo));
+
 router.get("/buscarVehiculo/:id", vehiculo.findVehiculo.bind(vehiculo));
 
 router.post("/registrarVehiculo", vehiculo.createVehiculo.bind(vehiculo));
