@@ -28,11 +28,12 @@ const apiContactoRouter = require("./api/contactos");
 const apiRegionRouter = require("./api/regiones");
 const apiDanioVehiculoRouter = require("./api/danioVehiculos");
 const apiPagoDanioRouter = require("./api/pagosDanios");
+const apiTarifaVehiculoRouter = require("./api/tarifasVehiculos");
 
 
 //otros 
-const defaultValuesRouter = require("./other/defaultValues");
 const finanzasApiRouter = require("./other/finanzasApi");
+const defaultValuesRouter = require("./other/defaultValues");
 const utilsApiRouter = require("./other/utilsApi");
 
 
@@ -55,8 +56,6 @@ if (process.env.DEFAULT_VALUE === "TRUE") {
 // router para la api de finanzas
 router.use("/api", check_api.checkTokenApiRest, finanzasApiRouter);
 
-
-
 router.use("/utils", check.checkToken, utilsApiRouter);
 router.use("/requisitos", check.checkToken, apiRequisitosRouter);
 router.use("/propietarios", check.checkToken, apiPropietarioRouter);
@@ -67,7 +66,7 @@ router.use("/accesorios", check.checkToken, apiAccesoriosRouter);
 router.use("/clientes", check.checkToken, apiClientesRouter);
 router.use("/empresas", check.checkToken, apiEmpresasRouter);
 router.use("/conductores", check.checkToken, apiConductoresRouter);
-router.use("/contratos", apiContratosRouter);
+router.use("/contratos", check.checkToken, apiContratosRouter);
 router.use("/pagosArriendos", check.checkToken, apiPagoArriendoRouter);
 router.use("/garantias", check.checkToken, apiGarantiasRouter);
 router.use("/arriendos", check.checkToken, apiArriendosRouter);
@@ -82,6 +81,7 @@ router.use("/pagos", check.checkToken, apiPagoRouter);
 router.use("/regiones", check.checkToken, apiRegionRouter);
 router.use("/danioVehiculos", check.checkToken, apiDanioVehiculoRouter);
 router.use("/pagosDanios", check.checkToken, apiPagoDanioRouter);
+router.use("/tarifasVehiculos", check.checkToken, apiTarifaVehiculoRouter);
 router.use("/usuarios", apiUsuariosRouter);
 
 

@@ -1,4 +1,6 @@
-const VehiculoService = require("../services/vehiculo.service");
+
+
+const VehiculoService = require('../services/vehiculo.service');
 const SucursalService = require("../services/sucursal.service");
 const { borrarImagenDeStorage, sendError } = require("../helpers/components");
 class VehiculoController {

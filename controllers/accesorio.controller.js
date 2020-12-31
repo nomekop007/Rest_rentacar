@@ -52,7 +52,7 @@ class AccesorioController {
                 data: accesorio
             })
         } catch (error) {
-            sendError(error);
+            sendError(error, res);
         }
     }
 
