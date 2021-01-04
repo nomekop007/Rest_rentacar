@@ -19,6 +19,12 @@ class TarifaVehiculoService {
     });
   }
 
+  async getFindOne(ID) {
+    return await TarifaVehiculo.findOne({
+      where: { patente_vehiculo: ID }
+    });
+  }
+
   async putUpdate(DATA, ID) {
     return await TarifaVehiculo.update(DATA, {
       where: { patente_vehiculo: ID }

@@ -6,4 +6,6 @@ router.post('/registrarTarifa', tarifaVehiculo.createTarifaVehiculo.bind(tarifaV
 
 router.get('/cargarTarifasVehiculos', tarifaVehiculo.getTarifaVehiculo.bind(tarifaVehiculo));
 
+router.get('/buscarTarifaVehiculoPorDias', tarifaVehiculo.findTarifaVehiculoByDias.bind(tarifaVehiculo));
+
 module.exports = router;

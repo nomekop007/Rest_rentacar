@@ -26,6 +26,7 @@ class TarifaVehiculoController {
         }
     }
 
+
     async getTarifaVehiculo(req, res) {
         try {
             const tarifasVehiculos = await this._tarifaVehiculo.getFindAll();
@@ -38,7 +39,38 @@ class TarifaVehiculoController {
         }
     }
 
-}
 
+    async findTarifaVehiculoByDias(req, res) {
+        try {
+            const { patente, dias } = req.query;
+            const tarifaVehiculo = await this._tarifaVehiculo.getFindOne(patente);
+            let valorDia = 0;
+            let valorNeto = 0;
+            if (tarifaVehiculo) {
+                if (Number(dias) < 7) {
+                    valorDia = tarifaVehiculo.valor_neto_diario;
+                }
+                if (Number(dias) >= 7) {
+                    valorDia = tarifaVehiculo.valor_neto_semanal / 7;
+                }
+                if (Number(dias) >= 15) {
+                    valorDia = tarifaVehiculo.valor_neto_quincenal / 15;
+                }
+                if (Number(dias) >= 30) {
+                    valorDia = tarifaVehiculo.valor_neto_mensual / 30;
+                }
+                valorNeto = valorDia * Number(dias);
+            }
+            res.json({
+                success: true,
+                data: { valorDia, valorNeto }
+            });
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+
+
+}
 
 module.exports = TarifaVehiculoController;
