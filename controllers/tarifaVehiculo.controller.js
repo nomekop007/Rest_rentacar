@@ -11,18 +11,11 @@ class TarifaVehiculoController {
 
     async createTarifaVehiculo(req, res) {
         try {
-            const { TARIFAVEHICULO, LISTVEHICULO } = req.body;
-
-            LISTVEHICULO.forEach(async vehiculo => {
-                TARIFAVEHICULO.userAt = req.body.userAt;
-                TARIFAVEHICULO.patente_vehiculo = vehiculo.patente_vehiculo;
-                await this._tarifaVehiculo.postCreate(TARIFAVEHICULO);
-                /*  console.log(TARIFAVEHICULO.patente_vehiculo);
-                 console.log(created); */
-                //SOLUCIONAR ERROR 
-                console.log(TARIFAVEHICULO.patente_vehiculo);
-                /* const [tarifaVehiculo, created] = await this._tarifaVehiculo.postFindOrCreate(TARIFAVEHICULO, vehiculo.patente_vehiculo);
-                if (!created) await this._tarifaVehiculo.putUpdate(TARIFAVEHICULO, vehiculo.patente_vehiculo); */
+            const { TARIFASVEHICULOS } = req.body;
+            TARIFASVEHICULOS.forEach(async vehiculo => {
+                vehiculo.userAt = req.body.userAt;
+                const [tarifaVehiculo, created] = await this._tarifaVehiculo.postFindOrCreate(vehiculo, vehiculo.patente_vehiculo);
+                if (!created) await this._tarifaVehiculo.putUpdate(vehiculo, vehiculo.patente_vehiculo);
             });
             res.json({
                 success: true,
