@@ -16,6 +16,8 @@ module.exports = (sequelize, type) => {
         fechaCompra_vehiculo: type.DATE,
         año_vehiculo: type.INTEGER,
         foto_vehiculo: type.STRING,
+        numero_gps_vehiculo: type.STRING,
+        numero_tab_vehiculo: type.STRING,
         Tmantencion_vehiculo: type.BIGINT(20),
         kilometraje_vehiculo: type.BIGINT(20),
         kilometrosMantencion_vehiculo: type.BIGINT(20),

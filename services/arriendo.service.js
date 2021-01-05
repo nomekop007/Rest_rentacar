@@ -58,6 +58,7 @@ class ArriendoService {
 
 
     async getFindOnePublic(ID) {
+        //colocar attributes a requisito 
         return await Arriendo.findOne({
             where: { id_arriendo: ID },
             include: [

@@ -11,6 +11,13 @@ class AccesorioService {
         });
     }
 
+    async getFindAllBySucursal(ID) {
+        return await Accesorio.findAll({
+            where: { id_sucursal: ID },
+            include: [{ model: Sucursal }]
+        })
+    }
+
     async postCreate(DATA) {
         return await Accesorio.create(DATA);
     }

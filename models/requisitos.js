@@ -14,6 +14,11 @@ module.exports = (sequelize, type) => {
         comprobanteDomicilio_requisito: type.STRING,
         cartaRemplazo_requisito: type.STRING,
         boletaEfectivo_requisito: type.STRING,
+        documentoEstatuto_requisito: type.STRING,
+        documentoRol_requisito: type.STRING,
+        documentoVigencia_requisito: type.STRING,
+        carpetaTributaria_requisito: type.STRING,
+        cartaAutorizacion_requisito: type.STRING,
         userAt: type.STRING,
     });
 };

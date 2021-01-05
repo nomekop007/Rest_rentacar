@@ -18,6 +18,18 @@ class AccesorioController {
         }
     }
 
+    async getAccesoriosBySucursal(req, res) {
+        try {
+            const accesorios = await this.service.getFindAllBySucursal(req.params.id);
+            res.json({
+                success: true,
+                data: accesorios
+            })
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+
 
     async createAccesorio(req, res, next) {
         try {

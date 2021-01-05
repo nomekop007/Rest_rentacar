@@ -32,6 +32,11 @@ const subirDocumentoRequisitosArriendo = multer({
     { name: "inputTarjeta", maxCount: 1 },
     { name: "inputCartaRemplazo", maxCount: 1 },
     { name: "inputBoletaEfectivo", maxCount: 1 },
+    { name: "inputEstatuto", maxCount: 1 },
+    { name: "inputRol", maxCount: 1 },
+    { name: "inputVigencia", maxCount: 1 },
+    { name: "inputCarpetaTributaria", maxCount: 1 },
+    { name: "inputCartaAutorizacion", maxCount: 1 },
 ]);
 
 
