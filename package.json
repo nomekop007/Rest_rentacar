@@ -9,7 +9,7 @@
     "docs": "jsdoc -c jsdoc.json"
   },
   "keywords": [],
-  "author": "",
+  "author": "nomekop007",
   "license": "ISC",
   "description": "",
   "dependencies": {
