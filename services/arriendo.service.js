@@ -58,16 +58,37 @@ class ArriendoService {
 
 
     async getFindOnePublic(ID) {
-        //colocar attributes a requisito 
         return await Arriendo.findOne({
             where: { id_arriendo: ID },
             include: [
-                { model: Cliente, include: [{ model: DocumentoCliente }] },
-                { model: Empresa, include: [{ model: DocumentoEmpresa }] },
-                { model: Conductor, include: [{ model: DocumentoConductor }] },
-                { model: Remplazo, include: [{ model: Cliente, include: [{ model: DocumentoCliente }] }, { model: EmpresaRemplazo }], },
+                {
+                    model: Cliente, include: [{
+                        model: DocumentoCliente,
+                        attributes: ["carnetFrontal", "carnetTrasera"]
+                    }]
+                },
+                {
+                    model: Empresa, include: [{
+                        model: DocumentoEmpresa,
+                        attributes: ["documentoEstatuto", "documentoRol", "documentoVigencia", "carnetFrontal", "carnetTrasera"]
+                    }]
+                },
+                {
+                    model: Conductor, include: [{
+                        model: DocumentoConductor,
+                        attributes: ["licenciaConducirFrontal", "licenciaConducirTrasera"]
+                    }]
+                },
+                { model: Remplazo, include: [{ model: Cliente, include: [{ model: DocumentoCliente, attributes: ["carnetFrontal", "carnetTrasera"] }] }, { model: EmpresaRemplazo }], },
                 { model: Vehiculo },
-                { model: Requisito },
+                {
+                    model: Requisito,
+                    attributes: ["carnetFrontal_requisito", "carnetTrasera_requisito", "licenciaConducirFrontal_requisito",
+                        "licenciaConducirTrasera_requisito", "tarjetaCredito_requisito", "chequeGarantia_requisito",
+                        "comprobanteDomicilio_requisito", "cartaRemplazo_requisito", "boletaEfectivo_requisito",
+                        "carpetaTributaria_requisito", "documentoEstatuto_requisito", "documentoRol_requisito",
+                        "documentoVigencia_requisito", "cartaAutorizacion_requisito"]
+                },
                 { model: PagoArriendo, include: [{ model: Pago, include: [{ model: Facturacion }] }] },
                 { model: Sucursal },
                 { model: Contrato },
