@@ -1,4 +1,4 @@
-const { Conductor } = require("../database/db");
+const { Conductor, DocumentoConductor } = require("../database/db");
 
 class ConductorService {
 
@@ -18,6 +18,12 @@ class ConductorService {
         return await Conductor.findByPk(ID);
     }
 
+    async getFindOne(ID) {
+        return await Conductor.findOne({
+            where: { rut_conductor: ID },
+            include: [{ model: DocumentoConductor, attributes: ["licenciaConducirFrontal", "licenciaConducirTrasera"] }]
+        })
+    }
 
     async postFindOrCreate(DATA, ID) {
         return await Conductor.findOrCreate({

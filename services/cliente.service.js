@@ -1,4 +1,4 @@
-const { Cliente } = require("../database/db");
+const { Cliente, DocumentoCliente } = require("../database/db");
 
 class ClienteService {
 
@@ -15,6 +15,13 @@ class ClienteService {
 
     async getFindByPk(ID) {
         return await Cliente.findByPk(ID);
+    }
+
+    async getFindOne(ID) {
+        return await Cliente.findOne({
+            where: { rut_cliente: ID },
+            include: [{ model: DocumentoCliente, attributes: ["carnetFrontal", "carnetTrasera"] }]
+        })
     }
 
     async postFindOrCreate(DATA, ID) {

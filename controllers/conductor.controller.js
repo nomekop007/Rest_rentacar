@@ -24,7 +24,7 @@ class ConductorController {
 
     async findConductor(req, res) {
         try {
-            const conductor = await this.serviceConductor.getFindByPK(req.params.id);
+            const conductor = await this.serviceConductor.getFindOne(req.params.id);
             if (conductor) {
                 res.json({
                     success: true,
@@ -63,6 +63,22 @@ class ConductorController {
             sendError(error, res);
         }
     }
+
+
+    async putConductor(req, res, next) {
+        try {
+            const response = req.body;
+            const conductor = await this.serviceConductor.putUpdate(response, req.params.id);
+            res.json({
+                success: true,
+                msg: "registro actualizado"
+            })
+            next(conductor.logging);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+
 }
 
 module.exports = ConductorController;

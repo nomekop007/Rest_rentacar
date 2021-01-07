@@ -1,4 +1,4 @@
-const { Empresa } = require('../database/db');
+const { Empresa, DocumentoEmpresa } = require('../database/db');
 
 class EmpresaService {
 
@@ -16,6 +16,13 @@ class EmpresaService {
 
     async getFindByPk(ID) {
         return await Empresa.findByPk(ID);
+    }
+
+    async getFindOne(ID) {
+        return await Empresa.findOne({
+            where: { rut_empresa: ID },
+            include: [{ model: DocumentoEmpresa, attributes: ["carnetFrontal", "carnetTrasera", "documentoEstatuto", "documentoRol", "documentoVigencia"] }]
+        })
     }
 
 

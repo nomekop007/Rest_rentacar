@@ -56,13 +56,14 @@ class AccesorioController {
         }
     }
 
-    async updateAccesorio(req, res) {
+    async updateAccesorio(req, res, next) {
         try {
             const accesorio = await this.service.putUpdate(req.body, req.params.id);
             res.json({
                 success: true,
                 data: accesorio
             })
+            next(accesorio.logging);
         } catch (error) {
             sendError(error, res);
         }

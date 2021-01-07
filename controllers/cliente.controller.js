@@ -22,7 +22,7 @@ class ClienteController {
 
     async findCliente(req, res) {
         try {
-            const cliente = await this.serviceCliente.getFindByPk(req.params.id);
+            const cliente = await this.serviceCliente.getFindOne(req.params.id);
             if (cliente) {
                 res.json({
                     success: true,
@@ -55,6 +55,20 @@ class ClienteController {
                 data: newCliente,
             });
             if (created) next(cliente.logging);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+
+    async putCliente(req, res, next) {
+        try {
+            const response = req.body;
+            const cliente = await this.serviceCliente.putUpdate(response, req.params.id);
+            res.json({
+                success: true,
+                msg: "registro actualizado"
+            })
+            next(cliente.logging);
         } catch (error) {
             sendError(error, res);
         }

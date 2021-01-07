@@ -8,4 +8,6 @@ router.get("/buscarEmpresa/:id", empresa.findEmpresa.bind(empresa));
 
 router.post("/registrarEmpresa", empresa.createEmpresa.bind(empresa));
 
+router.put("/editarEmpresa/:id", empresa.putEmpresa.bind(empresa));
+
 module.exports = router;

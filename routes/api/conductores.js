@@ -8,4 +8,6 @@ router.get("/buscarConductor/:id", conductor.findConductor.bind(conductor));
 
 router.post("/registrarConductor", conductor.createConductor.bind(conductor));
 
+router.put("/editarConductor/:id", conductor.putConductor.bind(conductor));
+
 module.exports = router;

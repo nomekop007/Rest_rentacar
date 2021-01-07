@@ -21,7 +21,7 @@ class EmpresaController {
 
     async findEmpresa(req, res) {
         try {
-            const empresa = await this.serviceEmpresa.getFindByPk(req.params.id);
+            const empresa = await this.serviceEmpresa.getFindOne(req.params.id);
             if (empresa) {
                 res.json({
                     success: true,
@@ -50,6 +50,20 @@ class EmpresaController {
                 data: newEmpresa,
             });
             if (created) next(empresa.logging);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+
+    async putEmpresa(req, res, next) {
+        try {
+            const response = req.body;
+            const empresa = await this.serviceEmpresa.putUpdate(response, req.params.id);
+            res.json({
+                success: true,
+                msg: "registro actualizado"
+            })
+            next(empresa.logging);
         } catch (error) {
             sendError(error, res);
         }
