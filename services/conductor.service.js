@@ -3,14 +3,7 @@ const { Conductor, DocumentoConductor } = require("../database/db");
 class ConductorService {
 
     async getFindAll() {
-        return await Conductor.findAll({
-            attributes: [
-                "rut_conductor",
-                "nombre_conductor",
-                "clase_conductor",
-                "telefono_conductor",
-            ],
-        });
+        return await Conductor.findAll();
     }
 
 

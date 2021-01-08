@@ -91,9 +91,64 @@ const subirDocumentoContrato = multer({
 }).single("documento_contrato");
 
 
+
+
+const subirDocumentosCliente = multer({
+    storage: multer.diskStorage({
+        destination: path.join(__dirname, process.env.PATH_REQUISITO_ARRIENDO),
+        filename: (req, file, cb) => {
+            cb(null, uuidv4() + path.extname(file.originalname).toLocaleLowerCase());
+        },
+    }),
+    dest: path.join(__dirname, process.env.PATH_REQUISITO_ARRIENDO),
+    limits: { fieldSize: 20000000 },
+}).fields([
+    { name: "inputCarnetTraseraCliente", maxCount: 1 },
+    { name: "inputCarnetFrontalCliente", maxCount: 1 },
+]);
+
+
+
+const subirDocumentosEmpresa = multer({
+    storage: multer.diskStorage({
+        destination: path.join(__dirname, process.env.PATH_REQUISITO_ARRIENDO),
+        filename: (req, file, cb) => {
+            cb(null, uuidv4() + path.extname(file.originalname).toLocaleLowerCase());
+        },
+    }),
+    dest: path.join(__dirname, process.env.PATH_REQUISITO_ARRIENDO),
+    limits: { fieldSize: 20000000 },
+}).fields([
+    { name: "inputCarnetFrontalEmpresa", maxCount: 1 },
+    { name: "inputCarnetTraseraEmpresa", maxCount: 1 },
+    { name: "inputDocumentotRol", maxCount: 1 },
+    { name: "inputEstatuto", maxCount: 1 },
+    { name: "inputDocumentoVigencia", maxCount: 1 },
+]);
+
+
+
+const subirDocumentosConductor = multer({
+    storage: multer.diskStorage({
+        destination: path.join(__dirname, process.env.PATH_REQUISITO_ARRIENDO),
+        filename: (req, file, cb) => {
+            cb(null, uuidv4() + path.extname(file.originalname).toLocaleLowerCase());
+        },
+    }),
+    dest: path.join(__dirname, process.env.PATH_REQUISITO_ARRIENDO),
+    limits: { fieldSize: 20000000 },
+}).fields([
+    { name: "inputlicenciaFrontalConductor", maxCount: 1 },
+    { name: "inputlicenciaTraseraConductor", maxCount: 1 },
+]);
+
+
 module.exports = {
     subirImageVehiculo: subirImageVehiculo,
     subirDocumentoRequisitosArriendo: subirDocumentoRequisitosArriendo,
     subirDocumentoFacturacion: subirDocumentoFacturacion,
-    subirDocumentoContrato: subirDocumentoContrato
+    subirDocumentoContrato: subirDocumentoContrato,
+    subirDocumentosCliente: subirDocumentosCliente,
+    subirDocumentosEmpresa: subirDocumentosEmpresa,
+    subirDocumentosConductor: subirDocumentosConductor,
 };

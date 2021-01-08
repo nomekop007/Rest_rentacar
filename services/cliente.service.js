@@ -3,14 +3,7 @@ const { Cliente, DocumentoCliente } = require("../database/db");
 class ClienteService {
 
     async getFindAll() {
-        return await Cliente.findAll({
-            attributes: [
-                "rut_cliente",
-                "nombre_cliente",
-                "telefono_cliente",
-                "correo_cliente",
-            ],
-        });
+        return await Cliente.findAll();
     }
 
     async getFindByPk(ID) {

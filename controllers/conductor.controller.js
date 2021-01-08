@@ -1,9 +1,11 @@
 const ConductorService = require("../services/conductor.service");
+const DocumentoConductorService = require("../services/documentosConductor.service");
 const { sendError } = require("../helpers/components");
 
 class ConductorController {
     constructor() {
         this.serviceConductor = new ConductorService();
+        this.serviceDocConductor = new DocumentoConductorService();
     }
 
 
@@ -74,6 +76,24 @@ class ConductorController {
                 msg: "registro actualizado"
             })
             next(conductor.logging);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+
+    async updateFile(req, res) {
+        try {
+           const files = req.files;
+           const data = {};
+           if(files["inputlicenciaFrontalConductor"]) data.licenciaConducirFrontal = req.files["inputlicenciaFrontalConductor"][0].filename;
+           if(files["inputlicenciaTraseraConductor"]) data.licenciaConducirTrasera = req.files["inputlicenciaTraseraConductor"][0].filename;
+           console.log(data);
+           const [conductor, created] =  await this.serviceDocConductor.postFindOrCreate(data,req.params.id);
+           if (!created)  await this.serviceDocConductor.putUpdate(data,req.params.id);
+            res.json({
+                success: true,
+                msg: "archivo actualizado",
+            });
         } catch (error) {
             sendError(error, res);
         }

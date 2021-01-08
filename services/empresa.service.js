@@ -3,14 +3,7 @@ const { Empresa, DocumentoEmpresa } = require('../database/db');
 class EmpresaService {
 
     async getFindAll() {
-        return await Empresa.findAll({
-            attributes: [
-                "rut_empresa",
-                "nombre_empresa",
-                "rol_empresa",
-                "correo_empresa",
-            ],
-        });
+        return await Empresa.findAll();
     }
 
 

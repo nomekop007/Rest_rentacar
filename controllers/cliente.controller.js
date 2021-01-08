@@ -1,10 +1,11 @@
-
+const DocumentoClienteSerivce = require("../services/documentoCliente.service");
 const ClienteService = require("../services/cliente.service");
 const { sendError } = require("../helpers/components");
 
 class ClienteController {
     constructor() {
         this.serviceCliente = new ClienteService();
+        this.serviceDocCliente= new DocumentoClienteSerivce();
     }
 
     async getClientes(req, res) {
@@ -69,6 +70,27 @@ class ClienteController {
                 msg: "registro actualizado"
             })
             next(cliente.logging);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+
+
+
+    async updateFile(req, res) {
+        try {
+
+            const files = req.files;
+            const data = {};
+            if (files["inputCarnetFrontalCliente"]) data.carnetFrontal = req.files["inputCarnetFrontalCliente"][0].filename;
+            if (files["inputCarnetTraseraCliente"]) data.carnetTrasera = req.files["inputCarnetTraseraCliente"][0].filename;
+            console.log(data);
+            const [cliente, created] =  await this.serviceDocCliente.postFindOrCreate(data,req.params.id);
+            if (!created)   await this.serviceDocCliente.putUpdate(data,req.params.id);
+            res.json({
+                success: true,
+                msg: "archivo actualizado",
+            });
         } catch (error) {
             sendError(error, res);
         }
