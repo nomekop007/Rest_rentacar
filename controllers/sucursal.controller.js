@@ -33,6 +33,26 @@ class SucursalController {
     }
 
 
+    async createSucursal(req, res, next) {
+        try {
+            const sucursal = await this.serviceSucursal.postCreate(req.body);
+            res.json({ success: true, data: sucursal })
+            next(sucursal.logging);
+        } catch (error) {
+            sendError(error);
+        }
+    }
+
+    async updateSucursal(req, res, next) {
+        try {
+            const sucursal = await this.serviceSucursal.putUpdate(req.params.id, req.body);
+            res.json({ success: true, msg: "sucursal modificada" });
+            next(sucursal.logging);
+        } catch (error) {
+            sendError(error);
+        }
+    }
+
 }
 
 module.exports = SucursalController;

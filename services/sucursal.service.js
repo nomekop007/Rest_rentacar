@@ -3,7 +3,9 @@ const { Sucursal, Vehiculo, Region } = require("../database/db");
 class SucursalService {
 
     async getFindAll() {
-        return await Sucursal.findAll();
+        return await Sucursal.findAll({
+            include: [{ model: Region }]
+        });
     }
 
     async getFindOne(ID) {
@@ -30,6 +32,16 @@ class SucursalService {
                     },]
                 }
             ],
+        });
+    }
+
+    async postCreate(DATA) {
+        return await Sucursal.create(DATA);
+    }
+
+    async putUpdate(ID, DATA) {
+        return await Sucursal.update(DATA, {
+            where: { id_sucursal: ID },
         });
     }
 
