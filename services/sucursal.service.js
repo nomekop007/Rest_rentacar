@@ -1,4 +1,4 @@
-const { Sucursal, Vehiculo, Region } = require("../database/db");
+const { Sucursal, Vehiculo, Region, Arriendo } = require("../database/db");
 
 class SucursalService {
 
@@ -44,6 +44,13 @@ class SucursalService {
             where: { id_sucursal: ID },
         });
     }
+
+    async getArriendoBySucursal() {
+        return await Sucursal.findAll({
+            include: [{ model: Arriendo }, { model: Region }]
+        })
+    }
+
 
 
 

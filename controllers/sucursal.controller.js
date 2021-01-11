@@ -53,6 +53,15 @@ class SucursalController {
         }
     }
 
+    async getFindArriendoBySucursal(req, res) {
+        try {
+            const sucursal = await this.serviceSucursal.getArriendoBySucursal();
+            res.json({ success: true, data: sucursal })
+        } catch (error) {
+            sendError(error);
+        }
+    }
+
 }
 
 module.exports = SucursalController;

@@ -10,4 +10,6 @@ router.post("/crearSucursal", sucursal.createSucursal.bind(sucursal));
 
 router.put("/editarSucursal/:id", sucursal.updateSucursal.bind(sucursal));
 
+router.get("/arriendosPorSucursales", sucursal.getFindArriendoBySucursal.bind(sucursal));
+
 module.exports = router;
