@@ -16,8 +16,6 @@ class ArriendoService {
 
 
     async getFindAllActivos(WHERE, FILTER) {
-        Op.or
-
         return await Arriendo.findAll({
             where: WHERE,
             where: {
@@ -28,13 +26,13 @@ class ArriendoService {
             },
             include: [
                 { model: Usuario, attributes: ["nombre_usuario"] },
-                { model: Cliente, attributes: ["nombre_cliente", "rut_cliente"] },
-                { model: Empresa, attributes: ["nombre_empresa", "rut_empresa"] },
-                { model: Vehiculo, attributes: ["patente_vehiculo"] },
+                { model: Cliente },
+                { model: Empresa },
+                { model: Vehiculo },
                 { model: PagoArriendo },
                 { model: Requisito },
                 { model: Garantia },
-                { model: Remplazo, include: [{ model: EmpresaRemplazo }, { model: Cliente, attributes: ["nombre_cliente", "rut_cliente"] }] },
+                { model: Remplazo, include: [{ model: EmpresaRemplazo }, { model: Cliente }] },
             ],
         });
 
@@ -45,14 +43,14 @@ class ArriendoService {
             where: WHERE,
             include: [
                 { model: Usuario, attributes: ["nombre_usuario"] },
-                { model: Cliente, attributes: ["nombre_cliente", "rut_cliente"] },
-                { model: Empresa, attributes: ["nombre_empresa", "rut_empresa"] },
-                { model: Vehiculo, attributes: ["patente_vehiculo"] },
+                { model: Cliente },
+                { model: Empresa },
+                { model: Vehiculo },
                 { model: PagoArriendo },
                 { model: Sucursal },
                 { model: Requisito },
                 { model: Garantia },
-                { model: Remplazo, include: [{ model: EmpresaRemplazo }, { model: Cliente, attributes: ["nombre_cliente", "rut_cliente"] }] },
+                { model: Remplazo, include: [{ model: EmpresaRemplazo }, { model: Cliente }] },
             ],
         });
     }
