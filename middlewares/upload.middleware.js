@@ -61,7 +61,7 @@ const subirImageVehiculo = multer({
         }
         cb("Error: Archivo debe ser una imagen valida");
     },
-}).single("foto_vehiculo");
+}).single("inputFoto");
 
 
 
@@ -75,7 +75,7 @@ const subirDocumentoFacturacion = multer({
     }),
     dest: path.join(__dirname, process.env.PATH_FACTURACIONES),
     limits: { fieldSize: 20000000 },
-}).single("documento_facturacion");
+}).single("inputDocumento");
 
 
 
@@ -88,7 +88,7 @@ const subirDocumentoContrato = multer({
     }),
     dest: path.join(__dirname, process.env.PATH_CONTRATO),
     limits: { fieldSize: 20000000 },
-}).single("documento_contrato");
+}).single("inputContrato");
 
 
 

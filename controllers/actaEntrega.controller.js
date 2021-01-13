@@ -1,10 +1,9 @@
 const ActaEntregaServices = require("../services/actaEntrega.service");
 const ArriendoServices = require("../services/arriendo.service");
-const { fecha, hora, fechahorafirma, sendError } = require("../helpers/components");
+const { fecha, nodemailerTransporter, hora, fechahorafirma, sendError } = require("../helpers/components");
 const fs = require("fs");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
-const nodemailer = require("nodemailer");
 const logo = require.resolve("../utils/images/logo2.png");
 const base64 = require("image-to-base64");
 const actaEntregaPlantilla = require("../utils/pdf_plantillas/actaEntrega");
@@ -100,20 +99,7 @@ class ActaEntregaController {
                     client.correo = arriendo.empresa.correo_empresa;
                     break;
             }
-            //datos del email hosting
-            const transporter = nodemailer.createTransport({
-                host: process.env.EMAIL_HOST,
-                port: process.env.EMAIL_PORT,
-                secure: false,
-                auth: {
-                    user: process.env.EMAIL_USER,
-                    pass: process.env.EMAIL_PASS,
-                },
-                tls: {
-                    rejectUnauthorized: false,
-                },
-            });
-            //client.correo
+
             //datos del mensaje y su destinatario
             const mailOptions = {
                 from: "'Rent A Car - Grupo Firma' <api.rentacarmaule@grupofirma.cl>",
@@ -137,7 +123,7 @@ class ActaEntregaController {
                     path: path.join(__dirname, `${process.env.PATH_ACTA_ENTREGA}/${arriendo.despacho.actasEntrega.documento}`),
                 },],
             };
-            const resp = await transporter.sendMail(mailOptions);
+            const resp = await nodemailerTransporter.sendMail(mailOptions);
             res.json({
                 success: true,
                 msg: resp,

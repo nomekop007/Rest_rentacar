@@ -12,4 +12,7 @@ router.post("/registrarArriendo", arriendo.createArriendo.bind(arriendo));
 
 router.put("/cambiarEstadoArriendo/:id", arriendo.updateStateArriendo.bind(arriendo));
 
+router.get("/enviarCorreoAtraso", arriendo.sendCorreoAtraso.bind(arriendo));
+
+
 module.exports = router;

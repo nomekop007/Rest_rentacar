@@ -1,13 +1,12 @@
 const ContratoService = require("../services/contrato.service");
 const ArriendoService = require("../services/arriendo.service");
 const ConductorService = require("../services/conductor.service");
-const { sendError, ordenarArrayporFecha } = require("../helpers/components");
+const { sendError, nodemailerTransporter, ordenarArrayporFecha } = require("../helpers/components");
 const contratoPlantilla = require("../utils/pdf_plantillas/contratoArriendo");
 const logo = require.resolve("../utils/images/logo2.png");
 const fs = require("fs");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
-const nodemailer = require("nodemailer");
 const base64 = require("image-to-base64");
 const pdfMake = require('pdfmake/build/pdfmake.js');
 const pdfFonts = require('pdfmake/build/vfs_fonts.js');
@@ -138,14 +137,6 @@ class contrato_controller {
                     break;
             }
 
-            //datos del email hosting
-            const transporter = nodemailer.createTransport({
-                host: process.env.EMAIL_HOST,
-                port: process.env.EMAIL_PORT,
-                secure: false,
-                auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
-                tls: { rejectUnauthorized: false },
-            });
             //datos del mensaje y su destinatario
             const mailOptions = {
                 from: "'Rent A Car - Grupo Firma' <api.rentacarmaule@grupofirma.cl>",
@@ -158,6 +149,7 @@ class contrato_controller {
                 <br><br>
                 <p>------------------------------------------------------------------------------------------------------------------------------</p>
                 <p>Atentamente, Rent a Car Maule Ltda. </p>
+                <p>Por favor no responder este correo.</p>
                 <img src="data:image/jpeg;base64,${await base64(logo)}" width="200" height="50"  />
                 `,
                 attachments: [{
@@ -166,7 +158,7 @@ class contrato_controller {
                     path: path.join(__dirname, `${process.env.PATH_CONTRATO}/${contratos[contratos.length - 1].documento}`)
                 },],
             };
-            const resp = await transporter.sendMail(mailOptions);
+            const resp = await nodemailerTransporter.sendMail(mailOptions);
             res.json({
                 success: true,
                 msg: resp,

@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const pdfMake = require("pdfmake/build/pdfmake.js");
 const pdfFonts = require("pdfmake/build/vfs_fonts.js");
+const nodemailer = require("nodemailer");
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const sendError = (error, res) => {
@@ -84,6 +85,10 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+
+//------------- CONFIG  -------------------//
+
+//  fonts pdf
 const fontsPDF = {
     Roboto: {
         normal: require.resolve("../utils/fonts/Roboto-Regular.ttf"),
@@ -92,6 +97,16 @@ const fontsPDF = {
         bolditalics: require.resolve("../utils/fonts/Roboto-MediumItalic.ttf"),
     },
 };
+
+//datos del email hosting with nodemailer
+const nodemailerTransporter = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
+    secure: false,
+    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
+    tls: { rejectUnauthorized: false },
+});
+
 
 module.exports = {
     sendError,
@@ -104,5 +119,6 @@ module.exports = {
     borrarImagenDeStorage,
     ordenarArrayporFecha,
     getRandomInt,
+    nodemailerTransporter,
     fontsPDF,
 };

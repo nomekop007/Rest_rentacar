@@ -1,5 +1,7 @@
 const ArriendoService = require('../services/arriendo.service');
-const { sendError } = require("../helpers/components");
+const logo = require.resolve("../utils/images/logo2.png");
+const base64 = require("image-to-base64");
+const { formatFechahora, sendError, nodemailerTransporter } = require("../helpers/components");
 class ArriendoController {
 	constructor() {
 		this.serviceArriendo = new ArriendoService();
@@ -102,6 +104,34 @@ class ArriendoController {
 		} catch (error) {
 			sendError(error, res);
 		}
+	}
+
+	async sendCorreoAtraso(req, res) {
+		try {
+			const { id_arriendo, nombre_cliente, correo_cliente } = req.query;
+			const arriendo = await this.serviceArriendo.getFindOne(id_arriendo);
+			const mailOptions = {
+				from: "'Rent A Car - Grupo Firma' <api.rentacarmaule@grupofirma.cl>",
+				to: correo_cliente,
+				subject: "AVISO SOBRE VENCIMIENTO DE ARRIENDO RENT A CAR",
+				text: "Se adjunta copia del contrato Rent a Car",
+				html: `
+                <p>Sr.(a) ${nombre_cliente}:</p>
+				<p>Por este medio aviso sobre vencimiento del arriendo que solicito con fecha desde el
+				  ${formatFechahora(arriendo.fechaEntrega_arriendo)} hasta el ${formatFechahora(arriendo.fechaRecepcion_arriendo)} por favor póngase en contacto con la sucursal más cercana.</p>
+                <br><br>
+                <p>------------------------------------------------------------------------------------------------------------------------------</p>
+				<p>Atentamente, Rent a Car Maule Ltda. </p>
+				<p>Por favor no responder este correo.</p>
+                <img src="data:image/jpeg;base64,${await base64(logo)}" width="200" height="50"  />
+                `,
+			};
+			const resp = await nodemailerTransporter.sendMail(mailOptions);
+			res.json({ success: true, msg: resp });
+		} catch (error) {
+			sendError(error, res);
+		}
+
 	}
 
 
