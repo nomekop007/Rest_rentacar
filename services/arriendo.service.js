@@ -91,6 +91,7 @@ class ArriendoService {
                 { model: PagoArriendo, include: [{ model: Pago, include: [{ model: Facturacion }] }] },
                 { model: Sucursal },
                 { model: Contrato },
+                { model: Contacto },
                 { model: Usuario, attributes: ["nombre_usuario"] },
                 { model: Garantia, include: { model: ModoPago } },
                 { model: Despacho, include: [{ model: ActaEntrega }] },
