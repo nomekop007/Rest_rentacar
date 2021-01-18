@@ -6,6 +6,12 @@ class ContratoService {
         return await Contrato.create(DATA);
     }
 
+    async deleteByIDArriendo(ID) {
+        return await Contrato.destroy({
+            where: { id_arriendo: ID }
+        });
+    }
+
 
 }
 

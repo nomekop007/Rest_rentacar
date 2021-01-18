@@ -20,6 +20,20 @@ class ContactoController {
             sendError(error, res);
         }
     }
+
+    async updateContacto(req, res, next) {
+        try {
+            const contacto = await this.serviceContacto.putUpdate(req.body, req.params.id);
+            res.json({
+                success: true,
+                msg: "contacto modificado"
+            });
+            next(contacto.logging);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+
 }
 
 module.exports = ContactoController;

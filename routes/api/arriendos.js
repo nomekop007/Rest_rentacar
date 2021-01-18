@@ -14,5 +14,10 @@ router.put("/cambiarEstadoArriendo/:id", arriendo.updateStateArriendo.bind(arrie
 
 router.get("/enviarCorreoAtraso", arriendo.sendCorreoAtraso.bind(arriendo));
 
+router.put("/editarArriendo/:id", arriendo.updateArriendo.bind(arriendo));
+
+router.put("/cambiarTipoArriendo/:id", arriendo.modificarTipo.bind(arriendo));
+
+
 
 module.exports = router;

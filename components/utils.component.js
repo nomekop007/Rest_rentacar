@@ -1,8 +1,22 @@
+const ArriendoService = require("../services/arriendo.service");
+const ContratoService = require("../services/contrato.service");
+const PagoArriendoService = require("../services/pagoArriendo.service");
+const GarantiaService = require("../services/garantia.service");
+const RequisitoService = require("../services/requisito.service");
+
 const { sendError } = require("../helpers/components");
 const fs = require("fs");
 const path = require("path");
 
 class UtilsController {
+
+    constructor() {
+        this.serviceArriendo = new ArriendoService();
+        this.serviceContrato = new ContratoService();
+        this.servicePagoArriendo = new PagoArriendoService();
+        this.serviceGarantia = new GarantiaService();
+        this.serviceRequisito = new RequisitoService();
+    }
 
     async findDocumento(req, res) {
         try {
@@ -48,6 +62,63 @@ class UtilsController {
             });
         } catch (error) {
             sendError(error, res);
+        }
+    }
+
+
+    async rollbackVistaFirma(req, res) {
+        try {
+            const arriendo = await this.serviceArriendo.getFindOne(req.params.id);
+            const estado = arriendo.estado_arriendo;
+            if (estado !== 'PENDIENTE' && estado !== 'CONFIRMADO' && estado !== 'FIRMADO') {
+                res.json({ success: false, msg: "este arriendo ya esta despachado!" })
+                return;
+            }
+            let rollback = {};
+            if (arriendo.pagosArriendos.length !== 0) rollback = { estado_arriendo: "CONFIRMADO" };
+            else rollback = { estado_arriendo: "PENDIENTE" };
+            await this.serviceContrato.deleteByIDArriendo(arriendo.id_arriendo);
+            await this.serviceArriendo.putUpdate(rollback, arriendo.id_arriendo);
+            res.json({ success: true, msg: "hecho!" })
+        } catch (error) {
+            sendError(error, res)
+        }
+    }
+
+
+    async rollbackVistaPago(req, res) {
+        try {
+            const arriendo = await this.serviceArriendo.getFindOne(req.params.id);
+            const estado = arriendo.estado_arriendo;
+            if (estado !== 'PENDIENTE' && estado !== 'CONFIRMADO' && estado !== 'FIRMADO') {
+                res.json({ success: false, msg: "este arriendo ya esta despachado!" })
+                return;
+            }
+            await this.servicePagoArriendo.deleteByIDarriendo(arriendo.id_arriendo);
+            const rollback = { estado_arriendo: "PENDIENTE" }
+            await this.serviceArriendo.putUpdate(rollback, arriendo.id_arriendo)
+            res.json({ success: true, msg: "hecho!" })
+        } catch (error) {
+            sendError(error, res)
+        }
+    }
+
+
+    async rollbackVistaRequisito(req, res) {
+        try {
+            const arriendo = await this.serviceArriendo.getFindOne(req.params.id);
+            const estado = arriendo.estado_arriendo;
+            if (estado !== 'PENDIENTE' && estado !== 'CONFIRMADO' && estado !== 'FIRMADO') {
+                res.json({ success: false, msg: "este arriendo ya esta despachado!" })
+                return;
+            }
+            const rollback = { estado_arriendo: "PENDIENTE" }
+            await this.serviceGarantia.deleteByIDarriendo(arriendo.id_arriendo);
+            await this.serviceRequisito.deleteByIdArriendo(arriendo.id_arriendo);
+            await this.serviceArriendo.putUpdate(rollback, arriendo.id_arriendo)
+            res.json({ success: true, msg: "hecho!" })
+        } catch (error) {
+            sendError(error, res)
         }
     }
 

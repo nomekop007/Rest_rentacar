@@ -12,6 +12,12 @@ class PagoArriendoService {
         return await PagoArriendo.create(DATA);
     }
 
+    async deleteByIDarriendo(ID) {
+        return await PagoArriendo.destroy({
+            where: { id_arriendo: ID },
+        })
+    }
+
 }
 
 module.exports = PagoArriendoService;

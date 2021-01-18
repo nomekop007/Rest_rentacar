@@ -6,6 +6,12 @@ class RequisitoService {
         return await Requisito.create(DATA);
     }
 
+    async deleteByIdArriendo(ID) {
+        return await Requisito.destroy({
+            where: { id_arriendo: ID }
+        })
+    }
+
 
 }
 

@@ -1,11 +1,14 @@
 const ArriendoService = require('../services/arriendo.service');
+const ReemplazoService = require('../services/remplazo.service');
 const logo = require.resolve("../utils/images/logo2.png");
 const base64 = require("image-to-base64");
 const { formatFechahora, sendError, nodemailerTransporter } = require("../helpers/components");
 class ArriendoController {
 	constructor() {
 		this.serviceArriendo = new ArriendoService();
+		this.serviceReemplazo = new ReemplazoService();
 	}
+
 
 
 	async getArriendos(req, res) {
@@ -94,7 +97,7 @@ class ArriendoController {
 	async updateStateArriendo(req, res, next) {
 		try {
 			const response = req.body;
-			const arriendo = await this.serviceArriendo.putUpdateState(response, req.params.id);
+			const arriendo = await this.serviceArriendo.putUpdate(response, req.params.id);
 			res.json({
 				success: true,
 				msg: "actualizacion exitoso",
@@ -131,7 +134,74 @@ class ArriendoController {
 		} catch (error) {
 			sendError(error, res);
 		}
+	}
 
+	async updateArriendo(req, res, next) {
+		try {
+			const arriendo = await this.serviceArriendo.getFindOneMin(req.params.id);
+			const estado = arriendo.estado_arriendo;
+			if (estado !== 'PENDIENTE' && estado !== 'CONFIRMADO' && estado !== 'FIRMADO') {
+				res.json({ success: false, msg: "este arriendo ya esta despachado!" })
+				return;
+			}
+			const arriendoEdit = await this.serviceArriendo.putUpdate(req.body, req.params.id);
+			res.json({ success: true, msg: "arriendo modificado!" });
+			next(arriendoEdit.logging);
+		} catch (error) {
+			sendError(error, res);
+		}
+	}
+
+	async modificarTipo(req, res) {
+		try {
+			const { tipo, empresaRemplazo } = req.body;
+			const arriendo = await this.serviceArriendo.getFindOneMin(req.params.id);
+			const estado = arriendo.estado_arriendo;
+			if (estado !== 'PENDIENTE' && estado !== 'CONFIRMADO' && estado !== 'FIRMADO') {
+				res.json({ success: false, msg: "este arriendo ya esta despachado!" })
+				return;
+			}
+
+			let newData = {};
+			switch (tipo) {
+				//cambiar de particular a reemplazo
+				case 1:
+					const reemplazo = await this.serviceReemplazo.postCreate({
+						userAt: req.headers["userat"],
+						codigo_empresaRemplazo: empresaRemplazo,
+						rut_cliente: arriendo.rut_cliente
+					});
+					newData = {
+						userAt: req.headers["userat"],
+						tipo_arriendo: "REEMPLAZO",
+						id_remplazo: reemplazo.id_remplazo,
+						rut_cliente: null
+					}
+					await this.serviceArriendo.putUpdate(newData, req.params.id);
+					break;
+				//cambiar de reemplazo a particular
+				case 2:
+					newData = {
+						userAt: req.headers["userat"],
+						tipo_arriendo: "PARTICULAR",
+						id_remplazo: null,
+						rut_cliente: arriendo.remplazo.rut_cliente
+					}
+					await this.serviceArriendo.putUpdate(newData, req.params.id);
+					break;
+				//cambiar de empresa de reemplazo 
+				case 3:
+					newData = {
+						userAt: req.headers["userat"],
+						codigo_empresaRemplazo: empresaRemplazo
+					};
+					await this.serviceReemplazo.putUpdate(newData, arriendo.id_remplazo);
+					break;
+			}
+			res.json({ success: true, msg: "arriendo modificado!" });
+		} catch (error) {
+			sendError(error, res);
+		}
 	}
 
 

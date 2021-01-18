@@ -8,7 +8,7 @@ class ArriendoService {
     }
 
 
-    async putUpdateState(DATA, ID) {
+    async putUpdate(DATA, ID) {
         return await Arriendo.update(DATA, {
             where: { id_arriendo: ID },
         });

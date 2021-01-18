@@ -94,7 +94,7 @@ class DanioVehiculoController {
             await this.serviceDanioVehiculo.putUpdate(response, req.params.id);
             const danioVehiculo = await this.serviceDanioVehiculo.getFindByPk(req.params.id);
             //  const data = { estado_arriendo: "FINALIZADO" };
-            // await this.serviceArriendo.putUpdateState(data, danioVehiculo.id_arriendo);
+            // await this.serviceArriendo.putUpdate(data, danioVehiculo.id_arriendo);
             res.json({
                 success: true,
                 msg: "estado daño actualizado",
