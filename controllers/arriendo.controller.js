@@ -144,7 +144,9 @@ class ArriendoController {
 				res.json({ success: false, msg: "este arriendo ya esta despachado!" })
 				return;
 			}
-			const arriendoEdit = await this.serviceArriendo.putUpdate(req.body, req.params.id);
+			const data = req.body;
+			data.diasAcumulados_arriendo = data.diasActuales_arriendo;
+			const arriendoEdit = await this.serviceArriendo.putUpdate(data, req.params.id);
 			res.json({ success: true, msg: "arriendo modificado!" });
 			next(arriendoEdit.logging);
 		} catch (error) {
