@@ -22,7 +22,19 @@ class PagoController {
         }
     }
 
-
+    async calcularTotalPagos(req, res) {
+        try {
+            const { arrayPagos } = req.body;
+            let total = 0;
+            let where = [];
+            arrayPagos.forEach(id => { where.push({ id_pago: id }) })
+            const pagos = await this.servicePago.getFindAllById(where);
+            pagos.forEach(({ total_pago }) => { total = total + Number(total_pago) })
+            res.json({ success: true, data: { total_factura: total } });
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
 
     async updatePagos(req, res) {
         try {
@@ -112,6 +124,7 @@ class PagoController {
             sendError(error);
         }
     }
+
 
 
 }

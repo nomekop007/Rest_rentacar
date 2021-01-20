@@ -1,4 +1,5 @@
 const { Pago, PagoArriendo } = require("../database/db");
+const { Op } = require("sequelize");
 
 class PagoService {
 
@@ -19,6 +20,14 @@ class PagoService {
             where: WHERE,
             include: { model: PagoArriendo }
         });
+    }
+
+    async getFindAllById(WHERE) {
+        return Pago.findAll({
+            where: {
+                [Op.or]: WHERE
+            }
+        })
     }
 
 
