@@ -76,14 +76,15 @@ class EmpresaController {
         try {
             const files = req.files;
             const data = {};
-            if(files["inputCarnetFrontalEmpresa"]) data.carnetFrontal = req.files["inputCarnetFrontalEmpresa"][0].filename;
-            if(files["inputCarnetTraseraEmpresa"]) data.carnetTrasera = req.files["inputCarnetTraseraEmpresa"][0].filename;
-            if(files["inputDocumentotRol"]) data.documentoRol = req.files["inputDocumentotRol"][0].filename;
-            if(files["inputEstatuto"]) data.documentoEstatuto = req.files["inputEstatuto"][0].filename;
-            if(files["inputDocumentoVigencia"]) data.documentoVigencia = req.files["inputDocumentoVigencia"][0].filename;
+            data.userAt = req.headers["userat"];
+            if (files["inputCarnetFrontalEmpresa"]) data.carnetFrontal = req.files["inputCarnetFrontalEmpresa"][0].filename;
+            if (files["inputCarnetTraseraEmpresa"]) data.carnetTrasera = req.files["inputCarnetTraseraEmpresa"][0].filename;
+            if (files["inputDocumentotRol"]) data.documentoRol = req.files["inputDocumentotRol"][0].filename;
+            if (files["inputEstatuto"]) data.documentoEstatuto = req.files["inputEstatuto"][0].filename;
+            if (files["inputDocumentoVigencia"]) data.documentoVigencia = req.files["inputDocumentoVigencia"][0].filename;
             console.log(data);
-            const [empresa,created] = await this.serviceDocEmpresa.postFindOrCreate(data,req.params.id);
-            if(!created) await this.serviceDocEmpresa.putUpdate(data,req.params.id);
+            const [empresa, created] = await this.serviceDocEmpresa.postFindOrCreate(data, req.params.id);
+            if (!created) await this.serviceDocEmpresa.putUpdate(data, req.params.id);
             res.json({
                 success: true,
                 msg: "archivo actualizado",

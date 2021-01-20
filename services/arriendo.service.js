@@ -15,14 +15,14 @@ class ArriendoService {
     }
 
 
-    async getFindAllActivos(WHERE, FILTER) {
+    async getFindAllActivos(id_sucursal, FILTER) {
         return await Arriendo.findAll({
-            where: WHERE,
             where: {
                 [Op.or]: [
                     { estado_arriendo: FILTER[0] },
                     { estado_arriendo: FILTER[1] },
-                ]
+                ],
+                id_sucursal: id_sucursal
             },
             include: [
                 { model: Usuario, attributes: ["nombre_usuario"] },

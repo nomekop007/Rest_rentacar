@@ -5,7 +5,7 @@ const { sendError } = require("../helpers/components");
 class ClienteController {
     constructor() {
         this.serviceCliente = new ClienteService();
-        this.serviceDocCliente= new DocumentoClienteSerivce();
+        this.serviceDocCliente = new DocumentoClienteSerivce();
     }
 
     async getClientes(req, res) {
@@ -82,11 +82,12 @@ class ClienteController {
 
             const files = req.files;
             const data = {};
+            data.userAt = req.headers["userat"];
             if (files["inputCarnetFrontalCliente"]) data.carnetFrontal = req.files["inputCarnetFrontalCliente"][0].filename;
             if (files["inputCarnetTraseraCliente"]) data.carnetTrasera = req.files["inputCarnetTraseraCliente"][0].filename;
             console.log(data);
-            const [cliente, created] =  await this.serviceDocCliente.postFindOrCreate(data,req.params.id);
-            if (!created)   await this.serviceDocCliente.putUpdate(data,req.params.id);
+            const [cliente, created] = await this.serviceDocCliente.postFindOrCreate(data, req.params.id);
+            if (!created) await this.serviceDocCliente.putUpdate(data, req.params.id);
             res.json({
                 success: true,
                 msg: "archivo actualizado",

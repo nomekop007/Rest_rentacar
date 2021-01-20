@@ -14,9 +14,9 @@ class ArriendoController {
 	async getArriendos(req, res) {
 		try {
 			//preguntar si el usuario no es administrador
-			const { rol, sucursal, estado } = req.query;
-			const where = {};
-			if (rol != 1) where.id_sucursal = sucursal;
+			const { sucursal, estado } = req.query;
+			let where = {};
+			where.id_sucursal = sucursal;
 			if (estado) where.estado_arriendo = estado;
 			const arriendos = await this.serviceArriendo.getFindAllPublic(where);
 			res.json({
@@ -29,17 +29,17 @@ class ArriendoController {
 	}
 
 	async getArriendosActivos(req, res) {
-		const { rol, sucursal, estado } = req.query;
+		try {
+			const { sucursal, estado } = req.query;
+			const arriendos = await this.serviceArriendo.getFindAllActivos(sucursal, estado);
+			res.json({
+				success: true,
+				data: arriendos,
+			});
+		} catch (error) {
+			sendError(error, res);
 
-		const where = {};
-		if (rol != 1) where.id_sucursal = sucursal;
-		const arriendos = await this.serviceArriendo.getFindAllActivos(where, estado);
-		res.json({
-			success: true,
-			data: arriendos,
-		});
-
-
+		}
 	}
 
 	async findArriendo(req, res) {
