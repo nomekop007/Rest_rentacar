@@ -55,7 +55,7 @@ class ClienteController {
                 success: true,
                 data: newCliente,
             });
-            if (created) next(cliente.logging);
+            if (created) next();
         } catch (error) {
             sendError(error, res);
         }
@@ -64,12 +64,12 @@ class ClienteController {
     async putCliente(req, res, next) {
         try {
             const response = req.body;
-            const cliente = await this.serviceCliente.putUpdate(response, req.params.id);
+            await this.serviceCliente.putUpdate(response, req.params.id);
             res.json({
                 success: true,
                 msg: "registro actualizado"
             })
-            next(cliente.logging);
+            next();
         } catch (error) {
             sendError(error, res);
         }
@@ -77,7 +77,7 @@ class ClienteController {
 
 
 
-    async updateFile(req, res) {
+    async updateFile(req, res, next) {
         try {
 
             const files = req.files;
@@ -85,9 +85,9 @@ class ClienteController {
             data.userAt = req.headers["userat"];
             if (files["inputCarnetFrontalCliente"]) data.carnetFrontal = req.files["inputCarnetFrontalCliente"][0].filename;
             if (files["inputCarnetTraseraCliente"]) data.carnetTrasera = req.files["inputCarnetTraseraCliente"][0].filename;
-            console.log(data);
             const [cliente, created] = await this.serviceDocCliente.postFindOrCreate(data, req.params.id);
             if (!created) await this.serviceDocCliente.putUpdate(data, req.params.id);
+            next();
             res.json({
                 success: true,
                 msg: "archivo actualizado",

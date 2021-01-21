@@ -60,7 +60,7 @@ class ConductorController {
                 success: true,
                 data: newConductor,
             });
-            if (created) next(conductor.logging);
+            if (created) next();
         } catch (error) {
             sendError(error, res);
         }
@@ -70,31 +70,31 @@ class ConductorController {
     async putConductor(req, res, next) {
         try {
             const response = req.body;
-            const conductor = await this.serviceConductor.putUpdate(response, req.params.id);
+            await this.serviceConductor.putUpdate(response, req.params.id);
             res.json({
                 success: true,
                 msg: "registro actualizado"
             })
-            next(conductor.logging);
+            next();
         } catch (error) {
             sendError(error, res);
         }
     }
 
-    async updateFile(req, res) {
+    async updateFile(req, res, next) {
         try {
             const files = req.files;
             const data = {};
             data.userAt = req.headers["userat"];
             if (files["inputlicenciaFrontalConductor"]) data.licenciaConducirFrontal = req.files["inputlicenciaFrontalConductor"][0].filename;
             if (files["inputlicenciaTraseraConductor"]) data.licenciaConducirTrasera = req.files["inputlicenciaTraseraConductor"][0].filename;
-            console.log(data);
             const [conductor, created] = await this.serviceDocConductor.postFindOrCreate(data, req.params.id);
             if (!created) await this.serviceDocConductor.putUpdate(data, req.params.id);
             res.json({
                 success: true,
                 msg: "archivo actualizado",
             });
+            next();
         } catch (error) {
             sendError(error, res);
         }

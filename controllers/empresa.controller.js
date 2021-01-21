@@ -52,7 +52,7 @@ class EmpresaController {
                 success: true,
                 data: newEmpresa,
             });
-            if (created) next(empresa.logging);
+            if (created) next();
         } catch (error) {
             sendError(error, res);
         }
@@ -61,18 +61,18 @@ class EmpresaController {
     async putEmpresa(req, res, next) {
         try {
             const response = req.body;
-            const empresa = await this.serviceEmpresa.putUpdate(response, req.params.id);
+            await this.serviceEmpresa.putUpdate(response, req.params.id);
             res.json({
                 success: true,
                 msg: "registro actualizado"
             })
-            next(empresa.logging);
+            next();
         } catch (error) {
             sendError(error, res);
         }
     }
 
-    async updateFile(req, res) {
+    async updateFile(req, res, next) {
         try {
             const files = req.files;
             const data = {};
@@ -82,13 +82,13 @@ class EmpresaController {
             if (files["inputDocumentotRol"]) data.documentoRol = req.files["inputDocumentotRol"][0].filename;
             if (files["inputEstatuto"]) data.documentoEstatuto = req.files["inputEstatuto"][0].filename;
             if (files["inputDocumentoVigencia"]) data.documentoVigencia = req.files["inputDocumentoVigencia"][0].filename;
-            console.log(data);
             const [empresa, created] = await this.serviceDocEmpresa.postFindOrCreate(data, req.params.id);
             if (!created) await this.serviceDocEmpresa.putUpdate(data, req.params.id);
             res.json({
                 success: true,
                 msg: "archivo actualizado",
             });
+            next();
         } catch (error) {
             sendError(error, res);
         }

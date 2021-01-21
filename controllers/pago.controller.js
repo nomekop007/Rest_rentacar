@@ -8,7 +8,7 @@ class PagoController {
     }
 
 
-    async createPago(req, res) {
+    async createPago(req, res, next) {
         try {
             const response = req.body;
             const pago = await this.servicePago.postCreate(response);
@@ -17,6 +17,7 @@ class PagoController {
                 pago: pago,
                 msg: "registro exitoso",
             });
+            next();
         } catch (error) {
             sendError(error, res);
         }
@@ -36,7 +37,7 @@ class PagoController {
         }
     }
 
-    async updatePagos(req, res) {
+    async updatePagos(req, res, next) {
         try {
             const response = req.body;
             response.arrayPagos.map(async (id_pago) => {
@@ -47,6 +48,7 @@ class PagoController {
                 success: true,
                 msg: "Pago actualizado",
             });
+            next();
         } catch (error) {
             sendError(error, res);
         }
@@ -81,7 +83,7 @@ class PagoController {
     }
 
 
-    async aplicarDescuentoPago(req, res) {
+    async aplicarDescuentoPago(req, res, next) {
         try {
             const response = req.body;
             if (Number(response.descuento_pago) != 0 || Number(response.extra_pago) != 0) {
@@ -106,6 +108,7 @@ class PagoController {
                         success: true,
                         msg: "modificado!"
                     });
+                    next();
                     return;
                 } else {
                     res.json({

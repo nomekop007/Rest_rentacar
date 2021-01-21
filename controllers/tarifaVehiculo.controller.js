@@ -9,7 +9,7 @@ class TarifaVehiculoController {
         this._vehiculo = new VehiculoService();
     }
 
-    async createTarifaVehiculo(req, res) {
+    async createTarifaVehiculo(req, res, next) {
         try {
             const { TARIFASVEHICULOS } = req.body;
             TARIFASVEHICULOS.forEach(async vehiculo => {
@@ -21,6 +21,7 @@ class TarifaVehiculoController {
                 success: true,
                 msg: "asignacion exitosa!"
             })
+            next();
         } catch (error) {
             sendError(error, res);
         }

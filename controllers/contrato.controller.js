@@ -21,7 +21,7 @@ class contrato_controller {
     }
 
 
-    async createContrato(req, res) {
+    async createContrato(req, res, next) {
         try {
             const response = req.body;
             const arriendo = await this.serviceArriendo.getFindOne(response.id_arriendo);
@@ -44,13 +44,14 @@ class contrato_controller {
                 success: true,
                 data: contrato,
             });
+            next();
         } catch (error) {
             sendError(error, res);
         }
     }
 
 
-    async subirContrato(req, res) {
+    async subirContrato(req, res, next) {
         try {
             const arriendo = await this.serviceArriendo.getFindOne(req.params.id);
             const arrayPagos = ordenarArrayporFecha(arriendo.pagosArriendos);
@@ -66,6 +67,7 @@ class contrato_controller {
                 success: true,
                 data: contrato
             });
+            next();
         } catch (error) {
             sendError(error, res);
         }
@@ -163,6 +165,7 @@ class contrato_controller {
                 success: true,
                 msg: resp,
             });
+
         } catch (error) {
             sendError(error, res);
         }

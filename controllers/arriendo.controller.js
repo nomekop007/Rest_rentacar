@@ -87,7 +87,7 @@ class ArriendoController {
 				msg: ` arriendo Nº${arriendo.id_arriendo} registrado exitosamente`,
 				data: arriendo,
 			});
-			next(arriendo.logging);
+			next();
 		} catch (error) {
 			sendError(error, res);
 		}
@@ -103,13 +103,13 @@ class ArriendoController {
 				msg: "actualizacion exitoso",
 				data: arriendo,
 			});
-			next(arriendo.logging);
+			next();
 		} catch (error) {
 			sendError(error, res);
 		}
 	}
 
-	async sendCorreoAtraso(req, res) {
+	async sendCorreoAtraso(req, res, next) {
 		try {
 			const { id_arriendo, nombre_cliente, correo_cliente } = req.query;
 			const arriendo = await this.serviceArriendo.getFindOne(id_arriendo);
@@ -131,6 +131,7 @@ class ArriendoController {
 			};
 			const resp = await nodemailerTransporter.sendMail(mailOptions);
 			res.json({ success: true, msg: resp });
+			next();
 		} catch (error) {
 			sendError(error, res);
 		}
@@ -148,13 +149,13 @@ class ArriendoController {
 			data.diasAcumulados_arriendo = data.diasActuales_arriendo;
 			const arriendoEdit = await this.serviceArriendo.putUpdate(data, req.params.id);
 			res.json({ success: true, msg: "arriendo modificado!" });
-			next(arriendoEdit.logging);
+			next();
 		} catch (error) {
 			sendError(error, res);
 		}
 	}
 
-	async modificarTipo(req, res) {
+	async modificarTipo(req, res, next) {
 		try {
 			const { tipo, empresaRemplazo } = req.body;
 			const arriendo = await this.serviceArriendo.getFindOneMin(req.params.id);
@@ -201,6 +202,7 @@ class ArriendoController {
 					break;
 			}
 			res.json({ success: true, msg: "arriendo modificado!" });
+			next();
 		} catch (error) {
 			sendError(error, res);
 		}

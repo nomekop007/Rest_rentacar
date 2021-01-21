@@ -6,7 +6,7 @@ class GarantiaController {
     }
 
 
-    async createGarantia(req, res) {
+    async createGarantia(req, res, next) {
         try {
             const response = req.body;
             switch (response.id_modoPago) {
@@ -41,6 +41,7 @@ class GarantiaController {
                 data: garantia,
                 msg: "registro exitoso",
             });
+            next();
         } catch (error) {
             sendError(error, res);
         }

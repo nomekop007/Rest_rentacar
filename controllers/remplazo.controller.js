@@ -9,7 +9,7 @@ class RemplazoController {
     }
 
 
-    async createRemplazo(req, res) {
+    async createRemplazo(req, res, next) {
         try {
             const response = req.body;
             const remplazo = await this.serviceRemplazo.postCreate(response);
@@ -19,6 +19,7 @@ class RemplazoController {
                     id_remplazo: remplazo.id_remplazo,
                 },
             });
+            next();
         } catch (error) {
             sendError(error, res);
         }

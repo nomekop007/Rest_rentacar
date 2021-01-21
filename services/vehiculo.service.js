@@ -1,12 +1,12 @@
-const { Vehiculo, Region, Sucursal } = require("../database/db");
+const { Vehiculo, Region, Sucursal, Arriendo, DanioVehiculo } = require("../database/db");
 
 class VehiculoService {
 
 
 
-    async postFindOrCreate(DATA, ID) {
+    async postFindOrCreate(DATA, PATENTE) {
         return await Vehiculo.findOrCreate({
-            where: { patente_vehiculo: ID },
+            where: { patente_vehiculo: PATENTE },
             defaults: DATA,
         });
     }
@@ -25,23 +25,36 @@ class VehiculoService {
     }
 
 
-    async getFindOne(ID) {
+    async getFindOne(PATENTE) {
         return await Vehiculo.findOne({
-            where: { patente_vehiculo: ID },
+            where: { patente_vehiculo: PATENTE },
         });
     }
 
-
-    async putUpdate(DATA, ID) {
+    //by patente
+    async putUpdate(DATA, PATENTE) {
         return await Vehiculo.update(DATA, {
-            where: { patente_vehiculo: ID },
+            where: { patente_vehiculo: PATENTE },
+        });
+    }
+
+    async putUpdateById(DATA, ID) {
+        return await Vehiculo.update(DATA, {
+            where: { id_vehiculo: ID }
+        });
+    }
+
+    async getFindOneById(ID) {
+        return await Vehiculo.findOne({
+            where: { id_vehiculo: ID },
+            include: [{ model: Arriendo }, { model: DanioVehiculo }]
         });
     }
 
 
-    async deleteDestroy(ID) {
+    async deleteDestroy(PATENTE) {
         return await Vehiculo.destroy({
-            where: { patente_vehiculo: ID },
+            where: { patente_vehiculo: PATENTE },
         });
     }
 

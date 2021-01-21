@@ -69,11 +69,17 @@ const TarifaVehiculo = TarifaVehiculoModel(database, Sequelize);
 
 
 //opciones
-//RESTRICT, CASCADE, NO ACTION, SET DEFAULTy SET NULL.
+//RESTRICT, CASCADE, NO ACTION, SET DEFAULT y SET NULL.
 const onDelete = "CASCADE";
 const onUpdate = "CASCADE";
 
 //Asociaciones de tablas
+
+
+// un usuario tiene muchos log
+Usuario.hasMany(Log, { foreignKey: { name: "id_usuario" }, onDelete: onDelete, onUpdate: onUpdate });
+//un log pertenece a un usuario
+Log.belongsTo(Usuario, { foreignKey: { name: "id_usuario" }, onDelete: onDelete, onUpdate: onUpdate });
 
 
 // un pagoArriendo tiene muchos pagoAccesorio

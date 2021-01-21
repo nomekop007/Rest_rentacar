@@ -6,7 +6,7 @@ class PagoAccesorioController {
     }
 
 
-    async createPagoAccesorios(req, res) {
+    async createPagoAccesorios(req, res, next) {
         try {
             const response = req.body;
             for (let i = 0; i < response.matrizAccesorios[0].length; i++) {
@@ -24,6 +24,7 @@ class PagoAccesorioController {
                 success: true,
                 msg: "registro exitoso",
             });
+            next();
         } catch (error) {
             sendError(error, res);
         }

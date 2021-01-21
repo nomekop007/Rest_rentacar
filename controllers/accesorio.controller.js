@@ -38,7 +38,7 @@ class AccesorioController {
                 success: true,
                 data: accesorio
             })
-            next(accesorio.logging);
+            next();
         } catch (error) {
             sendError(error, res);
         }
@@ -63,7 +63,7 @@ class AccesorioController {
                 success: true,
                 data: accesorio
             })
-            next(accesorio.logging);
+            next();
         } catch (error) {
             sendError(error, res);
         }

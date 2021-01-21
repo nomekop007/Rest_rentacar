@@ -14,7 +14,7 @@ class PagoDanioController {
                 success: true,
                 data: { id_pagoDanio: pagoDanio.id_pagoDanio }
             })
-            next(pagoDanio.logging);
+            next();
         } catch (error) {
             sendError(error)
         }

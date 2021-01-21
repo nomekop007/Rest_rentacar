@@ -15,7 +15,7 @@ class RequisitoController {
     }
 
 
-    async createRequisitoArriendo(req, res) {
+    async createRequisitoArriendo(req, res, next) {
         try {
             const files = req.files;
             const data = {
@@ -50,13 +50,9 @@ class RequisitoController {
                 cartaAutorizacion_requisito: files.inputCartaAutorizacion ?
                     files.inputCartaAutorizacion[0].filename : null,
             };
-
             //buscar los documentos del conductor y cliente , o empresa y si bienen vacios los archivos , se remplazan por lo que estan
             const arriendo = await this.serviceArriendo.getFindOneClients(data.id_arriendo);
-
-
             // tambien se guardan los documentos en sus respectivos clientes , empresa y conductor
-
             let dataDocumento = {
                 userAt: req.headers["userat"],
                 licenciaConducirFrontal: data.licenciaConducirFrontal_requisito,
@@ -94,7 +90,6 @@ class RequisitoController {
                     if (!data.carnetTrasera_requisito) data.carnetTrasera_requisito = doc2.carnetTrasera;
                     break;
                 case "EMPRESA":
-
                     dataDocumento = {
                         userAt: req.headers["userat"],
                         carnetFrontal: data.carnetFrontal_requisito,
@@ -113,13 +108,12 @@ class RequisitoController {
                     if (!data.documentoVigencia_requisito) data.documentoVigencia_requisito = doc3.documentoVigencia;
                     break;
             }
-
             const requisito = await this.serviceRequisito.postCreate(data);
-
             res.json({
                 success: true,
                 data: requisito,
             });
+            next();
         } catch (error) {
             sendError(error, res);
         }

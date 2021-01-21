@@ -8,7 +8,7 @@ class ContactoController {
     }
 
 
-    async createContacto(req, res) {
+    async createContacto(req, res, next) {
         try {
             const response = req.body;
             const contacto = await this.serviceContacto.postCreate(response);
@@ -16,6 +16,7 @@ class ContactoController {
                 success: true,
                 data: contacto,
             });
+            next();
         } catch (error) {
             sendError(error, res);
         }
@@ -23,12 +24,12 @@ class ContactoController {
 
     async updateContacto(req, res, next) {
         try {
-            const contacto = await this.serviceContacto.putUpdate(req.body, req.params.id);
+            await this.serviceContacto.putUpdate(req.body, req.params.id);
             res.json({
                 success: true,
                 msg: "contacto modificado"
             });
-            next(contacto.logging);
+            next();
         } catch (error) {
             sendError(error, res);
         }

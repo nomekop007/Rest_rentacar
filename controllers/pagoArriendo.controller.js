@@ -8,7 +8,7 @@ class PagoArriendoController {
 	}
 
 
-	async createPagoArriendo(req, res) {
+	async createPagoArriendo(req, res, next) {
 		try {
 			const response = req.body;
 			const arriendo = await this.serviceArriendo.getFindOne(response.id_arriendo);
@@ -20,6 +20,7 @@ class PagoArriendoController {
 					pagoArriendo: pagoArriendo,
 					msg: "registro exitoso",
 				});
+				next();
 			} else {
 				res.json({
 					success: false,

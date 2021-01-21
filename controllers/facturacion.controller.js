@@ -19,7 +19,7 @@ class FacturacionController {
     }
 
 
-    async createFacturacion(req, res) {
+    async createFacturacion(req, res, next) {
         try {
             const response = req.body;
             const facturacion = await this.serviceFacturacion.postCreate(response);
@@ -28,13 +28,14 @@ class FacturacionController {
                 data: facturacion,
                 msg: "registro exitoso",
             });
+            next();
         } catch (error) {
             sendError(error, res);
         }
     }
 
 
-    async uploadDocumentFacturacion(req, res) {
+    async uploadDocumentFacturacion(req, res, next) {
         try {
             const data = { documento_facturacion: req.file.filename };
             await this.serviceFacturacion.putUpdate(data, req.params.id);
@@ -42,6 +43,7 @@ class FacturacionController {
                 success: true,
                 msg: " documento guardada",
             });
+            next();
         } catch (error) {
             sendError(error, res);
         }

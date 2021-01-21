@@ -15,7 +15,7 @@ class DespachoController {
     }
 
 
-    async createDespacho(req, res) {
+    async createDespacho(req, res, next) {
         try {
             const response = req.body;
             const despacho = await this.serviceDespacho.postCreate(response);
@@ -23,13 +23,14 @@ class DespachoController {
                 success: true,
                 id_despacho: despacho.id_despacho,
             });
+            next();
         } catch (error) {
             sendError(error, res);
         }
     }
 
 
-    async addRevision(req, res) {
+    async addRevision(req, res, next) {
         try {
             const response = req.body;
             response.id_despacho = req.params.id;
@@ -54,6 +55,7 @@ class DespachoController {
                 success: true,
                 msg: "revision existosa"
             });
+            next();
         } catch (error) {
             sendError(error)
         }
