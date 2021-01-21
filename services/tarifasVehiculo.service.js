@@ -6,9 +6,9 @@ class TarifaVehiculoService {
     return await TarifaVehiculo.create(DATA);
   }
 
-  async postFindOrCreate(DATA, ID) {
+  async postFindOrCreate(DATA, PATENTE) {
     return await TarifaVehiculo.findOrCreate({
-      where: { patente_vehiculo: ID },
+      where: { patente_vehiculo: PATENTE },
       defaults: DATA,
     });
   }
@@ -19,15 +19,22 @@ class TarifaVehiculoService {
     });
   }
 
-  async getFindOne(ID) {
+  async getFindOne(PATENTE) {
     return await TarifaVehiculo.findOne({
-      where: { patente_vehiculo: ID }
+      where: { patente_vehiculo: PATENTE }
     });
   }
 
-  async putUpdate(DATA, ID) {
+  //byPatente
+  async putUpdate(DATA, PATENTE) {
     return await TarifaVehiculo.update(DATA, {
-      where: { patente_vehiculo: ID }
+      where: { patente_vehiculo: PATENTE }
+    })
+  }
+
+  async putUpdateById(DATA, ID) {
+    return await TarifaVehiculo.update(DATA, {
+      where: { id_tarifaVehiculo: ID }
     })
   }
 }

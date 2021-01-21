@@ -19,7 +19,7 @@ class ActaEntregaController {
         this.serviceArriendo = new ArriendoServices();
     }
 
-    async createActaEntrega(req, res, next) {
+    async createActaEntrega(req, res) {
         try {
             const response = req.body;
             const nameFile = uuidv4();
@@ -37,7 +37,6 @@ class ActaEntregaController {
                 success: true,
                 data: actaEntrega,
             });
-            next();
         } catch (error) {
             sendError(error, res);
         }

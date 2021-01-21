@@ -6,7 +6,7 @@ module.exports = (sequelize, type) => {
             autoIncrement: true,
         },
         userAt_log: type.STRING,
-        body_log: type.STRING(2000),
+        body_log: type.STRING(5000),
         accion_log: type.STRING,
     });
 };

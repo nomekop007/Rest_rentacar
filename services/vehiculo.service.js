@@ -1,4 +1,4 @@
-const { Vehiculo, Region, Sucursal, Arriendo, DanioVehiculo } = require("../database/db");
+const { Vehiculo, Region, Sucursal, Arriendo, DanioVehiculo, TarifaVehiculo } = require("../database/db");
 
 class VehiculoService {
 
@@ -47,7 +47,7 @@ class VehiculoService {
     async getFindOneById(ID) {
         return await Vehiculo.findOne({
             where: { id_vehiculo: ID },
-            include: [{ model: Arriendo }, { model: DanioVehiculo }]
+            include: [{ model: Arriendo }, { model: DanioVehiculo }, { model: TarifaVehiculo }]
         });
     }
 
