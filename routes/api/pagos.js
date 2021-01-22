@@ -14,4 +14,6 @@ router.post("/aplicarDescuentoPago", pago.aplicarDescuentoPago.bind(pago));
 
 router.post("/calcularTotalPagos", pago.calcularTotalPagos.bind(pago));
 
+router.get("/buscarPago/:id", pago.findPago.bind(pago));
+
 module.exports = router;
