@@ -1,50 +1,44 @@
 const router = require("express").Router();
 
 
-
 //apis
-const apiRolesRouter = require("./api/roles");
-const apiVehiculosRouter = require("./api/vehiculos");
-const apiUsuariosRouter = require("./api/usuarios");
-const apiSucursalesRouter = require("./api/sucursales");
-const apiAccesoriosRouter = require("./api/accesorios");
-const apiArriendosRouter = require("./api/arriendos");
-const apiClientesRouter = require("./api/clientes");
-const apiEmpresasRouter = require("./api/empresas");
-const apiConductoresRouter = require("./api/conductores");
-const apiRequisitosRouter = require("./api/requisitos");
-const apiPagoArriendoRouter = require("./api/pagosArriendos");
-const apiGarantiasRouter = require("./api/garantias");
-const apiContratosRouter = require("./api/contratos");
-const apiPropietarioRouter = require("./api/propietarios");
-const apiRemplazoRouter = require("./api/remplazos");
-const apiActaEntregaRouter = require("./api/actasEntregas");
-const apiDespachoRouter = require("./api//despachos");
-const apiPagoAccesorioRouter = require("./api/pagosAccesorios");
-const apiFacturacionRouter = require("./api/facturaciones");
-const apiEmpresaRemplazoRouter = require("./api/empresasRemplazos");
-const apiPagoRouter = require("./api/pagos");
-const apiContactoRouter = require("./api/contactos");
-const apiRegionRouter = require("./api/regiones");
-const apiDanioVehiculoRouter = require("./api/danioVehiculos");
-const apiPagoDanioRouter = require("./api/pagosDanios");
-const apiTarifaVehiculoRouter = require("./api/tarifasVehiculos");
+const apiRolesRouter = require("./api/roles.routes");
+const apiVehiculosRouter = require("./api/vehiculos.routes");
+const apiUsuariosRouter = require("./api/usuarios.routes");
+const apiSucursalesRouter = require("./api/sucursales.routes");
+const apiAccesoriosRouter = require("./api/accesorios.routes");
+const apiArriendosRouter = require("./api/arriendos.routes");
+const apiClientesRouter = require("./api/clientes.routes");
+const apiEmpresasRouter = require("./api/empresas.routes");
+const apiConductoresRouter = require("./api/conductores.routes");
+const apiRequisitosRouter = require("./api/requisitos.routes");
+const apiPagoArriendoRouter = require("./api/pagosArriendos.routes");
+const apiGarantiasRouter = require("./api/garantias.routes");
+const apiContratosRouter = require("./api/contratos.routes");
+const apiPropietarioRouter = require("./api/propietarios.routes");
+const apiRemplazoRouter = require("./api/remplazos.routes");
+const apiActaEntregaRouter = require("./api/actasEntregas.routes");
+const apiDespachoRouter = require("./api//despachos.routes");
+const apiPagoAccesorioRouter = require("./api/pagosAccesorios.routes");
+const apiFacturacionRouter = require("./api/facturaciones.routes");
+const apiEmpresaRemplazoRouter = require("./api/empresasRemplazos.routes");
+const apiPagoRouter = require("./api/pagos.routes");
+const apiContactoRouter = require("./api/contactos.routes");
+const apiRegionRouter = require("./api/regiones.routes");
+const apiDanioVehiculoRouter = require("./api/danioVehiculos.routes");
+const apiPagoDanioRouter = require("./api/pagosDanios.routes");
+const apiTarifaVehiculoRouter = require("./api/tarifasVehiculos.routes");
 
 
 //otros 
-const finanzasApiRouter = require("./other/finanzasApi");
-const defaultValuesRouter = require("./other/defaultValues");
-const utilsApiRouter = require("./other/utilsApi");
-
+const finanzasApiRouter = require("./other/finanzasApi.routes");
+const defaultValuesRouter = require("./other/defaultValues.routes");
+const utilsApiRouter = require("./other/utilsApi.routes");
 
 
 //middlewares
 const check = require("../middlewares/check.middleware");
 const check_api = require("../middlewares/checkApi.middleware");
-
-
-
-
 
 
 if (process.env.DEFAULT_VALUE === "TRUE") {
@@ -55,7 +49,7 @@ if (process.env.DEFAULT_VALUE === "TRUE") {
 
 // router para la api de finanzas
 router.use("/api", check_api.checkTokenApiRest, finanzasApiRouter);
-
+// endpoint api
 router.use("/utils", check.checkToken, utilsApiRouter);
 router.use("/requisitos", check.checkToken, apiRequisitosRouter);
 router.use("/propietarios", check.checkToken, apiPropietarioRouter);
