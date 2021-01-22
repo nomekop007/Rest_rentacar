@@ -4,7 +4,9 @@ const pago = new Pago_controller();
 
 router.post("/registrarPago", pago.createPago.bind(pago));
 
-router.post("/actualizarPago", pago.updatePagos.bind(pago));
+router.post("/actualizarPagos", pago.updatePagos.bind(pago));
+
+router.put("/modificarPago/:id", pago.updateOnePago.bind(pago));
 
 router.get("/cargarPagosERpendientes", pago.getPagosRemplazosPendientes.bind(pago));
 

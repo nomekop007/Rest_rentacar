@@ -54,6 +54,23 @@ class PagoController {
         }
     }
 
+    async updateOnePago(req, res, next) {
+        try {
+            const { pago, pagoArriendo } = req.body;
+            const p = await this.servicePago.getFindOne(req.params.id);
+            pago.userAt = req.headers["userat"];
+            pagoArriendo.userAt = req.headers["userat"];
+            pagoArriendo.observaciones_pagoArriendo = `${p.pagosArriendo.observaciones_pagoArriendo}.
+            ${pagoArriendo.observaciones_pagoArriendo}`;
+            await this.servicePago.putUpdate(pago, req.params.id);
+            await this.servicePagoArriendo.putUpdate(pagoArriendo, pagoArriendo.id_pagoArriendo);
+            res.json({ success: true, msg: "pago modificado!" })
+            next();
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+
 
     async getPagosRemplazosPendientes(req, res) {
         try {
