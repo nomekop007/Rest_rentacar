@@ -82,6 +82,15 @@ class PagoController {
         }
     }
 
+    async findPago(req, res) {
+        try {
+            const pago = await this.servicePago.getFindOne(req.params.id);
+            res.json({ success: true, data: pago })
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+
 
     async aplicarDescuentoPago(req, res, next) {
         try {
@@ -97,7 +106,8 @@ class PagoController {
                         total_pago: nuevo_monto
                     }
                     const dataPagoArriendo = {
-                        observaciones_pagoArriendo: `${pago.pagosArriendo.observaciones_pagoArriendo}. ${response.observacion_pago}`,
+                        observaciones_pagoArriendo: `${pago.pagosArriendo.observaciones_pagoArriendo}.
+                         ${response.observacion_pago}`,
                         total_pagoArriendo: dataPago.total_pago,
                         iva_pagoArriendo: dataPago.iva_pago,
                         neto_pagoArriendo: dataPago.neto_pago
