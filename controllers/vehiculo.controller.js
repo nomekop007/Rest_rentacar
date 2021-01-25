@@ -8,27 +8,27 @@ const { borrarImagenDeStorage, sendError } = require("../helpers/components");
 class VehiculoController {
 
     constructor() {
-        this.serviceVehiculo = new VehiculoService();
-        this.serviceSucursal = new SucursalService();
-        this.serviceArriendo = new ArriendoService();
-        this.serviceDanio = new DanioService();
-        this.serviceTarifaVehiculo = new TarifaVehiculoService();
+        this._serviceVehiculo = new VehiculoService();
+        this._serviceSucursal = new SucursalService();
+        this._serviceArriendo = new ArriendoService();
+        this._serviceDanio = new DanioService();
+        this._serviceTarifaVehiculo = new TarifaVehiculoService();
     }
 
 
     async getVehiculos(req, res) {
         try {
             const { sucursal, rol } = req.query;
-            const { id_region } = await this.serviceSucursal.getFindOne(sucursal);
+            const { id_region } = await this._serviceSucursal.getFindOne(sucursal);
             let vehiculos = null;
-            if (rol === 1) vehiculos = await this.serviceVehiculo.getFindAll();
-            else vehiculos = await this.serviceVehiculo.getFindAllWithRegion(id_region);
+            if (rol === 1) vehiculos = await this._serviceVehiculo.getFindAll();
+            else vehiculos = await this._serviceVehiculo.getFindAllWithRegion(id_region);
 
 
             vehiculos.map(({ id_vehiculo, patente_vehiculo }) => {
                 if (!id_vehiculo) {
                     setTimeout(async () => {
-                        await this.serviceVehiculo.putUpdate({ id_vehiculo: uuidv4() }, patente_vehiculo);
+                        await this._serviceVehiculo.putUpdate({ id_vehiculo: uuidv4() }, patente_vehiculo);
                         console.log(patente_vehiculo)
                     }, 1000);
                 }
@@ -46,7 +46,7 @@ class VehiculoController {
 
     async getAllVehiculos(req, res) {
         try {
-            const vehiculos = await this.serviceVehiculo.getFindAll();
+            const vehiculos = await this._serviceVehiculo.getFindAll();
             res.json({
                 success: true,
                 data: vehiculos
@@ -59,7 +59,7 @@ class VehiculoController {
 
     async findVehiculo(req, res) {
         try {
-            const vehiculo = await this.serviceVehiculo.getFindOne(req.params.id);
+            const vehiculo = await this._serviceVehiculo.getFindOne(req.params.id);
             if (vehiculo) {
                 res.json({
                     success: true,
@@ -82,7 +82,7 @@ class VehiculoController {
             const response = req.body;
             response.id_vehiculo = uuidv4();
             if (response.patente_vehiculo.length < 3) return res.json({ success: false, msg: "patente invalida!!" })
-            const [v, created] = await this.serviceVehiculo.postFindOrCreate(response, response.patente_vehiculo);
+            const [v, created] = await this._serviceVehiculo.postFindOrCreate(response, response.patente_vehiculo);
             if (created) {
                 res.json({
                     success: true,
@@ -105,7 +105,7 @@ class VehiculoController {
         try {
             const response = req.body;
             if (response.kilometrosMantencion_vehiculo == null) delete response.kilometrosMantencion_vehiculo;
-            const vehiculo = await this.serviceVehiculo.putUpdate(response, req.params.id);
+            const vehiculo = await this._serviceVehiculo.putUpdate(response, req.params.id);
             res.json({
                 success: true,
                 msg: "Vehiculo modificado exitosamente",
@@ -120,7 +120,7 @@ class VehiculoController {
 
     async deleteVehiculo(req, res, next) {
         try {
-            await this.serviceVehiculo.deleteDestroy(req.params.id);
+            await this._serviceVehiculo.deleteDestroy(req.params.id);
             res.json({
                 success: true,
                 msg: " Vehiculo borrado exitosamente",
@@ -135,11 +135,11 @@ class VehiculoController {
 
     async uploadImageVehiculo(req, res, next) {
         try {
-            const v = await this.serviceVehiculo.getFindOne(req.params.id);
+            const v = await this._serviceVehiculo.getFindOne(req.params.id);
             // se pregunta si el vehiculo  tiene image asignada
             if (v.foto_vehiculo) borrarImagenDeStorage(v.foto_vehiculo);
             const data = { foto_vehiculo: req.file.filename };
-            await this.serviceVehiculo.putUpdate(data, req.params.id);
+            await this._serviceVehiculo.putUpdate(data, req.params.id);
             res.json({
                 success: true,
                 msg: " imagen guardada",
@@ -157,12 +157,12 @@ class VehiculoController {
         try {
             const response = req.body;
             //recibira la id_vehiculo y no la patente
-            const vehiculo = await this.serviceVehiculo.getFindOneById(req.params.id);
+            const vehiculo = await this._serviceVehiculo.getFindOneById(req.params.id);
             if (response.patente_vehiculo.length < 3) return res.json({ success: false, msg: "patente invalida!!" })
             if (vehiculo.patente_vehiculo != response.patente_vehiculo) {
                 await this.borrarDatosAsociados(vehiculo);
                 try {
-                    await this.serviceVehiculo.putUpdateById(response, req.params.id);
+                    await this._serviceVehiculo.putUpdateById(response, req.params.id);
                 } catch (error) {
                     console.log(error)
                     await this.agregarDatosAsociados(vehiculo, vehiculo.patente_vehiculo);
@@ -170,7 +170,7 @@ class VehiculoController {
                 }
                 await this.agregarDatosAsociados(vehiculo, response.patente_vehiculo);
             } else {
-                await this.serviceVehiculo.putUpdateById(response, req.params.id);
+                await this._serviceVehiculo.putUpdateById(response, req.params.id);
             }
             res.json({
                 success: true,
@@ -183,15 +183,15 @@ class VehiculoController {
     }
 
     async borrarDatosAsociados(vehiculo) {
-        if (vehiculo.tarifasVehiculo) await this.serviceTarifaVehiculo.putUpdateById({ patente_vehiculo: null }, vehiculo.tarifasVehiculo.id_tarifaVehiculo);
-        if (vehiculo.arriendos.length > 0) await vehiculo.arriendos.map(async ({ id_arriendo }) => await this.serviceArriendo.putUpdate({ patente_vehiculo: null }, id_arriendo));
-        if (vehiculo.danioVehiculos.length > 0) await vehiculo.danioVehiculos.map(async ({ id_danioVehiculo }) => await this.serviceDanio.putUpdate({ patente_vehiculo: null }, id_danioVehiculo));
+        if (vehiculo.tarifasVehiculo) await this._serviceTarifaVehiculo.putUpdateById({ patente_vehiculo: null }, vehiculo.tarifasVehiculo.id_tarifaVehiculo);
+        if (vehiculo.arriendos.length > 0) await vehiculo.arriendos.map(async ({ id_arriendo }) => await this._serviceArriendo.putUpdate({ patente_vehiculo: null }, id_arriendo));
+        if (vehiculo.danioVehiculos.length > 0) await vehiculo.danioVehiculos.map(async ({ id_danioVehiculo }) => await this._serviceDanio.putUpdate({ patente_vehiculo: null }, id_danioVehiculo));
     }
 
     async agregarDatosAsociados(vehiculo, newPatente) {
-        if (vehiculo.tarifasVehiculo) await this.serviceTarifaVehiculo.putUpdateById({ patente_vehiculo: newPatente }, vehiculo.tarifasVehiculo.id_tarifaVehiculo);
-        if (vehiculo.arriendos.length > 0) await vehiculo.arriendos.map(async ({ id_arriendo }) => await this.serviceArriendo.putUpdate({ patente_vehiculo: newPatente }, id_arriendo));
-        if (vehiculo.danioVehiculos.length > 0) await vehiculo.danioVehiculos.map(async ({ id_danioVehiculo }) => await this.serviceDanio.putUpdate({ patente_vehiculo: newPatente }, id_danioVehiculo));
+        if (vehiculo.tarifasVehiculo) await this._serviceTarifaVehiculo.putUpdateById({ patente_vehiculo: newPatente }, vehiculo.tarifasVehiculo.id_tarifaVehiculo);
+        if (vehiculo.arriendos.length > 0) await vehiculo.arriendos.map(async ({ id_arriendo }) => await this._serviceArriendo.putUpdate({ patente_vehiculo: newPatente }, id_arriendo));
+        if (vehiculo.danioVehiculos.length > 0) await vehiculo.danioVehiculos.map(async ({ id_danioVehiculo }) => await this._serviceDanio.putUpdate({ patente_vehiculo: newPatente }, id_danioVehiculo));
     }
 }
 

@@ -3,13 +3,13 @@ const { sendError } = require("../helpers/components");
 class SucursalController {
 
     constructor() {
-        this.serviceSucursal = new SucursalService();
+        this._serviceSucursal = new SucursalService();
     }
 
 
     async getSucursales(req, res) {
         try {
-            const sucursales = await this.serviceSucursal.getFindAll();
+            const sucursales = await this._serviceSucursal.getFindAll();
             res.json({
                 success: true,
                 data: sucursales,
@@ -22,7 +22,7 @@ class SucursalController {
 
     async getFindVehiculosPorSucursal(req, res) {
         try {
-            const sucursal = await this.serviceSucursal.getFindByName(req.params.name);
+            const sucursal = await this._serviceSucursal.getFindByName(req.params.name);
             res.json({
                 success: true,
                 data: sucursal,
@@ -35,7 +35,7 @@ class SucursalController {
 
     async createSucursal(req, res, next) {
         try {
-            const sucursal = await this.serviceSucursal.postCreate(req.body);
+            const sucursal = await this._serviceSucursal.postCreate(req.body);
             res.json({ success: true, data: sucursal })
             next();
         } catch (error) {
@@ -45,7 +45,7 @@ class SucursalController {
 
     async updateSucursal(req, res, next) {
         try {
-            await this.serviceSucursal.putUpdate(req.params.id, req.body);
+            await this._serviceSucursal.putUpdate(req.params.id, req.body);
             res.json({ success: true, msg: "sucursal modificada" });
             next();
         } catch (error) {
@@ -55,7 +55,7 @@ class SucursalController {
 
     async getFindArriendoBySucursal(req, res) {
         try {
-            const sucursal = await this.serviceSucursal.getArriendoBySucursal();
+            const sucursal = await this._serviceSucursal.getArriendoBySucursal();
             res.json({ success: true, data: sucursal })
         } catch (error) {
             sendError(error);

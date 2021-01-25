@@ -3,13 +3,13 @@ const { sendError } = require("../helpers/components");
 
 class EmpresaRemplazoController {
     constructor() {
-        this.serviceEmpresaRemplazo = new EmpresaRemplazoService();
+        this._serviceEmpresaRemplazo = new EmpresaRemplazoService();
     }
 
 
     async getEmpresasRemplazo(req, res) {
         try {
-            const empresasRemplazo = await this.serviceEmpresaRemplazo.getFindAll();
+            const empresasRemplazo = await this._serviceEmpresaRemplazo.getFindAll();
             res.json({
                 success: true,
                 data: empresasRemplazo,

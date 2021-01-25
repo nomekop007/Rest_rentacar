@@ -7,11 +7,11 @@ const { sendError } = require("../helpers/components");
 class RequisitoController {
 
     constructor() {
-        this.serviceDocumentoEmpresa = new DocumentoEmpresaService();
-        this.serviceDocumentoCliente = new DocumentoClienteService();
-        this.serviceDocumentoConductor = new DocumentoConductorService();
-        this.serviceRequisito = new RequisitoService();
-        this.serviceArriendo = new ArriendoService();
+        this._serviceDocumentoEmpresa = new DocumentoEmpresaService();
+        this._serviceDocumentoCliente = new DocumentoClienteService();
+        this._serviceDocumentoConductor = new DocumentoConductorService();
+        this._serviceRequisito = new RequisitoService();
+        this._serviceArriendo = new ArriendoService();
     }
 
 
@@ -51,7 +51,7 @@ class RequisitoController {
                     files.inputCartaAutorizacion[0].filename : null,
             };
             //buscar los documentos del conductor y cliente , o empresa y si bienen vacios los archivos , se remplazan por lo que estan
-            const arriendo = await this.serviceArriendo.getFindOneClients(data.id_arriendo);
+            const arriendo = await this._serviceArriendo.getFindOneClients(data.id_arriendo);
             // tambien se guardan los documentos en sus respectivos clientes , empresa y conductor
             let dataDocumento = {
                 userAt: req.headers["userat"],
@@ -59,8 +59,8 @@ class RequisitoController {
                 licenciaConducirTrasera: data.licenciaConducirTrasera_requisito,
                 rut_conductor: arriendo.rut_conductor
             };
-            const [doc0, created0] = await this.serviceDocumentoConductor.postFindOrCreate(dataDocumento, dataDocumento.rut_conductor);
-            //if (!created0 && dataDocumento.licenciaConducirFrontal && dataDocumento.licenciaConducirTrasera) await this.serviceDocumentoConductor.putUpdate(dataDocumento, dataDocumento.rut_conductor);
+            const [doc0, created0] = await this._serviceDocumentoConductor.postFindOrCreate(dataDocumento, dataDocumento.rut_conductor);
+            //if (!created0 && dataDocumento.licenciaConducirFrontal && dataDocumento.licenciaConducirTrasera) await this._serviceDocumentoConductor.putUpdate(dataDocumento, dataDocumento.rut_conductor);
             if (!data.licenciaConducirFrontal_requisito) data.licenciaConducirFrontal_requisito = doc0.licenciaConducirFrontal;
             if (!data.licenciaConducirTrasera_requisito) data.licenciaConducirTrasera_requisito = doc0.licenciaConducirTrasera;
 
@@ -72,8 +72,8 @@ class RequisitoController {
                         carnetTrasera: data.carnetTrasera_requisito,
                         rut_cliente: arriendo.rut_cliente
                     }
-                    const [doc1, created1] = await this.serviceDocumentoCliente.postFindOrCreate(dataDocumento, dataDocumento.rut_cliente);
-                    //   if (!created1 && dataDocumento.carnetFrontal && dataDocumento.carnetTrasera) await this.serviceDocumentoCliente.putUpdate(dataDocumento, dataDocumento.rut_cliente);
+                    const [doc1, created1] = await this._serviceDocumentoCliente.postFindOrCreate(dataDocumento, dataDocumento.rut_cliente);
+                    //   if (!created1 && dataDocumento.carnetFrontal && dataDocumento.carnetTrasera) await this._serviceDocumentoCliente.putUpdate(dataDocumento, dataDocumento.rut_cliente);
                     if (!data.carnetFrontal_requisito) data.carnetFrontal_requisito = doc1.carnetFrontal;
                     if (!data.carnetTrasera_requisito) data.carnetTrasera_requisito = doc1.carnetTrasera;
                     break;
@@ -84,8 +84,8 @@ class RequisitoController {
                         carnetTrasera: data.carnetTrasera_requisito,
                         rut_cliente: arriendo.remplazo.cliente.rut_cliente
                     }
-                    const [doc2, created2] = await this.serviceDocumentoCliente.postFindOrCreate(dataDocumento, dataDocumento.rut_cliente);
-                    //  if (!created2 && dataDocumento.carnetFrontal && dataDocumento.carnetTrasera) await this.serviceDocumentoCliente.putUpdate(dataDocumento, dataDocumento.rut_cliente);
+                    const [doc2, created2] = await this._serviceDocumentoCliente.postFindOrCreate(dataDocumento, dataDocumento.rut_cliente);
+                    //  if (!created2 && dataDocumento.carnetFrontal && dataDocumento.carnetTrasera) await this._serviceDocumentoCliente.putUpdate(dataDocumento, dataDocumento.rut_cliente);
                     if (!data.carnetFrontal_requisito) data.carnetFrontal_requisito = doc2.carnetFrontal;
                     if (!data.carnetTrasera_requisito) data.carnetTrasera_requisito = doc2.carnetTrasera;
                     break;
@@ -99,8 +99,8 @@ class RequisitoController {
                         documentoVigencia: data.documentoVigencia_requisito,
                         rut_empresa: arriendo.rut_empresa
                     }
-                    const [doc3, created3] = await this.serviceDocumentoEmpresa.postFindOrCreate(dataDocumento, dataDocumento.rut_empresa);
-                    //  if (!created3 && dataDocumento.carnetFrontal && dataDocumento.carnetTrasera) await this.serviceDocumentoEmpresa.putUpdate(dataDocumento, dataDocumento.rut_empresa);
+                    const [doc3, created3] = await this._serviceDocumentoEmpresa.postFindOrCreate(dataDocumento, dataDocumento.rut_empresa);
+                    //  if (!created3 && dataDocumento.carnetFrontal && dataDocumento.carnetTrasera) await this._serviceDocumentoEmpresa.putUpdate(dataDocumento, dataDocumento.rut_empresa);
                     if (!data.carnetFrontal_requisito) data.carnetFrontal_requisito = doc3.carnetFrontal;
                     if (!data.carnetTrasera_requisito) data.carnetTrasera_requisito = doc3.carnetTrasera;
                     if (!data.documentoEstatuto_requisito) data.documentoEstatuto_requisito = doc3.documentoEstatuto;
@@ -108,7 +108,7 @@ class RequisitoController {
                     if (!data.documentoVigencia_requisito) data.documentoVigencia_requisito = doc3.documentoVigencia;
                     break;
             }
-            const requisito = await this.serviceRequisito.postCreate(data);
+            const requisito = await this._serviceRequisito.postCreate(data);
             res.json({
                 success: true,
                 data: requisito,

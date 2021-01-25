@@ -4,13 +4,13 @@ const { sendError } = require("../helpers/components");
 
 class ClienteController {
     constructor() {
-        this.serviceCliente = new ClienteService();
-        this.serviceDocCliente = new DocumentoClienteSerivce();
+        this._serviceCliente = new ClienteService();
+        this._serviceDocCliente = new DocumentoClienteSerivce();
     }
 
     async getClientes(req, res) {
         try {
-            const cliente = await this.serviceCliente.getFindAll();
+            const cliente = await this._serviceCliente.getFindAll();
             res.json({
                 success: true,
                 data: cliente,
@@ -23,7 +23,7 @@ class ClienteController {
 
     async findCliente(req, res) {
         try {
-            const cliente = await this.serviceCliente.getFindOne(req.params.id);
+            const cliente = await this._serviceCliente.getFindOne(req.params.id);
             if (cliente) {
                 res.json({
                     success: true,
@@ -46,11 +46,11 @@ class ClienteController {
             //si es extranjero
             if (response.nacionalidad_cliente != "CHILENO/A") response.rut_cliente = "@" + response.rut_cliente;
             //si no existe lo crea
-            const [cliente, created] = await this.serviceCliente.postFindOrCreate(response, response.rut_cliente);
+            const [cliente, created] = await this._serviceCliente.postFindOrCreate(response, response.rut_cliente);
             //si existia lo modifica
-            if (!created) await this.serviceCliente.putUpdate(response, cliente.rut_cliente);
+            if (!created) await this._serviceCliente.putUpdate(response, cliente.rut_cliente);
             //se buscar el cliente
-            const newCliente = await this.serviceCliente.getFindByPk(cliente.rut_cliente);
+            const newCliente = await this._serviceCliente.getFindByPk(cliente.rut_cliente);
             res.json({
                 success: true,
                 data: newCliente,
@@ -64,7 +64,7 @@ class ClienteController {
     async putCliente(req, res, next) {
         try {
             const response = req.body;
-            await this.serviceCliente.putUpdate(response, req.params.id);
+            await this._serviceCliente.putUpdate(response, req.params.id);
             res.json({
                 success: true,
                 msg: "registro actualizado"
@@ -85,8 +85,8 @@ class ClienteController {
             data.userAt = req.headers["userat"];
             if (files["inputCarnetFrontalCliente"]) data.carnetFrontal = req.files["inputCarnetFrontalCliente"][0].filename;
             if (files["inputCarnetTraseraCliente"]) data.carnetTrasera = req.files["inputCarnetTraseraCliente"][0].filename;
-            const [cliente, created] = await this.serviceDocCliente.postFindOrCreate(data, req.params.id);
-            if (!created) await this.serviceDocCliente.putUpdate(data, req.params.id);
+            const [cliente, created] = await this._serviceDocCliente.postFindOrCreate(data, req.params.id);
+            if (!created) await this._serviceDocCliente.putUpdate(data, req.params.id);
             next();
             res.json({
                 success: true,

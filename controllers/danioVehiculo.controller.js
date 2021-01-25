@@ -11,15 +11,15 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 class DanioVehiculoController {
     constructor() {
-        this.serviceArriendo = new ArriendoService();
-        this.serviceDanioVehiculo = new DanioVehiculoService();
+        this._serviceArriendo = new ArriendoService();
+        this._serviceDanioVehiculo = new DanioVehiculoService();
     }
 
 
     async createDanioVehiculo(req, res, next) {
         try {
             const response = req.body;
-            const arriendo = await this.serviceArriendo.getFindOne(response.id_arriendo);
+            const arriendo = await this._serviceArriendo.getFindOne(response.id_arriendo);
             response.id_despacho = arriendo.id_arriendo;
             response.fecha = fecha();
             response.hora = hora();
@@ -44,7 +44,7 @@ class DanioVehiculoController {
                 estado_danioVehiculo: "PENDIENTE",
                 userAt: response.userAt
             }
-            await this.serviceDanioVehiculo.postCreate(data);
+            await this._serviceDanioVehiculo.postCreate(data);
             res.json({
                 success: true,
                 msg: "daño registrado"
@@ -58,7 +58,7 @@ class DanioVehiculoController {
 
     async consultarDanioVehiculo(req, res) {
         try {
-            const arriendo = await this.serviceArriendo.getFindOne(req.params.id);
+            const arriendo = await this._serviceArriendo.getFindOne(req.params.id);
             if (arriendo.danioVehiculos.length > 0) {
                 res.json({
                     success: true,
@@ -78,7 +78,7 @@ class DanioVehiculoController {
 
     async getDanioVehiculo(req, res) {
         try {
-            const danios = await this.serviceDanioVehiculo.getFindAll();
+            const danios = await this._serviceDanioVehiculo.getFindAll();
             res.json({
                 success: true,
                 data: danios
@@ -92,10 +92,10 @@ class DanioVehiculoController {
     async updateDanioVehiculo(req, res, next) {
         try {
             const response = req.body;
-            await this.serviceDanioVehiculo.putUpdate(response, req.params.id);
-            await this.serviceDanioVehiculo.getFindByPk(req.params.id);
+            await this._serviceDanioVehiculo.putUpdate(response, req.params.id);
+            await this._serviceDanioVehiculo.getFindByPk(req.params.id);
             //  const data = { estado_arriendo: "FINALIZADO" };
-            // await this.serviceArriendo.putUpdate(data, danioVehiculo.id_arriendo);
+            // await this._serviceArriendo.putUpdate(data, danioVehiculo.id_arriendo);
             res.json({
                 success: true,
                 msg: "estado daño actualizado",

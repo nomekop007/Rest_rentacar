@@ -2,13 +2,13 @@ const FacturacionService = require("../services/facturcion.service");
 const { sendError } = require("../helpers/components");
 class FacturacionController {
     constructor() {
-        this.serviceFacturacion = new FacturacionService();
+        this._serviceFacturacion = new FacturacionService();
     }
 
 
     async getFacturacion(req, res) {
         try {
-            const facturacion = await this.serviceFacturacion.getFindAll();
+            const facturacion = await this._serviceFacturacion.getFindAll();
             res.json({
                 success: true,
                 data: facturacion,
@@ -22,7 +22,7 @@ class FacturacionController {
     async createFacturacion(req, res, next) {
         try {
             const response = req.body;
-            const facturacion = await this.serviceFacturacion.postCreate(response);
+            const facturacion = await this._serviceFacturacion.postCreate(response);
             res.json({
                 success: true,
                 data: facturacion,
@@ -38,7 +38,7 @@ class FacturacionController {
     async uploadDocumentFacturacion(req, res, next) {
         try {
             const data = { documento_facturacion: req.file.filename };
-            await this.serviceFacturacion.putUpdate(data, req.params.id);
+            await this._serviceFacturacion.putUpdate(data, req.params.id);
             res.json({
                 success: true,
                 msg: " documento guardada",

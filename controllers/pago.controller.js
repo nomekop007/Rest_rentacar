@@ -3,15 +3,15 @@ const PagoArriendoService = require("../services/pagoArriendo.service");
 const { sendError } = require("../helpers/components");
 class PagoController {
     constructor() {
-        this.servicePago = new PagoService();
-        this.servicePagoArriendo = new PagoArriendoService();
+        this._servicePago = new PagoService();
+        this._servicePagoArriendo = new PagoArriendoService();
     }
 
 
     async createPago(req, res, next) {
         try {
             const response = req.body;
-            const pago = await this.servicePago.postCreate(response);
+            const pago = await this._servicePago.postCreate(response);
             res.json({
                 success: true,
                 pago: pago,
@@ -29,7 +29,7 @@ class PagoController {
             let total = 0;
             let where = [];
             arrayPagos.forEach(id => { where.push({ id_pago: id }) })
-            const pagos = await this.servicePago.getFindAllById(where);
+            const pagos = await this._servicePago.getFindAllById(where);
             pagos.forEach(({ total_pago }) => { total = total + Number(total_pago) })
             res.json({ success: true, data: { total_factura: total } });
         } catch (error) {
@@ -42,7 +42,7 @@ class PagoController {
             const response = req.body;
             response.arrayPagos.map(async (id_pago) => {
                 let data = { id_facturacion: response.id_facturacion, estado_pago: response.estado_pago };
-                await this.servicePago.putUpdate(data, id_pago);
+                await this._servicePago.putUpdate(data, id_pago);
             });
             res.json({
                 success: true,
@@ -57,13 +57,13 @@ class PagoController {
     async updateOnePago(req, res, next) {
         try {
             const { pago, pagoArriendo } = req.body;
-            const p = await this.servicePago.getFindOne(req.params.id);
+            const p = await this._servicePago.getFindOne(req.params.id);
             pago.userAt = req.headers["userat"];
             pagoArriendo.userAt = req.headers["userat"];
             pagoArriendo.observaciones_pagoArriendo = `${p.pagosArriendo.observaciones_pagoArriendo}.
             ${pagoArriendo.observaciones_pagoArriendo}`;
-            await this.servicePago.putUpdate(pago, req.params.id);
-            await this.servicePagoArriendo.putUpdate(pagoArriendo, pagoArriendo.id_pagoArriendo);
+            await this._servicePago.putUpdate(pago, req.params.id);
+            await this._servicePagoArriendo.putUpdate(pagoArriendo, pagoArriendo.id_pagoArriendo);
             res.json({ success: true, msg: "pago modificado!" })
             next();
         } catch (error) {
@@ -75,7 +75,7 @@ class PagoController {
     async getPagosRemplazosPendientes(req, res) {
         try {
             const where = { estado_pago: "PENDIENTE" };
-            const pago = await this.servicePago.getFindAll(where);
+            const pago = await this._servicePago.getFindAll(where);
             res.json({
                 success: true,
                 data: pago
@@ -89,7 +89,7 @@ class PagoController {
     async findPagosRemplazosPendientes(req, res) {
         try {
             const where = { estado_pago: "PENDIENTE", deudor_pago: req.params.id };
-            const pago = await this.servicePago.getFindAll(where);
+            const pago = await this._servicePago.getFindAll(where);
             res.json({
                 success: true,
                 data: pago
@@ -101,7 +101,7 @@ class PagoController {
 
     async findPago(req, res) {
         try {
-            const pago = await this.servicePago.getFindOne(req.params.id);
+            const pago = await this._servicePago.getFindOne(req.params.id);
             res.json({ success: true, data: pago })
         } catch (error) {
             sendError(error, res);
@@ -114,7 +114,7 @@ class PagoController {
             const response = req.body;
             if (Number(response.descuento_pago) != 0 || Number(response.extra_pago) != 0) {
                 const id_pago = response.arrayPagos[response.arrayPagos.length - 1];
-                const pago = await this.servicePago.getFindOne(id_pago);
+                const pago = await this._servicePago.getFindOne(id_pago);
                 const nuevo_monto = pago.total_pago - Number(response.descuento_pago) + Number(response.extra_pago);
                 if (nuevo_monto > 0) {
                     const dataPago = {
@@ -129,8 +129,8 @@ class PagoController {
                         iva_pagoArriendo: dataPago.iva_pago,
                         neto_pagoArriendo: dataPago.neto_pago
                     }
-                    await this.servicePago.putUpdate(dataPago, id_pago);
-                    await this.servicePagoArriendo.putUpdate(dataPagoArriendo, pago.pagosArriendo.id_pagoArriendo);
+                    await this._servicePago.putUpdate(dataPago, id_pago);
+                    await this._servicePagoArriendo.putUpdate(dataPagoArriendo, pago.pagosArriendo.id_pagoArriendo);
                     res.json({
                         success: true,
                         msg: "modificado!"

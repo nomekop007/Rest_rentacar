@@ -15,8 +15,8 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 class ActaEntregaController {
     constructor() {
-        this.serviceActaEntrega = new ActaEntregaServices();
-        this.serviceArriendo = new ArriendoServices();
+        this._serviceActaEntrega = new ActaEntregaServices();
+        this._serviceArriendo = new ArriendoServices();
     }
 
     async createActaEntrega(req, res) {
@@ -32,7 +32,7 @@ class ActaEntregaController {
                 return;
             });
             response.documento = nameFile + ".pdf";
-            const actaEntrega = await this.serviceActaEntrega.postCreate(response);
+            const actaEntrega = await this._serviceActaEntrega.postCreate(response);
             res.json({
                 success: true,
                 data: actaEntrega,
@@ -47,7 +47,7 @@ class ActaEntregaController {
     async generatePDFactaEntrega(req, res) {
         try {
             const response = req.body;
-            const arriendo = await this.serviceArriendo.getFindOne(response.id_arriendo);
+            const arriendo = await this._serviceArriendo.getFindOne(response.id_arriendo);
             response.vehiculo = arriendo.vehiculo;
             response.kilometraje = arriendo.kilometrosEntrada_arriendo;
             response.id_arriendo = arriendo.id_arriendo;
@@ -83,7 +83,7 @@ class ActaEntregaController {
     async sendEmailActaEntrega(req, res) {
         try {
             const response = req.body;
-            const arriendo = await this.serviceArriendo.getFindOne(response.id_arriendo);
+            const arriendo = await this._serviceArriendo.getFindOne(response.id_arriendo);
             const client = {};
             switch (arriendo.tipo_arriendo) {
                 case "PARTICULAR":
@@ -137,7 +137,7 @@ class ActaEntregaController {
 
     async findActaEntrega(req, res) {
         try {
-            const actaEntrega = await this.serviceActaEntrega.getFindOneByIDdespacho(req.params.id);
+            const actaEntrega = await this._serviceActaEntrega.getFindOneByIDdespacho(req.params.id);
             const pathFile = path.join(__dirname, `${process.env.PATH_ACTA_ENTREGA}/${actaEntrega.documento}`)
             const base64 = fs.readFileSync(pathFile, { encoding: 'base64' });
             res.json({

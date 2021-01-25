@@ -3,12 +3,12 @@ const AccesoriosService = require("../services/accesorio.service");
 
 class AccesorioController {
     constructor() {
-        this.service = new AccesoriosService();
+        this._serviceAccesorio = new AccesoriosService();
     }
 
     async getAccesorios(req, res) {
         try {
-            const accesorios = await this.service.getFindAll();
+            const accesorios = await this._serviceAccesorio.getFindAll();
             res.json({
                 success: true,
                 data: accesorios,
@@ -20,7 +20,7 @@ class AccesorioController {
 
     async getAccesoriosBySucursal(req, res) {
         try {
-            const accesorios = await this.service.getFindAllBySucursal(req.params.id);
+            const accesorios = await this._serviceAccesorio.getFindAllBySucursal(req.params.id);
             res.json({
                 success: true,
                 data: accesorios
@@ -33,7 +33,7 @@ class AccesorioController {
 
     async createAccesorio(req, res, next) {
         try {
-            const accesorio = await this.service.postCreate(req.body);
+            const accesorio = await this._serviceAccesorio.postCreate(req.body);
             res.json({
                 success: true,
                 data: accesorio
@@ -46,7 +46,7 @@ class AccesorioController {
 
     async findAccesorio(req, res) {
         try {
-            const accesorio = await this.service.getFindByPk(req.params.id);
+            const accesorio = await this._serviceAccesorio.getFindByPk(req.params.id);
             res.json({
                 success: true,
                 data: accesorio
@@ -58,7 +58,7 @@ class AccesorioController {
 
     async updateAccesorio(req, res, next) {
         try {
-            const accesorio = await this.service.putUpdate(req.body, req.params.id);
+            const accesorio = await this._serviceAccesorio.putUpdate(req.body, req.params.id);
             res.json({
                 success: true,
                 data: accesorio

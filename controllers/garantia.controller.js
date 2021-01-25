@@ -2,7 +2,7 @@ const GarantiaService = require("../services/garantia.service");
 const { sendError } = require("../helpers/components");
 class GarantiaController {
     constructor() {
-        this.serviceGarantia = new GarantiaService();
+        this._serviceGarantia = new GarantiaService();
     }
 
 
@@ -35,7 +35,7 @@ class GarantiaController {
                     response.bancoCheque_garantia = null;
                     break;
             }
-            const garantia = await this.serviceGarantia.postCreate(response);
+            const garantia = await this._serviceGarantia.postCreate(response);
             res.json({
                 success: true,
                 data: garantia,

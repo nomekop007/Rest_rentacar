@@ -3,13 +3,13 @@ const { sendError } = require("../helpers/components");
 class RolController {
 
     constructor() {
-        this.serviceRol = new RolService();
+        this._serviceRol = new RolService();
     }
 
 
     async getRoles(req, res) {
         try {
-            const roles = await this.serviceRol.getFindAll();
+            const roles = await this._serviceRol.getFindAll();
             res.json({
                 success: true,
                 data: roles,

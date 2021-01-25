@@ -5,8 +5,8 @@ const base64 = require("image-to-base64");
 const { formatFechahora, sendError, nodemailerTransporter } = require("../helpers/components");
 class ArriendoController {
 	constructor() {
-		this.serviceArriendo = new ArriendoService();
-		this.serviceReemplazo = new ReemplazoService();
+		this._serviceArriendo = new ArriendoService();
+		this._serviceReemplazo = new ReemplazoService();
 	}
 
 
@@ -18,7 +18,7 @@ class ArriendoController {
 			let where = {};
 			where.id_sucursal = sucursal;
 			if (estado) where.estado_arriendo = estado;
-			const arriendos = await this.serviceArriendo.getFindAllPublic(where);
+			const arriendos = await this._serviceArriendo.getFindAllPublic(where);
 			res.json({
 				success: true,
 				data: arriendos,
@@ -31,7 +31,7 @@ class ArriendoController {
 	async getArriendosActivos(req, res) {
 		try {
 			const { sucursal, estado } = req.query;
-			const arriendos = await this.serviceArriendo.getFindAllActivos(sucursal, estado);
+			const arriendos = await this._serviceArriendo.getFindAllActivos(sucursal, estado);
 			res.json({
 				success: true,
 				data: arriendos,
@@ -44,7 +44,7 @@ class ArriendoController {
 
 	async findArriendo(req, res) {
 		try {
-			const arriendo = await this.serviceArriendo.getFindOnePublic(req.params.id);
+			const arriendo = await this._serviceArriendo.getFindOnePublic(req.params.id);
 			if (arriendo) {
 				res.json({
 					success: true,
@@ -81,7 +81,7 @@ class ArriendoController {
 			}
 			if (response.rut_conductor2 == "undefined") response.rut_conductor2 = null;
 			if (response.rut_conductor3 == "undefined") response.rut_conductor3 = null;
-			const arriendo = await this.serviceArriendo.postCreate(response);
+			const arriendo = await this._serviceArriendo.postCreate(response);
 			res.json({
 				success: true,
 				msg: ` arriendo Nº${arriendo.id_arriendo} registrado exitosamente`,
@@ -97,7 +97,7 @@ class ArriendoController {
 	async updateStateArriendo(req, res, next) {
 		try {
 			const response = req.body;
-			const arriendo = await this.serviceArriendo.putUpdate(response, req.params.id);
+			const arriendo = await this._serviceArriendo.putUpdate(response, req.params.id);
 			res.json({
 				success: true,
 				msg: "actualizacion exitoso",
@@ -112,7 +112,7 @@ class ArriendoController {
 	async sendCorreoAtraso(req, res, next) {
 		try {
 			const { id_arriendo, nombre_cliente, correo_cliente } = req.query;
-			const arriendo = await this.serviceArriendo.getFindOne(id_arriendo);
+			const arriendo = await this._serviceArriendo.getFindOne(id_arriendo);
 			const mailOptions = {
 				from: "'Rent A Car - Grupo Firma' <api.rentacarmaule@grupofirma.cl>",
 				to: correo_cliente,
@@ -139,7 +139,7 @@ class ArriendoController {
 
 	async updateArriendo(req, res, next) {
 		try {
-			const arriendo = await this.serviceArriendo.getFindOneMin(req.params.id);
+			const arriendo = await this._serviceArriendo.getFindOneMin(req.params.id);
 			const estado = arriendo.estado_arriendo;
 			if (estado !== 'PENDIENTE' && estado !== 'CONFIRMADO' && estado !== 'FIRMADO') {
 				res.json({ success: false, msg: "este arriendo ya esta despachado!" })
@@ -147,7 +147,7 @@ class ArriendoController {
 			}
 			const data = req.body;
 			data.diasAcumulados_arriendo = data.diasActuales_arriendo;
-			const arriendoEdit = await this.serviceArriendo.putUpdate(data, req.params.id);
+			const arriendoEdit = await this._serviceArriendo.putUpdate(data, req.params.id);
 			res.json({ success: true, msg: "arriendo modificado!" });
 			next();
 		} catch (error) {
@@ -158,7 +158,7 @@ class ArriendoController {
 	async modificarTipo(req, res, next) {
 		try {
 			const { tipo, empresaRemplazo } = req.body;
-			const arriendo = await this.serviceArriendo.getFindOneMin(req.params.id);
+			const arriendo = await this._serviceArriendo.getFindOneMin(req.params.id);
 			const estado = arriendo.estado_arriendo;
 			if (estado !== 'PENDIENTE' && estado !== 'CONFIRMADO' && estado !== 'FIRMADO') {
 				res.json({ success: false, msg: "este arriendo ya esta despachado!" })
@@ -169,7 +169,7 @@ class ArriendoController {
 			switch (tipo) {
 				//cambiar de particular a reemplazo
 				case 1:
-					const reemplazo = await this.serviceReemplazo.postCreate({
+					const reemplazo = await this._serviceReemplazo.postCreate({
 						userAt: req.headers["userat"],
 						codigo_empresaRemplazo: empresaRemplazo,
 						rut_cliente: arriendo.rut_cliente
@@ -180,7 +180,7 @@ class ArriendoController {
 						id_remplazo: reemplazo.id_remplazo,
 						rut_cliente: null
 					}
-					await this.serviceArriendo.putUpdate(newData, req.params.id);
+					await this._serviceArriendo.putUpdate(newData, req.params.id);
 					break;
 				//cambiar de reemplazo a particular
 				case 2:
@@ -190,7 +190,7 @@ class ArriendoController {
 						id_remplazo: null,
 						rut_cliente: arriendo.remplazo.rut_cliente
 					}
-					await this.serviceArriendo.putUpdate(newData, req.params.id);
+					await this._serviceArriendo.putUpdate(newData, req.params.id);
 					break;
 				//cambiar de empresa de reemplazo 
 				case 3:
@@ -198,7 +198,7 @@ class ArriendoController {
 						userAt: req.headers["userat"],
 						codigo_empresaRemplazo: empresaRemplazo
 					};
-					await this.serviceReemplazo.putUpdate(newData, arriendo.id_remplazo);
+					await this._serviceReemplazo.putUpdate(newData, arriendo.id_remplazo);
 					break;
 			}
 			res.json({ success: true, msg: "arriendo modificado!" });

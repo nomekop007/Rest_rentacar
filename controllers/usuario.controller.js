@@ -6,13 +6,13 @@ const bcrypt = require("bcryptjs");
 class UsuarioController {
 
     constructor() {
-        this.serviceUsuario = new UsuarioService();
+        this._serviceUsuario = new UsuarioService();
     }
 
 
     async getUsuarios(req, res) {
         try {
-            const usuario = await this.serviceUsuario.getFindAll();
+            const usuario = await this._serviceUsuario.getFindAll();
             res.json({
                 success: true,
                 data: usuario,
@@ -28,7 +28,7 @@ class UsuarioController {
             const { usertoken } = req.params;
             const payload = jwt.decode(usertoken, process.env.SECRET_PHRASE);
             payload.usuarioId
-            const usuario = await this.serviceUsuario.getFindOne(payload.usuarioId);
+            const usuario = await this._serviceUsuario.getFindOne(payload.usuarioId);
             res.json({
                 success: true,
                 data: usuario,
@@ -41,7 +41,7 @@ class UsuarioController {
 
     async findUsuario(req, res) {
         try {
-            const usuario = await this.serviceUsuario.getFindOne(req.params.id);
+            const usuario = await this._serviceUsuario.getFindOne(req.params.id);
             res.json({
                 success: true,
                 data: usuario,
@@ -67,8 +67,8 @@ class UsuarioController {
                 req.body.clave_usuario,
                 Number(process.env.NUM_BCRYPT)
             );
-            const u = await this.serviceUsuario.postCreate(req.body);
-            const usuario = await this.serviceUsuario.getFindOne(u.id_usuario);
+            const u = await this._serviceUsuario.postCreate(req.body);
+            const usuario = await this._serviceUsuario.getFindOne(u.id_usuario);
             res.json({
                 success: true,
                 msg: "Usuario creado exitosamente",
@@ -82,7 +82,7 @@ class UsuarioController {
 
     async loginUsuario(req, res) {
         try {
-            const usuario = await this.serviceUsuario.getFindByEmail(req.body.email_usuario);
+            const usuario = await this._serviceUsuario.getFindByEmail(req.body.email_usuario);
             if (usuario) {
                 //compara las password
                 if (bcrypt.compareSync(req.body.clave_usuario, usuario.clave_usuario)) {
@@ -133,8 +133,8 @@ class UsuarioController {
                     Number(process.env.NUM_BCRYPT)
                 );
             }
-            await this.serviceUsuario.putUpdate(userdata, req.params.id);
-            const usuario = await this.serviceUsuario.getFindOne(req.params.id);
+            await this._serviceUsuario.putUpdate(userdata, req.params.id);
+            const usuario = await this._serviceUsuario.getFindOne(req.params.id);
             res.json({
                 success: true,
                 msg: "Usuario actualizado exitosamente",
@@ -158,8 +158,8 @@ class UsuarioController {
                 msg = "usuario Habilitado exitosamente";
             }
             const data = { estado_usuario: state, userAt: req.body.userAt };
-            await this.serviceUsuario.putUpdate(data, req.params.id);
-            const usuario = await this.serviceUsuario.getFindOne(req.params.id);
+            await this._serviceUsuario.putUpdate(data, req.params.id);
+            const usuario = await this._serviceUsuario.getFindOne(req.params.id);
             res.json({
                 success: true,
                 msg: msg,

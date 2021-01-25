@@ -3,18 +3,18 @@ const ArriendoService = require("../services/arriendo.service");
 const { sendError, ordenarArrayporFecha } = require("../helpers/components");
 class PagoArriendoController {
 	constructor() {
-		this.servicePagoArriendo = new PagoArriendoService();
-		this.serviceArriendo = new ArriendoService();
+		this._servicePagoArriendo = new PagoArriendoService();
+		this._serviceArriendo = new ArriendoService();
 	}
 
 
 	async createPagoArriendo(req, res, next) {
 		try {
 			const response = req.body;
-			const arriendo = await this.serviceArriendo.getFindOne(response.id_arriendo);
+			const arriendo = await this._serviceArriendo.getFindOne(response.id_arriendo);
 			if (arriendo.estado_arriendo == "PENDIENTE" || arriendo.estado_arriendo == "EXTENDIDO") {
 				response.dias_pagoArriendo = arriendo.diasActuales_arriendo;
-				const pagoArriendo = await this.servicePagoArriendo.postCreate(response);
+				const pagoArriendo = await this._servicePagoArriendo.postCreate(response);
 				res.json({
 					success: true,
 					pagoArriendo: pagoArriendo,
@@ -35,7 +35,7 @@ class PagoArriendoController {
 
 	async consultarPagosArriendo(req, res) {
 		try {
-			const arriendo = await this.serviceArriendo.getFindOne(req.params.id);
+			const arriendo = await this._serviceArriendo.getFindOne(req.params.id);
 			const arrayTotalPagos = arriendo.pagosArriendos;
 			let arrayPago = [];
 			let totalPago = 0;

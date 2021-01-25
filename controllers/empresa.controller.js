@@ -5,13 +5,13 @@ const { sendError } = require("../helpers/components");
 
 class EmpresaController {
     constructor() {
-        this.serviceEmpresa = new EmpresaService();
-        this.serviceDocEmpresa = new DocumentoEmpresaService();
+        this._serviceEmpresa = new EmpresaService();
+        this._serviceDocEmpresa = new DocumentoEmpresaService();
     }
 
     async getEmpresas(req, res) {
         try {
-            const empresas = await this.serviceEmpresa.getFindAll();
+            const empresas = await this._serviceEmpresa.getFindAll();
             res.json({
                 success: true,
                 data: empresas,
@@ -24,7 +24,7 @@ class EmpresaController {
 
     async findEmpresa(req, res) {
         try {
-            const empresa = await this.serviceEmpresa.getFindOne(req.params.id);
+            const empresa = await this._serviceEmpresa.getFindOne(req.params.id);
             if (empresa) {
                 res.json({
                     success: true,
@@ -45,9 +45,9 @@ class EmpresaController {
     async createEmpresa(req, res, next) {
         try {
             const response = req.body;
-            const [empresa, created] = await this.serviceEmpresa.postfindOrCreate(response, response.rut_empresa);
-            if (!created) await this.serviceEmpresa.putUpdate(response, response.rut_empresa);
-            const newEmpresa = await this.serviceEmpresa.getFindByPk(response.rut_empresa);
+            const [empresa, created] = await this._serviceEmpresa.postfindOrCreate(response, response.rut_empresa);
+            if (!created) await this._serviceEmpresa.putUpdate(response, response.rut_empresa);
+            const newEmpresa = await this._serviceEmpresa.getFindByPk(response.rut_empresa);
             res.json({
                 success: true,
                 data: newEmpresa,
@@ -61,7 +61,7 @@ class EmpresaController {
     async putEmpresa(req, res, next) {
         try {
             const response = req.body;
-            await this.serviceEmpresa.putUpdate(response, req.params.id);
+            await this._serviceEmpresa.putUpdate(response, req.params.id);
             res.json({
                 success: true,
                 msg: "registro actualizado"
@@ -82,8 +82,8 @@ class EmpresaController {
             if (files["inputDocumentotRol"]) data.documentoRol = req.files["inputDocumentotRol"][0].filename;
             if (files["inputEstatuto"]) data.documentoEstatuto = req.files["inputEstatuto"][0].filename;
             if (files["inputDocumentoVigencia"]) data.documentoVigencia = req.files["inputDocumentoVigencia"][0].filename;
-            const [empresa, created] = await this.serviceDocEmpresa.postFindOrCreate(data, req.params.id);
-            if (!created) await this.serviceDocEmpresa.putUpdate(data, req.params.id);
+            const [empresa, created] = await this._serviceDocEmpresa.postFindOrCreate(data, req.params.id);
+            if (!created) await this._serviceDocEmpresa.putUpdate(data, req.params.id);
             res.json({
                 success: true,
                 msg: "archivo actualizado",

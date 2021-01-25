@@ -3,13 +3,13 @@ const { sendError } = require('../helpers/components');
 class RegionController {
 
     constructor() {
-        this.serviceRegion = new RegionService();
+        this._serviceRegion = new RegionService();
     }
 
 
     async getRegiones(req, res) {
         try {
-            const regiones = await this.serviceRegion.getFindAll();
+            const regiones = await this._serviceRegion.getFindAll();
             res.json({
                 success: true,
                 data: regiones

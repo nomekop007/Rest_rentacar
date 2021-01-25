@@ -11,14 +11,14 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 class DespachoController {
     constructor() {
-        this.serviceDespacho = new DespachoService();
+        this._serviceDespacho = new DespachoService();
     }
 
 
     async createDespacho(req, res, next) {
         try {
             const response = req.body;
-            const despacho = await this.serviceDespacho.postCreate(response);
+            const despacho = await this._serviceDespacho.postCreate(response);
             res.json({
                 success: true,
                 id_despacho: despacho.id_despacho,
@@ -50,7 +50,7 @@ class DespachoController {
                 })
             });
             const data = { revision_recepcion: `${nameFile}.pdf` };
-            await this.serviceDespacho.putUpdate(data, req.params.id);
+            await this._serviceDespacho.putUpdate(data, req.params.id);
             res.json({
                 success: true,
                 msg: "revision existosa"

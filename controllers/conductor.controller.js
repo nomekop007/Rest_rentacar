@@ -4,15 +4,15 @@ const { sendError } = require("../helpers/components");
 
 class ConductorController {
     constructor() {
-        this.serviceConductor = new ConductorService();
-        this.serviceDocConductor = new DocumentoConductorService();
+        this._serviceConductor = new ConductorService();
+        this._serviceDocConductor = new DocumentoConductorService();
     }
 
 
 
     async getConductores(req, res) {
         try {
-            const conductores = await this.serviceConductor.getFindAll();
+            const conductores = await this._serviceConductor.getFindAll();
             res.json({
                 success: true,
                 data: conductores,
@@ -26,7 +26,7 @@ class ConductorController {
 
     async findConductor(req, res) {
         try {
-            const conductor = await this.serviceConductor.getFindOne(req.params.id);
+            const conductor = await this._serviceConductor.getFindOne(req.params.id);
             if (conductor) {
                 res.json({
                     success: true,
@@ -51,11 +51,11 @@ class ConductorController {
             //si es extranjero
             if (response.nacionalidad_conductor != "CHILENO/A") response.rut_conductor = "@" + response.rut_conductor;
             //si no existe lo crea
-            const [conductor, created] = await this.serviceConductor.postFindOrCreate(response, response.rut_conductor);
+            const [conductor, created] = await this._serviceConductor.postFindOrCreate(response, response.rut_conductor);
             //si existe conductor lo actualiza
-            if (!created) await this.serviceConductor.putUpdate(response, conductor.rut_conductor);
+            if (!created) await this._serviceConductor.putUpdate(response, conductor.rut_conductor);
             // se busca el conductor
-            const newConductor = await this.serviceConductor.getFindByPK(conductor.rut_conductor);
+            const newConductor = await this._serviceConductor.getFindByPK(conductor.rut_conductor);
             res.json({
                 success: true,
                 data: newConductor,
@@ -70,7 +70,7 @@ class ConductorController {
     async putConductor(req, res, next) {
         try {
             const response = req.body;
-            await this.serviceConductor.putUpdate(response, req.params.id);
+            await this._serviceConductor.putUpdate(response, req.params.id);
             res.json({
                 success: true,
                 msg: "registro actualizado"
@@ -88,8 +88,8 @@ class ConductorController {
             data.userAt = req.headers["userat"];
             if (files["inputlicenciaFrontalConductor"]) data.licenciaConducirFrontal = req.files["inputlicenciaFrontalConductor"][0].filename;
             if (files["inputlicenciaTraseraConductor"]) data.licenciaConducirTrasera = req.files["inputlicenciaTraseraConductor"][0].filename;
-            const [conductor, created] = await this.serviceDocConductor.postFindOrCreate(data, req.params.id);
-            if (!created) await this.serviceDocConductor.putUpdate(data, req.params.id);
+            const [conductor, created] = await this._serviceDocConductor.postFindOrCreate(data, req.params.id);
+            if (!created) await this._serviceDocConductor.putUpdate(data, req.params.id);
             res.json({
                 success: true,
                 msg: "archivo actualizado",

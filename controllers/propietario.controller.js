@@ -3,13 +3,13 @@ const { sendError } = require("../helpers/components");
 class PropietarioController {
 
   constructor() {
-    this.servicePropietario = new PropietarioService();
+    this._servicePropietario = new PropietarioService();
   }
 
 
   async getPropietario(req, res) {
     try {
-      const propietario = await this.servicePropietario.getFindAll();
+      const propietario = await this._servicePropietario.getFindAll();
       res.json({
         success: true,
         data: propietario,

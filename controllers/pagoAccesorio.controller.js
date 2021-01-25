@@ -2,7 +2,7 @@ const PagoAccesorioService = require("../services/pagoAccesorio.service");
 const { sendError } = require("../helpers/components");
 class PagoAccesorioController {
     constructor() {
-        this.servicioPagoAccesorio = new PagoAccesorioService();
+        this._servicioPagoAccesorio = new PagoAccesorioService();
     }
 
 
@@ -18,7 +18,7 @@ class PagoAccesorioController {
                     id_pagoArriendo: response.id_pagoArriendo,
                     userAt: response.userAt,
                 };
-                await this.servicioPagoAccesorio.postCreate(data);
+                await this._servicioPagoAccesorio.postCreate(data);
             }
             res.json({
                 success: true,
