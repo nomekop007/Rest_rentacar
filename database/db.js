@@ -32,7 +32,7 @@ const DocumentoClienteModel = require("../models/documentosClientes");
 const DocumentoEmpresaModel = require("../models/documentosEmpresas");
 const DocumentoConductorModel = require("../models/documentosConductores");
 const TarifaVehiculoModel = require("../models/tarifasVehiculos");
-
+const ReservaModel = require("../models/reservas");
 
 //conectar modelo con base de datos
 const Log = LogModel(database, Sequelize);
@@ -66,7 +66,7 @@ const DocumentoCliente = DocumentoClienteModel(database, Sequelize);
 const DocumentoEmpresa = DocumentoEmpresaModel(database, Sequelize);
 const DocumentoConductor = DocumentoConductorModel(database, Sequelize);
 const TarifaVehiculo = TarifaVehiculoModel(database, Sequelize);
-
+const Reserva = ReservaModel(database, Sequelize);
 
 //opciones
 //RESTRICT, CASCADE, NO ACTION, SET DEFAULT y SET NULL.
@@ -75,6 +75,16 @@ const onUpdate = "CASCADE";
 
 //Asociaciones de tablas
 
+
+// un cliente tiene muchas reservas
+Cliente.hasMany(Reserva, { foreignKey: { name: "rut_cliente" }, onDelete: onDelete, onUpdate: onUpdate });
+// una reserva pertenece a un cliente
+Reserva.belongsTo(Cliente, { foreignKey: { name: "rut_cliente" }, onDelete: onDelete, onUpdate: onUpdate });
+
+// un vehiculo tiene muchas reservas
+Vehiculo.hasMany(Reserva, { foreignKey: { name: "patente_vehiculo" }, onDelete: onDelete, onUpdate: onUpdate });
+// una reserva pertenece a un vehiculo
+Reserva.belongsTo(Vehiculo, { foreignKey: { name: "patente_vehiculo" }, onDelete: onDelete, onUpdate: onUpdate });
 
 // un usuario tiene muchos log
 Usuario.hasMany(Log, { foreignKey: { name: "id_usuario" }, onDelete: onDelete, onUpdate: onUpdate });
@@ -311,5 +321,6 @@ module.exports = {
     DocumentoCliente,
     DocumentoEmpresa,
     DocumentoConductor,
-    TarifaVehiculo
+    TarifaVehiculo,
+    Reserva
 };
