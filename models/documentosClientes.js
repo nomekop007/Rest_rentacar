@@ -7,6 +7,7 @@ module.exports = (sequelize, type) => {
         },
         carnetFrontal: type.STRING,
         carnetTrasera: type.STRING,
+        comprobanteDomicilio:type.STRING,
         userAt: type.STRING,
     })
 }
