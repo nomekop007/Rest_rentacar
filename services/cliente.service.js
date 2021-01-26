@@ -13,7 +13,7 @@ class ClienteService {
     async getFindOne(ID) {
         return await Cliente.findOne({
             where: { rut_cliente: ID },
-            include: [{ model: DocumentoCliente, attributes: ["carnetFrontal", "carnetTrasera"] }]
+            include: [{ model: DocumentoCliente, attributes: ["carnetFrontal", "carnetTrasera","comprobanteDomicilio"] }]
         })
     }
 

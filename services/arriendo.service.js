@@ -63,7 +63,7 @@ class ArriendoService {
                 {
                     model: Cliente, include: [{
                         model: DocumentoCliente,
-                        attributes: ["carnetFrontal", "carnetTrasera"]
+                        attributes: ["carnetFrontal", "carnetTrasera","comprobanteDomicilio"]
                     }]
                 },
                 {
@@ -78,7 +78,7 @@ class ArriendoService {
                         attributes: ["licenciaConducirFrontal", "licenciaConducirTrasera"]
                     }]
                 },
-                { model: Remplazo, include: [{ model: Cliente, include: [{ model: DocumentoCliente, attributes: ["carnetFrontal", "carnetTrasera"] }] }, { model: EmpresaRemplazo }], },
+                { model: Remplazo, include: [{ model: Cliente, include: [{ model: DocumentoCliente, attributes: ["carnetFrontal", "carnetTrasera","comprobanteDomicilio"] }] }, { model: EmpresaRemplazo }], },
                 { model: Vehiculo },
                 {
                     model: Requisito,
