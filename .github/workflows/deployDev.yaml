@@ -1,0 +1,20 @@
+name: deployment workflow development directory
+  on: 
+    push:
+      branches: [development]
+
+  jobs:
+    job_one:
+      name: Deployment
+      runs-on: ubuntu-latest
+      steps:
+      - name: 
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME_HOST }}
+        password: ${{ secrets.PASSWORD_HOST }}
+        port: ${{ secrets.PORT_HOST }}
+        script: |
+          
+            exit

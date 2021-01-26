@@ -10,7 +10,7 @@ class ReservaController {
 
     async getReservas(req, res) {
         try {
-            const reservas = this._serviceReserva.getFindAll();
+            const reservas = await this._serviceReserva.getFindAll();
             res.json({ success: true, data: reservas });
         } catch (error) {
             sendError(error, res);
