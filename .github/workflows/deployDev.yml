@@ -25,8 +25,6 @@ jobs:
           cd /root/HodgesEXE/apis_rentacar/api_rentacar_test/
           git checkout development
           git pull
+          npm install
           pm2 restart api_rentacar_test
-          cd /var/www/imlchile.cl/rentacar_test/
-          git checkout development
-          git pull
           exit
