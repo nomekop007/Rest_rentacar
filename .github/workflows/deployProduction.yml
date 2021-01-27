@@ -1,0 +1,29 @@
+name: deployment workflow master directory
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  testing:
+    name: testing master
+    runs-on: ubuntu-latest
+    steps:
+    - name: unit tests
+      run: echo "aqui se levantara el ambiente y ejecutaran las pruebas"
+  deployment:
+    name: deployment master
+    runs-on: ubuntu-latest
+    steps:
+    - name: deploy server in branch master
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME_HOST }}
+        password: ${{ secrets.PASSWORD_HOST }}
+        port: ${{ secrets.PORT_HOST }}
+        script: |
+          cd /root/HodgesEXE/apis_rentacar/api_rentacar/
+          git checkout master
+          git pull
+          pm2 restart api_rentacar
+          exit
