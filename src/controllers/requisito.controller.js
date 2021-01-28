@@ -99,8 +99,8 @@ class RequisitoController {
         if (!data.comprobanteDomicilio_requisito) data.comprobanteDomicilio_requisito = doc.comprobanteDomicilio;
         //si no existe los documentos en la BD , los reemplaza por los que llegan.
         if (!doc.carnetFrontal) await this._serviceDocumentoCliente.putUpdate({ carnetFrontal: dataDoc.carnetFrontal }, dataDoc.rut_cliente);
-        if (!doc.carnetTrasera) await this._serviceDocumentoCliente.putUpdate({ carnetFrontal: dataDoc.carnetTrasera }, dataDoc.rut_cliente);
-        if (!doc.comprobanteDomicilio) await this._serviceDocumentoCliente.putUpdate({ carnetFrontal: dataDoc.comprobanteDomicilio }, dataDoc.rut_cliente);
+        if (!doc.carnetTrasera) await this._serviceDocumentoCliente.putUpdate({ carnetTrasera: dataDoc.carnetTrasera }, dataDoc.rut_cliente);
+        if (!doc.comprobanteDomicilio) await this._serviceDocumentoCliente.putUpdate({ comprobanteDomicilio: dataDoc.comprobanteDomicilio }, dataDoc.rut_cliente);
         return data;
     }
 
@@ -120,8 +120,8 @@ class RequisitoController {
         if (!data.comprobanteDomicilio_requisito) data.comprobanteDomicilio_requisito = doc.comprobanteDomicilio;
         //si no existe los documentos en la BD , los reemplaza por los que llegan.
         if (!doc.carnetFrontal) await this._serviceDocumentoCliente.putUpdate({ carnetFrontal: dataDoc.carnetFrontal }, dataDoc.rut_cliente);
-        if (!doc.carnetTrasera) await this._serviceDocumentoCliente.putUpdate({ carnetFrontal: dataDoc.carnetTrasera }, dataDoc.rut_cliente);
-        if (!doc.comprobanteDomicilio) await this._serviceDocumentoCliente.putUpdate({ carnetFrontal: dataDoc.comprobanteDomicilio }, dataDoc.rut_cliente);
+        if (!doc.carnetTrasera) await this._serviceDocumentoCliente.putUpdate({ carnetTrasera: dataDoc.carnetTrasera }, dataDoc.rut_cliente);
+        if (!doc.comprobanteDomicilio) await this._serviceDocumentoCliente.putUpdate({ comprobanteDomicilio: dataDoc.comprobanteDomicilio }, dataDoc.rut_cliente);
         return data;
     }
 
