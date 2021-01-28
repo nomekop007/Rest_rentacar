@@ -14,7 +14,7 @@ class FacturacionController {
                 data: facturacion,
             })
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -30,7 +30,7 @@ class FacturacionController {
             });
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -45,7 +45,7 @@ class FacturacionController {
             });
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 

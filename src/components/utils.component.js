@@ -61,7 +61,7 @@ class UtilsController {
                 },
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -81,7 +81,7 @@ class UtilsController {
             await this.serviceArriendo.putUpdate(rollback, arriendo.id_arriendo);
             res.json({ success: true, msg: "hecho!" })
         } catch (error) {
-            sendError(error, res)
+            sendError(error, req, res);
         }
     }
 
@@ -99,7 +99,7 @@ class UtilsController {
             await this.serviceArriendo.putUpdate(rollback, arriendo.id_arriendo)
             res.json({ success: true, msg: "hecho!" })
         } catch (error) {
-            sendError(error, res)
+            sendError(error, req, res);
         }
     }
 
@@ -118,7 +118,7 @@ class UtilsController {
             await this.serviceArriendo.putUpdate(rollback, arriendo.id_arriendo)
             res.json({ success: true, msg: "hecho!" })
         } catch (error) {
-            sendError(error, res)
+            sendError(error, req, res);
         }
     }
 

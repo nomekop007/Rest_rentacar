@@ -1,3 +1,4 @@
+const { logErrorRegister } = require("../middlewares/logError.middleware")
 const moment = require("moment");
 const jwt = require("jwt-simple");
 const fs = require("fs");
@@ -7,8 +8,9 @@ const pdfFonts = require("pdfmake/build/vfs_fonts.js");
 const nodemailer = require("nodemailer");
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-const sendError = (error, res) => {
+const sendError = (error, req, res) => {
     console.log(error);
+    logErrorRegister(req, error);
     res.status(310).json({
         success: false,
         msg: "Server error 310",

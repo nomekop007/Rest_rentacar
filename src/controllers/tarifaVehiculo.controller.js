@@ -23,7 +23,7 @@ class TarifaVehiculoController {
             })
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -36,7 +36,7 @@ class TarifaVehiculoController {
                 data: tarifasVehiculos
             })
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -67,7 +67,7 @@ class TarifaVehiculoController {
                 data: { valorDia, valorNeto }
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 

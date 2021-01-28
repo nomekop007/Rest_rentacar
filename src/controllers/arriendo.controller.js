@@ -24,7 +24,7 @@ class ArriendoController {
 				data: arriendos,
 			});
 		} catch (error) {
-			sendError(error, res);
+			sendError(error, req, res);;
 		}
 	}
 
@@ -37,7 +37,7 @@ class ArriendoController {
 				data: arriendos,
 			});
 		} catch (error) {
-			sendError(error, res);
+			sendError(error, req, res);;
 
 		}
 	}
@@ -57,7 +57,7 @@ class ArriendoController {
 				});
 			}
 		} catch (error) {
-			sendError(error, res);
+			sendError(error, req, res);;
 		}
 	}
 
@@ -89,7 +89,7 @@ class ArriendoController {
 			});
 			next();
 		} catch (error) {
-			sendError(error, res);
+			sendError(error, req, res);;
 		}
 	}
 
@@ -105,7 +105,7 @@ class ArriendoController {
 			});
 			next();
 		} catch (error) {
-			sendError(error, res);
+			sendError(error, req, res);;
 		}
 	}
 
@@ -133,7 +133,7 @@ class ArriendoController {
 			res.json({ success: true, msg: resp });
 			next();
 		} catch (error) {
-			sendError(error, res);
+			sendError(error, req, res);;
 		}
 	}
 
@@ -151,7 +151,7 @@ class ArriendoController {
 			res.json({ success: true, msg: "arriendo modificado!" });
 			next();
 		} catch (error) {
-			sendError(error, res);
+			sendError(error, req, res);;
 		}
 	}
 
@@ -204,7 +204,7 @@ class ArriendoController {
 			res.json({ success: true, msg: "arriendo modificado!" });
 			next();
 		} catch (error) {
-			sendError(error, res);
+			sendError(error, req, res);;
 		}
 	}
 

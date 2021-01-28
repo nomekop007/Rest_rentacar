@@ -2,6 +2,7 @@ const { Sequelize, database } = require("./databaseConnect");
 
 //llamar al models
 const LogModel = require("../models/log");
+const LogErrorModel = require("../models/logErrors");
 const RolModel = require("../models/roles");
 const UsuarioModel = require("../models/usuarios");
 const SucursalModel = require("../models/sucursales");
@@ -33,9 +34,13 @@ const DocumentoEmpresaModel = require("../models/documentosEmpresas");
 const DocumentoConductorModel = require("../models/documentosConductores");
 const TarifaVehiculoModel = require("../models/tarifasVehiculos");
 const ReservaModel = require("../models/reservas");
+const ReservaClienteModel = require("../models/reservasClientes");
+const ReservaEmpresaModel = require("../models/reservasEmpresas");
+
 
 //conectar modelo con base de datos
 const Log = LogModel(database, Sequelize);
+const LogError = LogErrorModel(database, Sequelize);
 const Usuario = UsuarioModel(database, Sequelize);
 const Rol = RolModel(database, Sequelize);
 const Sucursal = SucursalModel(database, Sequelize);
@@ -67,6 +72,8 @@ const DocumentoEmpresa = DocumentoEmpresaModel(database, Sequelize);
 const DocumentoConductor = DocumentoConductorModel(database, Sequelize);
 const TarifaVehiculo = TarifaVehiculoModel(database, Sequelize);
 const Reserva = ReservaModel(database, Sequelize);
+const ReservaCliente = ReservaClienteModel(database, Sequelize);
+const ReservaEmpresa = ReservaEmpresaModel(database, Sequelize);
 
 //opciones
 //RESTRICT, CASCADE, NO ACTION, SET DEFAULT y SET NULL.
@@ -75,16 +82,37 @@ const onUpdate = "CASCADE";
 
 //Asociaciones de tablas
 
+//un Reserva tiene un ReservaCliente 
+Reserva.hasOne(ReservaCliente, { foreignKey: { name: "id_reserva" }, onDelete: onDelete, onUpdate: onUpdate });
+//un ReservaCliente pertenece a un Reserva
+ReservaCliente.belongsTo(Reserva, { foreignKey: { name: "id_reserva" }, onDelete: onDelete, onUpdate: onUpdate });
 
-// un cliente tiene muchas reservas
-Cliente.hasMany(Reserva, { foreignKey: { name: "rut_cliente" }, onDelete: onDelete, onUpdate: onUpdate });
-// una reserva pertenece a un cliente
-Reserva.belongsTo(Cliente, { foreignKey: { name: "rut_cliente" }, onDelete: onDelete, onUpdate: onUpdate });
+//una sucuersal tiene muchas reservas
+Sucursal.hasMany(Reserva, { foreignKey: { name: "id_sucursal" }, onDelete: onDelete, onUpdate: onUpdate });
+//un Reserva pertenece a un Sucursal
+Reserva.belongsTo(Sucursal, { foreignKey: { name: "id_sucursal" }, onDelete: onDelete, onUpdate: onUpdate });
+
+//un Reserva tiene un ReservaEmpresa
+Reserva.hasOne(ReservaEmpresa, { foreignKey: { name: "id_reserva" }, onDelete: onDelete, onUpdate: onUpdate });
+//un ReservaEmpresa pertenece a un Reserva
+ReservaEmpresa.belongsTo(Reserva, { foreignKey: { name: "id_reserva" }, onDelete: onDelete, onUpdate: onUpdate });
+
+// un cliente tiene muchas reservasClientes
+Cliente.hasMany(ReservaCliente, { foreignKey: { name: "rut_cliente" }, onDelete: onDelete, onUpdate: onUpdate });
+// una reservaClietne pertenece a un Cliente
+ReservaCliente.belongsTo(Cliente, { foreignKey: { name: "rut_cliente" }, onDelete: onDelete, onUpdate: onUpdate });
+
+// una empresa tiene muchas reservasEmpresas
+Empresa.hasMany(ReservaEmpresa, { foreignKey: { name: "rut_empresa" }, onDelete: onDelete, onUpdate: onUpdate });
+//una reservaEmpresa pertenece una Empresa
+ReservaEmpresa.belongsTo(Empresa, { foreignKey: { name: "rut_empresa" }, onDelete: onDelete, onUpdate: onUpdate })
+
 
 // un vehiculo tiene muchas reservas
 Vehiculo.hasMany(Reserva, { foreignKey: { name: "patente_vehiculo" }, onDelete: onDelete, onUpdate: onUpdate });
 // una reserva pertenece a un vehiculo
 Reserva.belongsTo(Vehiculo, { foreignKey: { name: "patente_vehiculo" }, onDelete: onDelete, onUpdate: onUpdate });
+
 
 // un usuario tiene muchos log
 Usuario.hasMany(Log, { foreignKey: { name: "id_usuario" }, onDelete: onDelete, onUpdate: onUpdate });
@@ -292,6 +320,7 @@ DocumentoConductor.belongsTo(Conductor, { foreignKey: { name: "rut_conductor" },
 
 module.exports = {
     Log,
+    LogError,
     Rol,
     Usuario,
     Sucursal,
@@ -322,5 +351,7 @@ module.exports = {
     DocumentoEmpresa,
     DocumentoConductor,
     TarifaVehiculo,
-    Reserva
+    Reserva,
+    ReservaCliente,
+    ReservaEmpresa
 };

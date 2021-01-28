@@ -15,7 +15,7 @@ class RegionController {
                 data: regiones
             })
         } catch (error) {
-            sendError(error);
+            sendError(error, req, res);
         }
     }
 

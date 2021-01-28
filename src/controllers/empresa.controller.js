@@ -17,7 +17,7 @@ class EmpresaController {
                 data: empresas,
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -37,7 +37,7 @@ class EmpresaController {
                 });
             }
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -54,7 +54,7 @@ class EmpresaController {
             });
             if (created) next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -68,7 +68,7 @@ class EmpresaController {
             })
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -90,7 +90,7 @@ class EmpresaController {
             });
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 

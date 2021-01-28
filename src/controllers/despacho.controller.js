@@ -25,7 +25,7 @@ class DespachoController {
             });
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -57,7 +57,7 @@ class DespachoController {
             });
             next();
         } catch (error) {
-            sendError(error)
+            sendError(error, req, res);
         }
     }
 }

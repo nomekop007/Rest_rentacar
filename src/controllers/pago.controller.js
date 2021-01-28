@@ -19,7 +19,7 @@ class PagoController {
             });
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -33,7 +33,7 @@ class PagoController {
             pagos.forEach(({ total_pago }) => { total = total + Number(total_pago) })
             res.json({ success: true, data: { total_factura: total } });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -50,7 +50,7 @@ class PagoController {
             });
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -67,7 +67,7 @@ class PagoController {
             res.json({ success: true, msg: "pago modificado!" })
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -81,7 +81,7 @@ class PagoController {
                 data: pago
             });
         } catch (error) {
-            sendError(error)
+            sendError(error, req, res);
         }
     }
 
@@ -95,7 +95,7 @@ class PagoController {
                 data: pago
             });
         } catch (error) {
-            sendError(error);
+            sendError(error, req, res);;
         }
     }
 
@@ -104,7 +104,7 @@ class PagoController {
             const pago = await this._servicePago.getFindOne(req.params.id);
             res.json({ success: true, data: pago })
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -151,7 +151,7 @@ class PagoController {
                 });
             }
         } catch (error) {
-            sendError(error);
+            sendError(error, req, res);;
         }
     }
 

@@ -51,7 +51,7 @@ class DanioVehiculoController {
             })
             next();
         } catch (error) {
-            sendError(error);
+            sendError(error, req, res);;
         }
     }
 
@@ -71,7 +71,7 @@ class DanioVehiculoController {
                 })
             }
         } catch (error) {
-            sendError(error);
+            sendError(error, req, res);;
         }
     }
 
@@ -84,7 +84,7 @@ class DanioVehiculoController {
                 data: danios
             })
         } catch (error) {
-            sendError(error)
+            sendError(error, req, res);
         }
     }
 
@@ -102,7 +102,7 @@ class DanioVehiculoController {
             });
             next();
         } catch (error) {
-            sendError(error);
+            sendError(error, req, res);;
         }
     }
 

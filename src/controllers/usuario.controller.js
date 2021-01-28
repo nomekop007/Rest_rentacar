@@ -18,7 +18,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -34,7 +34,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -47,7 +47,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -75,7 +75,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            sendError(error)
+            sendError(error, req, res);
         }
     }
 
@@ -111,7 +111,7 @@ class UsuarioController {
                 });
             }
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -141,7 +141,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -166,7 +166,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 

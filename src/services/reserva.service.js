@@ -1,10 +1,10 @@
-const { Reserva, Cliente, Vehiculo } = require('../database/db');
+const { Reserva, ReservaCliente, ReservaEmpresa, Vehiculo, Cliente, Empresa } = require('../database/db');
 
 class ReservaService {
 
     async getFindAll() {
         return await Reserva.findAll({
-            include: [{ model: Vehiculo }, { model: Cliente }]
+            include: [{ model: Vehiculo }, { model: ReservaCliente, include: [{ model: Cliente }] }, { model: ReservaEmpresa, include: [{ model: Empresa }] }]
         });
     }
 
@@ -19,8 +19,10 @@ class ReservaService {
         })
     }
 
-    async postCreate(DATA) {
-        return await Reserva.create(DATA);
+    async postCreateWithClient(DATA) {
+        return await Reserva.create(DATA, {
+            include: [ReservaCliente, ReservaEmpresa]
+        });
     }
 
     async deleteDestroy(ID) {

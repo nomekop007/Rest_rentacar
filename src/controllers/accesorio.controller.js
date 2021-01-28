@@ -14,7 +14,7 @@ class AccesorioController {
                 data: accesorios,
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -26,7 +26,7 @@ class AccesorioController {
                 data: accesorios
             })
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -40,7 +40,7 @@ class AccesorioController {
             })
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -52,7 +52,7 @@ class AccesorioController {
                 data: accesorio
             })
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -65,7 +65,7 @@ class AccesorioController {
             })
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 

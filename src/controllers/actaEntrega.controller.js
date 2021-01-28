@@ -38,7 +38,7 @@ class ActaEntregaController {
                 data: actaEntrega,
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -74,7 +74,7 @@ class ActaEntregaController {
                 });
             }
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -129,7 +129,7 @@ class ActaEntregaController {
                 msg: resp,
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -145,7 +145,7 @@ class ActaEntregaController {
                 data: { actaEntrega: actaEntrega, base64: base64 },
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 }

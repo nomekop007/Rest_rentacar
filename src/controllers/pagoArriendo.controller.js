@@ -28,7 +28,7 @@ class PagoArriendoController {
 				});
 			}
 		} catch (error) {
-			sendError(error, res);
+			sendError(error, req, res);
 		}
 	}
 
@@ -54,7 +54,7 @@ class PagoArriendoController {
 				}
 			});
 		} catch (error) {
-			sendError(error, res)
+			sendError(error, req, res);
 		}
 	}
 

@@ -39,7 +39,7 @@ class VehiculoController {
                 data: vehiculos,
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -52,7 +52,7 @@ class VehiculoController {
                 data: vehiculos
             })
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -72,7 +72,7 @@ class VehiculoController {
                 });
             }
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -96,7 +96,7 @@ class VehiculoController {
                 });
             }
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -113,7 +113,7 @@ class VehiculoController {
             });
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -128,7 +128,7 @@ class VehiculoController {
             });
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -146,7 +146,7 @@ class VehiculoController {
             });
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -178,7 +178,7 @@ class VehiculoController {
             });
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 

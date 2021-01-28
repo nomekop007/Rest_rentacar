@@ -45,7 +45,7 @@ class contrato_controller {
                 data: contrato,
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -68,7 +68,7 @@ class contrato_controller {
             });
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -111,7 +111,7 @@ class contrato_controller {
                 });
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -166,7 +166,7 @@ class contrato_controller {
             });
 
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
