@@ -38,7 +38,6 @@ class ArriendoController {
 			});
 		} catch (error) {
 			sendError(error, req, res);;
-
 		}
 	}
 
