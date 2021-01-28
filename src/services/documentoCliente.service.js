@@ -1,6 +1,6 @@
 const { DocumentoCliente } = require("../database/db");
 
-class DocumentoClienteSerivce {
+class DocumentoClienteService {
     async postFindOrCreate(DATA, ID) {
         return await DocumentoCliente.findOrCreate({
             where: { rut_cliente: ID },
@@ -16,4 +16,4 @@ class DocumentoClienteSerivce {
 
 }
 
-module.exports = DocumentoClienteSerivce;
+module.exports = DocumentoClienteService;

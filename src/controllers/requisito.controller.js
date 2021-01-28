@@ -53,7 +53,7 @@ class RequisitoController {
                     break;
             }
             console.log(data)
-            const requisito = await this.serviceRequisito.postCreate(data);
+            const requisito = await this._serviceRequisito.postCreate(data);
             res.json({
                 success: true,
                 data: requisito,
@@ -73,13 +73,13 @@ class RequisitoController {
             licenciaConducirTrasera: data.licenciaConducirTrasera_requisito,
             rut_conductor: arriendo.rut_conductor
         };
-        const [doc, created] = await this.serviceDocumentoConductor.postFindOrCreate(dataDoc, dataDoc.rut_conductor);
+        const [doc, created] = await this._serviceDocumentoConductor.postFindOrCreate(dataDoc, dataDoc.rut_conductor);
         // si los requisitos que llegan estan vacios , los reemplaza por lo que haya en la BD
         if (!data.licenciaConducirFrontal_requisito) data.licenciaConducirFrontal_requisito = doc.licenciaConducirFrontal;
         if (!data.licenciaConducirTrasera_requisito) data.licenciaConducirTrasera_requisito = doc.licenciaConducirTrasera;
         //si no existe los documentos en la BD , los reemplaza por los que llegan.
-        if (!doc.licenciaConducirFrontal) await this.serviceDocumentoConductor.putUpdate({ licenciaConducirFrontal: dataDoc.licenciaConducirFrontal }, dataDoc.rut_conductor);
-        if (!doc.licenciaConducirTrasera) await this.serviceDocumentoConductor.putUpdate({ licenciaConducirTrasera: dataDoc.licenciaConducirTrasera }, dataDoc.rut_conductor);
+        if (!doc.licenciaConducirFrontal) await this._serviceDocumentoConductor.putUpdate({ licenciaConducirFrontal: dataDoc.licenciaConducirFrontal }, dataDoc.rut_conductor);
+        if (!doc.licenciaConducirTrasera) await this._serviceDocumentoConductor.putUpdate({ licenciaConducirTrasera: dataDoc.licenciaConducirTrasera }, dataDoc.rut_conductor);
         return data;
     }
 
@@ -92,15 +92,15 @@ class RequisitoController {
             comprobanteDomicilio: data.comprobanteDomicilio_requisito,
             rut_cliente: arriendo.rut_cliente
         }
-        const [doc, created] = await this.serviceDocumentoCliente.postFindOrCreate(dataDoc, dataDoc.rut_cliente);
+        const [doc, created] = await this._serviceDocumentoCliente.postFindOrCreate(dataDoc, dataDoc.rut_cliente);
         // si los requisitos que llegan estan vacios , los reemplaza por lo que haya en la BD
         if (!data.carnetFrontal_requisito) data.carnetFrontal_requisito = doc.carnetFrontal;
         if (!data.carnetTrasera_requisito) data.carnetTrasera_requisito = doc.carnetTrasera;
         if (!data.comprobanteDomicilio_requisito) data.comprobanteDomicilio_requisito = doc.comprobanteDomicilio;
         //si no existe los documentos en la BD , los reemplaza por los que llegan.
-        if (!doc.carnetFrontal) await this.serviceDocumentoCliente.putUpdate({ carnetFrontal: dataDoc.carnetFrontal }, dataDoc.rut_cliente);
-        if (!doc.carnetTrasera) await this.serviceDocumentoCliente.putUpdate({ carnetFrontal: dataDoc.carnetTrasera }, dataDoc.rut_cliente);
-        if (!doc.comprobanteDomicilio) await this.serviceDocumentoCliente.putUpdate({ carnetFrontal: dataDoc.comprobanteDomicilio }, dataDoc.rut_cliente);
+        if (!doc.carnetFrontal) await this._serviceDocumentoCliente.putUpdate({ carnetFrontal: dataDoc.carnetFrontal }, dataDoc.rut_cliente);
+        if (!doc.carnetTrasera) await this._serviceDocumentoCliente.putUpdate({ carnetFrontal: dataDoc.carnetTrasera }, dataDoc.rut_cliente);
+        if (!doc.comprobanteDomicilio) await this._serviceDocumentoCliente.putUpdate({ carnetFrontal: dataDoc.comprobanteDomicilio }, dataDoc.rut_cliente);
         return data;
     }
 
@@ -113,15 +113,15 @@ class RequisitoController {
             comprobanteDomicilio: data.comprobanteDomicilio_requisito,
             rut_cliente: arriendo.remplazo.cliente.rut_cliente
         }
-        const [doc, created] = await this.serviceDocumentoCliente.postFindOrCreate(dataDoc, dataDoc.rut_cliente);
+        const [doc, created] = await this._serviceDocumentoCliente.postFindOrCreate(dataDoc, dataDoc.rut_cliente);
         // si los requisitos que llegan estan vacios , los reemplaza por lo que haya en la BD
         if (!data.carnetFrontal_requisito) data.carnetFrontal_requisito = doc.carnetFrontal;
         if (!data.carnetTrasera_requisito) data.carnetTrasera_requisito = doc.carnetTrasera;
         if (!data.comprobanteDomicilio_requisito) data.comprobanteDomicilio_requisito = doc.comprobanteDomicilio;
         //si no existe los documentos en la BD , los reemplaza por los que llegan.
-        if (!doc.carnetFrontal) await this.serviceDocumentoCliente.putUpdate({ carnetFrontal: dataDoc.carnetFrontal }, dataDoc.rut_cliente);
-        if (!doc.carnetTrasera) await this.serviceDocumentoCliente.putUpdate({ carnetFrontal: dataDoc.carnetTrasera }, dataDoc.rut_cliente);
-        if (!doc.comprobanteDomicilio) await this.serviceDocumentoCliente.putUpdate({ carnetFrontal: dataDoc.comprobanteDomicilio }, dataDoc.rut_cliente);
+        if (!doc.carnetFrontal) await this._serviceDocumentoCliente.putUpdate({ carnetFrontal: dataDoc.carnetFrontal }, dataDoc.rut_cliente);
+        if (!doc.carnetTrasera) await this._serviceDocumentoCliente.putUpdate({ carnetFrontal: dataDoc.carnetTrasera }, dataDoc.rut_cliente);
+        if (!doc.comprobanteDomicilio) await this._serviceDocumentoCliente.putUpdate({ carnetFrontal: dataDoc.comprobanteDomicilio }, dataDoc.rut_cliente);
         return data;
     }
 
@@ -136,7 +136,7 @@ class RequisitoController {
             documentoVigencia: data.documentoVigencia_requisito,
             rut_empresa: arriendo.rut_empresa
         }
-        const [doc, created] = await this.serviceDocumentoEmpresa.postFindOrCreate(dataDoc, dataDoc.rut_empresa);
+        const [doc, created] = await this._serviceDocumentoEmpresa.postFindOrCreate(dataDoc, dataDoc.rut_empresa);
         // si los requisitos que llegan estan vacios , los reemplaza por lo que haya en la BD
         if (!data.carnetFrontal_requisito) data.carnetFrontal_requisito = doc.carnetFrontal;
         if (!data.carnetTrasera_requisito) data.carnetTrasera_requisito = doc.carnetTrasera;
@@ -144,11 +144,11 @@ class RequisitoController {
         if (!data.documentoRol_requisito) data.documentoRol_requisito = doc.documentoRol;
         if (!data.documentoVigencia_requisito) data.documentoVigencia_requisito = doc.documentoVigencia;
         //si no existe los documentos en la BD , los reemplaza por los que llegan.
-        if (!doc.carnetFrontal) await this.serviceDocumentoEmpresa.putUpdate({ carnetFrontal: dataDoc.carnetFrontal }, dataDoc.rut_empresa);
-        if (!doc.carnetTrasera) await this.serviceDocumentoEmpresa.putUpdate({ carnetTrasera: dataDoc.carnetTrasera }, dataDoc.rut_empresa);
-        if (!doc.documentoEstatuto) await this.serviceDocumentoEmpresa.putUpdate({ documentoEstatuto: dataDoc.documentoEstatuto }, dataDoc.rut_empresa);
-        if (!doc.documentoRol) await this.serviceDocumentoEmpresa.putUpdate({ documentoRol: dataDoc.documentoRol }, dataDoc.rut_empresa);
-        if (!doc.documentoVigencia) await this.serviceDocumentoEmpresa.putUpdate({ documentoVigencia: dataDoc.documentoVigencia }, dataDoc.rut_empresa);
+        if (!doc.carnetFrontal) await this._serviceDocumentoEmpresa.putUpdate({ carnetFrontal: dataDoc.carnetFrontal }, dataDoc.rut_empresa);
+        if (!doc.carnetTrasera) await this._serviceDocumentoEmpresa.putUpdate({ carnetTrasera: dataDoc.carnetTrasera }, dataDoc.rut_empresa);
+        if (!doc.documentoEstatuto) await this._serviceDocumentoEmpresa.putUpdate({ documentoEstatuto: dataDoc.documentoEstatuto }, dataDoc.rut_empresa);
+        if (!doc.documentoRol) await this._serviceDocumentoEmpresa.putUpdate({ documentoRol: dataDoc.documentoRol }, dataDoc.rut_empresa);
+        if (!doc.documentoVigencia) await this._serviceDocumentoEmpresa.putUpdate({ documentoVigencia: dataDoc.documentoVigencia }, dataDoc.rut_empresa);
         return data;
     }
 
