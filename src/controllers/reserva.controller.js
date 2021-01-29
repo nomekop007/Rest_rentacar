@@ -13,7 +13,7 @@ class ReservaController {
             const reservas = await this._serviceReserva.getFindAll();
             res.json({ success: true, data: reservas });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -22,17 +22,17 @@ class ReservaController {
             const reserva = await this._serviceReserva.getFindOne(req.params.id);
             res.json({ success: true, data: reserva });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
     async createReserva(req, res, next) {
         try {
-            const reserva = await this._serviceReserva.postCreate(req.body);
+            const reserva = await this._serviceReserva.postCreateWithClient(req.body);
             res.json({ success: true, data: reserva, msg: "reserva agregada!" });
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -42,7 +42,7 @@ class ReservaController {
             res.json({ success: true, msg: 'reserva modificada' });
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -52,7 +52,7 @@ class ReservaController {
             res.json({ success: true, msg: 'reserva eliminada' });
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 

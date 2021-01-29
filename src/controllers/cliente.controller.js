@@ -16,7 +16,7 @@ class ClienteController {
                 data: cliente,
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -36,7 +36,7 @@ class ClienteController {
                 });
             }
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -57,7 +57,7 @@ class ClienteController {
             });
             if (created) next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -71,7 +71,7 @@ class ClienteController {
             })
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -93,7 +93,7 @@ class ClienteController {
                 msg: "archivo actualizado",
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 }

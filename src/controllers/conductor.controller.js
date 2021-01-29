@@ -18,7 +18,7 @@ class ConductorController {
                 data: conductores,
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -39,7 +39,7 @@ class ConductorController {
                 });
             }
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -62,7 +62,7 @@ class ConductorController {
             });
             if (created) next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -77,7 +77,7 @@ class ConductorController {
             })
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -96,7 +96,7 @@ class ConductorController {
             });
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 

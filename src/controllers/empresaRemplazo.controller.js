@@ -15,7 +15,7 @@ class EmpresaRemplazoController {
                 data: empresasRemplazo,
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 

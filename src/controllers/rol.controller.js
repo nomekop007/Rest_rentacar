@@ -15,7 +15,7 @@ class RolController {
                 data: roles,
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 

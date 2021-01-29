@@ -16,7 +16,7 @@ class PagoDanioController {
             })
             next();
         } catch (error) {
-            sendError(error)
+            sendError(error, req, res);
         }
     }
 

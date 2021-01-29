@@ -16,7 +16,7 @@ class FinanzasComponent {
                 data: arriendos,
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -36,7 +36,7 @@ class FinanzasComponent {
                 });
             }
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -83,7 +83,7 @@ class FinanzasComponent {
                 },
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 }

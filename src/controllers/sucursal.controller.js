@@ -15,7 +15,7 @@ class SucursalController {
                 data: sucursales,
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -28,7 +28,7 @@ class SucursalController {
                 data: sucursal,
             });
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
@@ -39,7 +39,7 @@ class SucursalController {
             res.json({ success: true, data: sucursal })
             next();
         } catch (error) {
-            sendError(error);
+            sendError(error, req, res);;
         }
     }
 
@@ -49,7 +49,7 @@ class SucursalController {
             res.json({ success: true, msg: "sucursal modificada" });
             next();
         } catch (error) {
-            sendError(error);
+            sendError(error, req, res);;
         }
     }
 
@@ -58,7 +58,7 @@ class SucursalController {
             const sucursal = await this._serviceSucursal.getArriendoBySucursal();
             res.json({ success: true, data: sucursal })
         } catch (error) {
-            sendError(error);
+            sendError(error, req, res);;
         }
     }
 

@@ -60,7 +60,7 @@ class RequisitoController {
             });
             next();
         } catch (error) {
-            sendError(error, res);
+            sendError(error, req, res);
         }
     }
 
