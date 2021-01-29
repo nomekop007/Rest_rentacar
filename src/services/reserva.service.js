@@ -2,8 +2,9 @@ const { Reserva, ReservaCliente, ReservaEmpresa, Vehiculo, Cliente, Empresa } = 
 
 class ReservaService {
 
-    async getFindAll() {
+    async getFindAll(ID_SUCURSAL) {
         return await Reserva.findAll({
+            where: { id_sucursal: ID_SUCURSAL },
             include: [{ model: Vehiculo }, { model: ReservaCliente, include: [{ model: Cliente }] }, { model: ReservaEmpresa, include: [{ model: Empresa }] }]
         });
     }
