@@ -9,6 +9,7 @@ module.exports = (sequelize, type) => {
         descripcion_reserva: type.TEXT,
         inicio_reserva: type.DATE,
         fin_reserva: type.DATE,
+        color_reserva: type.STRING,
         userAt: type.STRING,
     })
 }

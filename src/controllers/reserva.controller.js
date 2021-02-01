@@ -10,7 +10,8 @@ class ReservaController {
 
     async getReservas(req, res) {
         try {
-            const reservas = await this._serviceReserva.getFindAll();
+            const { sucursal } = req.query;
+            const reservas = await this._serviceReserva.getFindAll(sucursal);
             res.json({ success: true, data: reservas });
         } catch (error) {
             sendError(error, req, res);
@@ -48,7 +49,7 @@ class ReservaController {
 
     async deleteReserva(req, res, next) {
         try {
-            await this._serviceReserva.deleteReserva(req.params.id);
+            await this._serviceReserva.deleteDestroy(req.params.id);
             res.json({ success: true, msg: 'reserva eliminada' });
             next();
         } catch (error) {
