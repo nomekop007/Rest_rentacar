@@ -36,6 +36,7 @@ const TarifaVehiculoModel = require("../models/tarifasVehiculos");
 const ReservaModel = require("../models/reservas");
 const ReservaClienteModel = require("../models/reservasClientes");
 const ReservaEmpresaModel = require("../models/reservasEmpresas");
+const FotoDespachoModel = require("../models/fotosDespachos");
 
 
 //conectar modelo con base de datos
@@ -74,6 +75,7 @@ const TarifaVehiculo = TarifaVehiculoModel(database, Sequelize);
 const Reserva = ReservaModel(database, Sequelize);
 const ReservaCliente = ReservaClienteModel(database, Sequelize);
 const ReservaEmpresa = ReservaEmpresaModel(database, Sequelize);
+const FotoDespacho = FotoDespachoModel(database, Sequelize);
 
 //opciones
 //RESTRICT, CASCADE, NO ACTION, SET DEFAULT y SET NULL.
@@ -81,6 +83,12 @@ const onDelete = "CASCADE";
 const onUpdate = "CASCADE";
 
 //Asociaciones de tablas
+
+//un arriendo tiene muchas fotos de despacho
+Arriendo.hasMany(FotoDespacho, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate });
+
+//una foto de despacho pertenece a un arriendo
+FotoDespacho.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate })
 
 //un Reserva tiene un ReservaCliente 
 Reserva.hasOne(ReservaCliente, { foreignKey: { name: "id_reserva" }, onDelete: onDelete, onUpdate: onUpdate });
@@ -353,5 +361,6 @@ module.exports = {
     TarifaVehiculo,
     Reserva,
     ReservaCliente,
-    ReservaEmpresa
+    ReservaEmpresa,
+    FotoDespacho
 };

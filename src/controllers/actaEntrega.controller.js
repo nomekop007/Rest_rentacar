@@ -1,5 +1,6 @@
 const ActaEntregaServices = require("../services/actaEntrega.service");
 const ArriendoServices = require("../services/arriendo.service");
+const FotoDespachoServices = require("../services/fotosDespachos.service");
 const { fecha, nodemailerTransporter, hora, fechahorafirma, sendError } = require("../helpers/components");
 const fs = require("fs");
 const path = require("path");
@@ -17,6 +18,7 @@ class ActaEntregaController {
     constructor() {
         this._serviceActaEntrega = new ActaEntregaServices();
         this._serviceArriendo = new ArriendoServices();
+        this._serviceFotoDespacho = new FotoDespachoServices();
     }
 
     async createActaEntrega(req, res) {
@@ -133,6 +135,22 @@ class ActaEntregaController {
         }
     }
 
+    async guardarFotosVehiculos(req, res) {
+        try {
+            const files = req.files;
+            await this._serviceFotoDespacho.deleteByIdArriendo(req.params.id);
+            for (const property in files) {
+                this._serviceFotoDespacho.postCreate({
+                    userAt: req.headers["userat"],
+                    id_arriendo: req.params.id,
+                    url_fotoDespacho: files[property][0].filename
+                })
+            }
+            res.json({ success: true, msg: "foto subidas" });
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
 
 
     async findActaEntrega(req, res) {
