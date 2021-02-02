@@ -8,15 +8,21 @@ async function actaEntregaPlantilla(data) {
 
     const arrayImagenes = async () => {
         const images = [];
-        data.arrayImages.map(async ({ url_fotoDespacho }) => {
-            console.log(url_fotoDespacho);
-            const pathFile = path.resolve(__dirname, `../${process.env.PATH_FOTO_DESPACHOS}/${url_fotoDespacho}`)
-            images.push({
-                margin: [0, 10, 0, 0],
-                fit: [500, 500],
-                image: "data:image/png;base64," + (await base64(pathFile)),
-            });
-        })
+        /*    data.arrayImages.map(async ({ url_fotoDespacho }) => {
+               console.log(url_fotoDespacho);
+               const pathFile = path.resolve(__dirname, `../${process.env.PATH_FOTO_DESPACHOS}/${url_fotoDespacho}`)
+               images.push({
+                   margin: [0, 10, 0, 0],
+                   fit: [500, 500],
+                   image: "data:image/png;base64," + (await base64(pathFile)),
+               });
+           }) */
+        images.push({
+            margin: 50,
+            alignment: "center",
+            text: "[Fotos se adjuntan en el correo]",
+            fontSize: 23,
+        });
         return images;
     };
 

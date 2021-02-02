@@ -50,9 +50,8 @@ class ActaEntregaController {
         try {
             const response = req.body;
             const arriendo = await this._serviceArriendo.getFindOne(response.id_arriendo);
-
-            const ArrayImages = await this._serviceFotoDespacho.getFindAllByArriendo(arriendo.id_arriendo);
-            response.arrayImages = ArrayImages;
+            //  const ArrayImages = await this._serviceFotoDespacho.getFindAllByArriendo(arriendo.id_arriendo);
+            //response.arrayImages = ArrayImages;
             response.vehiculo = arriendo.vehiculo;
             response.kilometraje = arriendo.kilometrosEntrada_arriendo;
             response.id_arriendo = arriendo.id_arriendo;
