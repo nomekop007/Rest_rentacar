@@ -65,7 +65,7 @@ router.use("/pagosArriendos", check.checkToken, apiPagoArriendoRouter);
 router.use("/garantias", check.checkToken, apiGarantiasRouter);
 router.use("/arriendos", check.checkToken, apiArriendosRouter);
 router.use("/remplazos", check.checkToken, apiRemplazoRouter);
-router.use("/actasEntregas", check.checkToken, apiActaEntregaRouter);
+router.use("/actasEntregas", apiActaEntregaRouter);
 router.use("/despachos", check.checkToken, apiDespachoRouter);
 router.use("/pagosAccesorios", check.checkToken, apiPagoAccesorioRouter);
 router.use("/facturaciones", check.checkToken, apiFacturacionRouter);

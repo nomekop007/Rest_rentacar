@@ -18,10 +18,11 @@ app.use(cors(process.env.LIST_CORS));
 app.use(compression());
 app.use(helmet());
 app.use(morgan("dev"));
-app.use(bodyParser.json({ limit: "200mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "200mb", extended: true }));
+app.use(bodyParser.json({ limit: "400mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "400mb", extended: true }));
 //static files (hace publica la carpeta uploads)
-//app.use(express.static(path.join(__dirname, "uploads")));
+
+app.use(express.static(path.join("uploads/fotoDespachos")));
 // ruta padre
 app.use("/rentacar", apiRouter, log.logRegister);
 

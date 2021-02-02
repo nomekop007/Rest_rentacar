@@ -113,13 +113,13 @@ class ActaEntregaController {
                 path: path.join(__dirname, `${process.env.PATH_ACTA_ENTREGA}/${arriendo.despacho.actasEntrega.documento}`),
             });
 
-            arrayImages.map(({ url_fotoDespacho }) => {
-                files.push({
-                    filename: url_fotoDespacho,
-                    contentType: "png",
-                    path: path.join(__dirname, `${process.env.PATH_FOTO_DESPACHOS}/${url_fotoDespacho}`),
-                })
-            })
+            /*   arrayImages.map(({ url_fotoDespacho }) => {
+                  files.push({
+                      filename: url_fotoDespacho,
+                      contentType: "png",
+                      path: path.join(__dirname, `${process.env.PATH_FOTO_DESPACHOS}/${url_fotoDespacho}`),
+                  })
+              }) */
 
             //datos del mensaje y su destinatario
             const mailOptions = {
@@ -131,13 +131,20 @@ class ActaEntregaController {
                 html: `
                 <p>Sr.(a) ${client.name}:</p>
                 <p>Por este medio envio su copia del Acta de entrega de Rent a Car.</p>
+                <br>
+                Link de fotos
+                <br>
+                ${arrayImages.map(({ url_fotoDespacho }) => {
+                    const link = `${process.env.PATH_SERVER}/${url_fotoDespacho}`;
+                    console.log(link);
+                    return `<li><a href="${link}">${url_fotoDespacho}</a></li>`;
+                })}
+
                 <br><br>
                 <p>------------------------------------------------------------------------------------------------------------------------------</p>
                 <p>Atentamente, Rent a Car Maule Ltda. </p>
                 <p>Por favor no responder este correo.</p>
-                <img src="data:image/jpeg;base64,${await base64(
-                    logo
-                )}" width="200" height="50"  />
+                <img src="data:image/jpeg;base64,${await base64(logo)}" width="200" height="50"  />
                 `,
                 attachments: files,
             };
