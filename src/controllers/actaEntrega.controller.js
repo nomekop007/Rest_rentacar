@@ -1,7 +1,7 @@
 const ActaEntregaServices = require("../services/actaEntrega.service");
 const ArriendoServices = require("../services/arriendo.service");
 const FotoDespachoServices = require("../services/fotosDespachos.service");
-const { fecha, nodemailerTransporter, hora, fechahorafirma, sendError } = require("../helpers/components");
+const { fecha, nodemailerTransporter, hora, fechahorafirma, sendError, borrarImagenDeStorage } = require("../helpers/components");
 const fs = require("fs");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
@@ -50,6 +50,9 @@ class ActaEntregaController {
         try {
             const response = req.body;
             const arriendo = await this._serviceArriendo.getFindOne(response.id_arriendo);
+
+            const ArrayImages = await this._serviceFotoDespacho.getFindAllByArriendo(arriendo.id_arriendo);
+            response.arrayImages = ArrayImages;
             response.vehiculo = arriendo.vehiculo;
             response.kilometraje = arriendo.kilometrosEntrada_arriendo;
             response.id_arriendo = arriendo.id_arriendo;
@@ -138,6 +141,8 @@ class ActaEntregaController {
     async guardarFotosVehiculos(req, res) {
         try {
             const files = req.files;
+            const arrayImages = await this._serviceFotoDespacho.getFindAllByArriendo(req.params.id);
+            arrayImages.map((imagen) => borrarImagenDeStorage(imagen.url_fotoDespacho, process.env.PATH_FOTO_DESPACHOS));
             await this._serviceFotoDespacho.deleteByIdArriendo(req.params.id);
             for (const property in files) {
                 this._serviceFotoDespacho.postCreate({

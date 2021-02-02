@@ -137,7 +137,7 @@ class VehiculoController {
         try {
             const v = await this._serviceVehiculo.getFindOne(req.params.id);
             // se pregunta si el vehiculo  tiene image asignada
-            if (v.foto_vehiculo) borrarImagenDeStorage(v.foto_vehiculo);
+            if (v.foto_vehiculo) borrarImagenDeStorage(v.foto_vehiculo, process.env.PATH_FOTO_VEHICULO);
             const data = { foto_vehiculo: req.file.filename };
             await this._serviceVehiculo.putUpdate(data, req.params.id);
             res.json({

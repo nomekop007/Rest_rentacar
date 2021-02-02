@@ -54,9 +54,9 @@ const formatFechahora = (fecha) => {
     return moment(f).format("DD-MM-YYYY  HH:mm a");
 };
 
-const borrarImagenDeStorage = (name) => {
+const borrarImagenDeStorage = (name, direccion) => {
     try {
-        fs.unlinkSync(path.join(__dirname, "../uploads/fotosVehiculos/" + name));
+        fs.unlinkSync(path.join(__dirname, `${direccion}/${name}`))
         return true;
     } catch (err) {
         return console.log(err);

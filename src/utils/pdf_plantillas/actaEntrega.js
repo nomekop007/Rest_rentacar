@@ -1,18 +1,26 @@
 const base64 = require("image-to-base64");
 const logo = require.resolve("../images/logo.png");
+const path = require("path");
 
 async function actaEntregaPlantilla(data) {
-    const arrayImagenes = () => {
+
+
+
+    const arrayImagenes = async () => {
         const images = [];
-        for (let i = 0; i < data.arrayImages.length; i++) {
+        data.arrayImages.map(async ({ url_fotoDespacho }) => {
+            console.log(url_fotoDespacho);
+            const pathFile = path.resolve(__dirname, `../${process.env.PATH_FOTO_DESPACHOS}/${url_fotoDespacho}`)
             images.push({
                 margin: [0, 10, 0, 0],
                 fit: [500, 500],
-                image: data.arrayImages[i],
+                image: "data:image/png;base64," + (await base64(pathFile)),
             });
-        }
+        })
         return images;
     };
+
+
     const matriz_si = (value, fila) => {
         if (data.matrizRecepcion[fila].indexOf(value) != -1) {
             return "X";
@@ -390,7 +398,7 @@ async function actaEntregaPlantilla(data) {
         /* lista de imagenes */
         {
             columns: [
-                [arrayImagenes()]
+                [await arrayImagenes()]
             ],
         },
         ],

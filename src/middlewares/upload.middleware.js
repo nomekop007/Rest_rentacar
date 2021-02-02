@@ -13,6 +13,7 @@ multer({ dest: path.join(__dirname, process.env.PATH_RECEPCIONES) });
 
 
 
+
 const subirDocumentoRequisitosArriendo = multer({
     storage: multer.diskStorage({
         destination: path.join(__dirname, process.env.PATH_REQUISITO_ARRIENDO),
