@@ -8,6 +8,21 @@ async function actaEntregaPlantilla(data) {
 
     const arrayImagenes = async () => {
         const images = [];
+        images.push({
+            margin: 20,
+            alignment: "center",
+            text: "[Link de imagenes]",
+            fontSize: 14,
+        });
+        data.arrayImages.map(async ({ url_fotoDespacho }) => {
+            const link = `${process.env.PATH_SERVER}/${url_fotoDespacho}`;
+            images.push({
+                margin: 10,
+                alignment: "center",
+                text: `${link}`,
+                fontSize: 10,
+            });
+        })
         /*    data.arrayImages.map(async ({ url_fotoDespacho }) => {
                console.log(url_fotoDespacho);
                const pathFile = path.resolve(__dirname, `../${process.env.PATH_FOTO_DESPACHOS}/${url_fotoDespacho}`)
@@ -17,12 +32,6 @@ async function actaEntregaPlantilla(data) {
                    image: "data:image/png;base64," + (await base64(pathFile)),
                });
            }) */
-        images.push({
-            margin: 50,
-            alignment: "center",
-            text: "[Fotos se adjuntan en el correo]",
-            fontSize: 23,
-        });
         return images;
     };
 

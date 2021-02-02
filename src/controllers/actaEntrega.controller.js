@@ -50,8 +50,8 @@ class ActaEntregaController {
         try {
             const response = req.body;
             const arriendo = await this._serviceArriendo.getFindOne(response.id_arriendo);
-            //  const ArrayImages = await this._serviceFotoDespacho.getFindAllByArriendo(arriendo.id_arriendo);
-            //response.arrayImages = ArrayImages;
+            const ArrayImages = await this._serviceFotoDespacho.getFindAllByArriendo(arriendo.id_arriendo);
+            response.arrayImages = ArrayImages;
             response.vehiculo = arriendo.vehiculo;
             response.kilometraje = arriendo.kilometrosEntrada_arriendo;
             response.id_arriendo = arriendo.id_arriendo;
@@ -139,7 +139,6 @@ class ActaEntregaController {
                     console.log(link);
                     return `<li><a href="${link}">${url_fotoDespacho}</a></li>`;
                 })}
-
                 <br><br>
                 <p>------------------------------------------------------------------------------------------------------------------------------</p>
                 <p>Atentamente, Rent a Car Maule Ltda. </p>
