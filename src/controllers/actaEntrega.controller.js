@@ -89,6 +89,7 @@ class ActaEntregaController {
         try {
             const response = req.body;
             const arriendo = await this._serviceArriendo.getFindOne(response.id_arriendo);
+            const arrayImages = await this._serviceFotoDespacho.getFindAllByArriendo(response.id_arriendo);
             const client = {};
             switch (arriendo.tipo_arriendo) {
                 case "PARTICULAR":
@@ -105,6 +106,22 @@ class ActaEntregaController {
                     break;
             }
 
+            const files = [];
+
+            files.push({
+                filename: "ACTA-DE-ENTREGA.pdf",
+                contentType: "pdf",
+                path: path.join(__dirname, `${process.env.PATH_ACTA_ENTREGA}/${arriendo.despacho.actasEntrega.documento}`),
+            });
+
+            arrayImages.map(({ url_fotoDespacho }) => {
+                files.push({
+                    filename: url_fotoDespacho,
+                    contentType: "png",
+                    path: path.join(__dirname, `${process.env.PATH_FOTO_DESPACHOS}/${url_fotoDespacho}`),
+                })
+            })
+
             //datos del mensaje y su destinatario
             const mailOptions = {
                 from: "'Rent A Car - Grupo Firma' <api.rentacarmaule@grupofirma.cl>",
@@ -118,15 +135,12 @@ class ActaEntregaController {
                 <br><br>
                 <p>------------------------------------------------------------------------------------------------------------------------------</p>
                 <p>Atentamente, Rent a Car Maule Ltda. </p>
+                <p>Por favor no responder este correo.</p>
                 <img src="data:image/jpeg;base64,${await base64(
                     logo
                 )}" width="200" height="50"  />
                 `,
-                attachments: [{
-                    filename: "ACTA-DE-ENTREGA.pdf",
-                    contentType: "pdf",
-                    path: path.join(__dirname, `${process.env.PATH_ACTA_ENTREGA}/${arriendo.despacho.actasEntrega.documento}`),
-                },],
+                attachments: files,
             };
             const resp = await nodemailerTransporter.sendMail(mailOptions);
             res.json({
