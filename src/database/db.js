@@ -91,6 +91,17 @@ const onUpdate = "CASCADE";
 
 //Asociaciones de tablas
 
+
+// un rol tiene muchos RolPermiso para
+Rol.hasMany(RolPermiso, { foreignKey: { name: "id_rol" }, onDelete: onDelete, onUpdate: onUpdate });
+// un RolPermiso pertenece a un roles
+RolPermiso.belongsTo(Rol, { foreignKey: { name: "id_rol" }, onDelete: onDelete, onUpdate: onUpdate });
+
+// un permiso tiene muchos rolesPermisos
+Permiso.hasMany(RolPermiso, { foreignKey: { name: "id_permiso" }, onDelete: onDelete, onUpdate: onUpdate });
+// un RolPermiso pertenece a un permiso
+RolPermiso.belongsTo(Permiso, { foreignKey: { name: "id_permiso" }, onDelete: onDelete, onUpdate: onUpdate });
+
 //un arriendo tiene muchas fotos de despacho
 Arriendo.hasMany(FotoDespacho, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate });
 
@@ -369,5 +380,7 @@ module.exports = {
     Reserva,
     ReservaCliente,
     ReservaEmpresa,
-    FotoDespacho
+    FotoDespacho,
+    RolPermiso,
+    Permiso
 };

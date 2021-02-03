@@ -24,7 +24,7 @@ const crearToken = (usuario) => {
         usuarioRol: usuario.id_rol,
         usuarioSucursal: usuario.id_sucursal,
         createAt: moment().unix(),
-        expiredAt: moment().add(12, "hours").unix(),
+        expiredAt: moment().add(13, "hours").unix(),
     };
     return jwt.encode(payload, process.env.SECRET_PHRASE);
 };
