@@ -1,4 +1,4 @@
-const { Arriendo, DanioVehiculo, PagoAccesorio, DocumentoConductor, Accesorio, Usuario, Facturacion, Conductor, Sucursal, ModoPago, Contrato, PagoArriendo, Requisito, Garantia, EmpresaRemplazo, Despacho, Vehiculo, Cliente, Empresa, ActaEntrega, Remplazo, Contacto, Pago, DocumentoCliente, DocumentoEmpresa } = require("../database/db");
+const { Arriendo, FotoDespacho, DanioVehiculo, PagoAccesorio, DocumentoConductor, Accesorio, Usuario, Facturacion, Conductor, Sucursal, ModoPago, Contrato, PagoArriendo, Requisito, Garantia, EmpresaRemplazo, Despacho, Vehiculo, Cliente, Empresa, ActaEntrega, Remplazo, Contacto, Pago, DocumentoCliente, DocumentoEmpresa } = require("../database/db");
 const { Op } = require("sequelize");
 
 class ArriendoService {
@@ -63,7 +63,7 @@ class ArriendoService {
                 {
                     model: Cliente, include: [{
                         model: DocumentoCliente,
-                        attributes: ["carnetFrontal", "carnetTrasera","comprobanteDomicilio"]
+                        attributes: ["carnetFrontal", "carnetTrasera", "comprobanteDomicilio"]
                     }]
                 },
                 {
@@ -78,7 +78,7 @@ class ArriendoService {
                         attributes: ["licenciaConducirFrontal", "licenciaConducirTrasera"]
                     }]
                 },
-                { model: Remplazo, include: [{ model: Cliente, include: [{ model: DocumentoCliente, attributes: ["carnetFrontal", "carnetTrasera","comprobanteDomicilio"] }] }, { model: EmpresaRemplazo }], },
+                { model: Remplazo, include: [{ model: Cliente, include: [{ model: DocumentoCliente, attributes: ["carnetFrontal", "carnetTrasera", "comprobanteDomicilio"] }] }, { model: EmpresaRemplazo }], },
                 { model: Vehiculo },
                 {
                     model: Requisito,
@@ -92,6 +92,7 @@ class ArriendoService {
                 { model: Sucursal },
                 { model: Contrato },
                 { model: Contacto },
+                { model: FotoDespacho },
                 { model: Usuario, attributes: ["nombre_usuario"] },
                 { model: Garantia, include: { model: ModoPago } },
                 { model: Despacho, include: [{ model: ActaEntrega }] },

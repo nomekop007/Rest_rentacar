@@ -184,7 +184,7 @@ class ActaEntregaController {
             const base64 = fs.readFileSync(pathFile, { encoding: 'base64' });
             res.json({
                 success: true,
-                data: { actaEntrega: actaEntrega, base64: base64 },
+                data: { actaEntrega: actaEntrega, base64: base64, url: process.env.PATH_SERVER },
             });
         } catch (error) {
             sendError(error, req, res);
