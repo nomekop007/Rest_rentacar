@@ -9,6 +9,7 @@ module.exports = (sequelize, type) => {
         iva_pago: type.BIGINT(20),
         total_pago: type.BIGINT(20),
         estado_pago: type.STRING,
+        deuda_pago: type.BIGINT(20),
         deudor_pago: type.STRING,
         userAt: type.STRING,
     });

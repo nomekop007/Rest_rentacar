@@ -39,7 +39,7 @@ const ReservaEmpresaModel = require("../models/reservasEmpresas");
 const FotoDespachoModel = require("../models/fotosDespachos");
 const PermisoModel = require("../models/permisos");
 const RolPermisoModel = require("../models/rolesPermisos");
-
+const AbonoModel = require("../models/abonos");
 
 
 //conectar modelo con base de datos
@@ -81,7 +81,7 @@ const ReservaEmpresa = ReservaEmpresaModel(database, Sequelize);
 const FotoDespacho = FotoDespachoModel(database, Sequelize);
 const Permiso = PermisoModel(database, Sequelize);
 const RolPermiso = RolPermisoModel(database, Sequelize);
-
+const Abono = AbonoModel(database, Sequelize);
 
 
 //opciones
@@ -92,7 +92,19 @@ const onUpdate = "CASCADE";
 //Asociaciones de tablas
 
 
-// un rol tiene muchos RolPermiso para
+// un pago tiene muchos abonos
+Pago.hasMany(Abono, { foreignKey: { name: "id_pago" }, onDelete: onDelete, onUpdate: onUpdate });
+// un abono pertenece a un pago
+Abono.belongsTo(Pago, { foreignKey: { name: "id_pago" }, onDelete: onDelete, onUpdate: onUpdate });
+
+
+//un facturacion tiene muchos Abono
+Facturacion.hasMany(Abono, { foreignKey: { name: "id_facturacion" }, onDelete: onDelete, onUpdate: onUpdate });
+//un Abono  pertenece a un facturacion
+Abono.belongsTo(Facturacion, { foreignKey: { name: "id_facturacion" }, onDelete: onDelete, onUpdate: onUpdate });
+
+
+// un rol tiene muchos RolPermiso 
 Rol.hasMany(RolPermiso, { foreignKey: { name: "id_rol" }, onDelete: onDelete, onUpdate: onUpdate });
 // un RolPermiso pertenece a un roles
 RolPermiso.belongsTo(Rol, { foreignKey: { name: "id_rol" }, onDelete: onDelete, onUpdate: onUpdate });
