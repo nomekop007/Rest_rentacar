@@ -37,6 +37,9 @@ const ReservaModel = require("../models/reservas");
 const ReservaClienteModel = require("../models/reservasClientes");
 const ReservaEmpresaModel = require("../models/reservasEmpresas");
 const FotoDespachoModel = require("../models/fotosDespachos");
+const PermisoModel = require("../models/permisos");
+const RolPermisoModel = require("../models/rolesPermisos");
+
 
 
 //conectar modelo con base de datos
@@ -76,6 +79,10 @@ const Reserva = ReservaModel(database, Sequelize);
 const ReservaCliente = ReservaClienteModel(database, Sequelize);
 const ReservaEmpresa = ReservaEmpresaModel(database, Sequelize);
 const FotoDespacho = FotoDespachoModel(database, Sequelize);
+const Permiso = PermisoModel(database, Sequelize);
+const RolPermiso = RolPermisoModel(database, Sequelize);
+
+
 
 //opciones
 //RESTRICT, CASCADE, NO ACTION, SET DEFAULT y SET NULL.
