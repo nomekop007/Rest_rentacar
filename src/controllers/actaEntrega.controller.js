@@ -33,8 +33,15 @@ class ActaEntregaController {
                 });
                 return;
             });
-            response.documento = nameFile + ".pdf";
-            const actaEntrega = await this._serviceActaEntrega.postCreate(response);
+
+
+            const dataActa = {
+                documento: nameFile + ".pdf",
+                userAt: req.headers["userat"],
+                id_despacho: response.id_despacho
+            };
+            console.log(dataActa);
+            const actaEntrega = await this._serviceActaEntrega.postCreate(dataActa);
             res.json({
                 success: true,
                 data: actaEntrega,
@@ -184,7 +191,7 @@ class ActaEntregaController {
             const base64 = fs.readFileSync(pathFile, { encoding: 'base64' });
             res.json({
                 success: true,
-                data: { actaEntrega: actaEntrega, base64: base64, url: process.env.PATH_SERVER },
+                data: { actaEntrega: actaEntrega, base64: base64, url: pro },
             });
         } catch (error) {
             sendError(error, req, res);
