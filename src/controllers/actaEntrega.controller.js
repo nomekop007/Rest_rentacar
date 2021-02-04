@@ -33,8 +33,6 @@ class ActaEntregaController {
                 });
                 return;
             });
-
-
             const dataActa = {
                 documento: nameFile + ".pdf",
                 userAt: req.headers["userat"],
@@ -168,7 +166,7 @@ class ActaEntregaController {
         try {
             const files = req.files;
             const arrayImages = await this._serviceFotoDespacho.getFindAllByArriendo(req.params.id);
-            arrayImages.map((imagen) => borrarImagenDeStorage(imagen.url_fotoDespacho, process.env.PATH_FOTO_DESPACHOS));
+            //  arrayImages.map((imagen) => borrarImagenDeStorage(imagen.url_fotoDespacho, process.env.PATH_FOTO_DESPACHOS));
             await this._serviceFotoDespacho.deleteByIdArriendo(req.params.id);
             for (const property in files) {
                 this._serviceFotoDespacho.postCreate({
@@ -191,7 +189,7 @@ class ActaEntregaController {
             const base64 = fs.readFileSync(pathFile, { encoding: 'base64' });
             res.json({
                 success: true,
-                data: { actaEntrega: actaEntrega, base64: base64, url: pro },
+                data: { actaEntrega: actaEntrega, base64: base64, url: process.env.PATH_SERVER },
             });
         } catch (error) {
             sendError(error, req, res);
