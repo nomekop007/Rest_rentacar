@@ -162,6 +162,12 @@ class PagoController {
         try {
             const id_arriendo = req.params.id;
             const arriendo = await this._serviceArriendo.getFindOneMin(id_arriendo);
+
+            if (!arriendo) {
+                res.json({ success: false, msg: "arriendo no encontrado" })
+                return;
+            }
+
             let rut_cliente = '';
             let nombre_cliente = ''
             switch (arriendo.tipo_arriendo) {
