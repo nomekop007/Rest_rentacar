@@ -39,6 +39,13 @@ class PagoService {
     }
 
 
+    async getFindAllByArriendo(ID) {
+        return await Pago.findAll({
+            include: [{ model: PagoArriendo, where: { id_arriendo: ID } }]
+        })
+    }
+
+
 
 }
 

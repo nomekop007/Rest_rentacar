@@ -1,10 +1,12 @@
 const PagoService = require("../services/pago.service");
 const PagoArriendoService = require("../services/pagoArriendo.service");
+const ArriendoService = require("../services/arriendo.service");
 const { sendError } = require("../helpers/components");
 class PagoController {
     constructor() {
         this._servicePago = new PagoService();
         this._servicePagoArriendo = new PagoArriendoService();
+        this._serviceArriendo = new ArriendoService();
     }
 
 
@@ -158,21 +160,45 @@ class PagoController {
 
     async buscarPagosClientePendiente(req, res) {
         try {
-
-
+            const id_arriendo = req.params.id;
+            const arriendo = await this._serviceArriendo.getFindOneMin(id_arriendo);
+            let rut_cliente = '';
+            let nombre_cliente = ''
+            switch (arriendo.tipo_arriendo) {
+                case "PARTICULAR":
+                    rut_cliente = arriendo.rut_cliente;
+                    nombre_cliente = arriendo.cliente.nombre_cliente;
+                    break;
+                case "REEMPLAZO":
+                    rut_cliente = arriendo.remplazo.cliente.rut_cliente;
+                    nombre_cliente = arriendo.remplazo.cliente.nombre_cliente;
+                    break;
+                case "EMPRESA":
+                    rut_cliente = arriendo.empresa.rut_empresa;
+                    nombre_cliente = arriendo.empresa.nombre_empresa;
+                    break;
+            }
+            const pagos = await this._servicePago.getFindAllByArriendo(id_arriendo);
+            let arrayPagos = [];
+            pagos.map((pago) => {
+                if (pago.deudor_pago === rut_cliente && pago.estado_pago === "PENDIENTE") {
+                    arrayPagos.push(pago);
+                }
+            })
+            res.json({ success: true, data: { pagos: arrayPagos, arriendo: arriendo, cliente: nombre_cliente } })
         } catch (error) {
             sendError(error, req, res);
         }
     }
 
 
+
+
     async cargarPagosClientePendiente(req, res) {
         try {
-
-            console.log(req.params.id)
-
-            res.json({ success: true, msg: "encontrado!" })
-
+            const where = { estado_pago: "PENDIENTE" };
+            const pagos = await this._servicePago.getFindAll(where);
+            res.json({ success: true, data: pagos })
         } catch (error) {
             sendError(error, req, res);
         }
