@@ -165,7 +165,7 @@ class ActaEntregaController {
     async guardarFotosVehiculos(req, res) {
         try {
             const files = req.files;
-            const arrayImages = await this._serviceFotoDespacho.getFindAllByArriendo(req.params.id);
+            // const arrayImages = await this._serviceFotoDespacho.getFindAllByArriendo(req.params.id);
             //  arrayImages.map((imagen) => borrarImagenDeStorage(imagen.url_fotoDespacho, process.env.PATH_FOTO_DESPACHOS));
             await this._serviceFotoDespacho.deleteByIdArriendo(req.params.id);
             for (const property in files) {
