@@ -20,7 +20,7 @@ const checkToken = (req, res, next) => {
     } catch (err) {
         return res.status(320).json({
             success: false,
-            msg: "El token es incorrecto",
+            msg: "El token es incorrecto , reinicie Sesion",
         });
     }
 

@@ -18,6 +18,7 @@ class DespachoController {
     async createDespacho(req, res, next) {
         try {
             const response = req.body;
+            console.log(response);
             const despacho = await this._serviceDespacho.postCreate(response);
             res.json({
                 success: true,
