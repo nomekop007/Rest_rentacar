@@ -50,7 +50,7 @@ class contrato_controller {
     }
 
 
-    async subirContrato(req, res, next) {
+    async subirContrato(req, res) {
         try {
             const arriendo = await this._serviceArriendo.getFindOne(req.params.id);
             const arrayPagos = ordenarArrayporFecha(arriendo.pagosArriendos);
@@ -66,7 +66,6 @@ class contrato_controller {
                 success: true,
                 data: contrato
             });
-            next();
         } catch (error) {
             sendError(error, req, res);
         }
@@ -164,7 +163,6 @@ class contrato_controller {
                 success: true,
                 msg: resp,
             });
-
         } catch (error) {
             sendError(error, req, res);
         }
