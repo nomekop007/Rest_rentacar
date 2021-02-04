@@ -156,6 +156,29 @@ class PagoController {
     }
 
 
+    async buscarPagosClientePendiente(req, res) {
+        try {
+
+
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
+
+    async cargarPagosClientePendiente(req, res) {
+        try {
+
+            console.log(req.params.id)
+
+            res.json({ success: true, msg: "encontrado!" })
+
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
+
 
 }
 

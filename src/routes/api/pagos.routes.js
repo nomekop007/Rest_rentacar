@@ -18,4 +18,8 @@ router.post("/calcularTotalPagos", pago.calcularTotalPagos.bind(pago));
 
 router.get("/buscarPago/:id", pago.findPago.bind(pago));
 
+router.get("/buscarPagosClientePendiente/:id", pago.buscarPagosClientePendiente.bind(pago));
+
+router.get("/cargarPagosClientePendientes", pago.cargarPagosClientePendiente.bind(pago));
+
 module.exports = router;
