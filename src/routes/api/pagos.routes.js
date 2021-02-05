@@ -20,6 +20,8 @@ router.get("/buscarPago/:id", pago.findPago.bind(pago));
 
 router.get("/buscarPagosClientePendiente/:id", pago.buscarPagosClientePendiente.bind(pago));
 
-router.get("/cargarPagosClientePendientes", pago.cargarPagosClientePendiente.bind(pago));
+router.get("/cargarPagosClientes", pago.cargarPagosClientes.bind(pago));
+
+router.put("/actualizarUnPagoAPagado/:id", pago.actualizarUnPagoPendiente.bind(pago));
 
 module.exports = router;

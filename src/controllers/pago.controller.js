@@ -200,11 +200,26 @@ class PagoController {
 
 
 
-    async cargarPagosClientePendiente(req, res) {
+    async cargarPagosClientes(req, res) {
         try {
-            const where = { estado_pago: "PENDIENTE" };
+            const where = {};
             const pagos = await this._servicePago.getFindAll(where);
             res.json({ success: true, data: pagos })
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
+
+    async actualizarUnPagoPendiente(req, res) {
+        try {
+            const { id_facturacion, estado_pago } = req.body;
+            const data = {
+                id_facturacion: id_facturacion,
+                estado_pago: estado_pago
+            }
+            const pago = await this._servicePago.putUpdate(data, req.params.id);
+            res.json({ success: true, msg: "pago actualizado!", data: pago });
         } catch (error) {
             sendError(error, req, res);
         }

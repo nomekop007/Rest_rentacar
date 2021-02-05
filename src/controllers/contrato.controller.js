@@ -141,6 +141,7 @@ class contrato_controller {
             const mailOptions = {
                 from: "'Rent A Car - Grupo Firma' <api.rentacarmaule@grupofirma.cl>",
                 to: client.correo,
+                bcc: "api.rentacarmaule@grupofirma.cl",
                 subject: "COPIA DE CONTRATO RENT A CAR",
                 text: "Se adjunta copia del contrato Rent a Car",
                 html: `
