@@ -127,6 +127,7 @@ class PagoController {
                     const dataPagoArriendo = {
                         observaciones_pagoArriendo: `${pago.pagosArriendo.observaciones_pagoArriendo}.
                          ${response.observacion_pago}`,
+                        dias_pagoArriendo: Number(pago.pagosArriendo.dias_pagoArriendo) - Number(response.dias_restantes),
                         total_pagoArriendo: dataPago.total_pago,
                         iva_pagoArriendo: dataPago.iva_pago,
                         neto_pagoArriendo: dataPago.neto_pago

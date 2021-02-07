@@ -6,6 +6,7 @@ const checkToken = (req, res, next) => {
 
     if (!req.headers["usertoken"]) {
         return res.status(320).json({
+            sinToken: true,
             success: false,
             msg: "error en la autentifacion del token , reinicie Sesion",
         });
@@ -19,6 +20,7 @@ const checkToken = (req, res, next) => {
         payload = jwt.decode(userToken, process.env.SECRET_PHRASE);
     } catch (err) {
         return res.status(320).json({
+            sinToken: true,
             success: false,
             msg: "El token es incorrecto , reinicie Sesion",
         });
@@ -27,6 +29,7 @@ const checkToken = (req, res, next) => {
     //se comprueba si el token expiro
     if (payload.expiredAt < moment().unix()) {
         return res.status(320).json({
+            sinToken: true,
             success: false,
             msg: "El token a expirado, reinicie sesion",
         });
