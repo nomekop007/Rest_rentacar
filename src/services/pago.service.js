@@ -1,4 +1,4 @@
-const { Pago, PagoArriendo, Arriendo } = require("../database/db");
+const { Pago, PagoArriendo, Arriendo, Abono, Facturacion, ModoPago } = require("../database/db");
 const { Op } = require("sequelize");
 
 class PagoService {
@@ -18,7 +18,10 @@ class PagoService {
     async getFindAll(WHERE) {
         return Pago.findAll({
             where: WHERE,
-            include: { model: PagoArriendo, include: { model: Arriendo } }
+            include: [
+                { model: PagoArriendo, include: { model: Arriendo } },
+                { model: Abono }
+            ]
         });
     }
 
@@ -34,7 +37,11 @@ class PagoService {
     async getFindOne(ID) {
         return await Pago.findOne({
             where: { id_pago: ID },
-            include: { model: PagoArriendo, include: { model: Arriendo } }
+            include: [
+                { model: PagoArriendo, include: { model: Arriendo } },
+                { model: Facturacion, include: { model: ModoPago } },
+                { model: Abono, include: { model: Facturacion, include: { model: ModoPago } } }
+            ]
         })
     }
 

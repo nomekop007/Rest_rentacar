@@ -394,5 +394,6 @@ module.exports = {
     ReservaEmpresa,
     FotoDespacho,
     RolPermiso,
-    Permiso
+    Permiso,
+    Abono
 };
