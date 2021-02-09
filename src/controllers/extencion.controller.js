@@ -10,6 +10,8 @@ class ExtendionController {
 
     async createExtencionArriendo(req, res, next) {
         try {
+
+            console.log(req.body);
             const extencion = await this._serviceExtencion.postCreate(req.body);
             res.json({ success: true, data: extencion, msg: "extencion creada" });
             next()
