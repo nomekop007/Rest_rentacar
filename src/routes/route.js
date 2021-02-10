@@ -30,6 +30,7 @@ const apiPagoDanioRouter = require("./api/pagosDanios.routes");
 const apiTarifaVehiculoRouter = require("./api/tarifasVehiculos.routes");
 const apiReservaRouter = require("./api/reservas.routes");
 const apiAbonoRouter = require("./api/abonos.routes");
+const apiExtencionRouter = require("./api/extenciones.routes");
 
 //otros 
 const finanzasApiRouter = require("./other/finanzasApi.routes");
@@ -79,6 +80,7 @@ router.use("/pagosDanios", check.checkToken, apiPagoDanioRouter);
 router.use("/tarifasVehiculos", check.checkToken, apiTarifaVehiculoRouter);
 router.use("/reservas", check.checkToken, apiReservaRouter);
 router.use("/abonos", check.checkToken, apiAbonoRouter);
+router.use("/extenciones", check.checkToken, apiExtencionRouter);
 router.use("/usuarios", apiUsuariosRouter);
 
 

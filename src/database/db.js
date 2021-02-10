@@ -40,6 +40,7 @@ const FotoDespachoModel = require("../models/fotosDespachos");
 const PermisoModel = require("../models/permisos");
 const RolPermisoModel = require("../models/rolesPermisos");
 const AbonoModel = require("../models/abonos");
+const ExtencionModel = require("../models/extenciones");
 
 
 //conectar modelo con base de datos
@@ -82,7 +83,7 @@ const FotoDespacho = FotoDespachoModel(database, Sequelize);
 const Permiso = PermisoModel(database, Sequelize);
 const RolPermiso = RolPermisoModel(database, Sequelize);
 const Abono = AbonoModel(database, Sequelize);
-
+const Extencion = ExtencionModel(database, Sequelize);
 
 //opciones
 //RESTRICT, CASCADE, NO ACTION, SET DEFAULT y SET NULL.
@@ -90,6 +91,26 @@ const onDelete = "CASCADE";
 const onUpdate = "CASCADE";
 
 //Asociaciones de tablas
+
+//un arriendo tiene muchas extenciones
+Arriendo.hasMany(Extencion, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate });
+//una extencion pertenece a un arriendo
+Extencion.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate });
+
+// un contrato tiene una extencion
+Contrato.hasOne(Extencion, { foreignKey: { name: "id_contrato" }, onDelete: onDelete, onUpdate: onUpdate });
+// una extencion tiene un contrato
+Extencion.belongsTo(Contrato, { foreignKey: { name: "id_contrato" }, onDelete: onDelete, onUpdate: onUpdate });
+
+//un pagoArriendo tiene una extencion
+PagoArriendo.hasOne(Extencion, { foreignKey: { name: "id_pagoArriendo" }, onDelete: onDelete, onUpdate: onUpdate });
+// una extencion pertenece a un pagoArriendo
+Extencion.belongsTo(PagoArriendo, { foreignKey: { name: "id_pagoArriendo" }, onDelete: onDelete, onUpdate: onUpdate });
+
+// un vehiculo tiene muchas extenciones
+Vehiculo.hasMany(Extencion, { foreignKey: { name: "patente_vehiculo" }, onDelete: onDelete, onUpdate: onUpdate });
+//una extencion pertenece a un vehiculos
+Extencion.belongsTo(Vehiculo, { foreignKey: { name: "patente_vehiculo" }, onDelete: onDelete, onUpdate: onUpdate });
 
 
 // un pago tiene muchos abonos
@@ -395,5 +416,6 @@ module.exports = {
     FotoDespacho,
     RolPermiso,
     Permiso,
-    Abono
+    Abono,
+    Extencion
 };

@@ -16,7 +16,7 @@ class DanioVehiculoController {
     }
 
 
-    async createDanioVehiculo(req, res, next) {
+    async createDanioVehiculo(req, res) {
         try {
             const response = req.body;
             const arriendo = await this._serviceArriendo.getFindOne(response.id_arriendo);
@@ -49,7 +49,6 @@ class DanioVehiculoController {
                 success: true,
                 msg: "daño registrado"
             })
-            next();
         } catch (error) {
             sendError(error, req, res);;
         }

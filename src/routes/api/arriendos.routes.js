@@ -18,6 +18,6 @@ router.put("/editarArriendo/:id", arriendo.updateArriendo.bind(arriendo));
 
 router.put("/cambiarTipoArriendo/:id", arriendo.modificarTipo.bind(arriendo));
 
-
+router.get("/finalizarArriendosRecepcionados", arriendo.finalizarArriendos.bind(arriendo));
 
 module.exports = router;

@@ -12,21 +12,14 @@ class PagoArriendoController {
 		try {
 			const response = req.body;
 			const arriendo = await this._serviceArriendo.getFindOne(response.id_arriendo);
-			if (arriendo.estado_arriendo == "PENDIENTE" || arriendo.estado_arriendo == "EXTENDIDO") {
-				response.dias_pagoArriendo = arriendo.diasActuales_arriendo;
-				const pagoArriendo = await this._servicePagoArriendo.postCreate(response);
-				res.json({
-					success: true,
-					pagoArriendo: pagoArriendo,
-					msg: "registro exitoso",
-				});
-				next();
-			} else {
-				res.json({
-					success: false,
-					msg: "este arriendo ya tiene registrado el pago"
-				});
-			}
+			response.dias_pagoArriendo = arriendo.diasActuales_arriendo;
+			const pagoArriendo = await this._servicePagoArriendo.postCreate(response);
+			res.json({
+				success: true,
+				pagoArriendo: pagoArriendo,
+				msg: "registro exitoso",
+			});
+			next();
 		} catch (error) {
 			sendError(error, req, res);
 		}

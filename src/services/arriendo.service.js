@@ -143,6 +143,13 @@ class ArriendoService {
         });
     }
 
+    async getFindAllRecepcionados() {
+        return await Arriendo.findAll({
+            where: { estado_arriendo: "RECEPCIONADO" },
+            include: { model: PagoArriendo, include: { model: Pago } }
+        })
+    }
+
     async getFindOne(ID) {
         return await Arriendo.findOne({
             where: { id_arriendo: ID },

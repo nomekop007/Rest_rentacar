@@ -4,6 +4,7 @@ const SucursalService = require("../services/sucursal.service");
 const ArriendoService = require("../services/arriendo.service");
 const DanioService = require("../services/danioVehiculo.service");
 const TarifaVehiculoService = require("../services/tarifasVehiculo.service");
+const ExtencionService = require("../services/extencion.service");
 const { borrarImagenDeStorage, sendError } = require("../helpers/components");
 class VehiculoController {
 
@@ -13,6 +14,7 @@ class VehiculoController {
         this._serviceArriendo = new ArriendoService();
         this._serviceDanio = new DanioService();
         this._serviceTarifaVehiculo = new TarifaVehiculoService();
+        this._serviceExtencion = new ExtencionService();
     }
 
 
@@ -152,11 +154,11 @@ class VehiculoController {
 
 
 
-
     async updateVehiculo(req, res, next) {
+        /* IMPORTANTE !!!!  SI EL VEHICULO TIENE UNA NUEVA ASOCIACION CON OTRA TABLA , SE TIENE 
+           QUE AGREGAR LOS SCRIPT CORRESPONDIENTES A LOS METODOS borrarDatosAsociados() y agregarDatosAsociados() */
         try {
             const response = req.body;
-            //recibira la id_vehiculo y no la patente
             const vehiculo = await this._serviceVehiculo.getFindOneById(req.params.id);
             if (response.patente_vehiculo.length < 3) return res.json({ success: false, msg: "patente invalida!!" })
             if (vehiculo.patente_vehiculo != response.patente_vehiculo) {
@@ -186,12 +188,14 @@ class VehiculoController {
         if (vehiculo.tarifasVehiculo) await this._serviceTarifaVehiculo.putUpdateById({ patente_vehiculo: null }, vehiculo.tarifasVehiculo.id_tarifaVehiculo);
         if (vehiculo.arriendos.length > 0) await vehiculo.arriendos.map(async ({ id_arriendo }) => await this._serviceArriendo.putUpdate({ patente_vehiculo: null }, id_arriendo));
         if (vehiculo.danioVehiculos.length > 0) await vehiculo.danioVehiculos.map(async ({ id_danioVehiculo }) => await this._serviceDanio.putUpdate({ patente_vehiculo: null }, id_danioVehiculo));
+        if (vehiculo.extenciones.length > 0) await vehiculo.extenciones.map(async ({ id_extencion }) => await this._serviceExtencion.putUpdateById({ patente_vehiculo: null }, id_extencion));
     }
 
     async agregarDatosAsociados(vehiculo, newPatente) {
         if (vehiculo.tarifasVehiculo) await this._serviceTarifaVehiculo.putUpdateById({ patente_vehiculo: newPatente }, vehiculo.tarifasVehiculo.id_tarifaVehiculo);
         if (vehiculo.arriendos.length > 0) await vehiculo.arriendos.map(async ({ id_arriendo }) => await this._serviceArriendo.putUpdate({ patente_vehiculo: newPatente }, id_arriendo));
         if (vehiculo.danioVehiculos.length > 0) await vehiculo.danioVehiculos.map(async ({ id_danioVehiculo }) => await this._serviceDanio.putUpdate({ patente_vehiculo: newPatente }, id_danioVehiculo));
+        if (vehiculo.extenciones.length > 0) await vehiculo.extenciones.map(async ({ id_extencion }) => await this._serviceExtencion.putUpdateById({ patente_vehiculo: newPatente }, id_extencion));
     }
 }
 
