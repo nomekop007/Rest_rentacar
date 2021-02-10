@@ -139,21 +139,23 @@ class contrato_controller {
             //si existen mas conductores los busca
             if (arriendo.rut_conductor2) response.conductor2 = await this._serviceConductor.getFindByPK(arriendo.rut_conductor2);
             if (arriendo.rut_conductor3) response.conductor3 = await this._serviceConductor.getFindByPK(arriendo.rut_conductor3);
-            // si no hay garantia&archivos se detiene
+            // si no hay garantia&archivos, se detiene
             if (!arriendo.requisito) {
-                res.json({
-                    success: false,
-                    msg: "falta subir archivos requeridos!"
-                });
+                res.json({ success: false, msg: "falta subir archivos requeridos!" });
                 return;
             }
-            //si no es uno de estos estados se detiene
+            //si no es uno de estos estados, se detiene
             if (arriendo.estado_arriendo != "CONFIRMADO" && arriendo.estado_arriendo != "E-CONFIRMADO") {
-                res.json({
-                    success: false,
-                    msg: "el documento esta firmado!"
-                });
+                res.json({ success: false, msg: "el documento esta firmado!" });
                 return;
+            }
+            // si el primer pago no esta pagado , se detiene
+            if (arriendo.tipo_arriendo != "REEMPLAZO" && arriendo.estado_arriendo == "CONFIRMADO") {
+                console.log(arriendo.pagosArriendos[0].pagos[0].estado_pago);
+                if (arriendo.pagosArriendos[0].pagos[0].estado_pago != "PAGADO") {
+                    res.json({ success: false, msg: "se debe subir el comprobante de pago antes de firmar el contrato!" });
+                    return;
+                }
             }
             response.arriendo = arriendo;
             //se genera el documento

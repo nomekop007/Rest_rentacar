@@ -208,6 +208,20 @@ class ArriendoController {
 	}
 
 
+	async finalizarArriendos(req, res) {
+		try {
+
+			const arriendos = await this._serviceArriendo.getFindAllRecepcionados();
+
+
+
+			res.json({ success: true, msg: "arriendos revisados!" })
+		} catch (error) {
+			sendError(error, req, res);;
+		}
+	}
+
+
 }
 
 module.exports = ArriendoController;
