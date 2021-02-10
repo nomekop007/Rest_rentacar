@@ -143,10 +143,13 @@ class ArriendoService {
         });
     }
 
-    async getFindAllRecepcionados() {
+    async getFindAllRecepcionados(id_sucursal) {
         return await Arriendo.findAll({
-            where: { estado_arriendo: "RECEPCIONADO" },
-            include: { model: PagoArriendo, include: { model: Pago } }
+            where: { estado_arriendo: "RECEPCIONADO", id_sucursal: id_sucursal },
+            include: [
+                { model: PagoArriendo, include: [{ model: Pago, include: { model: PagoArriendo } }, { model: Contrato }] },
+                { model: DanioVehiculo }
+            ],
         })
     }
 

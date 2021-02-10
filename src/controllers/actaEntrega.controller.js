@@ -129,8 +129,8 @@ class ActaEntregaController {
             //datos del mensaje y su destinatario
             const mailOptions = {
                 from: "'Rent A Car - Grupo Firma' <api.rentacarmaule@grupofirma.cl>",
-                to: `${client.correo},${process.env.CORREO_SUPERVISOR}`,
-                bcc: "api.rentacarmaule@grupofirma.cl",
+                to: client.correo,
+                bcc: process.env.CORREO_SUPERVISOR,
                 subject: "COPIA DE ACTA DE ENTREGA RENT A CAR",
                 text: "Se adjunta copia del Acta de entrega de Rent a Car",
                 html: `

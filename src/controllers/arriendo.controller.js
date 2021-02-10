@@ -210,12 +210,48 @@ class ArriendoController {
 
 	async finalizarArriendos(req, res) {
 		try {
-
-			const arriendos = await this._serviceArriendo.getFindAllRecepcionados();
-
-
-
-			res.json({ success: true, msg: "arriendos revisados!" })
+			const { sucursal } = req.query;
+			const formatter = new Intl.NumberFormat("CL");
+			const arriendos = await this._serviceArriendo.getFindAllRecepcionados(sucursal);
+			const arrayFaltantes = [];
+			arriendos.forEach(async ({ pagosArriendos, id_arriendo, tipo_arriendo, danioVehiculos }) => {
+				let faltante = [];
+				let pagos_listos = true;
+				let firmas_listas = true;
+				let danio_listos = true;
+				let i = 1;
+				let reemplazo = false;
+				pagosArriendos.forEach(({ pagos, contrato }) => {
+					if (pagos[0].estado_pago == "PENDIENTE") {
+						pagos_listos = false;
+						if (tipo_arriendo === "REEMPLAZO" && !reemplazo) {
+							faltante.push({ msg: "subir comprobante correspondiente al pago total del arriendo." });
+							reemplazo = true;
+						}
+						if (tipo_arriendo != "REEMPLAZO") {
+							faltante.push({ msg: "subir comprobante correspondiente al monto de $ " + formatter.format(pagos[0].total_pago) + "." });
+						}
+					}
+					if (!contrato) {
+						firmas_listas = false;
+						faltante.push({ msg: `Firmar contrato de la extencion Nº${i} !.` })
+						i++;
+					};
+				});
+				danioVehiculos.forEach((danio) => {
+					if (danio.estado_danioVehiculo == "PENDIENTE") {
+						danio_listos = false;
+						faltante.push({ msg: "Subir comprobante del daño del vehiculo!. " });
+					}
+				});
+				//console.log("arriendo Nº" + id_arriendo + " pagos:" + pagos_listos + " firmas:" + firmas_listas + " daños:" + danio_listos);
+				if (pagos_listos && firmas_listas && danio_listos) {
+					await this._serviceArriendo.putUpdate({ estado_arriendo: "FINALIZADO" }, id_arriendo);
+				} else {
+					arrayFaltantes.push({ id_arriendo: id_arriendo, falta: faltante })
+				}
+			})
+			res.json({ success: true, data: arrayFaltantes });
 		} catch (error) {
 			sendError(error, req, res);;
 		}
