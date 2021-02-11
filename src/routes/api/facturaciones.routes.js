@@ -1,12 +1,9 @@
 const router = require("express").Router();
-const Facturacion_controller = require("../../controllers/facturacion.controller");
-const { subirDocumentoFacturacion } = require("../../middlewares/upload.middleware")
-const facturacion = new Facturacion_controller();
+module.exports = ({ FacturacionController, subirDocumentoFacturacion }) => {
 
-router.get("/cargarFacturaciones", facturacion.getFacturacion.bind(facturacion));
+    router.get("/cargarFacturaciones", FacturacionController.getFacturacion.bind(FacturacionController));
+    router.post("/registrarFacturacion", FacturacionController.createFacturacion.bind(FacturacionController));
+    router.post("/guardarDocumentoFacturacion/:id", subirDocumentoFacturacion, FacturacionController.uploadDocumentFacturacion.bind(FacturacionController))
 
-router.post("/registrarFacturacion", facturacion.createFacturacion.bind(facturacion));
-
-router.post("/guardarDocumentoFacturacion/:id", subirDocumentoFacturacion, facturacion.uploadDocumentFacturacion.bind(facturacion))
-
-module.exports = router;
+    return router;
+}

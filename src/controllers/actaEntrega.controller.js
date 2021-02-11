@@ -1,7 +1,5 @@
-const ActaEntregaServices = require("../services/actaEntrega.service");
-const ArriendoServices = require("../services/arriendo.service");
-const FotoDespachoServices = require("../services/fotosDespachos.service");
-const { fecha, nodemailerTransporter, hora, fechahorafirma, sendError, borrarImagenDeStorage } = require("../helpers/components");
+
+const { fecha, nodemailerTransporter, hora, fechahorafirma } = require("../helpers/components");
 const fs = require("fs");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
@@ -15,10 +13,11 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
 class ActaEntregaController {
-    constructor() {
-        this._serviceActaEntrega = new ActaEntregaServices();
-        this._serviceArriendo = new ArriendoServices();
-        this._serviceFotoDespacho = new FotoDespachoServices();
+    constructor({ ActaEntregaService, ArriendoService, FotoDespachoService, sendError }) {
+        this._serviceActaEntrega = ActaEntregaService;
+        this._serviceArriendo = ArriendoService;
+        this._serviceFotoDespacho = FotoDespachoService;
+        this.sendError = sendError;
     }
 
     async createActaEntrega(req, res) {
@@ -45,7 +44,7 @@ class ActaEntregaController {
                 data: actaEntrega,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -83,7 +82,7 @@ class ActaEntregaController {
                 });
             }
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -158,7 +157,7 @@ class ActaEntregaController {
                 msg: resp,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -177,7 +176,7 @@ class ActaEntregaController {
             }
             res.json({ success: true, msg: "foto subidas" });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -192,7 +191,7 @@ class ActaEntregaController {
                 data: { actaEntrega: actaEntrega, base64: base64, url: process.env.PATH_SERVER },
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 }

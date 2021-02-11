@@ -1,16 +1,7 @@
 const router = require("express").Router();
-const {
-    subirDocumentoRequisitosArriendo,
-} = require("../../middlewares/upload.middleware");
-const RequisitoController = require("../../controllers/requisito.controller");
-const requisito = new RequisitoController();
+module.exports = ({ RequisitoController, subirDocumentoRequisitosArriendo }) => {
 
-router.post(
-    "/registrarRequisitoArriendo/:id",
-    subirDocumentoRequisitosArriendo,
-    requisito.createRequisitoArriendo.bind(requisito)
-);
+    router.post("/registrarRequisitoArriendo/:id", subirDocumentoRequisitosArriendo, RequisitoController.createRequisitoArriendo.bind(RequisitoController));
 
-
-
-module.exports = router;
+    return router;
+}

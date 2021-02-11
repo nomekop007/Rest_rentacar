@@ -1,23 +1,16 @@
 const router = require("express").Router();
-const ArriendoController = require("../../controllers/arriendo.controller");
-const arriendo = new ArriendoController();
+module.exports = ({ ArriendoController }) => {
 
-router.get("/cargarArriendos", arriendo.getArriendos.bind(arriendo));
+    router.get("/cargarArriendos", ArriendoController.getArriendos.bind(ArriendoController));
+    router.get("/buscarArriendo/:id", ArriendoController.findArriendo.bind(ArriendoController));
+    router.get("/cargarArriendosActivos", ArriendoController.getArriendosActivos.bind(ArriendoController));
+    router.post("/registrarArriendo", ArriendoController.createArriendo.bind(ArriendoController));
+    router.put("/cambiarEstadoArriendo/:id", ArriendoController.updateStateArriendo.bind(ArriendoController));
+    router.get("/enviarCorreoAtraso", ArriendoController.sendCorreoAtraso.bind(ArriendoController));
+    router.put("/editarArriendo/:id", ArriendoController.updateArriendo.bind(ArriendoController));
+    router.put("/cambiarTipoArriendo/:id", ArriendoController.modificarTipo.bind(ArriendoController));
+    router.get("/finalizarArriendosRecepcionados", ArriendoController.finalizarArriendos.bind(ArriendoController));
 
-router.get("/buscarArriendo/:id", arriendo.findArriendo.bind(arriendo));
+    return router;
 
-router.get("/cargarArriendosActivos", arriendo.getArriendosActivos.bind(arriendo));
-
-router.post("/registrarArriendo", arriendo.createArriendo.bind(arriendo));
-
-router.put("/cambiarEstadoArriendo/:id", arriendo.updateStateArriendo.bind(arriendo));
-
-router.get("/enviarCorreoAtraso", arriendo.sendCorreoAtraso.bind(arriendo));
-
-router.put("/editarArriendo/:id", arriendo.updateArriendo.bind(arriendo));
-
-router.put("/cambiarTipoArriendo/:id", arriendo.modificarTipo.bind(arriendo));
-
-router.get("/finalizarArriendosRecepcionados", arriendo.finalizarArriendos.bind(arriendo));
-
-module.exports = router;
+}

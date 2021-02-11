@@ -1,4 +1,4 @@
-const { FotoDespacho } = require("../database/db");
+const { FotoDespacho } = require("../config/database/db");
 
 class FotoDespachoService {
 

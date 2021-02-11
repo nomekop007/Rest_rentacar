@@ -1,9 +1,8 @@
-const { sendError } = require("../helpers/components");
-const AccesoriosService = require("../services/accesorio.service");
-
 class AccesorioController {
-    constructor() {
-        this._serviceAccesorio = new AccesoriosService();
+
+    constructor({ AccesorioService, sendError }) {
+        this._serviceAccesorio = AccesorioService;
+        this.sendError = sendError;
     }
 
     async getAccesorios(req, res) {
@@ -14,7 +13,7 @@ class AccesorioController {
                 data: accesorios,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -26,7 +25,7 @@ class AccesorioController {
                 data: accesorios
             })
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -40,7 +39,7 @@ class AccesorioController {
             })
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -52,7 +51,7 @@ class AccesorioController {
                 data: accesorio
             })
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -65,7 +64,7 @@ class AccesorioController {
             })
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 

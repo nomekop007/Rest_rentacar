@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon src/server.js",
-    "test": "cross-env NODE_ENV=testing nodemon --exec  'mocha __tests__/* ' ",
-    "start": "cross-env NODE_ENV=production node src/server.js",
+    "dev": "cross-env NODE_ENV=development node index.js",
+    "start": "cross-env NODE_ENV=production node index.js",
+    "preProd": "cross-env NODE_ENV=testing node index.js",
+    "test": "cross-env NODE_ENV=qa nodemon --exec  'mocha __tests__/* ' ",
     "docs": "jsdoc -c jsdoc.json"
   },
   "keywords": [],
@@ -13,6 +14,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "awilix": "^4.3.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
@@ -38,7 +40,6 @@
     "xlsx": "^0.16.8"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4",
     "sequelize-cli": "^6.2.0"
   }
 }

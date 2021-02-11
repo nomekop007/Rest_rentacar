@@ -1,8 +1,8 @@
-const PagoAccesorioService = require("../services/pagoAccesorio.service");
-const { sendError } = require("../helpers/components");
 class PagoAccesorioController {
-    constructor() {
-        this._servicioPagoAccesorio = new PagoAccesorioService();
+
+    constructor({ PagoAccesorioService, sendError }) {
+        this._servicioPagoAccesorio = PagoAccesorioService;
+        this.sendError = sendError;
     }
 
 
@@ -26,7 +26,7 @@ class PagoAccesorioController {
             });
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 

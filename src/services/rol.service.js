@@ -1,4 +1,4 @@
-const { Rol } = require("../database/db");
+const { Rol } = require("../config/database/db");
 
 class RolService {
 

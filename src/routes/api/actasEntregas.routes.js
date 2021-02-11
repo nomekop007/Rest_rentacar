@@ -1,24 +1,13 @@
 const router = require("express").Router();
-const ActaEntregaController = require("../../controllers/actaEntrega.controller");
-const { subirFotosVehiculo, } = require("../../middlewares/upload.middleware");
-const actaEntrega = new ActaEntregaController();
+module.exports = ({ ActaEntregaController, subirFotosVehiculo }) => {
 
-router.post(
-    "/registrarActaEntrega",
-    actaEntrega.createActaEntrega.bind(actaEntrega)
-);
+    router.get("/buscarActaEntrega/:id", ActaEntregaController.findActaEntrega.bind(ActaEntregaController))
+    router.post("/registrarActaEntrega", ActaEntregaController.createActaEntrega.bind(ActaEntregaController));
+    router.post("/generarPDFactaEntrega", ActaEntregaController.generatePDFactaEntrega.bind(ActaEntregaController));
+    router.post("/enviarCorreoActaEntrega", ActaEntregaController.sendEmailActaEntrega.bind(ActaEntregaController));
+    router.post("/guardarFotosVehiculos/:id", subirFotosVehiculo, ActaEntregaController.guardarFotosVehiculos.bind(ActaEntregaController));
 
-router.post(
-    "/generarPDFactaEntrega",
-    actaEntrega.generatePDFactaEntrega.bind(actaEntrega)
-);
+    return router;
 
-router.post(
-    "/enviarCorreoActaEntrega",
-    actaEntrega.sendEmailActaEntrega.bind(actaEntrega)
-);
-router.get("/buscarActaEntrega/:id", actaEntrega.findActaEntrega.bind(actaEntrega))
+}
 
-router.post("/guardarFotosVehiculos/:id", subirFotosVehiculo, actaEntrega.guardarFotosVehiculos.bind(actaEntrega));
-
-module.exports = router;

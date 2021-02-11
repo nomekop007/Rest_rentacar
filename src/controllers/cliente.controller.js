@@ -1,11 +1,9 @@
-const DocumentoClienteSerivce = require("../services/documentoCliente.service");
-const ClienteService = require("../services/cliente.service");
-const { sendError } = require("../helpers/components");
 
 class ClienteController {
-    constructor() {
-        this._serviceCliente = new ClienteService();
-        this._serviceDocCliente = new DocumentoClienteSerivce();
+    constructor({ ClienteService, DocumentoClienteService, sendError }) {
+        this._serviceCliente = ClienteService;
+        this._serviceDocCliente = DocumentoClienteService;
+        this.sendError = sendError;
     }
 
     async getClientes(req, res) {
@@ -16,7 +14,7 @@ class ClienteController {
                 data: cliente,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -36,7 +34,7 @@ class ClienteController {
                 });
             }
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -57,7 +55,7 @@ class ClienteController {
             });
             if (created) next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -71,7 +69,7 @@ class ClienteController {
             })
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -93,7 +91,7 @@ class ClienteController {
                 msg: "archivo actualizado",
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 }

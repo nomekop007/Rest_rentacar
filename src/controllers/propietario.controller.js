@@ -1,9 +1,8 @@
-const PropietarioService = require("../services/propietario.service");
-const { sendError } = require("../helpers/components");
 class PropietarioController {
 
-  constructor() {
-    this._servicePropietario = new PropietarioService();
+  constructor({ PropietarioService, sendError }) {
+    this._servicePropietario = PropietarioService;
+    this.sendError = sendError;
   }
 
 
@@ -15,7 +14,7 @@ class PropietarioController {
         data: propietario,
       });
     } catch (error) {
-      sendError(error, req, res);
+      this.sendError(error, req, res);
     }
   }
 }

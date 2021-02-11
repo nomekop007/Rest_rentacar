@@ -1,18 +1,12 @@
 const router = require("express").Router();
-const { subirDocumentosEmpresa } = require("../../middlewares/upload.middleware");
+module.exports = ({ EmpresaController, subirDocumentosEmpresa }) => {
 
-const EmpresaController = require("../../controllers/empresa.controller");
-const empresa = new EmpresaController();
+    router.get("/cargarEmpresas", EmpresaController.getEmpresas.bind(EmpresaController));
+    router.get("/buscarEmpresa/:id", EmpresaController.findEmpresa.bind(EmpresaController));
+    router.post("/registrarEmpresa", EmpresaController.createEmpresa.bind(EmpresaController));
+    router.put("/editarEmpresa/:id", EmpresaController.putEmpresa.bind(EmpresaController));
+    router.post("/editarArchivos/:id", subirDocumentosEmpresa, EmpresaController.updateFile.bind(EmpresaController));
 
-router.get("/cargarEmpresas", empresa.getEmpresas.bind(empresa));
+    return router
+}
 
-router.get("/buscarEmpresa/:id", empresa.findEmpresa.bind(empresa));
-
-router.post("/registrarEmpresa", empresa.createEmpresa.bind(empresa));
-
-router.put("/editarEmpresa/:id", empresa.putEmpresa.bind(empresa));
-
-router.post("/editarArchivos/:id", subirDocumentosEmpresa, empresa.updateFile.bind(empresa));
-
-
-module.exports = router;

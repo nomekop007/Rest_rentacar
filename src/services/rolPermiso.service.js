@@ -1,4 +1,4 @@
-const { RolPermiso } = require("../database/db");
+const { RolPermiso } = require("../config/database/db");
 
 
 class RolPermisoService {

@@ -1,12 +1,12 @@
-const UsuarioService = require("../services/usuario.service");
-const { crearToken, sendError } = require("../helpers/components");
+const { crearToken } = require("../helpers/components");
 const { validationResult } = require("express-validator");
 const jwt = require("jwt-simple");
 const bcrypt = require("bcryptjs");
 class UsuarioController {
 
-    constructor() {
-        this._serviceUsuario = new UsuarioService();
+    constructor({ UsuarioService, sendError }) {
+        this._serviceUsuario = UsuarioService;
+        this.sendError = sendError;
     }
 
 
@@ -18,7 +18,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -34,7 +34,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -47,7 +47,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -75,7 +75,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -111,7 +111,7 @@ class UsuarioController {
                 });
             }
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -141,7 +141,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -166,7 +166,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 

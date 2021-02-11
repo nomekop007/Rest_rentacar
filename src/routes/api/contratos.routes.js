@@ -1,26 +1,16 @@
 const router = require("express").Router();
-const Contrato_controller = require("../../controllers/contrato.controller");
-const { subirDocumentoContrato } = require("../../middlewares/upload.middleware");
-const contrato = new Contrato_controller();
+module.exports = ({ ContratoController, subirDocumentoContrato }) => {
 
-router.post("/registrarContrato", contrato.createContrato.bind(contrato));
+    router.post("/registrarContrato", ContratoController.createContrato.bind(ContratoController));
+    router.post("/registrarExtencionContrato", ContratoController.createExtencionContrato.bind(ContratoController));
+    router.post("/generarPDFcontrato", ContratoController.generatePDFContrato.bind(ContratoController));
+    router.post("/generarPDFextencion", ContratoController.generatePDFExtencion.bind(ContratoController));
+    router.post("/enviarCorreoContrato", ContratoController.sendEmailContrato.bind(ContratoController));
+    router.post("/enviarCorreoContratoExtencion", ContratoController.sendEmailContratoExtencion.bind(ContratoController));
+    router.post("/subirContrato/:id", subirDocumentoContrato, ContratoController.subirContrato.bind(ContratoController));
+    router.post("/subirExtencionContrato/:id", subirDocumentoContrato, ContratoController.subirExtencionContrato.bind(ContratoController));
 
-router.post("/registrarExtencionContrato", contrato.createExtencionContrato.bind(contrato));
+    return router;
 
-router.post("/generarPDFcontrato", contrato.generatePDFContrato.bind(contrato));
+}
 
-router.post("/generarPDFextencion", contrato.generatePDFExtencion.bind(contrato));
-
-router.post("/enviarCorreoContrato", contrato.sendEmailContrato.bind(contrato));
-
-router.post("/enviarCorreoContratoExtencion", contrato.sendEmailContratoExtencion.bind(contrato));
-
-router.post("/subirContrato/:id", subirDocumentoContrato, contrato.subirContrato.bind(contrato));
-
-router.post("/subirExtencionContrato/:id", subirDocumentoContrato, contrato.subirExtencionContrato.bind(contrato));
-
-
-
-
-
-module.exports = router;

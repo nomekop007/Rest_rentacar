@@ -1,10 +1,8 @@
-const ContactoService = require("../services/contacto.service");
-const { sendError } = require("../helpers/components");
-
 class ContactoController {
 
-    constructor() {
-        this._serviceContacto = new ContactoService();
+    constructor({ ContactoService, sendError }) {
+        this._serviceContacto = ContactoService;
+        this.sendError = sendError
     }
 
 
@@ -18,7 +16,7 @@ class ContactoController {
             });
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -31,7 +29,7 @@ class ContactoController {
             });
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 

@@ -1,4 +1,4 @@
-const { Contrato } = require("../database/db");
+const { Contrato } = require("../config/database/db");
 
 class ContratoService {
 

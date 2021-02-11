@@ -1,12 +1,11 @@
-const ArriendoService = require('../services/arriendo.service');
-const ReemplazoService = require('../services/remplazo.service');
 const logo = require.resolve("../utils/images/logo2.png");
 const base64 = require("image-to-base64");
-const { formatFechahora, sendError, nodemailerTransporter } = require("../helpers/components");
+const { formatFechahora, nodemailerTransporter } = require("../helpers/components");
 class ArriendoController {
-	constructor() {
-		this._serviceArriendo = new ArriendoService();
-		this._serviceReemplazo = new ReemplazoService();
+	constructor({ ArriendoService, RemplazoService, sendError }) {
+		this._serviceArriendo = ArriendoService;
+		this._serviceReemplazo = RemplazoService;
+		this.sendError = sendError;
 	}
 
 
@@ -24,7 +23,7 @@ class ArriendoController {
 				data: arriendos,
 			});
 		} catch (error) {
-			sendError(error, req, res);;
+			this.sendError(error, req, res);;
 		}
 	}
 
@@ -37,7 +36,7 @@ class ArriendoController {
 				data: arriendos,
 			});
 		} catch (error) {
-			sendError(error, req, res);;
+			this.sendError(error, req, res);;
 		}
 	}
 
@@ -56,7 +55,7 @@ class ArriendoController {
 				});
 			}
 		} catch (error) {
-			sendError(error, req, res);;
+			this.sendError(error, req, res);;
 		}
 	}
 
@@ -88,7 +87,7 @@ class ArriendoController {
 			});
 			next();
 		} catch (error) {
-			sendError(error, req, res);;
+			this.sendError(error, req, res);;
 		}
 	}
 
@@ -104,7 +103,7 @@ class ArriendoController {
 			});
 			next();
 		} catch (error) {
-			sendError(error, req, res);;
+			this.sendError(error, req, res);;
 		}
 	}
 
@@ -132,7 +131,7 @@ class ArriendoController {
 			res.json({ success: true, msg: resp });
 			next();
 		} catch (error) {
-			sendError(error, req, res);;
+			this.sendError(error, req, res);;
 		}
 	}
 
@@ -150,7 +149,7 @@ class ArriendoController {
 			res.json({ success: true, msg: "arriendo modificado!" });
 			next();
 		} catch (error) {
-			sendError(error, req, res);;
+			this.sendError(error, req, res);;
 		}
 	}
 
@@ -203,7 +202,7 @@ class ArriendoController {
 			res.json({ success: true, msg: "arriendo modificado!" });
 			next();
 		} catch (error) {
-			sendError(error, req, res);;
+			this.sendError(error, req, res);;
 		}
 	}
 
@@ -253,7 +252,7 @@ class ArriendoController {
 			})
 			res.json({ success: true, data: arrayFaltantes });
 		} catch (error) {
-			sendError(error, req, res);;
+			this.sendError(error, req, res);;
 		}
 	}
 

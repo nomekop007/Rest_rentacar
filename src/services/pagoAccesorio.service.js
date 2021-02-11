@@ -1,4 +1,4 @@
-const { PagoAccesorio } = require("../database/db");
+const { PagoAccesorio } = require("../config/database/db");
 
 class PagoAccesorioService {
 

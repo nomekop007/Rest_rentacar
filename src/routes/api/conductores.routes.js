@@ -1,17 +1,12 @@
 const router = require("express").Router();
-const { subirDocumentosConductor } = require("../../middlewares/upload.middleware");
-const ConductorController = require("../../controllers/conductor.controller");
-const conductor = new ConductorController();
+module.exports = ({ ConductorController, subirDocumentosConductor }) => {
 
-router.get("/cargarConductores", conductor.getConductores.bind(conductor));
+    router.get("/cargarConductores", ConductorController.getConductores.bind(ConductorController));
+    router.get("/buscarConductor/:id", ConductorController.findConductor.bind(ConductorController));
+    router.post("/registrarConductor", ConductorController.createConductor.bind(ConductorController));
+    router.put("/editarConductor/:id", ConductorController.putConductor.bind(ConductorController));
+    router.post("/editarArchivos/:id", subirDocumentosConductor, ConductorController.updateFile.bind(ConductorController));
 
-router.get("/buscarConductor/:id", conductor.findConductor.bind(conductor));
+    return router;
+}
 
-router.post("/registrarConductor", conductor.createConductor.bind(conductor));
-
-router.put("/editarConductor/:id", conductor.putConductor.bind(conductor));
-
-router.post("/editarArchivos/:id", subirDocumentosConductor, conductor.updateFile.bind(conductor));
-
-
-module.exports = router;

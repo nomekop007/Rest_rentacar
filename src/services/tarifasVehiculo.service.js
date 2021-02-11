@@ -1,4 +1,4 @@
-const { TarifaVehiculo, Vehiculo } = require("../database/db")
+const { TarifaVehiculo, Vehiculo } = require("../config/database/db")
 
 class TarifaVehiculoService {
 

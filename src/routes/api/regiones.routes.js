@@ -1,8 +1,8 @@
 const router = require("express").Router();
-const RegionController = require("../../controllers/regiones.controller");
-const region = new RegionController();
+module.exports = ({ RegionController }) => {
 
-router.get("/cargarRegiones", region.getRegiones.bind(region));
+    router.get("/cargarRegiones", RegionController.getRegiones.bind(RegionController));
 
+    return router
+}
 
-module.exports = router;

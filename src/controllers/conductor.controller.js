@@ -1,11 +1,8 @@
-const ConductorService = require("../services/conductor.service");
-const DocumentoConductorService = require("../services/documentosConductor.service");
-const { sendError } = require("../helpers/components");
-
 class ConductorController {
-    constructor() {
-        this._serviceConductor = new ConductorService();
-        this._serviceDocConductor = new DocumentoConductorService();
+    constructor({ ConductorService, DocumentoConductorService, sendError }) {
+        this._serviceConductor = ConductorService;
+        this._serviceDocConductor = DocumentoConductorService;
+        this.sendError = sendError;
     }
 
 
@@ -18,7 +15,7 @@ class ConductorController {
                 data: conductores,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -39,7 +36,7 @@ class ConductorController {
                 });
             }
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -62,7 +59,7 @@ class ConductorController {
             });
             if (created) next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -77,7 +74,7 @@ class ConductorController {
             })
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -96,7 +93,7 @@ class ConductorController {
             });
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 

@@ -1,9 +1,8 @@
-const RegionService = require("../services/regiones.service");
-const { sendError } = require('../helpers/components');
 class RegionController {
 
-    constructor() {
-        this._serviceRegion = new RegionService();
+    constructor({ RegionService, sendError }) {
+        this._serviceRegion = RegionService;
+        this.sendError = sendError;
     }
 
 
@@ -15,7 +14,7 @@ class RegionController {
                 data: regiones
             })
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 

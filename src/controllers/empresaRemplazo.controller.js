@@ -1,9 +1,8 @@
-const EmpresaRemplazoService = require('../services/empresaRemplazo.service');
-const { sendError } = require("../helpers/components");
-
 class EmpresaRemplazoController {
-    constructor() {
-        this._serviceEmpresaRemplazo = new EmpresaRemplazoService();
+
+    constructor({ EmpresaRemplazoService, sendError }) {
+        this._serviceEmpresaRemplazo = EmpresaRemplazoService;
+        this.sendError = sendError;
     }
 
 
@@ -15,7 +14,7 @@ class EmpresaRemplazoController {
                 data: empresasRemplazo,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 

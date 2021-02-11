@@ -1,4 +1,4 @@
-const { DanioVehiculo, Arriendo, Empresa, Facturacion, PagoDanio, Vehiculo, Cliente, Remplazo } = require("../database/db");
+const { DanioVehiculo, Arriendo, Empresa, Facturacion, PagoDanio, Vehiculo, Cliente, Remplazo } = require("../config/database/db");
 
 class DanioVehiculoService {
 

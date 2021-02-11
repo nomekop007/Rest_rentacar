@@ -1,15 +1,13 @@
 const router = require("express").Router();
-const AccesorioController = require("../../controllers/accesorio.controller");
-const accesorio = new AccesorioController();
+module.exports = ({ AccesorioController }) => {
 
-router.get("/cargarAccesorios", accesorio.getAccesorios.bind(accesorio));
+    router.get("/cargarAccesorios", AccesorioController.getAccesorios.bind(AccesorioController));
+    router.get("/cargarAccesoriosPorSucursal/:id", AccesorioController.getAccesoriosBySucursal.bind(AccesorioController));
+    router.get("/buscarAccesorio/:id", AccesorioController.findAccesorio.bind(AccesorioController));
+    router.post("/registrarAccesorio", AccesorioController.createAccesorio.bind(AccesorioController));
+    router.put("/editarAccesorio/:id", AccesorioController.updateAccesorio.bind(AccesorioController));
 
-router.get("/cargarAccesoriosPorSucursal/:id", accesorio.getAccesoriosBySucursal.bind(accesorio));
+    return router;
+}
 
-router.get("/buscarAccesorio/:id", accesorio.findAccesorio.bind(accesorio));
 
-router.post("/registrarAccesorio", accesorio.createAccesorio.bind(accesorio));
-
-router.put("/editarAccesorio/:id", accesorio.updateAccesorio.bind(accesorio));
-
-module.exports = router;

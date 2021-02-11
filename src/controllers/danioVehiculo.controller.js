@@ -1,6 +1,4 @@
-const DanioVehiculoService = require("../services/danioVehiculo.service");
-const ArriendoService = require("../services/arriendo.service");
-const { sendError, fecha, hora } = require("../helpers/components");
+const { fecha, hora } = require("../helpers/components");
 const recepcionPlantilla = require("../utils/pdf_plantillas/recepcion")
 const fs = require("fs");
 const path = require("path");
@@ -10,9 +8,10 @@ const pdfFonts = require("pdfmake/build/vfs_fonts.js");
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 class DanioVehiculoController {
-    constructor() {
-        this._serviceArriendo = new ArriendoService();
-        this._serviceDanioVehiculo = new DanioVehiculoService();
+    constructor({ ArriendoService, DanioVehiculoService, sendError }) {
+        this._serviceArriendo = ArriendoService;
+        this._serviceDanioVehiculo = DanioVehiculoService;
+        this.sendError = sendError;
     }
 
 
@@ -50,7 +49,7 @@ class DanioVehiculoController {
                 msg: "daño registrado"
             })
         } catch (error) {
-            sendError(error, req, res);;
+            this.sendError(error, req, res);;
         }
     }
 
@@ -70,7 +69,7 @@ class DanioVehiculoController {
                 })
             }
         } catch (error) {
-            sendError(error, req, res);;
+            this.sendError(error, req, res);;
         }
     }
 
@@ -83,7 +82,7 @@ class DanioVehiculoController {
                 data: danios
             })
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -101,7 +100,7 @@ class DanioVehiculoController {
             });
             next();
         } catch (error) {
-            sendError(error, req, res);;
+            this.sendError(error, req, res);;
         }
     }
 

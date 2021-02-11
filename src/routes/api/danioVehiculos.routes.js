@@ -1,13 +1,11 @@
 const router = require("express").Router();
-const DanioVehiculoController = require("../../controllers/danioVehiculo.controller");
-const danioVehiculo = new DanioVehiculoController();
+module.exports = ({ DanioVehiculoController }) => {
 
-router.post("/registrarDanioVehiculos", danioVehiculo.createDanioVehiculo.bind(danioVehiculo));
+    router.post("/registrarDanioVehiculos", DanioVehiculoController.createDanioVehiculo.bind(DanioVehiculoController));
+    router.get("/revisarDanioVehiculo/:id", DanioVehiculoController.consultarDanioVehiculo.bind(DanioVehiculoController));
+    router.get("/cargarDaniosVehiculos", DanioVehiculoController.getDanioVehiculo.bind(DanioVehiculoController));
+    router.put("/actualizarDanioVehiculo/:id", DanioVehiculoController.updateDanioVehiculo.bind(DanioVehiculoController));
 
-router.get("/revisarDanioVehiculo/:id", danioVehiculo.consultarDanioVehiculo.bind(danioVehiculo));
+    return router;
 
-router.get("/cargarDaniosVehiculos", danioVehiculo.getDanioVehiculo.bind(danioVehiculo));
-
-router.put("/actualizarDanioVehiculo/:id", danioVehiculo.updateDanioVehiculo.bind(danioVehiculo));
-
-module.exports = router;
+}

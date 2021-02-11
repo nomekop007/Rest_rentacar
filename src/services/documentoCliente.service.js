@@ -1,4 +1,4 @@
-const { DocumentoCliente } = require("../database/db");
+const { DocumentoCliente } = require("../config/database/db");
 
 class DocumentoClienteService {
     async postFindOrCreate(DATA, ID) {

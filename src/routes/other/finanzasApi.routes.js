@@ -1,12 +1,10 @@
 const router = require("express").Router();
-const FinanzasComponent = require("../../components/finanzas.component");
-const finanzas = new FinanzasComponent();
+module.exports = ({ ApiFinanzasComponent }) => {
 
-router.get("/mostrarArriendoFinanzas", finanzas.getArriendoFinanzas.bind(finanzas));
+    router.get("/mostrarArriendoFinanzas", ApiFinanzasComponent.getArriendoFinanzas.bind(ApiFinanzasComponent));
+    router.get("/buscarArriendoFinanzas/:id", ApiFinanzasComponent.findArriendoFinanzas.bind(ApiFinanzasComponent));
+    router.post("/buscarDocumentosArriendoFinanzas/", ApiFinanzasComponent.findDocumentosArriendoFinanzas.bind(ApiFinanzasComponent));
 
-router.get("/buscarArriendoFinanzas/:id", finanzas.findArriendoFinanzas.bind(finanzas));
+    return router;
+}
 
-router.post("/buscarDocumentosArriendoFinanzas/", finanzas.findDocumentosArriendoFinanzas.bind(finanzas));
-
-
-module.exports = router;

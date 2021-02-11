@@ -1,12 +1,9 @@
-const TarifaVehiculoService = require("../services/tarifasVehiculo.service");
-const VehiculoService = require('../services/vehiculo.service');
-const { sendError } = require('../helpers/components');
-
 class TarifaVehiculoController {
 
-    constructor() {
-        this._tarifaVehiculo = new TarifaVehiculoService();
-        this._vehiculo = new VehiculoService();
+    constructor({ TarifaVehiculoService, VehiculoService, sendError }) {
+        this._tarifaVehiculo = TarifaVehiculoService;
+        this._vehiculo = VehiculoService;
+        this.sendError = sendError;
     }
 
     async createTarifaVehiculo(req, res, next) {
@@ -23,7 +20,7 @@ class TarifaVehiculoController {
             })
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -36,7 +33,7 @@ class TarifaVehiculoController {
                 data: tarifasVehiculos
             })
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -67,7 +64,7 @@ class TarifaVehiculoController {
                 data: { valorDia, valorNeto }
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 

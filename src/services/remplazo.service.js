@@ -1,4 +1,4 @@
-const { Remplazo } = require("../database/db");
+const { Remplazo } = require("../config/database/db");
 
 class RemplazoService {
 

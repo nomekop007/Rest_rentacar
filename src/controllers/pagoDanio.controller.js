@@ -1,8 +1,8 @@
-const PagoDanioService = require("../services/pagoDanio.service");
-const { sendError } = require("../helpers/components")
 class PagoDanioController {
-    constructor() {
-        this._servicePagoDanio = new PagoDanioService();
+
+    constructor({ PagoDanioService, sendError }) {
+        this._servicePagoDanio = PagoDanioService;
+        this.sendError = sendError;
     }
 
 
@@ -16,7 +16,7 @@ class PagoDanioController {
             })
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 

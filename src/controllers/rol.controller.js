@@ -1,9 +1,8 @@
-const RolService = require("../services/rol.service");
-const { sendError } = require("../helpers/components");
 class RolController {
 
-    constructor() {
-        this._serviceRol = new RolService();
+    constructor({ RolService, sendError }) {
+        this._serviceRol = RolService;
+        this.sendError = sendError;
     }
 
 
@@ -12,7 +11,7 @@ class RolController {
             const roles = await this._serviceRol.getFindAll();
             res.json({ success: true, data: roles, });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -21,7 +20,7 @@ class RolController {
             const rol = await this._serviceRol.postCreate(req.body);
             res.json({ success: true, data: rol })
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 

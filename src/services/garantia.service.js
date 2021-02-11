@@ -1,4 +1,4 @@
-const { Garantia } = require("../database/db");
+const { Garantia } = require("../config/database/db");
 
 class GarantiaService {
 

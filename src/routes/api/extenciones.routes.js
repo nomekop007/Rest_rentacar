@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const ExtencionController = require("../../controllers/extencion.controller");
-const extencion = new ExtencionController();
+module.exports = ({ ExtencionController }) => {
 
-router.get("/buscarExtencionesPorArriendo/:id", extencion.buscarExtencionesPorArriendo.bind(extencion));
+    router.get("/buscarExtencionesPorArriendo/:id", ExtencionController.buscarExtencionesPorArriendo.bind(ExtencionController));
+    router.post("/registrarExtencion", ExtencionController.createExtencionArriendo.bind(ExtencionController));
 
-router.post("/registrarExtencion", extencion.createExtencionArriendo.bind(extencion));
+    return router;
+}
 
-module.exports = router;

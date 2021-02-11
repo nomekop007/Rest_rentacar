@@ -1,4 +1,4 @@
-const { Reserva, ReservaCliente, ReservaEmpresa, Vehiculo, Cliente, Empresa } = require('../database/db');
+const { Reserva, ReservaCliente, ReservaEmpresa, Vehiculo, Cliente, Empresa } = require('../config/database/db');
 
 class ReservaService {
 

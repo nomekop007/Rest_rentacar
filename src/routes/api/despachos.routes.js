@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const Despacho_controller = require("../../controllers/despacho.controller");
-const despacho = new Despacho_controller();
+module.exports = ({ DespachoController }) => {
 
-router.post("/registrarDespacho", despacho.createDespacho.bind(despacho));
+    router.post("/registrarDespacho", DespachoController.createDespacho.bind(DespachoController));
+    router.put("/registrarRevision/:id", DespachoController.addRevision.bind(DespachoController));
 
-router.put("/registrarRevision/:id", despacho.addRevision.bind(despacho));
+    return router;
+}
 
-module.exports = router;

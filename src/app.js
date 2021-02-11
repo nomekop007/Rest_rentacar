@@ -1,29 +1,43 @@
 require("dotenv").config();
-require("./database/db");
-const log = require("./middlewares/log.middleware");
+require("./config/database/db");
 const express = require("express");
 const bodyParser = require("body-parser");
-const apiRouter = require("./routes/route");
 const morgan = require("morgan");
 const path = require("path");
 const compression = require("compression");
 const cors = require("cors");
 const helmet = require("helmet");
+class app {
 
-const app = express();
+    // MODIFICAR!!
 
-app.set('port', process.env.PORT || 3000);
-app.set('env', process.env.NODE_ENV);
-app.use(cors(process.env.LIST_CORS));
-app.use(compression());
-app.use(helmet());
-app.use(morgan("dev"));
-app.use(bodyParser.json({ limit: "400mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "400mb", extended: true }));
-//static files (hace publica la carpeta uploads)
+    constructor({ server, router, logMiddleware, }) {
+        this._server = server;
+        this.express = express();
+        this.express.use(cors(process.env.LIST_CORS));
+        this.express.use(compression());
+        this.express.use(helmet());
+        this.express.use(morgan("dev"));
+        this.express.use(bodyParser.json({ limit: "400mb", extended: true }));
+        this.express.use(bodyParser.urlencoded({ limit: "400mb", extended: true }));
+        //static files (hace publica la carpeta uploads)
+        this.express.use(express.static(path.join("uploads/fotoDespachos")));
+        // ruta padre
+        this.express.use("/rentacar", router, logMiddleware.logRegister);
+    }
 
-app.use(express.static(path.join("uploads/fotoDespachos")));
-// ruta padre
-app.use("/rentacar", apiRouter, log.logRegister);
+    start() {
+        switch (process.env.NODE_ENV) {
+            case 'production':
+                this._server.startProd(this.express)
+                break;
+            default:
+                this._server.startDev(this.express)
+                break;
+        }
+    }
+
+}
+
 
 module.exports = app;
