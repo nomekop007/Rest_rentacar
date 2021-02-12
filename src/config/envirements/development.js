@@ -1,5 +1,5 @@
 module.exports = {
-    PORT: 3000,
+    PORT: process.env.PORT,
     DB: {
         username: 'root',
         password: '',
