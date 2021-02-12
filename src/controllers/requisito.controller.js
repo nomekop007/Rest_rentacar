@@ -1,17 +1,12 @@
-const RequisitoService = require("../services/requisito.service");
-const DocumentoClienteService = require("../services/documentoCliente.service");
-const DocumentoEmpresaService = require("../services/documentoEmpresa.service");
-const DocumentoConductorService = require("../services/documentosConductor.service");
-const ArriendoService = require("../services/arriendo.service");
-const { sendError } = require("../helpers/components");
 class RequisitoController {
 
-    constructor() {
-        this._serviceDocumentoEmpresa = new DocumentoEmpresaService();
-        this._serviceDocumentoCliente = new DocumentoClienteService();
-        this._serviceDocumentoConductor = new DocumentoConductorService();
-        this._serviceRequisito = new RequisitoService();
-        this._serviceArriendo = new ArriendoService();
+    constructor({ DocumentoEmpresaService, DocumentoClienteService, DocumentoConductorService, RequisitoService, ArriendoService, sendError }) {
+        this._serviceDocumentoEmpresa = DocumentoEmpresaService;
+        this._serviceDocumentoCliente = DocumentoClienteService;
+        this._serviceDocumentoConductor = DocumentoConductorService;
+        this._serviceRequisito = RequisitoService;
+        this._serviceArriendo = ArriendoService;
+        this.sendError = sendError;
     }
 
 
@@ -60,7 +55,7 @@ class RequisitoController {
             });
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 

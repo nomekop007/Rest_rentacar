@@ -1,11 +1,8 @@
-const ExtencionService = require('../services/extencion.service');
-const { sendError } = require('../helpers/components');
-
-
 class ExtendionController {
 
-    constructor() {
-        this._serviceExtencion = new ExtencionService();
+    constructor({ ExtencionService, sendError }) {
+        this._serviceExtencion = ExtencionService;
+        this.sendError = sendError;
     }
 
     async createExtencionArriendo(req, res, next) {
@@ -16,7 +13,7 @@ class ExtendionController {
             res.json({ success: true, data: extencion, msg: "extencion creada" });
             next()
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -25,7 +22,7 @@ class ExtendionController {
             const extenciones = await this._serviceExtencion.getFindAllWithArrindo(req.params.id);
             res.json({ success: true, data: extenciones });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 

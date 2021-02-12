@@ -1,8 +1,8 @@
 const router = require("express").Router();
-const EmpresaRemplazoController = require("../../controllers/empresaRemplazo.controller");
-const empresaRemplazo = new EmpresaRemplazoController();
+module.exports = ({ EmpresaRemplazoController }) => {
 
-router.get("/cargarEmpresasRemplazo", empresaRemplazo.getEmpresasRemplazo.bind(empresaRemplazo));
+    router.get("/cargarEmpresasRemplazo", EmpresaRemplazoController.getEmpresasRemplazo.bind(EmpresaRemplazoController));
 
+    return router;
+}
 
-module.exports = router;

@@ -1,10 +1,11 @@
-const PagoArriendoService = require("../services/pagoArriendo.service");
-const ArriendoService = require("../services/arriendo.service");
-const { sendError, ordenarArrayporFecha } = require("../helpers/components");
+
+const { ordenarArrayporFecha } = require("../helpers/components");
 class PagoArriendoController {
-	constructor() {
-		this._servicePagoArriendo = new PagoArriendoService();
-		this._serviceArriendo = new ArriendoService();
+
+	constructor({ PagoArriendoService, ArriendoService, sendError }) {
+		this._servicePagoArriendo = PagoArriendoService;
+		this._serviceArriendo = ArriendoService;
+		this.sendError = sendError;
 	}
 
 
@@ -21,7 +22,7 @@ class PagoArriendoController {
 			});
 			next();
 		} catch (error) {
-			sendError(error, req, res);
+			this.sendError(error, req, res);
 		}
 	}
 
@@ -47,7 +48,7 @@ class PagoArriendoController {
 				}
 			});
 		} catch (error) {
-			sendError(error, req, res);
+			this.sendError(error, req, res);
 		}
 	}
 

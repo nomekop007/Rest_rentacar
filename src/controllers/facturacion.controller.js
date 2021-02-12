@@ -1,8 +1,8 @@
-const FacturacionService = require("../services/facturcion.service");
-const { sendError } = require("../helpers/components");
 class FacturacionController {
-    constructor() {
-        this._serviceFacturacion = new FacturacionService();
+
+    constructor({ FacturacionService, sendError }) {
+        this._serviceFacturacion = FacturacionService;
+        this.sendError = sendError;
     }
 
 
@@ -14,7 +14,7 @@ class FacturacionController {
                 data: facturacion,
             })
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -30,7 +30,7 @@ class FacturacionController {
             });
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -45,7 +45,7 @@ class FacturacionController {
             });
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 

@@ -1,4 +1,4 @@
-const { Vehiculo, Region, Sucursal, Arriendo, DanioVehiculo, TarifaVehiculo, Extencion } = require("../database/db");
+const { Vehiculo, Region, Sucursal, Arriendo, DanioVehiculo, TarifaVehiculo, Extencion } = require("../config/database/db");
 
 class VehiculoService {
 

@@ -1,4 +1,4 @@
-const { Conductor, DocumentoConductor } = require("../database/db");
+const { Conductor, DocumentoConductor } = require("../config/database/db");
 
 class ConductorService {
 

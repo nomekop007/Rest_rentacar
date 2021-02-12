@@ -1,4 +1,4 @@
-const { ActaEntrega } = require("../database/db");
+const { ActaEntrega } = require("../config/database/db");
 
 class ActaEntregaService {
 

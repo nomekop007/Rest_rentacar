@@ -1,7 +1,8 @@
 const router = require("express").Router();
-const RolController = require("../../controllers/rol.controller");
-const rol = new RolController();
+module.exports = ({ RolController }) => {
 
-router.get("/cargarRoles", rol.getRoles.bind(rol));
+    router.get("/cargarRoles", RolController.getRoles.bind(RolController));
 
-module.exports = router;
+    return router;
+}
+

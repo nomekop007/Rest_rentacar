@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const ContactoController = require("../../controllers/contacto.controller");
-const contacto = new ContactoController();
+module.exports = ({ ContactoController }) => {
 
-router.post("/registrarContacto", contacto.createContacto.bind(contacto));
+    router.post("/registrarContacto", ContactoController.createContacto.bind(ContactoController));
+    router.put("/editarContacto/:id", ContactoController.updateContacto.bind(ContactoController));
 
-router.put("/editarContacto/:id", contacto.updateContacto.bind(contacto));
+    return router;
+}
 
-module.exports = router;

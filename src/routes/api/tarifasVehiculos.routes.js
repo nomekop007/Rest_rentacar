@@ -1,11 +1,10 @@
 const router = require('express').Router();
-const TarifaVehiculoController = require('../../controllers/tarifaVehiculo.controller');
-const tarifaVehiculo = new TarifaVehiculoController();
+module.exports = ({ TarifaVehiculoController }) => {
 
-router.post('/registrarTarifa', tarifaVehiculo.createTarifaVehiculo.bind(tarifaVehiculo));
+    router.post('/registrarTarifa', TarifaVehiculoController.createTarifaVehiculo.bind(TarifaVehiculoController));
+    router.get('/cargarTarifasVehiculos', TarifaVehiculoController.getTarifaVehiculo.bind(TarifaVehiculoController));
+    router.get('/buscarTarifaVehiculoPorDias', TarifaVehiculoController.findTarifaVehiculoByDias.bind(TarifaVehiculoController));
 
-router.get('/cargarTarifasVehiculos', tarifaVehiculo.getTarifaVehiculo.bind(tarifaVehiculo));
+    return router
+}
 
-router.get('/buscarTarifaVehiculoPorDias', tarifaVehiculo.findTarifaVehiculoByDias.bind(tarifaVehiculo));
-
-module.exports = router;

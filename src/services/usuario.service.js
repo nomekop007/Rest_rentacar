@@ -1,4 +1,4 @@
-const { Usuario, Rol, Sucursal } = require("../database/db");
+const { Usuario, Rol, Sucursal } = require("../config/database/db");
 
 class UsuarioService {
 

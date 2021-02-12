@@ -1,4 +1,4 @@
-const { Arriendo, FotoDespacho, DanioVehiculo, PagoAccesorio, DocumentoConductor, Accesorio, Usuario, Facturacion, Conductor, Sucursal, ModoPago, Contrato, PagoArriendo, Requisito, Garantia, EmpresaRemplazo, Despacho, Vehiculo, Cliente, Empresa, ActaEntrega, Remplazo, Contacto, Pago, DocumentoCliente, DocumentoEmpresa } = require("../database/db");
+const { Arriendo, FotoDespacho, DanioVehiculo, PagoAccesorio, DocumentoConductor, Accesorio, Usuario, Facturacion, Conductor, Sucursal, ModoPago, Contrato, PagoArriendo, Requisito, Garantia, EmpresaRemplazo, Despacho, Vehiculo, Cliente, Empresa, ActaEntrega, Remplazo, Contacto, Pago, DocumentoCliente, DocumentoEmpresa } = require("../config/database/db");
 const { Op } = require("sequelize");
 
 class ArriendoService {

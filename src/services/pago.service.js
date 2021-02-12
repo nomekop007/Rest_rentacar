@@ -1,4 +1,4 @@
-const { Pago, PagoArriendo, Arriendo, Abono, Facturacion, ModoPago } = require("../database/db");
+const { Pago, PagoArriendo, Arriendo, Abono, Facturacion, ModoPago } = require("../config/database/db");
 const { Op } = require("sequelize");
 
 class PagoService {

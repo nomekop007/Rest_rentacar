@@ -1,7 +1,9 @@
 const router = require("express").Router();
-const PagoDanioController = require("../../controllers/pagoDanio.controller");
-const pagoDanio = new PagoDanioController();
+module.exports = ({ PagoDanioController }) => {
 
-router.post("/registrarPagoDanio", pagoDanio.createPagoDanio.bind(pagoDanio));
+    router.post("/registrarPagoDanio", PagoDanioController.createPagoDanio.bind(PagoDanioController));
 
-module.exports = router;
+    return router;
+}
+
+

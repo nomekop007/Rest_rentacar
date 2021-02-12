@@ -1,4 +1,4 @@
-const { Propietario } = require("../database/db");
+const { Propietario } = require("../config/database/db");
 
 class PropietarioService {
 

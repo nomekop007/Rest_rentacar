@@ -1,5 +1,5 @@
-const DespachoService = require("../services/despacho.service");
-const { sendError, fecha, hora } = require("../helpers/components");
+
+const { fecha, hora } = require("../helpers/components");
 const recepcionPlantilla = require("../utils/pdf_plantillas/recepcion")
 const fs = require("fs");
 const path = require("path");
@@ -10,8 +10,10 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
 class DespachoController {
-    constructor() {
-        this._serviceDespacho = new DespachoService();
+
+    constructor({ DespachoService, sendError }) {
+        this._serviceDespacho = DespachoService;
+        this.sendError = sendError;
     }
 
 
@@ -25,7 +27,7 @@ class DespachoController {
                 id_despacho: despacho.id_despacho,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -57,7 +59,7 @@ class DespachoController {
                 msg: "revision existosa"
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 }

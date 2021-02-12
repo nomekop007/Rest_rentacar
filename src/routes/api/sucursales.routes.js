@@ -1,15 +1,12 @@
 const router = require("express").Router();
-const Sucursal_controller = require("../../controllers/sucursal.controller");
-const sucursal = new Sucursal_controller();
+module.exports = ({ SucursalController }) => {
 
-router.get("/cargarSucursales", sucursal.getSucursales.bind(sucursal));
+    router.get("/cargarSucursales", SucursalController.getSucursales.bind(SucursalController));
+    router.get("/cargarVehiculos/:name", SucursalController.getFindVehiculosPorSucursal.bind(SucursalController));
+    router.post("/crearSucursal", SucursalController.createSucursal.bind(SucursalController));
+    router.put("/editarSucursal/:id", SucursalController.updateSucursal.bind(SucursalController));
+    router.get("/arriendosPorSucursales", SucursalController.getFindArriendoBySucursal.bind(SucursalController));
 
-router.get("/cargarVehiculos/:name", sucursal.getFindVehiculosPorSucursal.bind(sucursal));
+    return router;
+}
 
-router.post("/crearSucursal", sucursal.createSucursal.bind(sucursal));
-
-router.put("/editarSucursal/:id", sucursal.updateSucursal.bind(sucursal));
-
-router.get("/arriendosPorSucursales", sucursal.getFindArriendoBySucursal.bind(sucursal));
-
-module.exports = router;

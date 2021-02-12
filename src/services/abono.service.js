@@ -1,4 +1,4 @@
-const { Abono, Facturacion } = require("../database/db");
+const { Abono, Facturacion } = require("../config/database/db");
 
 class AbonoService {
 

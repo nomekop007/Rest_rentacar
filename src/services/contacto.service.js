@@ -1,4 +1,4 @@
-const { Contacto } = require("../database/db");
+const { Contacto } = require("../config/database/db");
 
 class ContactoService {
 

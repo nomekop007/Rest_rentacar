@@ -12,7 +12,7 @@ const {
     Vehiculo,
     EmpresaRemplazo,
     Region
-} = require("../database/db");
+} = require("../config/database/db");
 
 
 class DefaultsComponent {

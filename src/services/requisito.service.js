@@ -1,4 +1,4 @@
-const { Requisito } = require("../database/db");
+const { Requisito } = require("../config/database/db");
 
 class RequisitoService {
 

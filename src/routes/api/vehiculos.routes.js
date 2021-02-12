@@ -1,23 +1,15 @@
 const router = require("express").Router();
-const { subirImageVehiculo } = require("../../middlewares/upload.middleware");
-const VehiculoController = require("../../controllers/vehiculo.controller");
-const vehiculo = new VehiculoController();
+module.exports = ({ VehiculoController, subirImageVehiculo }) => {
 
+    router.get("/cargarVehiculos", VehiculoController.getVehiculos.bind(VehiculoController));
+    router.get("/cargarTotalVehiculos", VehiculoController.getAllVehiculos.bind(VehiculoController));
+    router.get("/buscarVehiculo/:id", VehiculoController.findVehiculo.bind(VehiculoController));
+    router.put("/editarVehiculo/:id", VehiculoController.updateVehiculo.bind(VehiculoController));
+    router.put("/cambiarEstadoVehiculo/:id", VehiculoController.updateStateVehiculo.bind(VehiculoController));
+    router.post("/registrarVehiculo", VehiculoController.createVehiculo.bind(VehiculoController));
+    router.post("/cargarImagen/:id", subirImageVehiculo, VehiculoController.uploadImageVehiculo.bind(VehiculoController));
+    router.delete("/eliminarVehiculo/:id", VehiculoController.deleteVehiculo.bind(VehiculoController));
 
-router.get("/cargarVehiculos", vehiculo.getVehiculos.bind(vehiculo));
+    return router;
+}
 
-router.get("/cargarTotalVehiculos", vehiculo.getAllVehiculos.bind(vehiculo));
-
-router.get("/buscarVehiculo/:id", vehiculo.findVehiculo.bind(vehiculo));
-
-router.post("/registrarVehiculo", vehiculo.createVehiculo.bind(vehiculo));
-
-router.put("/editarVehiculo/:id", vehiculo.updateVehiculo.bind(vehiculo));
-
-router.put("/cambiarEstadoVehiculo/:id", vehiculo.updateStateVehiculo.bind(vehiculo));
-
-router.delete("/eliminarVehiculo/:id", vehiculo.deleteVehiculo.bind(vehiculo));
-
-router.post("/cargarImagen/:id", subirImageVehiculo, vehiculo.uploadImageVehiculo.bind(vehiculo));
-
-module.exports = router;

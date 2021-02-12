@@ -1,10 +1,8 @@
-const ReservaService = require('../services/reserva.service');
-const { sendError } = require('../helpers/components');
-
 class ReservaController {
 
-    constructor() {
-        this._serviceReserva = new ReservaService();
+    constructor({ ReservaService, sendError }) {
+        this._serviceReserva = ReservaService;
+        this.sendError = sendError;
     }
 
 
@@ -14,7 +12,7 @@ class ReservaController {
             const reservas = await this._serviceReserva.getFindAll(sucursal);
             res.json({ success: true, data: reservas });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -23,7 +21,7 @@ class ReservaController {
             const reserva = await this._serviceReserva.getFindOne(req.params.id);
             res.json({ success: true, data: reserva });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -33,7 +31,7 @@ class ReservaController {
             res.json({ success: true, data: reserva, msg: "reserva agregada!" });
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -43,7 +41,7 @@ class ReservaController {
             res.json({ success: true, msg: 'reserva modificada' });
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -53,7 +51,7 @@ class ReservaController {
             res.json({ success: true, msg: 'reserva eliminada' });
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 

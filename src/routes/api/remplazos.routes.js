@@ -1,7 +1,8 @@
 const router = require("express").Router();
-const RemplazoController = require("../../controllers/remplazo.controller");
-const remplazo = new RemplazoController();
+module.exports = ({ RemplazoController }) => {
 
-router.post("/registrarRemplazo", remplazo.createRemplazo.bind(remplazo));
+    router.post("/registrarRemplazo", RemplazoController.createRemplazo.bind(RemplazoController));
 
-module.exports = router;
+    return router;
+}
+

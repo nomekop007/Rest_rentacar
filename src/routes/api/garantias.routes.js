@@ -1,7 +1,8 @@
 const router = require("express").Router();
-const Garantia_controller = require("../../controllers/garantia.controller");
-const garantia = new Garantia_controller();
+module.exports = ({ GarantiaController }) => {
 
-router.post("/registrarGarantia", garantia.createGarantia.bind(garantia));
+    router.post("/registrarGarantia", GarantiaController.createGarantia.bind(GarantiaController));
 
-module.exports = router;
+    return router;
+}
+

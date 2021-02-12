@@ -1,19 +1,14 @@
 const router = require("express").Router();
-const {
-    subirDocumentosCliente,
-} = require("../../middlewares/upload.middleware");
-const ClienteController = require("../../controllers/cliente.controller");
-const cliente = new ClienteController();
 
-router.get("/cargarClientes", cliente.getClientes.bind(cliente));
+module.exports = ({ ClienteController, subirDocumentosCliente }) => {
 
-router.get("/buscarCliente/:id", cliente.findCliente.bind(cliente));
+    router.get("/cargarClientes", ClienteController.getClientes.bind(ClienteController));
+    router.get("/buscarCliente/:id", ClienteController.findCliente.bind(ClienteController));
+    router.post("/registrarCliente", ClienteController.createCliente.bind(ClienteController));
+    router.put("/editarCliente/:id", ClienteController.putCliente.bind(ClienteController));
+    router.post("/editarArchivos/:id", subirDocumentosCliente, ClienteController.updateFile.bind(ClienteController));
 
-router.post("/registrarCliente", cliente.createCliente.bind(cliente));
+    return router;
 
-router.put("/editarCliente/:id", cliente.putCliente.bind(cliente));
+}
 
-router.post("/editarArchivos/:id", subirDocumentosCliente, cliente.updateFile.bind(cliente));
-
-
-module.exports = router;

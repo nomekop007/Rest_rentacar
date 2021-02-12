@@ -1,4 +1,4 @@
-const { DocumentoEmpresa } = require("../database/db");
+const { DocumentoEmpresa } = require("../config/database/db");
 
 class DocumentoEmpresaService {
 

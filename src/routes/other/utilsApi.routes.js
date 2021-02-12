@@ -1,16 +1,13 @@
 const router = require("express").Router();
+module.exports = ({ ApiUtilsComponent }) => {
 
-const UtilsComponent = require("../../components/utils.component");
-const utils = new UtilsComponent();
+    router.post("/buscarDocumento", ApiUtilsComponent.findDocumento.bind(ApiUtilsComponent));
+    router.delete("/reiniciarVistaFirma/:id", ApiUtilsComponent.rollbackVistaFirma.bind(ApiUtilsComponent));
+    router.delete("/reiniciarVistaPago/:id", ApiUtilsComponent.rollbackVistaPago.bind(ApiUtilsComponent));
+    router.delete("/reiniciarVistaRequisito/:id", ApiUtilsComponent.rollbackVistaRequisito.bind(ApiUtilsComponent));
 
-router.post("/buscarDocumento", utils.findDocumento.bind(utils));
-
-router.delete("/reiniciarVistaFirma/:id", utils.rollbackVistaFirma.bind(utils));
-
-router.delete("/reiniciarVistaPago/:id", utils.rollbackVistaPago.bind(utils));
-
-router.delete("/reiniciarVistaRequisito/:id", utils.rollbackVistaRequisito.bind(utils));
+    return router;
+}
 
 
 
-module.exports = router;

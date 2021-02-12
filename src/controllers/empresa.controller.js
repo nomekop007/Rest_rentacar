@@ -1,12 +1,9 @@
-const EmpresaService = require("../services/empresa.service");
-const DocumentoEmpresaService = require("../services/documentoEmpresa.service");
-
-const { sendError } = require("../helpers/components");
-
 class EmpresaController {
-    constructor() {
-        this._serviceEmpresa = new EmpresaService();
-        this._serviceDocEmpresa = new DocumentoEmpresaService();
+
+    constructor({ EmpresaService, DocumentoEmpresaService, sendError }) {
+        this._serviceEmpresa = EmpresaService;
+        this._serviceDocEmpresa = DocumentoEmpresaService;
+        this.sendError = sendError;
     }
 
     async getEmpresas(req, res) {
@@ -17,7 +14,7 @@ class EmpresaController {
                 data: empresas,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -37,7 +34,7 @@ class EmpresaController {
                 });
             }
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -54,7 +51,7 @@ class EmpresaController {
             });
             if (created) next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -68,7 +65,7 @@ class EmpresaController {
             })
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -90,7 +87,7 @@ class EmpresaController {
             });
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 

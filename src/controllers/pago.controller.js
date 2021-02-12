@@ -1,12 +1,10 @@
-const PagoService = require("../services/pago.service");
-const PagoArriendoService = require("../services/pagoArriendo.service");
-const ArriendoService = require("../services/arriendo.service");
-const { sendError } = require("../helpers/components");
 class PagoController {
-    constructor() {
-        this._servicePago = new PagoService();
-        this._servicePagoArriendo = new PagoArriendoService();
-        this._serviceArriendo = new ArriendoService();
+
+    constructor({ PagoService, PagoArriendoService, ArriendoService, sendError }) {
+        this._servicePago = PagoService;
+        this._servicePagoArriendo = PagoArriendoService;
+        this._serviceArriendo = ArriendoService;
+        this.sendError = sendError;
     }
 
 
@@ -21,7 +19,7 @@ class PagoController {
             });
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -35,7 +33,7 @@ class PagoController {
             pagos.forEach(({ total_pago }) => { total = total + Number(total_pago) })
             res.json({ success: true, data: { total_factura: total } });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -52,7 +50,7 @@ class PagoController {
             });
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -69,7 +67,7 @@ class PagoController {
             res.json({ success: true, msg: "pago modificado!" })
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -83,7 +81,7 @@ class PagoController {
                 data: pago
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -97,7 +95,7 @@ class PagoController {
                 data: pago
             });
         } catch (error) {
-            sendError(error, req, res);;
+            this.sendError(error, req, res);;
         }
     }
 
@@ -106,7 +104,7 @@ class PagoController {
             const pago = await this._servicePago.getFindOne(req.params.id);
             res.json({ success: true, data: pago })
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -154,7 +152,7 @@ class PagoController {
                 });
             }
         } catch (error) {
-            sendError(error, req, res);;
+            this.sendError(error, req, res);;
         }
     }
 
@@ -194,7 +192,7 @@ class PagoController {
             })
             res.json({ success: true, data: { pagos: arrayPagos, arriendo: arriendo, cliente: nombre_cliente } })
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -207,7 +205,7 @@ class PagoController {
             const pagos = await this._servicePago.getFindAll(where);
             res.json({ success: true, data: pagos })
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -222,7 +220,7 @@ class PagoController {
             const pago = await this._servicePago.putUpdate(data, req.params.id);
             res.json({ success: true, msg: "pago actualizado!", data: pago });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 

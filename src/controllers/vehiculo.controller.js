@@ -1,20 +1,15 @@
 const { v4: uuidv4 } = require("uuid");
-const VehiculoService = require('../services/vehiculo.service');
-const SucursalService = require("../services/sucursal.service");
-const ArriendoService = require("../services/arriendo.service");
-const DanioService = require("../services/danioVehiculo.service");
-const TarifaVehiculoService = require("../services/tarifasVehiculo.service");
-const ExtencionService = require("../services/extencion.service");
-const { borrarImagenDeStorage, sendError } = require("../helpers/components");
+const { borrarImagenDeStorage } = require("../helpers/components");
 class VehiculoController {
 
-    constructor() {
-        this._serviceVehiculo = new VehiculoService();
-        this._serviceSucursal = new SucursalService();
-        this._serviceArriendo = new ArriendoService();
-        this._serviceDanio = new DanioService();
-        this._serviceTarifaVehiculo = new TarifaVehiculoService();
-        this._serviceExtencion = new ExtencionService();
+    constructor({ VehiculoService, SucursalService, ArriendoService, DanioVehiculoService, TarifaVehiculoService, ExtencionService, sendError }) {
+        this._serviceVehiculo = VehiculoService;
+        this._serviceSucursal = SucursalService;
+        this._serviceArriendo = ArriendoService;
+        this._serviceDanioVehiculo = DanioVehiculoService;
+        this._serviceTarifaVehiculo = TarifaVehiculoService;
+        this._serviceExtencion = ExtencionService;
+        this.sendError = sendError;
     }
 
 
@@ -41,7 +36,7 @@ class VehiculoController {
                 data: vehiculos,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -54,7 +49,7 @@ class VehiculoController {
                 data: vehiculos
             })
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -74,7 +69,7 @@ class VehiculoController {
                 });
             }
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -98,7 +93,7 @@ class VehiculoController {
                 });
             }
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -115,7 +110,7 @@ class VehiculoController {
             });
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -130,7 +125,7 @@ class VehiculoController {
             });
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -148,7 +143,7 @@ class VehiculoController {
             });
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -180,21 +175,21 @@ class VehiculoController {
             });
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
     async borrarDatosAsociados(vehiculo) {
         if (vehiculo.tarifasVehiculo) await this._serviceTarifaVehiculo.putUpdateById({ patente_vehiculo: null }, vehiculo.tarifasVehiculo.id_tarifaVehiculo);
         if (vehiculo.arriendos.length > 0) await vehiculo.arriendos.map(async ({ id_arriendo }) => await this._serviceArriendo.putUpdate({ patente_vehiculo: null }, id_arriendo));
-        if (vehiculo.danioVehiculos.length > 0) await vehiculo.danioVehiculos.map(async ({ id_danioVehiculo }) => await this._serviceDanio.putUpdate({ patente_vehiculo: null }, id_danioVehiculo));
+        if (vehiculo.danioVehiculos.length > 0) await vehiculo.danioVehiculos.map(async ({ id_danioVehiculo }) => await this._serviceDanioVehiculo.putUpdate({ patente_vehiculo: null }, id_danioVehiculo));
         if (vehiculo.extenciones.length > 0) await vehiculo.extenciones.map(async ({ id_extencion }) => await this._serviceExtencion.putUpdateById({ patente_vehiculo: null }, id_extencion));
     }
 
     async agregarDatosAsociados(vehiculo, newPatente) {
         if (vehiculo.tarifasVehiculo) await this._serviceTarifaVehiculo.putUpdateById({ patente_vehiculo: newPatente }, vehiculo.tarifasVehiculo.id_tarifaVehiculo);
         if (vehiculo.arriendos.length > 0) await vehiculo.arriendos.map(async ({ id_arriendo }) => await this._serviceArriendo.putUpdate({ patente_vehiculo: newPatente }, id_arriendo));
-        if (vehiculo.danioVehiculos.length > 0) await vehiculo.danioVehiculos.map(async ({ id_danioVehiculo }) => await this._serviceDanio.putUpdate({ patente_vehiculo: newPatente }, id_danioVehiculo));
+        if (vehiculo.danioVehiculos.length > 0) await vehiculo.danioVehiculos.map(async ({ id_danioVehiculo }) => await this._serviceDanioVehiculo.putUpdate({ patente_vehiculo: newPatente }, id_danioVehiculo));
         if (vehiculo.extenciones.length > 0) await vehiculo.extenciones.map(async ({ id_extencion }) => await this._serviceExtencion.putUpdateById({ patente_vehiculo: newPatente }, id_extencion));
     }
 }

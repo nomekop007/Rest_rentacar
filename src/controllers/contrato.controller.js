@@ -1,8 +1,5 @@
-const ContratoService = require("../services/contrato.service");
-const ArriendoService = require("../services/arriendo.service");
-const ExtencionService = require("../services/extencion.service");
-const ConductorService = require("../services/conductor.service");
-const { sendError, nodemailerTransporter, ordenarArrayporFecha } = require("../helpers/components");
+
+const { nodemailerTransporter, ordenarArrayporFecha } = require("../helpers/components");
 const contratoPlantilla = require("../utils/pdf_plantillas/contratoArriendo");
 const extencionPlantilla = require("../utils/pdf_plantillas/extenderArriendo");
 const logo = require.resolve("../utils/images/logo2.png");
@@ -16,11 +13,12 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
 class contrato_controller {
-    constructor() {
-        this._serviceContrato = new ContratoService();
-        this._serviceArriendo = new ArriendoService();
-        this._serviceConductor = new ConductorService();
-        this._serviceExtencion = new ExtencionService();
+    constructor({ ContratoService, ArriendoService, ConductorService, ExtencionService, sendError }) {
+        this._serviceContrato = ContratoService;
+        this._serviceArriendo = ArriendoService;
+        this._serviceConductor = ConductorService;
+        this._serviceExtencion = ExtencionService;
+        this.sendError = sendError
     }
 
 
@@ -48,7 +46,7 @@ class contrato_controller {
                 data: contrato,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -79,7 +77,7 @@ class contrato_controller {
                 data: contrato,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -101,7 +99,7 @@ class contrato_controller {
                 data: contrato
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -126,7 +124,7 @@ class contrato_controller {
             }, req.params.id);
             res.json({ success: true, data: contrato });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -171,7 +169,7 @@ class contrato_controller {
                 });
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -199,7 +197,7 @@ class contrato_controller {
                 });
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -254,7 +252,7 @@ class contrato_controller {
                 msg: resp,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -305,7 +303,7 @@ class contrato_controller {
             const resp = await nodemailerTransporter.sendMail(mailOptions);
             res.json({ success: true, msg: resp });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 

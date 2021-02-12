@@ -1,9 +1,8 @@
-const SucursalService = require("../services/sucursal.service");
-const { sendError } = require("../helpers/components");
 class SucursalController {
 
-    constructor() {
-        this._serviceSucursal = new SucursalService();
+    constructor({ SucursalService, sendError }) {
+        this._serviceSucursal = SucursalService;
+        this.sendError = sendError;
     }
 
 
@@ -15,7 +14,7 @@ class SucursalController {
                 data: sucursales,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -28,7 +27,7 @@ class SucursalController {
                 data: sucursal,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -39,7 +38,7 @@ class SucursalController {
             res.json({ success: true, data: sucursal })
             next();
         } catch (error) {
-            sendError(error, req, res);;
+            this.sendError(error, req, res);;
         }
     }
 
@@ -49,7 +48,7 @@ class SucursalController {
             res.json({ success: true, msg: "sucursal modificada" });
             next();
         } catch (error) {
-            sendError(error, req, res);;
+            this.sendError(error, req, res);;
         }
     }
 
@@ -58,7 +57,7 @@ class SucursalController {
             const sucursal = await this._serviceSucursal.getArriendoBySucursal();
             res.json({ success: true, data: sucursal })
         } catch (error) {
-            sendError(error, req, res);;
+            this.sendError(error, req, res);;
         }
     }
 

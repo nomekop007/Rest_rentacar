@@ -1,10 +1,9 @@
-const ArriendoService = require("../services/arriendo.service");
-const { sendError } = require("../helpers/components");
-const path = require("path");
 
+const path = require("path");
 class FinanzasComponent {
-    constructor() {
-        this.serviceArriendo = new ArriendoService();
+    constructor({ ArriendoService, sendError }) {
+        this.serviceArriendo = ArriendoService;
+        this.sendError = sendError;
     }
 
 
@@ -16,7 +15,7 @@ class FinanzasComponent {
                 data: arriendos,
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -36,7 +35,7 @@ class FinanzasComponent {
                 });
             }
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
@@ -83,7 +82,7 @@ class FinanzasComponent {
                 },
             });
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 }

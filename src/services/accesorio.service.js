@@ -1,4 +1,4 @@
-const { Accesorio, Sucursal } = require("../database/db");
+const { Accesorio, Sucursal } = require("../config/database/db");
 
 class AccesorioService {
 

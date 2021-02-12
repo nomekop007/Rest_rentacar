@@ -1,4 +1,4 @@
-const { Cliente, DocumentoCliente } = require("../database/db");
+const { Cliente, DocumentoCliente } = require("../config/database/db");
 
 class ClienteService {
 
@@ -13,7 +13,7 @@ class ClienteService {
     async getFindOne(ID) {
         return await Cliente.findOne({
             where: { rut_cliente: ID },
-            include: [{ model: DocumentoCliente, attributes: ["carnetFrontal", "carnetTrasera","comprobanteDomicilio"] }]
+            include: [{ model: DocumentoCliente, attributes: ["carnetFrontal", "carnetTrasera", "comprobanteDomicilio"] }]
         })
     }
 

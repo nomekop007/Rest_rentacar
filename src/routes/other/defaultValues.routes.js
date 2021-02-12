@@ -1,9 +1,8 @@
 const router = require("express").Router();
-const DefaultComponent = require("../../components/defaults.component")
-const defautls = new DefaultComponent();
+module.exports = ({ DefaultValuesComponent }) => {
 
-router.get("/", defautls.createTableDefault.bind(defautls));
+    router.get("/", DefaultValuesComponent.createTableDefault.bind(DefaultValuesComponent));
+    router.get("/cargarVehiculos", DefaultValuesComponent.createDefaultCars.bind(DefaultValuesComponent));
 
-router.get("/cargarVehiculos", defautls.createDefaultCars.bind(defautls));
-
-module.exports = router;
+    return router;
+}

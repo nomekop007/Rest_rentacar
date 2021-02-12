@@ -1,4 +1,4 @@
-const { Extencion, PagoArriendo, Facturacion, ModoPago, Pago, Vehiculo, Contrato, Accesorio, PagoAccesorio } = require("../database/db");
+const { Extencion, PagoArriendo, Facturacion, ModoPago, Pago, Vehiculo, Contrato, Accesorio, PagoAccesorio } = require("../config/database/db");
 
 class ExtencionService {
 

@@ -1,4 +1,4 @@
-const { Permiso } = require("../database/db");
+const { Permiso } = require("../config/database/db");
 
 class PermisoService {
 

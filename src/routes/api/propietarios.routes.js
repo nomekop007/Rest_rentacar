@@ -1,7 +1,8 @@
 const router = require("express").Router();
-const PropietarioController = require("../../controllers/propietario.controller");
-const propietario = new PropietarioController();
+module.exports = ({ PropietarioController }) => {
 
-router.get("/cargarPropietarios", propietario.getPropietario.bind(propietario));
+    router.get("/cargarPropietarios", PropietarioController.getPropietario.bind(PropietarioController));
 
-module.exports = router;
+    return router;
+}
+

@@ -1,4 +1,4 @@
-const { Log } = require("../database/db");
+const { Log } = require("../config/database/db");
 
 const logRegister = async (req, res) => {
     try {

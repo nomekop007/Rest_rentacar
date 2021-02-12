@@ -1,4 +1,4 @@
-const { Region } = require("../database/db");
+const { Region } = require("../config/database/db");
 
 class RegionService {
 

@@ -1,4 +1,4 @@
-const { Sucursal, Vehiculo, Region, Arriendo } = require("../database/db");
+const { Sucursal, Vehiculo, Region, Arriendo } = require("../config/database/db");
 
 class SucursalService {
 

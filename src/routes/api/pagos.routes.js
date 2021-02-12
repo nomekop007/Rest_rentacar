@@ -1,27 +1,18 @@
 const router = require("express").Router();
-const Pago_controller = require("../../controllers/pago.controller");
-const pago = new Pago_controller();
+module.exports = ({ PagoController }) => {
 
-router.post("/registrarPago", pago.createPago.bind(pago));
+    router.post("/registrarPago", PagoController.createPago.bind(PagoController));
+    router.post("/actualizarPagos", PagoController.updatePagos.bind(PagoController));
+    router.put("/modificarPago/:id", PagoController.updateOnePago.bind(PagoController));
+    router.get("/cargarPagosERpendientes", PagoController.getPagosRemplazosPendientes.bind(PagoController));
+    router.get("/buscarPagoERpendientes/:id", PagoController.findPagosRemplazosPendientes.bind(PagoController));
+    router.post("/aplicarDescuentoPago", PagoController.aplicarDescuentoPago.bind(PagoController));
+    router.post("/calcularTotalPagos", PagoController.calcularTotalPagos.bind(PagoController));
+    router.get("/buscarPago/:id", PagoController.findPago.bind(PagoController));
+    router.get("/buscarPagosClientePendiente/:id", PagoController.buscarPagosClientePendiente.bind(PagoController));
+    router.get("/cargarPagosClientes", PagoController.cargarPagosClientes.bind(PagoController));
+    router.put("/actualizarUnPagoAPagado/:id", PagoController.actualizarUnPagoPendiente.bind(PagoController));
 
-router.post("/actualizarPagos", pago.updatePagos.bind(pago));
+    return router;
+}
 
-router.put("/modificarPago/:id", pago.updateOnePago.bind(pago));
-
-router.get("/cargarPagosERpendientes", pago.getPagosRemplazosPendientes.bind(pago));
-
-router.get("/buscarPagoERpendientes/:id", pago.findPagosRemplazosPendientes.bind(pago));
-
-router.post("/aplicarDescuentoPago", pago.aplicarDescuentoPago.bind(pago));
-
-router.post("/calcularTotalPagos", pago.calcularTotalPagos.bind(pago));
-
-router.get("/buscarPago/:id", pago.findPago.bind(pago));
-
-router.get("/buscarPagosClientePendiente/:id", pago.buscarPagosClientePendiente.bind(pago));
-
-router.get("/cargarPagosClientes", pago.cargarPagosClientes.bind(pago));
-
-router.put("/actualizarUnPagoAPagado/:id", pago.actualizarUnPagoPendiente.bind(pago));
-
-module.exports = router;

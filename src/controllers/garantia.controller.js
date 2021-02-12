@@ -1,8 +1,8 @@
-const GarantiaService = require("../services/garantia.service");
-const { sendError } = require("../helpers/components");
 class GarantiaController {
-    constructor() {
-        this._serviceGarantia = new GarantiaService();
+
+    constructor({ GarantiaService, sendError }) {
+        this._serviceGarantia = GarantiaService;
+        this.sendError = sendError;
     }
 
 
@@ -43,7 +43,7 @@ class GarantiaController {
             });
             next();
         } catch (error) {
-            sendError(error, req, res);
+            this.sendError(error, req, res);
         }
     }
 
