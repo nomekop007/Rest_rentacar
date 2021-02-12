@@ -386,22 +386,7 @@ DocumentoConductor.belongsTo(Conductor, { foreignKey: { name: "rut_conductor" },
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* 
 db.logs = Log;
 db.logErros = LogError;
 db.usuarios = Usuario;
@@ -442,6 +427,8 @@ db.permisos = Permiso;
 db.rolPermisos = RolPermiso;
 db.abonos = Abono;
 db.extenciones = Extencion;
+ */
+
 
 db.sequelize = database;
 db.Sequelize = Sequelize;
@@ -452,7 +439,6 @@ module.exports = {
     db,
     Log,
     LogError,
-    Rol,
     Usuario,
     Sucursal,
     Vehiculo,
@@ -487,6 +473,7 @@ module.exports = {
     ReservaEmpresa,
     FotoDespacho,
     RolPermiso,
+    Rol,
     Permiso,
     Abono,
     Extencion
