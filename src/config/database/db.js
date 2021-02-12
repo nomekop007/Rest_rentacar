@@ -1,4 +1,10 @@
-const { Sequelize, database } = require("./databaseConnect");
+const Sequelize = require("sequelize");
+const { DB } = require('../envirements')
+const config = DB;
+const db = {}
+
+const database = new Sequelize(config.database, config.username, config.password, config);
+
 
 //llamar al models
 const LogModel = require("../../models/log");
@@ -84,6 +90,7 @@ const Permiso = PermisoModel(database, Sequelize);
 const RolPermiso = RolPermisoModel(database, Sequelize);
 const Abono = AbonoModel(database, Sequelize);
 const Extencion = ExtencionModel(database, Sequelize);
+
 
 //opciones
 //RESTRICT, CASCADE, NO ACTION, SET DEFAULT y SET NULL.
@@ -377,7 +384,72 @@ Conductor.hasOne(DocumentoConductor, { foreignKey: { name: "rut_conductor" }, on
 DocumentoConductor.belongsTo(Conductor, { foreignKey: { name: "rut_conductor" }, onDelete: onDelete, onUpdate: onUpdate });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+db.logs = Log;
+db.logErros = LogError;
+db.usuarios = Usuario;
+db.roles = Rol;
+db.sucursales = Sucursal;
+db.vehiculos = Vehiculo;
+db.arriendos = Arriendo;
+db.clientes = Cliente;
+db.accesorio = Accesorio;
+db.empresas = Empresa;
+db.conductores = Conductor;
+db.requisitos = Requisito;
+db.contratos = Contrato;
+db.pagoArriendos = PagoArriendo;
+db.facturaciones = Facturacion;
+db.garantias = Garantia;
+db.modoPagos = ModoPago;
+db.propietarios = Propietario;
+db.remplazos = Remplazo;
+db.actaEntregas = ActaEntrega;
+db.despachos = Despacho;
+db.pagoAccesorios = PagoAccesorio;
+db.pagos = Pago;
+db.empresaRemplazos = EmpresaRemplazo;
+db.contactos = Contacto;
+db.regiones = Region;
+db.danioVehiculos = DanioVehiculo;
+db.pagoDanios = PagoDanio;
+db.documentoClientes = DocumentoCliente;
+db.documentoEmpresas = DocumentoEmpresa;
+db.documentoConductores = DocumentoConductor;
+db.tarifaVehiculos = TarifaVehiculo;
+db.reservas = Reserva;
+db.reservaClientes = ReservaCliente;
+db.reservaEmpresas = ReservaEmpresa;
+db.fotoDespachos = FotoDespacho;
+db.permisos = Permiso;
+db.rolPermisos = RolPermiso;
+db.abonos = Abono;
+db.extenciones = Extencion;
+
+db.sequelize = database;
+db.Sequelize = Sequelize;
+
+
+
 module.exports = {
+    db,
     Log,
     LogError,
     Rol,

@@ -3,16 +3,18 @@ const { asClass, createContainer, asFunction, asValue } = require("awilix");
 let container = createContainer();
 
 const config = require('../envirements');
-const App = require('../../app');
+const StartUp = require('../../startup');
 const Server = require('../../server');
 const Route = require("../../routes/route");
+const { db } = require("../database/db");
 
 
 
 container.register({
+    db: asValue(db),
     config: asValue(config),
     router: asFunction(Route).singleton(),
-    app: asClass(App).singleton(),
+    app: asClass(StartUp).singleton(),
     server: asClass(Server).singleton(),
 })
 
