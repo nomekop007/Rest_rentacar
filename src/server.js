@@ -28,9 +28,9 @@ class server {
         return new Promise((resolve, reject) => {
             const cert = fs.readFileSync("./cert4.pem");
             const key = fs.readFileSync("./privkey4.pem");
-            const https = https.createServer({ cert: cert, key: key }, this.config.PORT)
+            const server = this.https.createServer({ cert: cert, key: key }, this.config.PORT)
                 .listen(this.config.PORT, () => {
-                    const { port } = https.address();
+                    const { port } = server.address();
                     console.log("Servidor arrancado! https production Puerto ", port);
                     resolve();
                 });
@@ -39,8 +39,8 @@ class server {
 
     startDev() {
         return new Promise((resolve, reject) => {
-            const http = this._express.listen(this.config.PORT, () => {
-                const { port } = http.address();
+            const server = this._express.listen(this.config.PORT, () => {
+                const { port } = server.address();
                 console.log("Servidor arrancado! http development Puerto ", port);
                 resolve();
             });
