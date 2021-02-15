@@ -15,6 +15,7 @@ class RolController {
         }
     }
 
+
     async createRol(req, res) {
         try {
             const rol = await this._serviceRol.postCreate(req.body);
@@ -23,6 +24,10 @@ class RolController {
             this.sendError(error, req, res);
         }
     }
+
+
+
+
 
 
 

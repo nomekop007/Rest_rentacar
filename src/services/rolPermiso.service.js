@@ -1,10 +1,17 @@
-const { RolPermiso } = require("../config/database/db");
+const { RolPermiso, Permiso } = require("../config/database/db");
 
 
 class RolPermisoService {
 
     async getFindAll() {
         return await RolPermiso.findAll();
+    }
+
+    async getFindOneWithRol(ID) {
+        return await RolPermiso.findAll({
+            where: { id_rol: ID },
+            include: { model: Permiso }
+        })
     }
 
     async postCreate(DATA) {

@@ -6,6 +6,7 @@ class PermisoService {
         return await Permiso.findAll();
     }
 
+
     async postCreate(DATA) {
         return await Permiso.create(DATA);
     }
