@@ -46,7 +46,7 @@ module.exports = ({
     apiRoute.use("/requisitos", checkMiddleware.checkToken, RequisitoRoutes);
     apiRoute.use("/reservas", checkMiddleware.checkToken, ReservaRoutes);
     apiRoute.use("/roles", checkMiddleware.checkToken, RolRoutes);
-    apiRoute.use("/permisos", checkMiddleware.checkToken, PermisoRoutes);
+    apiRoute.use("/permisos", /* checkMiddleware.checkToken, */ PermisoRoutes);
 
     apiRoute.use("/sucursales", checkMiddleware.checkToken, SucursalRoutes);
     apiRoute.use("/tarifasVehiculos", checkMiddleware.checkToken, TarifaVehiculoRoutes);

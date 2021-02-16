@@ -28,6 +28,12 @@ class RolPermisoService {
         return await RolPermiso.findByPk(ID);
     }
 
+    async deleteById(ID) {
+        return await RolPermiso.destroy({
+            where: { id_rolPermiso: ID }
+        })
+    }
+
 }
 
 
