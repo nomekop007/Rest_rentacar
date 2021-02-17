@@ -80,14 +80,10 @@ class PermisoController {
 
     async validarPermisos(req, res) {
         try {
-            const { id_rol, id_permiso } = req.query;
-            const rolesPermisos = await this._serviceRolPermiso.getFindOneWithRol(id_rol);
-            let existe = rolesPermisos.find((rolPermiso) => rolPermiso.id_permiso == id_permiso)
-            if (existe) {
-                res.json({ success: true, data: true });
-            } else {
-                res.json({ success: true, data: false, msg: "no tienes los permisos suficientes para realizar esta accion" });
-            }
+            const rolesPermisos = await this._serviceRolPermiso.getFindOneWithRol(req.params.id);
+            let arrayIdPermisos = [];
+            arrayIdPermisos = rolesPermisos.map((rolPermiso) => rolPermiso.id_permiso);
+            res.send(arrayIdPermisos)
         } catch (error) {
             this.sendError(error, req, res);
         }

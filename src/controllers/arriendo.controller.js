@@ -15,7 +15,7 @@ class ArriendoController {
 			//preguntar si el usuario no es administrador
 			const { sucursal, estado } = req.query;
 			let where = {};
-			where.id_sucursal = sucursal;
+			if (sucursal) where.id_sucursal = sucursal;
 			if (estado) where.estado_arriendo = estado;
 			const arriendos = await this._serviceArriendo.getFindAllPublic(where);
 			res.json({

@@ -21,7 +21,7 @@ class SucursalController {
 
     async getFindVehiculosPorSucursal(req, res) {
         try {
-            const sucursal = await this._serviceSucursal.getFindByName(req.params.name);
+            const sucursal = await this._serviceSucursal.getFindById(req.params.id);
             res.json({
                 success: true,
                 data: sucursal,

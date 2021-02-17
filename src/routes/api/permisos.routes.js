@@ -8,7 +8,7 @@ module.exports = ({ PermisoController }) => {
     router.post("/registrarPermiso", PermisoController.registrarPermiso.bind(PermisoController));
     router.post("/crearRolPermiso", PermisoController.agregarRolPermiso.bind(PermisoController));
     router.delete("/eliminarRolPermiso/:id", PermisoController.eliminarRolPermiso.bind(PermisoController));
-    router.get("/validarPermisos", PermisoController.validarPermisos.bind(PermisoController));
+    router.get("/validarPermisos/:id", PermisoController.validarPermisos.bind(PermisoController));
 
 
     return router;

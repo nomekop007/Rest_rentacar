@@ -19,8 +19,8 @@ class ArriendoService {
         return await Arriendo.findAll({
             where: {
                 [Op.or]: [
-                    { estado_arriendo: FILTER[0] },
-                    { estado_arriendo: FILTER[1] },
+                    { estado_arriendo: FILTER[0] ? FILTER[0] : null },
+                    { estado_arriendo: FILTER[1] ? FILTER[1] : null },
                 ],
                 id_sucursal: id_sucursal
             },
