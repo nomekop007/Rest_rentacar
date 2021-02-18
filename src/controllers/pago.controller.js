@@ -224,6 +224,28 @@ class PagoController {
         }
     }
 
+    async actualizarMontoPago(req, res) {
+        try {
+            const { nuevo_monto } = req.body;
+            const pago = await this._servicePago.getFindOne(req.params.id);
+            const dataPago = {
+                neto_pago: Math.round(nuevo_monto / 1.19),
+                iva_pago: Math.round((nuevo_monto / 1.19) * 0.19),
+                total_pago: nuevo_monto
+            }
+            const dataPagoArriendo = {
+                total_pagoArriendo: dataPago.total_pago,
+                iva_pagoArriendo: dataPago.iva_pago,
+                neto_pagoArriendo: dataPago.neto_pago
+            }
+            await this._servicePago.putUpdate(dataPago, req.params.id);
+            await this._servicePagoArriendo.putUpdate(dataPagoArriendo, pago.id_pagoArriendo);
+            res.json({ success: true, msg: "pago actualizado!" });
+        } catch (error) {
+            this.sendError(error, req, res);
+        }
+    }
+
 
 
 }

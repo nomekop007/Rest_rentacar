@@ -12,7 +12,7 @@ module.exports = ({ PagoController }) => {
     router.get("/buscarPagosClientePendiente/:id", PagoController.buscarPagosClientePendiente.bind(PagoController));
     router.get("/cargarPagosClientes", PagoController.cargarPagosClientes.bind(PagoController));
     router.put("/actualizarUnPagoAPagado/:id", PagoController.actualizarUnPagoPendiente.bind(PagoController));
-
+    router.put("/actualizarMontoPago/:id", PagoController.actualizarMontoPago.bind(PagoController));
     return router;
 }
 

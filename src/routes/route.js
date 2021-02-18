@@ -36,7 +36,7 @@ module.exports = ({
     apiRoute.use("/extenciones", checkMiddleware.checkToken, ExtencionRoutes);
     apiRoute.use("/facturaciones", checkMiddleware.checkToken, FacturacionRoutes);
     apiRoute.use("/garantias", checkMiddleware.checkToken, GarantiaRoutes);
-    apiRoute.use("/pagos", checkMiddleware.checkToken, PagoRoutes);
+    apiRoute.use("/pagos",/*  checkMiddleware.checkToken, */ PagoRoutes);
     apiRoute.use("/pagosAccesorios", checkMiddleware.checkToken, PagoAccesorioRoutes);
     apiRoute.use("/pagosArriendos", checkMiddleware.checkToken, PagoArriendoRoutes);
     apiRoute.use("/pagosDanios", checkMiddleware.checkToken, PagoDanioRoutes);
@@ -46,8 +46,7 @@ module.exports = ({
     apiRoute.use("/requisitos", checkMiddleware.checkToken, RequisitoRoutes);
     apiRoute.use("/reservas", checkMiddleware.checkToken, ReservaRoutes);
     apiRoute.use("/roles", checkMiddleware.checkToken, RolRoutes);
-    apiRoute.use("/permisos", /* checkMiddleware.checkToken, */ PermisoRoutes);
-
+    apiRoute.use("/permisos", checkMiddleware.checkToken, PermisoRoutes);
     apiRoute.use("/sucursales", checkMiddleware.checkToken, SucursalRoutes);
     apiRoute.use("/tarifasVehiculos", checkMiddleware.checkToken, TarifaVehiculoRoutes);
     apiRoute.use("/vehiculos", checkMiddleware.checkToken, VehiculoRoutes);
