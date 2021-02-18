@@ -24,7 +24,7 @@ jobs:
         script: |
           cd /root/HodgesEXE/apis_rentacar/api_rentacar_test/
           git checkout development
-          git pull
+          git pull grupo development
           npm install
           pm2 restart api_rentacar_test
           exit
