@@ -8,7 +8,7 @@ const pdfFonts = require("pdfmake/build/vfs_fonts.js");
 const nodemailer = require("nodemailer");
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-//cambio hecho
+//cambio hecho 2
 const sendError = (error, req, res) => {
     console.log(error);
     logErrorRegister(req, error);
