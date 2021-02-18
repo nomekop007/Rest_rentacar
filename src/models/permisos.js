@@ -3,7 +3,6 @@ module.exports = (sequelize, type) => {
         id_permiso: {
             type: type.INTEGER,
             primaryKey: true,
-            autoIncrement: true,
         },
         nombre_permiso: type.STRING,
         descripcion_permiso: type.STRING,

@@ -14,9 +14,9 @@ class SucursalService {
         })
     }
 
-    async getFindByName(NAME) {
+    async getFindById(ID) {
         return await Sucursal.findOne({
-            where: { nombre_sucursal: NAME },
+            where: { id_sucursal: ID },
             include: [
                 {
                     model: Region,

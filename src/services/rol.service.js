@@ -1,9 +1,11 @@
-const { Rol } = require("../config/database/db");
+const { Rol, Usuario } = require("../config/database/db");
 
 class RolService {
 
     async getFindAll() {
-        return await Rol.findAll();
+        return await Rol.findAll({
+            include: { model: Usuario }
+        });
     }
 
 

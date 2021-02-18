@@ -54,10 +54,8 @@ container = require('./FotoDespacho/FotoDespacho.injection')(container);
 container = require('./documentoClientes/documentoClientes.injection')(container);
 container = require('./documentoConductores/documentoConductores.injection')(container);
 container = require('./documentoEmpresas/documentoEmpresas.injection')(container);
-
-
-
-
+container = require('./rolPermisos/rolPermisos.injection')(container);
+container = require('./permisos/permisos.injection')(container);
 
 
 module.exports = container;

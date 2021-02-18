@@ -15,26 +15,8 @@ class VehiculoController {
 
     async getVehiculos(req, res) {
         try {
-            const { sucursal, rol } = req.query;
-            const { id_region } = await this._serviceSucursal.getFindOne(sucursal);
-            let vehiculos = null;
-            if (rol === 1) vehiculos = await this._serviceVehiculo.getFindAll();
-            else vehiculos = await this._serviceVehiculo.getFindAllWithRegion(id_region);
-
-
-            vehiculos.map(({ id_vehiculo, patente_vehiculo }) => {
-                if (!id_vehiculo) {
-                    setTimeout(async () => {
-                        await this._serviceVehiculo.putUpdate({ id_vehiculo: uuidv4() }, patente_vehiculo);
-                        console.log(patente_vehiculo)
-                    }, 1000);
-                }
-            })
-
-            res.json({
-                success: true,
-                data: vehiculos,
-            });
+            const vehiculos = await this._serviceVehiculo.getFindAll();
+            res.json({ success: true, data: vehiculos, });
         } catch (error) {
             this.sendError(error, req, res);
         }
