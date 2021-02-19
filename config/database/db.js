@@ -5,91 +5,50 @@ const db = {}
 
 const database = new Sequelize(config.database, config.username, config.password, config);
 
-
-//llamar al models
-const LogModel = require("../../models/log");
-const LogErrorModel = require("../../models/logErrors");
-const RolModel = require("../../models/roles");
-const UsuarioModel = require("../../models/usuarios");
-const SucursalModel = require("../../models/sucursales");
-const VehiculoModel = require("../../models/vehiculos");
-const AccesoriosModel = require("../../models/accesorios");
-const ArriendoModel = require("../../models/arriendos");
-const ContactoModel = require("../../models/contactos");
-const ClienteModel = require("../../models/clientes");
-const EmpresaModel = require("../../models/empresas");
-const ConductorModel = require("../../models/conductores");
-const RequistoModel = require("../../models/requisitos");
-const ContratoModel = require("../../models/contratos");
-const PagoArriendoModel = require("../../models/pagoArriendos");
-const FacturacionModel = require("../../models/facturaciones");
-const GarantiaModel = require("../../models/garantias");
-const ModoPagoModel = require("../../models/modosPagos");
-const PropietarioModel = require("../../models/propietarios");
-const RemplazoModel = require("../../models/remplazos");
-const ActaEntregaModel = require("../../models/actaEntrega");
-const DespachoModel = require("../../models/despacho");
-const PagoAccesoriosModel = require("../../models/pagoAccesorios");
-const EmpresaRemplazoModel = require("../../models/empresaRemplazos");
-const PagoModel = require("../../models/pagos");
-const RegionModel = require("../../models/regiones");
-const DanioVehiculoModel = require("../../models/danioVehiculo");
-const PagoDanioModel = require("../../models/pagosDanios");
-const DocumentoClienteModel = require("../../models/documentosClientes");
-const DocumentoEmpresaModel = require("../../models/documentosEmpresas");
-const DocumentoConductorModel = require("../../models/documentosConductores");
-const TarifaVehiculoModel = require("../../models/tarifasVehiculos");
-const ReservaModel = require("../../models/reservas");
-const ReservaClienteModel = require("../../models/reservasClientes");
-const ReservaEmpresaModel = require("../../models/reservasEmpresas");
-const FotoDespachoModel = require("../../models/fotosDespachos");
-const PermisoModel = require("../../models/permisos");
-const RolPermisoModel = require("../../models/rolesPermisos");
-const AbonoModel = require("../../models/abonos");
-const ExtencionModel = require("../../models/extenciones");
-
-
 //conectar modelo con base de datos
-const Log = LogModel(database, Sequelize);
-const LogError = LogErrorModel(database, Sequelize);
-const Usuario = UsuarioModel(database, Sequelize);
-const Rol = RolModel(database, Sequelize);
-const Sucursal = SucursalModel(database, Sequelize);
-const Vehiculo = VehiculoModel(database, Sequelize);
-const Arriendo = ArriendoModel(database, Sequelize);
-const Cliente = ClienteModel(database, Sequelize);
-const Accesorio = AccesoriosModel(database, Sequelize);
-const Empresa = EmpresaModel(database, Sequelize);
-const Conductor = ConductorModel(database, Sequelize);
-const Requisito = RequistoModel(database, Sequelize);
-const Contrato = ContratoModel(database, Sequelize);
-const PagoArriendo = PagoArriendoModel(database, Sequelize);
-const Facturacion = FacturacionModel(database, Sequelize);
-const Garantia = GarantiaModel(database, Sequelize);
-const ModoPago = ModoPagoModel(database, Sequelize);
-const Propietario = PropietarioModel(database, Sequelize);
-const Remplazo = RemplazoModel(database, Sequelize);
-const ActaEntrega = ActaEntregaModel(database, Sequelize);
-const Despacho = DespachoModel(database, Sequelize);
-const PagoAccesorio = PagoAccesoriosModel(database, Sequelize);
-const Pago = PagoModel(database, Sequelize);
-const EmpresaRemplazo = EmpresaRemplazoModel(database, Sequelize);
-const Contacto = ContactoModel(database, Sequelize);
-const Region = RegionModel(database, Sequelize);
-const DanioVehiculo = DanioVehiculoModel(database, Sequelize);
-const PagoDanio = PagoDanioModel(database, Sequelize);
-const DocumentoCliente = DocumentoClienteModel(database, Sequelize);
-const DocumentoEmpresa = DocumentoEmpresaModel(database, Sequelize);
-const DocumentoConductor = DocumentoConductorModel(database, Sequelize);
-const TarifaVehiculo = TarifaVehiculoModel(database, Sequelize);
-const Reserva = ReservaModel(database, Sequelize);
-const ReservaCliente = ReservaClienteModel(database, Sequelize);
-const ReservaEmpresa = ReservaEmpresaModel(database, Sequelize);
-const FotoDespacho = FotoDespachoModel(database, Sequelize);
-const Permiso = PermisoModel(database, Sequelize);
-const RolPermiso = RolPermisoModel(database, Sequelize);
-const Abono = AbonoModel(database, Sequelize);
-const Extencion = ExtencionModel(database, Sequelize);
+const Log = require("../../models/log")(database, Sequelize);
+const LogError = require("../../models/logErrors")(database, Sequelize);
+const Usuario = require("../../models/usuarios")(database, Sequelize);
+const Rol = require("../../models/roles")(database, Sequelize);
+const Sucursal = require("../../models/sucursales")(database, Sequelize);
+const Vehiculo = require("../../models/vehiculos")(database, Sequelize);
+const Arriendo = require("../../models/arriendos")(database, Sequelize);
+const Cliente = require("../../models/clientes")(database, Sequelize);
+const Accesorio = require("../../models/accesorios")(database, Sequelize);
+const Empresa = require("../../models/empresas")(database, Sequelize);
+const Conductor = require("../../models/conductores")(database, Sequelize);
+const Requisito = require("../../models/requisitos")(database, Sequelize);
+const Contrato = require("../../models/contratos")(database, Sequelize);
+const PagoArriendo = require("../../models/pagoArriendos")(database, Sequelize);
+const Facturacion = require("../../models/facturaciones")(database, Sequelize);
+const Garantia = require("../../models/garantias")(database, Sequelize);
+const ModoPago = require("../../models/modosPagos")(database, Sequelize);
+const Propietario = require("../../models/propietarios")(database, Sequelize);
+const Remplazo = require("../../models/remplazos")(database, Sequelize);
+const ActaEntrega = require("../../models/actaEntrega")(database, Sequelize);
+const Despacho = require("../../models/despacho")(database, Sequelize);
+const PagoAccesorio = require("../../models/pagoAccesorios")(database, Sequelize);
+const Pago = require("../../models/pagos")(database, Sequelize);
+const EmpresaRemplazo = require("../../models/empresaRemplazos")(database, Sequelize);
+const Contacto = require("../../models/contactos")(database, Sequelize);
+const Region = require("../../models/regiones")(database, Sequelize);
+const DanioVehiculo = require("../../models/danioVehiculo")(database, Sequelize);
+const PagoDanio = require("../../models/pagosDanios")(database, Sequelize);
+const DocumentoCliente = require("../../models/documentosClientes")(database, Sequelize);
+const DocumentoEmpresa = require("../../models/documentosEmpresas")(database, Sequelize);
+const DocumentoConductor = require("../../models/documentosConductores")(database, Sequelize);
+const TarifaVehiculo = require("../../models/tarifasVehiculos")(database, Sequelize);
+const Reserva = require("../../models/reservas")(database, Sequelize);
+const ReservaCliente = require("../../models/reservasClientes")(database, Sequelize);
+const ReservaEmpresa = require("../../models/reservasEmpresas")(database, Sequelize);
+const FotoDespacho = require("../../models/fotosDespachos")(database, Sequelize);
+const Permiso = require("../../models/permisos")(database, Sequelize);
+const RolPermiso = require("../../models/rolesPermisos")(database, Sequelize);
+const Abono = require("../../models/abonos")(database, Sequelize);
+const Extencion = require("../../models/extenciones")(database, Sequelize);
+const PagoHistorial = require("../../models/pagoHistorial")(database, Sequelize);
+
+
 
 
 //opciones
@@ -98,6 +57,11 @@ const onDelete = "CASCADE";
 const onUpdate = "CASCADE";
 
 //Asociaciones de tablas
+
+// un pago tiene muchos pagoHistorial
+Pago.hasMany(PagoHistorial, { foreignKey: { name: "id_pago" }, onDelete: onDelete, onUpdate: onUpdate });
+// un pagoHistorial pertenece a un pago
+PagoHistorial.belongsTo(Pago, { foreignKey: { name: "id_pago" }, onDelete: onDelete, onUpdate: onUpdate });
 
 //un arriendo tiene muchas extenciones
 Arriendo.hasMany(Extencion, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate });
@@ -427,6 +391,7 @@ db.permiso = Permiso;
 db.rolPermiso = RolPermiso;
 db.abono = Abono;
 db.extencion = Extencion;
+db.pagoHistorial = PagoHistorial;
 
 
 
@@ -476,5 +441,6 @@ module.exports = {
     Rol,
     Permiso,
     Abono,
-    Extencion
+    Extencion,
+    PagoHistorial
 };
