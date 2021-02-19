@@ -1,5 +1,5 @@
 
-const container = require('./src/config/dependency-injection/container');
+const container = require('./config/dependency-injection/container');
 
 const application = container.resolve('app');
 const db = container.resolve('db')
