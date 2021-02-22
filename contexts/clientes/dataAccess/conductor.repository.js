@@ -5,23 +5,23 @@ class ConductorRepository {
     }
 
     getFindAll() {
-        this.db.conductor.findAll();
+        return this.db.conductor.findAll();
     }
 
 
     getFindByPK(ID) {
-        this.db.conductor.findByPk(ID);
+        return this.db.conductor.findByPk(ID);
     }
 
     getFindOne(ID) {
-        this.db.conductor.findOne({
+        return this.db.conductor.findOne({
             where: { rut_conductor: ID },
             include: [{ model: this.db.documentoConductor, attributes: ["licenciaConducirFrontal", "licenciaConducirTrasera"] }]
         })
     }
 
     postFindOrCreate(DATA, ID) {
-        this.db.conductor.findOrCreate({
+        return this.db.conductor.findOrCreate({
             where: { rut_conductor: ID },
             defaults: DATA,
         });
@@ -29,7 +29,7 @@ class ConductorRepository {
 
 
     putUpdate(DATA, ID) {
-        this.db.conductor.update(DATA, {
+        return this.db.conductor.update(DATA, {
             where: { rut_conductor: ID },
         });
     }

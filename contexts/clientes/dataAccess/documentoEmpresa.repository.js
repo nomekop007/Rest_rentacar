@@ -1,5 +1,3 @@
-const { DocumentoEmpresa } = require("../../../config/database/db");
-
 class DocumentoEmpresaRepository {
 
     constructor({ db }) {
