@@ -2,7 +2,7 @@ const { asClass, asFunction } = require('awilix');
 
 const PagoRoutes = require('../../../api/routes/apis/pagos.routes');
 const PagoController = require('../../../api/controllers/pago.controller');
-const PagoService = require('../../../services/pago.service')
+const PagoService = require('../../../contexts/pagos/dataAccess/pago.repository')
 
 module.exports = (container) => {
     container.register({

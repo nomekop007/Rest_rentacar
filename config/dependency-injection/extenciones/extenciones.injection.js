@@ -2,7 +2,7 @@ const { asClass, asFunction } = require('awilix');
 
 const ExtencionRoutes = require('../../../api/routes/apis/extenciones.routes');
 const ExtencionController = require('../../../api/controllers/extencion.controller');
-const ExtencionService = require('../../../services/extencion.service')
+const ExtencionService = require('../../../contexts/arriendos/dataAccess/extencion.repository');
 
 module.exports = (container) => {
     container.register({

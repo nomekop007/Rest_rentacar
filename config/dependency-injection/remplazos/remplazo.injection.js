@@ -2,7 +2,7 @@ const { asClass, asFunction } = require('awilix');
 
 const RemplazoRoutes = require('../../../api/routes/apis/remplazos.routes');
 const RemplazoController = require('../../../api/controllers/remplazo.controller');
-const RemplazoService = require('../../../services/remplazo.service');
+const RemplazoService = require('../../../contexts/empresaRemplazos/dataAccess/remplazo.repository');
 
 module.exports = (container) => {
     container.register({

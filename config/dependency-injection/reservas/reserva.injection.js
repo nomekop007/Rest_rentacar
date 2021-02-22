@@ -2,7 +2,7 @@ const { asClass, asFunction } = require('awilix');
 
 const ReservaRoutes = require('../../../api/routes/apis/reservas.routes');
 const ReservaController = require('../../../api/controllers/reserva.controller');
-const ReservaService = require('../../../services/reserva.service')
+const ReservaService = require('../../../contexts/reservas/dataAccess/reserva.repository')
 
 module.exports = (container) => {
     container.register({

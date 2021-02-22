@@ -2,7 +2,7 @@ const { asClass, asFunction } = require('awilix');
 
 const ConductorRoutes = require('../../../api/routes/apis/conductores.routes');
 const ConductorController = require('../../../api/controllers/conductor.controller');
-const ConductorService = require('../../../services/conductor.service');
+const ConductorService = require('../../../contexts/clientes/dataAccess/conductor.repository');
 
 module.exports = (container) => {
     container.register({

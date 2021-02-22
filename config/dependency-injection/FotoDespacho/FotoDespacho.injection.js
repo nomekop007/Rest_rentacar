@@ -1,7 +1,7 @@
 const { asClass, asFunction } = require('awilix');
 
 
-const FotoDespachoService = require('../../../services/fotosDespachos.service')
+const FotoDespachoService = require('../../../contexts/despachos/dataccess/fotosDespachos.repository')
 
 module.exports = (container) => {
     container.register({

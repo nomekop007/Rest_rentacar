@@ -2,7 +2,7 @@ const { asClass, asFunction } = require('awilix');
 
 const SucursalRoutes = require('../../../api/routes/apis/sucursales.routes');
 const SucursalController = require('../../../api/controllers/sucursal.controller');
-const SucursalService = require('../../../services/sucursal.service')
+const SucursalService = require('../../../contexts/sucursales/dataAccess/sucursal.repository')
 
 module.exports = (container) => {
     container.register({

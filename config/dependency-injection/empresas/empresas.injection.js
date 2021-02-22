@@ -2,7 +2,7 @@ const { asClass, asFunction } = require('awilix');
 
 const EmpresaRoutes = require('../../../api/routes/apis/empresas.routes');
 const EmpresaController = require('../../../api/controllers/empresa.controller');
-const EmpresaService = require('../../../services/empresa.service');
+const EmpresaService = require('../../../contexts/clientes/dataAccess/empresa.repository');
 
 module.exports = (container) => {
     container.register({

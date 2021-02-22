@@ -2,7 +2,7 @@ const { asClass, asFunction } = require('awilix');
 
 const PermisoRoutes = require('../../../api/routes/apis/permisos.routes');
 const PermisoController = require('../../../api/controllers/permisos.controller');
-const PermisoService = require('../../../services/permisos.service')
+const PermisoService = require('../../../contexts/permisos/dataAccess/permisos.repository')
 
 module.exports = (container) => {
     container.register({

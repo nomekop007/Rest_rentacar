@@ -1,5 +1,5 @@
 const { asClass, asFunction } = require('awilix');
-const RolPermisoService = require('../../../services/rolPermiso.service')
+const RolPermisoService = require('../../../contexts/roles/dataAccess/rolPermiso.repository')
 
 module.exports = (container) => {
     container.register({

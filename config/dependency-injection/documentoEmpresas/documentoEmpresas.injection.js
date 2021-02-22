@@ -1,7 +1,7 @@
 const { asClass } = require('awilix');
 
 
-const DocumentoEmpresaService = require('../../../services/documentoEmpresa.service');
+const DocumentoEmpresaService = require('../../../contexts/clientes/dataAccess/documentoEmpresa.repository');
 
 module.exports = (container) => {
     container.register({
