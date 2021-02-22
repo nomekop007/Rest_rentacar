@@ -9,6 +9,12 @@ const database = new Sequelize(config.database, config.username, config.password
 const Usuario = require("../../contexts/usuarios/dataAccess/usuario.entity")(database, Sequelize);
 const Vehiculo = require("../../contexts/vehiculos/dataAccess/vehiculo.entity")(database, Sequelize);
 const PagoHistorial = require("../../contexts/pagos/dataAccess/pagoHistorial.entity")(database, Sequelize);
+const PagoArriendo = require("../../contexts/pagos/dataAccess/pagoArriendo.entity")(database, Sequelize);
+const ModoPago = require("../../contexts/pagos/dataAccess/modoPago.entity")(database, Sequelize);
+const PagoAccesorio = require("../../contexts/pagos/dataAccess/pagoAccesorio.entity")(database, Sequelize);
+const Pago = require("../../contexts/pagos/dataAccess/pago.entity")(database, Sequelize);
+const PagoDanio = require("../../contexts/pagos/dataAccess/pagoDanio.entity")(database, Sequelize);
+const Abono = require("../../contexts/pagos/dataAccess/abono.entity")(database, Sequelize);
 
 
 const Log = require("../../models/log")(database, Sequelize);
@@ -22,21 +28,16 @@ const Empresa = require("../../models/empresas")(database, Sequelize);
 const Conductor = require("../../models/conductores")(database, Sequelize);
 const Requisito = require("../../models/requisitos")(database, Sequelize);
 const Contrato = require("../../models/contratos")(database, Sequelize);
-const PagoArriendo = require("../../models/pagoArriendos")(database, Sequelize);
 const Facturacion = require("../../models/facturaciones")(database, Sequelize);
 const Garantia = require("../../models/garantias")(database, Sequelize);
-const ModoPago = require("../../models/modosPagos")(database, Sequelize);
 const Propietario = require("../../models/propietarios")(database, Sequelize);
 const Remplazo = require("../../models/remplazos")(database, Sequelize);
 const ActaEntrega = require("../../models/actaEntrega")(database, Sequelize);
 const Despacho = require("../../models/despacho")(database, Sequelize);
-const PagoAccesorio = require("../../models/pagoAccesorios")(database, Sequelize);
-const Pago = require("../../models/pagos")(database, Sequelize);
 const EmpresaRemplazo = require("../../models/empresaRemplazos")(database, Sequelize);
 const Contacto = require("../../models/contactos")(database, Sequelize);
 const Region = require("../../models/regiones")(database, Sequelize);
 const DanioVehiculo = require("../../models/danioVehiculo")(database, Sequelize);
-const PagoDanio = require("../../models/pagosDanios")(database, Sequelize);
 const DocumentoCliente = require("../../models/documentosClientes")(database, Sequelize);
 const DocumentoEmpresa = require("../../models/documentosEmpresas")(database, Sequelize);
 const DocumentoConductor = require("../../models/documentosConductores")(database, Sequelize);
@@ -47,7 +48,6 @@ const ReservaEmpresa = require("../../models/reservasEmpresas")(database, Sequel
 const FotoDespacho = require("../../models/fotosDespachos")(database, Sequelize);
 const Permiso = require("../../models/permisos")(database, Sequelize);
 const RolPermiso = require("../../models/rolesPermisos")(database, Sequelize);
-const Abono = require("../../models/abonos")(database, Sequelize);
 const Extencion = require("../../models/extenciones")(database, Sequelize);
 
 
