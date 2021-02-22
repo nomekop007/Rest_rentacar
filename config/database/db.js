@@ -6,12 +6,15 @@ const db = {}
 const database = new Sequelize(config.database, config.username, config.password, config);
 
 //conectar modelo con base de datos
+const Usuario = require("../../contexts/usuarios/dataAccess/usuario.entity")(database, Sequelize);
+const Vehiculo = require("../../contexts/vehiculos/dataAccess/vehiculo.entity")(database, Sequelize);
+const PagoHistorial = require("../../contexts/pagos/dataAccess/pagoHistorial.entity")(database, Sequelize);
+
+
 const Log = require("../../models/log")(database, Sequelize);
 const LogError = require("../../models/logErrors")(database, Sequelize);
-const Usuario = require("../../models/usuarios")(database, Sequelize);
 const Rol = require("../../models/roles")(database, Sequelize);
 const Sucursal = require("../../models/sucursales")(database, Sequelize);
-const Vehiculo = require("../../models/vehiculos")(database, Sequelize);
 const Arriendo = require("../../models/arriendos")(database, Sequelize);
 const Cliente = require("../../models/clientes")(database, Sequelize);
 const Accesorio = require("../../models/accesorios")(database, Sequelize);
@@ -46,7 +49,6 @@ const Permiso = require("../../models/permisos")(database, Sequelize);
 const RolPermiso = require("../../models/rolesPermisos")(database, Sequelize);
 const Abono = require("../../models/abonos")(database, Sequelize);
 const Extencion = require("../../models/extenciones")(database, Sequelize);
-const PagoHistorial = require("../../models/pagoHistorial")(database, Sequelize);
 
 
 

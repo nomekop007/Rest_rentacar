@@ -1,4 +1,3 @@
-const Usuario = require('./usuario.model');
 const { crearToken } = require("../../../api/helpers/components");
 const jwt = require("jwt-simple");
 const bcrypt = require("bcryptjs");
