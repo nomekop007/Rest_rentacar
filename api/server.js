@@ -21,6 +21,19 @@ class server {
         this._express.use(bodyParser.json({ limit: "400mb", extended: true }))
         this._express.use(bodyParser.urlencoded({ limit: "400mb", extended: true }))
         this._express.use(express.static(path.join("uploads/fotoDespachos")));
+        this._express.use(express.static(path.join("uploads/requisitosArriendos")));
+        this._express.use(express.static(path.join("uploads/facturaciones")));
+        this._express.use(express.static(path.join("uploads/contratos")));
+        this._express.use(express.static(path.join("uploads/actasEntregas")));
+        this._express.use(express.static(path.join("uploads/fotosDanioVehiculos")));
+        this._express.use(express.static(path.join("uploads/recepciones")));
+        this._express.use(express.static(path.join("uploads/requisitosArriendos")));
+
+
+
+
+
+
         this._express.use(router);
     }
 
