@@ -1,27 +1,27 @@
 class ConductorRepository {
 
     constructor({ db }) {
-        this.db = db;
+        this._db = db;
     }
 
     getFindAll() {
-        return this.db.conductor.findAll();
+        return this._db.conductor.findAll();
     }
 
 
     getFindByPK(ID) {
-        return this.db.conductor.findByPk(ID);
+        return this._db.conductor.findByPk(ID);
     }
 
     getFindOne(ID) {
-        return this.db.conductor.findOne({
+        return this._db.conductor.findOne({
             where: { rut_conductor: ID },
-            include: [{ model: this.db.documentoConductor, attributes: ["licenciaConducirFrontal", "licenciaConducirTrasera"] }]
+            include: [{ model: this._db.documentoConductor, attributes: ["licenciaConducirFrontal", "licenciaConducirTrasera"] }]
         })
     }
 
     postFindOrCreate(DATA, ID) {
-        return this.db.conductor.findOrCreate({
+        return this._db.conductor.findOrCreate({
             where: { rut_conductor: ID },
             defaults: DATA,
         });
@@ -29,7 +29,7 @@ class ConductorRepository {
 
 
     putUpdate(DATA, ID) {
-        return this.db.conductor.update(DATA, {
+        return this._db.conductor.update(DATA, {
             where: { rut_conductor: ID },
         });
     }

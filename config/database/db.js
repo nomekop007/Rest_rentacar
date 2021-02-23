@@ -8,7 +8,7 @@ const database = new Sequelize(config.database, config.username, config.password
 //conectar modelo con base de datos
 const Usuario = require("../../contexts/usuarios/dataAccess/usuario.entity")(database, Sequelize);
 const Vehiculo = require("../../contexts/vehiculos/dataAccess/vehiculo.entity")(database, Sequelize);
-const PagoHistorial = require("../../contexts/pagos/dataAccess/pagoHistorial.entity")(database, Sequelize);
+const PagoExtra = require("../../contexts/pagos/dataAccess/pagoExtra.entity")(database, Sequelize);
 const PagoArriendo = require("../../contexts/pagos/dataAccess/pagoArriendo.entity")(database, Sequelize);
 const ModoPago = require("../../contexts/pagos/dataAccess/modoPago.entity")(database, Sequelize);
 const PagoAccesorio = require("../../contexts/pagos/dataAccess/pagoAccesorio.entity")(database, Sequelize);
@@ -58,10 +58,11 @@ const onUpdate = "CASCADE";
 
 //Asociaciones de tablas
 
-// un pago tiene muchos pagoHistorial
-Pago.hasMany(PagoHistorial, { foreignKey: { name: "id_pago" }, onDelete: onDelete, onUpdate: onUpdate });
-// un pagoHistorial pertenece a un pago
-PagoHistorial.belongsTo(Pago, { foreignKey: { name: "id_pago" }, onDelete: onDelete, onUpdate: onUpdate });
+// un Arriendo tiene muchos PagoExtra
+Arriendo.hasMany(PagoExtra, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate });
+// un PagoExtra pertenece a un Arriendo
+PagoExtra.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate });
+
 
 //un arriendo tiene muchas extenciones
 Arriendo.hasMany(Extencion, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate });
@@ -352,7 +353,7 @@ DocumentoConductor.belongsTo(Conductor, { foreignKey: { name: "rut_conductor" },
 
 
 db.log = Log;
-db.logErro = LogError;
+db.logError = LogError;
 db.usuario = Usuario;
 db.rol = Rol;
 db.sucursal = Sucursal;
@@ -391,7 +392,7 @@ db.permiso = Permiso;
 db.rolPermiso = RolPermiso;
 db.abono = Abono;
 db.extencion = Extencion;
-db.pagoHistorial = PagoHistorial;
+db.pagoExtra = PagoExtra;
 
 
 
@@ -442,5 +443,5 @@ module.exports = {
     Permiso,
     Abono,
     Extencion,
-    PagoHistorial
+    PagoExtra
 };

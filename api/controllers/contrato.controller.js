@@ -38,9 +38,13 @@ class contrato_controller {
             //guarda el ultimo pago en el contrato
             const arrayPagos = ordenarArrayporFecha(arriendo.pagosArriendos);
             const fila = arrayPagos.length - 1;
-            response.id_pagoArriendo = arrayPagos[fila].id_pagoArriendo;
-            response.documento = nameFile + ".pdf";
-            const contrato = await this._serviceContrato.postCreate(response);
+            const dataContrato = {
+                documento: nameFile + ".pdf",
+                id_pagoArriendo: arrayPagos[fila].id_pagoArriendo,
+                id_arriendo: arriendo.id_arriendo,
+                userAt: req.headers["userat"]
+            }
+            const contrato = await this._serviceContrato.postCreate(dataContrato);
             res.json({
                 success: true,
                 data: contrato,

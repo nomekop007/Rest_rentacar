@@ -56,6 +56,6 @@ container = require('./documentoConductores/documentoConductores.injection')(con
 container = require('./documentoEmpresas/documentoEmpresas.injection')(container);
 container = require('./rolPermisos/rolPermisos.injection')(container);
 container = require('./permisos/permisos.injection')(container);
-
+container = require('./pagoExtra/pagoExtra.injection')(container);
 
 module.exports = container;

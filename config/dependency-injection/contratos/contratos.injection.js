@@ -2,7 +2,7 @@ const { asClass, asFunction } = require('awilix');
 
 const ContratoRoutes = require('../../../api/routes/apis/contratos.routes');
 const ContratoController = require('../../../api/controllers/contrato.controller');
-const ContratoService = require('../../../contexts/arriendos/dataAccess/contacto.repository');
+const ContratoService = require('../../../contexts/arriendos/dataAccess/contrato.repository');
 
 module.exports = (container) => {
     container.register({

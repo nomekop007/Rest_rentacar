@@ -29,11 +29,30 @@ class PagoArriendoController {
 
 	async consultarPagosArriendo(req, res) {
 		try {
-			const arriendo = await this._serviceArriendo.getFindOne(req.params.id);
-			const arrayTotalPagos = arriendo.pagosArriendos;
-			let arrayPago = [];
 			let totalPago = 0;
-			arrayTotalPagos.map((pagosArriendo) => {
+			const arriendo = await this._serviceArriendo.getFindOne(req.params.id);
+
+			let arrayPago = [];
+			let arrayTotalPagos = arriendo.pagosArriendos;
+			let arrayPagoExtra = arriendo.pagosExtras;
+			let arrayPagoDanio = arriendo.danioVehiculos;
+
+			if (arrayPagoDanio.length > 0) {
+				arrayPagoDanio.forEach(({ pagosDanio }) => {
+					if (pagosDanio) {
+						totalPago += pagosDanio.precioTotal_pagoDanio;
+					}
+				})
+			}
+
+			if (arrayPagoExtra.length > 0) { } {
+				arrayPagoExtra.forEach(({ monto_pagoExtra }) => {
+					totalPago += monto_pagoExtra;
+				})
+			}
+
+
+			arrayTotalPagos.forEach((pagosArriendo) => {
 				const pagos = ordenarArrayporFecha(pagosArriendo.pagos);
 				totalPago += pagos[0].total_pago;
 				arrayPago.push({ pago: pagos[0], pagoArriendo: pagosArriendo })
@@ -43,6 +62,8 @@ class PagoArriendoController {
 				deuda: true,
 				data: {
 					arrayPago: arrayPago,
+					arrayPagoExtra: arrayPagoExtra,
+					arrayPagoDanio: arrayPagoDanio,
 					totalPago: totalPago,
 					arriendo: arriendo
 				}

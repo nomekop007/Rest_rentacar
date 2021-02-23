@@ -13,6 +13,10 @@ module.exports = ({ PagoController }) => {
     router.get("/cargarPagosClientes", PagoController.cargarPagosClientes.bind(PagoController));
     router.put("/actualizarUnPagoAPagado/:id", PagoController.actualizarUnPagoPendiente.bind(PagoController));
     router.put("/actualizarMontoPago/:id", PagoController.actualizarMontoPago.bind(PagoController));
+    router.post("/registrarPagoExtra", PagoController.registrarPagoExtra.bind(PagoController));
+    router.get("/cargarPagosExtrasPorArriendo/:id", PagoController.mostrarPagoExtrasPorArriendo.bind(PagoController));
+
+
     return router;
 }
 

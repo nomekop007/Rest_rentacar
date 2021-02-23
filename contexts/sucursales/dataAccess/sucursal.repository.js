@@ -1,29 +1,29 @@
 class SucursalRepository {
 
     constructor({ db }) {
-        this.db = db;
+        this._db = db;
     }
 
     getFindAll() {
-        return this.db.sucursal.findAll({
-            include: [{ model: this.db.region }]
+        return this._db.sucursal.findAll({
+            include: [{ model: this._db.region }]
         });
     }
 
     getFindOne(ID) {
-        return this.db.sucursal.findOne({
+        return this._db.sucursal.findOne({
             where: { id_sucursal: ID },
         })
     }
 
     getFindById(ID) {
-        return this.db.sucursal.findOne({
+        return this._db.sucursal.findOne({
             where: { id_sucursal: ID },
             include: [
                 {
-                    model: this.db.region,
+                    model: this._db.region,
                     include: [{
-                        model: this.db.vehiculo,
+                        model: this._db.vehiculo,
                         where: { estado_vehiculo: "DISPONIBLE" },
                         attributes: [
                             "patente_vehiculo",
@@ -38,18 +38,18 @@ class SucursalRepository {
     }
 
     postCreate(DATA) {
-        return this.db.sucursal.create(DATA);
+        return this._db.sucursal.create(DATA);
     }
 
     putUpdate(ID, DATA) {
-        return this.db.sucursal.update(DATA, {
+        return this._db.sucursal.update(DATA, {
             where: { id_sucursal: ID },
         });
     }
 
     getArriendoBySucursal() {
-        return this.db.sucursal.findAll({
-            include: [{ model: this.db.arriendo }, { model: this.db.region }]
+        return this._db.sucursal.findAll({
+            include: [{ model: this._db.arriendo }, { model: this._db.region }]
         })
     }
 
