@@ -45,10 +45,12 @@ class UtilsController {
                     });
                     return;
             }
+            const link = `${process.env.PATH_SERVER}/${documento}`;
             const base64 = fs.readFileSync(paths, { encoding: "base64" });
             res.json({
                 success: true,
                 data: {
+                    link: link,
                     nombre: documento,
                     tipo: tipo,
                     base64: base64
