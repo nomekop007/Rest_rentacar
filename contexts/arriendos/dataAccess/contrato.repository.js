@@ -5,11 +5,11 @@ class ContratoRepository {
     }
 
     postCreate(DATA) {
-        this._db.contrato.create(DATA);
+        return this._db.contrato.create(DATA);
     }
 
     deleteByIDArriendo(ID) {
-        this._db.contrato.destroy({
+        return this._db.contrato.destroy({
             where: { id_arriendo: ID }
         });
     }
