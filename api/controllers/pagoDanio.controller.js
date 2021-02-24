@@ -1,7 +1,7 @@
 class PagoDanioController {
 
-    constructor({ PagoDanioService, sendError }) {
-        this._servicePagoDanio = PagoDanioService;
+    constructor({ PagoDanioRepository, sendError }) {
+        this._servicePagoDanio = PagoDanioRepository;
         this.sendError = sendError;
     }
 

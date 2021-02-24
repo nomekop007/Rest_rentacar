@@ -1,8 +1,8 @@
 
 const path = require("path");
 class FinanzasComponent {
-    constructor({ ArriendoService, sendError }) {
-        this.serviceArriendo = ArriendoService;
+    constructor({ ArriendoRepository, sendError }) {
+        this.serviceArriendo = ArriendoRepository;
         this.sendError = sendError;
     }
 

@@ -8,9 +8,9 @@ const pdfFonts = require("pdfmake/build/vfs_fonts.js");
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 class DanioVehiculoController {
-    constructor({ ArriendoService, DanioVehiculoService, sendError }) {
-        this._serviceArriendo = ArriendoService;
-        this._serviceDanioVehiculo = DanioVehiculoService;
+    constructor({ ArriendoRepository, DanioVehiculoRepository, sendError }) {
+        this._serviceArriendo = ArriendoRepository;
+        this._serviceDanioVehiculo = DanioVehiculoRepository;
         this.sendError = sendError;
     }
 
@@ -92,8 +92,6 @@ class DanioVehiculoController {
             const response = req.body;
             await this._serviceDanioVehiculo.putUpdate(response, req.params.id);
             await this._serviceDanioVehiculo.getFindByPk(req.params.id);
-            //  const data = { estado_arriendo: "FINALIZADO" };
-            // await this._serviceArriendo.putUpdate(data, danioVehiculo.id_arriendo);
             res.json({
                 success: true,
                 msg: "estado daño actualizado",

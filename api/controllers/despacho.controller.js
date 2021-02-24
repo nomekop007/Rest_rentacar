@@ -11,8 +11,8 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 class DespachoController {
 
-    constructor({ DespachoService, sendError }) {
-        this._serviceDespacho = DespachoService;
+    constructor({ DespachoRepository, sendError }) {
+        this._serviceDespacho = DespachoRepository;
         this.sendError = sendError;
     }
 

@@ -2,9 +2,9 @@ const logo = require.resolve("../utils/images/logo2.png");
 const base64 = require("image-to-base64");
 const { formatFechahora, nodemailerTransporter } = require("../helpers/components");
 class ArriendoController {
-	constructor({ ArriendoService, RemplazoService, sendError }) {
-		this._serviceArriendo = ArriendoService;
-		this._serviceReemplazo = RemplazoService;
+	constructor({ ArriendoRepository, RemplazoRepository, sendError }) {
+		this._serviceArriendo = ArriendoRepository;
+		this._serviceReemplazo = RemplazoRepository;
 		this.sendError = sendError;
 	}
 

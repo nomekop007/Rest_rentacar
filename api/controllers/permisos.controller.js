@@ -1,8 +1,8 @@
 class PermisoController {
 
-    constructor({ RolPermisoService, PermisoService, sendError }) {
-        this._serviceRolPermiso = RolPermisoService;
-        this._servicePermiso = PermisoService;
+    constructor({ RolPermisoRepository, PermisoRepository, sendError }) {
+        this._serviceRolPermiso = RolPermisoRepository;
+        this._servicePermiso = PermisoRepository;
         this.sendError = sendError;
     }
 

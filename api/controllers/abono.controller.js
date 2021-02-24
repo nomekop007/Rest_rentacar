@@ -1,7 +1,7 @@
 class AbonoController {
 
-    constructor({ AbonoService, sendError }) {
-        this._serviceAbono = AbonoService;
+    constructor({ AbonoRepository, sendError }) {
+        this._serviceAbono = AbonoRepository;
         this.sendError = sendError;
     }
 

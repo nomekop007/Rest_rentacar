@@ -2,9 +2,9 @@
 const { ordenarArrayporFecha } = require("../helpers/components");
 class PagoArriendoController {
 
-	constructor({ PagoArriendoService, ArriendoService, sendError }) {
-		this._servicePagoArriendo = PagoArriendoService;
-		this._serviceArriendo = ArriendoService;
+	constructor({ PagoArriendoRepository, ArriendoRepository, sendError }) {
+		this._servicePagoArriendo = PagoArriendoRepository;
+		this._serviceArriendo = ArriendoRepository;
 		this.sendError = sendError;
 	}
 

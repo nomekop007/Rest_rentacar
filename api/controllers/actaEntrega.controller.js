@@ -13,10 +13,10 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
 class ActaEntregaController {
-    constructor({ ActaEntregaService, ArriendoService, FotoDespachoService, sendError }) {
-        this._serviceActaEntrega = ActaEntregaService;
-        this._serviceArriendo = ArriendoService;
-        this._serviceFotoDespacho = FotoDespachoService;
+    constructor({ ActaEntregaRepository, ArriendoRepository, FotoDespachoRepository, sendError }) {
+        this._serviceActaEntrega = ActaEntregaRepository;
+        this._serviceArriendo = ArriendoRepository;
+        this._serviceFotoDespacho = FotoDespachoRepository;
         this.sendError = sendError;
     }
 

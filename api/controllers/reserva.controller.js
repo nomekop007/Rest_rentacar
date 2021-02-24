@@ -1,7 +1,7 @@
 class ReservaController {
 
-    constructor({ ReservaService, sendError }) {
-        this._serviceReserva = ReservaService;
+    constructor({ ReservaRepository, sendError }) {
+        this._serviceReserva = ReservaRepository;
         this.sendError = sendError;
     }
 

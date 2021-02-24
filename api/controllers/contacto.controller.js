@@ -1,7 +1,7 @@
 class ContactoController {
 
-    constructor({ ContactoService, sendError }) {
-        this._serviceContacto = ContactoService;
+    constructor({ ContactoRepository, sendError }) {
+        this._serviceContacto = ContactoRepository;
         this.sendError = sendError
     }
 

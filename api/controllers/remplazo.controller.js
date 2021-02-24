@@ -1,7 +1,7 @@
 class RemplazoController {
 
-    constructor({ RemplazoService, sendError }) {
-        this._serviceRemplazo = RemplazoService;
+    constructor({ RemplazoRepository, sendError }) {
+        this._serviceRemplazo = RemplazoRepository;
         this.sendError = sendError;
     }
 

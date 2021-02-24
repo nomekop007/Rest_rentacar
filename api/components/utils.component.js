@@ -3,12 +3,12 @@ const path = require("path");
 
 class UtilsController {
 
-    constructor({ ArriendoService, ContratoService, PagoArriendoService, GarantiaService, RequisitoService, sendError }) {
-        this._serviceArriendo = ArriendoService;
-        this._serviceContrato = ContratoService;
-        this._servicePagoArriendo = PagoArriendoService;
-        this._serviceGarantia = GarantiaService;
-        this._serviceRequisito = RequisitoService;
+    constructor({ ArriendoRepository, ContratoRepository, PagoArriendoRepository, GarantiaRepository, RequisitoRepository, sendError }) {
+        this._serviceArriendo = ArriendoRepository;
+        this._serviceContrato = ContratoRepository;
+        this._servicePagoArriendo = PagoArriendoRepository;
+        this._serviceGarantia = GarantiaRepository;
+        this._serviceRequisito = RequisitoRepository;
         this.sendError = sendError;
     }
 

@@ -1,7 +1,7 @@
 class ConductorController {
-    constructor({ ConductorService, DocumentoConductorService, sendError }) {
-        this._serviceConductor = ConductorService;
-        this._serviceDocConductor = DocumentoConductorService;
+    constructor({ ConductorRepository, DocumentoConductorRepository, sendError }) {
+        this._serviceConductor = ConductorRepository;
+        this._serviceDocConductor = DocumentoConductorRepository;
         this.sendError = sendError;
     }
 

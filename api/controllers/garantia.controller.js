@@ -1,7 +1,7 @@
 class GarantiaController {
 
-    constructor({ GarantiaService, sendError }) {
-        this._serviceGarantia = GarantiaService;
+    constructor({ GarantiaRepository, sendError }) {
+        this._serviceGarantia = GarantiaRepository;
         this.sendError = sendError;
     }
 

@@ -1,10 +1,10 @@
 class PagoController {
 
-    constructor({ PagoExtraService, PagoService, PagoArriendoService, ArriendoService, sendError }) {
+    constructor({ PagoExtraService, PagoRepository, PagoArriendoRepository, ArriendoRepository, sendError }) {
         this._servicePagoExtra = PagoExtraService;
-        this._servicePago = PagoService;
-        this._servicePagoArriendo = PagoArriendoService;
-        this._serviceArriendo = ArriendoService;
+        this._servicePago = PagoRepository;
+        this._servicePagoArriendo = PagoArriendoRepository;
+        this._serviceArriendo = ArriendoRepository;
         this.sendError = sendError;
     }
 

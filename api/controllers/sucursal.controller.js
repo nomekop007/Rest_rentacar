@@ -1,7 +1,7 @@
 class SucursalController {
 
-    constructor({ SucursalService, sendError }) {
-        this._serviceSucursal = SucursalService;
+    constructor({ SucursalRepository, sendError }) {
+        this._serviceSucursal = SucursalRepository;
         this.sendError = sendError;
     }
 

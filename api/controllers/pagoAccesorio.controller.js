@@ -1,7 +1,7 @@
 class PagoAccesorioController {
 
-    constructor({ PagoAccesorioService, sendError }) {
-        this._servicioPagoAccesorio = PagoAccesorioService;
+    constructor({ PagoAccesorioRepository, sendError }) {
+        this._servicioPagoAccesorio = PagoAccesorioRepository;
         this.sendError = sendError;
     }
 

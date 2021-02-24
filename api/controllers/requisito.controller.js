@@ -1,11 +1,11 @@
 class RequisitoController {
 
-    constructor({ DocumentoEmpresaService, DocumentoClienteService, DocumentoConductorService, RequisitoService, ArriendoService, sendError }) {
-        this._serviceDocumentoEmpresa = DocumentoEmpresaService;
-        this._serviceDocumentoCliente = DocumentoClienteService;
-        this._serviceDocumentoConductor = DocumentoConductorService;
-        this._serviceRequisito = RequisitoService;
-        this._serviceArriendo = ArriendoService;
+    constructor({ DocumentoEmpresaRepository, DocumentoClienteRepository, DocumentoConductorRepository, RequisitoRepository, ArriendoRepository, sendError }) {
+        this._serviceDocumentoEmpresa = DocumentoEmpresaRepository;
+        this._serviceDocumentoCliente = DocumentoClienteRepository;
+        this._serviceDocumentoConductor = DocumentoConductorRepository;
+        this._serviceRequisito = RequisitoRepository;
+        this._serviceArriendo = ArriendoRepository;
         this.sendError = sendError;
     }
 

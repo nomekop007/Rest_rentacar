@@ -1,8 +1,8 @@
 class EmpresaController {
 
-    constructor({ EmpresaService, DocumentoEmpresaService, sendError }) {
-        this._serviceEmpresa = EmpresaService;
-        this._serviceDocEmpresa = DocumentoEmpresaService;
+    constructor({ EmpresaRepository, DocumentoEmpresaRepository, sendError }) {
+        this._serviceEmpresa = EmpresaRepository;
+        this._serviceDocEmpresa = DocumentoEmpresaRepository;
         this.sendError = sendError;
     }
 

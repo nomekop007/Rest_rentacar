@@ -1,7 +1,7 @@
 class ExtendionController {
 
-    constructor({ ExtencionService, sendError }) {
-        this._serviceExtencion = ExtencionService;
+    constructor({ ExtencionRepository, sendError }) {
+        this._serviceExtencion = ExtencionRepository;
         this.sendError = sendError;
     }
 

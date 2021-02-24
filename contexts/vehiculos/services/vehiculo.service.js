@@ -37,6 +37,8 @@ class VehiculoService {
         return await this._vehiculoBusiness.updateVehiculo(vehiculo, patente);
     }
 
+
+
 }
 
 module.exports = VehiculoService;

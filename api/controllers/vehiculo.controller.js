@@ -2,13 +2,13 @@ const { borrarImagenDeStorage } = require("../helpers/components");
 
 class VehiculoController {
 
-    constructor({ VehiculoService, SucursalService, ArriendoService, DanioVehiculoService, TarifaVehiculoService, ExtencionService, sendError }) {
+    constructor({ VehiculoService, SucursalRepository, ArriendoRepository, DanioVehiculoRepository, TarifaVehiculoRepository, ExtencionRepository, sendError }) {
         this._serviceVehiculo = VehiculoService;
-        this._serviceSucursal = SucursalService;
-        this._serviceArriendo = ArriendoService;
-        this._serviceDanioVehiculo = DanioVehiculoService;
-        this._serviceTarifaVehiculo = TarifaVehiculoService;
-        this._serviceExtencion = ExtencionService;
+        this._serviceSucursal = SucursalRepository;
+        this._serviceArriendo = ArriendoRepository;
+        this._serviceDanioVehiculo = DanioVehiculoRepository;
+        this._serviceTarifaVehiculo = TarifaVehiculoRepository;
+        this._serviceExtencion = ExtencionRepository;
         this.sendError = sendError;
     }
 

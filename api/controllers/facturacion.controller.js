@@ -1,7 +1,7 @@
 class FacturacionController {
 
-    constructor({ FacturacionService, sendError }) {
-        this._serviceFacturacion = FacturacionService;
+    constructor({ FacturacionRepository, sendError }) {
+        this._serviceFacturacion = FacturacionRepository;
         this.sendError = sendError;
     }
 

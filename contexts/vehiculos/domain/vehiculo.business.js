@@ -1,15 +1,12 @@
-const Vehiculo = require('./vehiculo.model');
 const { v4: uuidv4 } = require("uuid");
 class VehiculoBusiness {
 
-    constructor({ VehiculoRepository,
-        SucursalService, ArriendoService, DanioVehiculoService, TarifaVehiculoService, ExtencionService, }) {
+    constructor({ VehiculoRepository, ArriendoRepository, DanioVehiculoRepository, TarifaVehiculoRepository, ExtencionRepository, }) {
         this._vehiculoRepository = VehiculoRepository;
-        this._serviceSucursal = SucursalService;
-        this._serviceArriendo = ArriendoService;
-        this._serviceDanioVehiculo = DanioVehiculoService;
-        this._serviceTarifaVehiculo = TarifaVehiculoService;
-        this._serviceExtencion = ExtencionService;
+        this._arriendoRepository = ArriendoRepository;
+        this._danioVehiculoRepository = DanioVehiculoRepository;
+        this._tarifaVehiculoRepository = TarifaVehiculoRepository;
+        this._extencionRepository = ExtencionRepository;
     }
 
 
@@ -107,17 +104,17 @@ class VehiculoBusiness {
     }
 
     async borrarDatosAsociados(vehiculo) {
-        if (vehiculo.tarifasVehiculo) await this._serviceTarifaVehiculo.putUpdateById({ patente_vehiculo: null }, vehiculo.tarifasVehiculo.id_tarifaVehiculo);
-        if (vehiculo.arriendos.length > 0) await vehiculo.arriendos.map(async ({ id_arriendo }) => await this._serviceArriendo.putUpdate({ patente_vehiculo: null }, id_arriendo));
-        if (vehiculo.danioVehiculos.length > 0) await vehiculo.danioVehiculos.map(async ({ id_danioVehiculo }) => await this._serviceDanioVehiculo.putUpdate({ patente_vehiculo: null }, id_danioVehiculo));
-        if (vehiculo.extenciones.length > 0) await vehiculo.extenciones.map(async ({ id_extencion }) => await this._serviceExtencion.putUpdateById({ patente_vehiculo: null }, id_extencion));
+        if (vehiculo.tarifasVehiculo) await this._tarifaVehiculoRepository.putUpdateById({ patente_vehiculo: null }, vehiculo.tarifasVehiculo.id_tarifaVehiculo);
+        if (vehiculo.arriendos.length > 0) await vehiculo.arriendos.map(async ({ id_arriendo }) => await this._arriendoRepository.putUpdate({ patente_vehiculo: null }, id_arriendo));
+        if (vehiculo.danioVehiculos.length > 0) await vehiculo.danioVehiculos.map(async ({ id_danioVehiculo }) => await this._danioVehiculoRepository.putUpdate({ patente_vehiculo: null }, id_danioVehiculo));
+        if (vehiculo.extenciones.length > 0) await vehiculo.extenciones.map(async ({ id_extencion }) => await this._extencionRepository.putUpdateById({ patente_vehiculo: null }, id_extencion));
     }
 
     async agregarDatosAsociados(vehiculo, newPatente) {
-        if (vehiculo.tarifasVehiculo) await this._serviceTarifaVehiculo.putUpdateById({ patente_vehiculo: newPatente }, vehiculo.tarifasVehiculo.id_tarifaVehiculo);
-        if (vehiculo.arriendos.length > 0) await vehiculo.arriendos.map(async ({ id_arriendo }) => await this._serviceArriendo.putUpdate({ patente_vehiculo: newPatente }, id_arriendo));
-        if (vehiculo.danioVehiculos.length > 0) await vehiculo.danioVehiculos.map(async ({ id_danioVehiculo }) => await this._serviceDanioVehiculo.putUpdate({ patente_vehiculo: newPatente }, id_danioVehiculo));
-        if (vehiculo.extenciones.length > 0) await vehiculo.extenciones.map(async ({ id_extencion }) => await this._serviceExtencion.putUpdateById({ patente_vehiculo: newPatente }, id_extencion));
+        if (vehiculo.tarifasVehiculo) await this._tarifaVehiculoRepository.putUpdateById({ patente_vehiculo: newPatente }, vehiculo.tarifasVehiculo.id_tarifaVehiculo);
+        if (vehiculo.arriendos.length > 0) await vehiculo.arriendos.map(async ({ id_arriendo }) => await this._arriendoRepository.putUpdate({ patente_vehiculo: newPatente }, id_arriendo));
+        if (vehiculo.danioVehiculos.length > 0) await vehiculo.danioVehiculos.map(async ({ id_danioVehiculo }) => await this._danioVehiculoRepository.putUpdate({ patente_vehiculo: newPatente }, id_danioVehiculo));
+        if (vehiculo.extenciones.length > 0) await vehiculo.extenciones.map(async ({ id_extencion }) => await this._extencionRepository.putUpdateById({ patente_vehiculo: newPatente }, id_extencion));
     }
 
 

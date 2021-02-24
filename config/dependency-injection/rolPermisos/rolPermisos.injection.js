@@ -1,9 +1,9 @@
 const { asClass, asFunction } = require('awilix');
-const RolPermisoService = require('../../../contexts/roles/dataAccess/rolPermiso.repository')
+const RolPermisoRepository = require('../../../contexts/roles/dataAccess/rolPermiso.repository')
 
 module.exports = (container) => {
     container.register({
-        RolPermisoService: asClass(RolPermisoService).singleton()
+        RolPermisoRepository: asClass(RolPermisoRepository).singleton()
     })
     return container;
 }

@@ -13,11 +13,11 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
 class contrato_controller {
-    constructor({ ContratoService, ArriendoService, ConductorService, ExtencionService, sendError }) {
-        this._serviceContrato = ContratoService;
-        this._serviceArriendo = ArriendoService;
-        this._serviceConductor = ConductorService;
-        this._serviceExtencion = ExtencionService;
+    constructor({ ContratoRepository, ArriendoRepository, ConductorRepository, ExtencionRepository, sendError }) {
+        this._serviceContrato = ContratoRepository;
+        this._serviceArriendo = ArriendoRepository;
+        this._serviceConductor = ConductorRepository;
+        this._serviceExtencion = ExtencionRepository;
         this.sendError = sendError
     }
 

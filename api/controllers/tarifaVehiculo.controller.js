@@ -1,8 +1,7 @@
 class TarifaVehiculoController {
 
-    constructor({ TarifaVehiculoService, VehiculoService, sendError }) {
-        this._tarifaVehiculo = TarifaVehiculoService;
-        this._vehiculo = VehiculoService;
+    constructor({ TarifaVehiculoRepository, sendError }) {
+        this._tarifaVehiculo = TarifaVehiculoRepository;
         this.sendError = sendError;
     }
 
