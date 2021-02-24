@@ -1,17 +1,21 @@
-const { crearToken } = require("../../../api/helpers/components");
 const jwt = require("jwt-simple");
 const bcrypt = require("bcryptjs");
 
 class UsuarioBusiness {
 
-    constructor({ UsuarioRepository }) {
+    constructor({ UsuarioRepository, crearToken }) {
         this._usuarioRepository = UsuarioRepository;
+        this._createTokenHelper = crearToken;
     }
+
+
 
     async getUsuarios() {
         const usuarios = await this._usuarioRepository.getFindAll();
         return usuarios;
     }
+
+
 
     async validarUsuario(usertoken) {
         const { usuarioId } = jwt.decode(usertoken, process.env.SECRET_PHRASE);
@@ -19,10 +23,16 @@ class UsuarioBusiness {
         return usuario;
     }
 
+
+
+
     async findUsuario(id) {
         const usuario = await this._usuarioRepository.getFindOne(id);
         return usuario;
     }
+
+
+
 
     async createUsuario(usuario) {
         usuario.clave_usuario = bcrypt.hashSync(
@@ -33,6 +43,9 @@ class UsuarioBusiness {
         const usuarioRepo = await this._usuarioRepository.getFindOne(u.id_usuario);
         return usuarioRepo;
     }
+
+
+
 
     async loginUsuario(usuario) {
         const usuarioRepo = await this._usuarioRepository.getFindByEmail(usuario.email_usuario);
@@ -46,7 +59,7 @@ class UsuarioBusiness {
                     estado_usuario: usuarioRepo.estado_usuario,
                     id_sucursal: usuarioRepo.id_sucursal,
                     id_rol: usuarioRepo.id_rol,
-                    userToken: crearToken(usuarioRepo),
+                    userToken: this._createTokenHelper(usuarioRepo),
                 }
             } else {
                 return false;
@@ -56,8 +69,9 @@ class UsuarioBusiness {
         }
     }
 
-    async updateUsuario(usuario, id) {
 
+
+    async updateUsuario(usuario, id) {
         const userdata = {
             userAt: usuario.userAt,
             nombre_usuario: usuario.nombre_usuario,
@@ -65,7 +79,6 @@ class UsuarioBusiness {
             id_rol: usuario.id_rol,
             id_sucursal: usuario.id_sucursal,
         };
-
         if (usuario.clave_usuario != "") {
             userdata.clave_usuario = bcrypt.hashSync(
                 usuario.clave_usuario,
@@ -76,6 +89,9 @@ class UsuarioBusiness {
         const usuarioRepo = await this._usuarioRepository.getFindOne(id);
         return usuarioRepo;
     }
+
+
+
 
 
     async stateUsuario(accion, userAt, id) {
@@ -93,6 +109,8 @@ class UsuarioBusiness {
         const usuario = await this._usuarioRepository.getFindOne(id);
         return { usuario, msg };
     }
+
+
 
 
 }

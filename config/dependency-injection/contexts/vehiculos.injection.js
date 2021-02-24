@@ -28,7 +28,6 @@ module.exports = (container) => {
         TarifaVehiculoController: asClass(TarifaVehiculoController).singleton(),
 
         VehiculoBusiness: asClass(VehiculoBusiness).singleton(),
-
         VehiculoService: asClass(VehiculoService).singleton(),
 
         VehiculoRepository: asClass(VehiculoRepository).singleton(),

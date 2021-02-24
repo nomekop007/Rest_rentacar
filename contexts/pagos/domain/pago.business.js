@@ -5,6 +5,7 @@ class PagoBusiness {
     }
 
 
+
     async createPagoExtra(payload) {
         const { monto, descripcion, idArriendo, userAt } = payload;
         const dataPagoExtra = {
@@ -17,8 +18,9 @@ class PagoBusiness {
         return pagoExtra;
     }
 
-    async cargarPagosExtrasPorArriendo(id_arriendo) {
 
+
+    async cargarPagosExtrasPorArriendo(id_arriendo) {
         const pagosExtras = await this._pagoExtraRepository.findAllByIdArriendo(id_arriendo);
         return pagosExtras;
     }
