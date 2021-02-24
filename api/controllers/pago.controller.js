@@ -1,7 +1,7 @@
 class PagoController {
 
-    constructor({ PagoExtraService, PagoRepository, PagoArriendoRepository, ArriendoRepository, sendError }) {
-        this._servicePagoExtra = PagoExtraService;
+    constructor({ PagoService, PagoRepository, PagoArriendoRepository, ArriendoRepository, sendError }) {
+        this._pagoService = PagoService;
         this._servicePago = PagoRepository;
         this._servicePagoArriendo = PagoArriendoRepository;
         this._serviceArriendo = ArriendoRepository;
@@ -252,7 +252,7 @@ class PagoController {
         try {
             const { monto, tipo, descripcion, idArriendo } = req.body;
             const payload = { monto, tipo, descripcion, idArriendo, userAt: req.headers["userat"] };
-            const pagoExtra = await this._servicePagoExtra.createPagoExtra(payload);
+            const pagoExtra = await this._pagoService.createPagoExtra(payload);
 
             res.json({ success: true, data: pagoExtra, msg: "registro existoso" })
 
@@ -264,7 +264,7 @@ class PagoController {
     async mostrarPagoExtrasPorArriendo(req, res) {
         try {
             const { id } = req.params;
-            const pagosExtras = await this._servicePagoExtra.cargarPagosExtrasPorArriendo(id);
+            const pagosExtras = await this._pagoService.cargarPagosExtrasPorArriendo(id);
             res.json({ success: true, data: pagosExtras })
         } catch (error) {
             this.sendError(error, req, res);

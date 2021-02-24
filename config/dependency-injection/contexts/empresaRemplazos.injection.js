@@ -1,0 +1,33 @@
+const { asClass, asFunction } = require('awilix');
+
+const EmpresaRemplazoRoutes = require('../../../api/routes/apis/empresasRemplazos.routes');
+const RemplazoRoutes = require('../../../api/routes/apis/remplazos.routes');
+
+const EmpresaRemplazoController = require('../../../api/controllers/empresaRemplazo.controller');
+const RemplazoController = require('../../../api/controllers/remplazo.controller');
+
+const EmpresaRemplazoService = require('../../../contexts/empresaRemplazos/services/empresaRemplazo.service');
+const EmpresaRemplazoBusiness = require('../../../contexts/empresaRemplazos/domain/empresaRemplazo.business');
+
+const EmpresaRemplazoRepository = require('../../../contexts/empresaRemplazos/dataAccess/empresaRemplazo.repository');
+const RemplazoRepository = require('../../../contexts/empresaRemplazos/dataAccess/remplazo.repository');
+
+
+module.exports = (container) => {
+    container.register({
+        EmpresaRemplazoRoutes: asFunction(EmpresaRemplazoRoutes).singleton(),
+        RemplazoRoutes: asFunction(RemplazoRoutes).singleton(),
+
+        EmpresaRemplazoController: asClass(EmpresaRemplazoController).singleton(),
+        RemplazoController: asClass(RemplazoController).singleton(),
+
+        EmpresaRemplazoService: asClass(EmpresaRemplazoService).singleton(),
+        EmpresaRemplazoBusiness: asClass(EmpresaRemplazoBusiness).singleton(),
+
+        EmpresaRemplazoRepository: asClass(EmpresaRemplazoRepository).singleton(),
+        RemplazoRepository: asClass(RemplazoRepository).singleton()
+    })
+    return container;
+}
+
+
