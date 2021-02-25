@@ -1,9 +1,9 @@
 const base64 = require("image-to-base64");
-const {
-    fechahorafirma,
-    formatFechahora,
-    formatFecha,
-} = require("../../helpers/components");
+const fechahorafirma = require("../../helpers/dateTimeSignature");
+const formatFechahora = require("../../helpers/dateTimeFormat");
+const formatFecha = require("../../helpers/dateFormat");
+
+
 const pagare = require.resolve("../images/pagare.png");
 const logo = require.resolve("../images/logo.png");
 

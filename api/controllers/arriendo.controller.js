@@ -1,4 +1,8 @@
-const { nodemailerTransporter, ordenarArrayporFecha, formatFechahora } = require("../../helpers/components");
+const { nodemailerTransporter } = require("../../helpers/valueObject");
+const ordenarArrayporFecha = require("../../helpers/orderArrayByDate");
+const formatFechahora = require("../../helpers/dateTimeFormat");
+
+
 const contratoPlantilla = require("../../utils/pdf_plantillas/contratoArriendo");
 const extencionPlantilla = require("../../utils/pdf_plantillas/extenderArriendo");
 const logo = require.resolve("../../utils/images/logo2.png");

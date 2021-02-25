@@ -1,4 +1,4 @@
-const { ordenarArrayporFecha } = require("../../helpers/components");
+const ordenarArrayporFecha = require("../../helpers/orderArrayByDate");
 
 class PagoController {
 

@@ -4,7 +4,7 @@ const {
 	formatFechahora,
 	formatFecha,
 	ordenarArrayporFecha
-} = require("../../helpers/components");
+} = require("../../helpers/valueObject");
 const pagare = require.resolve("../images/pagare.png");
 const logo = require.resolve("../images/logo.png");
 
@@ -535,8 +535,7 @@ async function contratoPlantilla(data) {
 						width: 180,
 						fontSize: 6,
 						margin: [0, 5, 10, 0],
-						text: `Observaciones: \n ${
-							data.arriendo.pagosArriendos[doc.P].observaciones_pagoArriendo
+						text: `Observaciones: \n ${data.arriendo.pagosArriendos[doc.P].observaciones_pagoArriendo
 							} `,
 					},
 					],
@@ -588,10 +587,8 @@ async function contratoPlantilla(data) {
 								`FECHA - HORA \n ${doc.fechaFin}`,
 							],
 							[{
-								text: `TIPO ARRIENDO: \n  ${
-									data.arriendo.tipo_arriendo
-									} ${
-									data.arriendo.remplazo
+								text: `TIPO ARRIENDO: \n  ${data.arriendo.tipo_arriendo
+									} ${data.arriendo.remplazo
 										? data.arriendo.remplazo.codigo_empresaRemplazo
 										: ""
 									}`,
@@ -877,37 +874,37 @@ async function contratoPlantilla(data) {
 // PAGARE CONSTRUIDO MANUALMENTE, USAR EN CASO DE ALGUNA MODIFICACION FUTURA
 /*
 {
-                style: 'tableExample',
-                table: {
-                    body: [
-                        [
-                            {
-                                margin: 10,
-                                text: [
-                                    {
-                                        alignment: "center",
-                                        text: "PAGARE \n",
-                                        fontSize: 15,
-                                        bold: true,
-                                    },
-                                    { text: 'Yo,____________________________________________________________________,de profesion,_____________________________________________________________________\n\n', fontSize: 7 },
-                                    { text: 'domiciliado en _____________________________________________________________________, RUT - C.I.Nº________________________________________________________\n\n', fontSize: 7 },
-                                    { text: 'de _______________________________________________________________________,RUT Nº____________________________________________Debo y Pagaré a la orden de\n\n', fontSize: 7 },
-                                    { text: 'TERESA DEL CARMEN GARRIDO E HIJOS LTDA. La suma de ______________________________________________________________________________________________\n\n', fontSize: 7 },
-                                    { text: '_______________________________________________,($___________________________________________________________________) valor de la pérdida total o parcial del\n\n', fontSize: 7 },
-                                    { text: 'vehiculo que dicha firma me arrendará con fecha_____________________________________________________, marca ____________________________________________\n\n', fontSize: 7 },
-                                    { text: 'modelo _____________________________________________, año de fabricación ____________________________, patente Nº ________________________________________\n\n', fontSize: 7 },
-                                    { text: 'de la Municipalidad de_________________________________________________________________Esta obligación se hará exigible tan pronto se produzca un siniestro \n', fontSize: 7 },
-                                    { text: 'del que no responda la CÍA Aseguradora, y podrá ser protestado al día subsiguiente de ocurrido el hecho que origina la pérdida del vehículo.\n\n', fontSize: 7 },
-                                    { alignment: "center", text: 'X\n', fontSize: 5 },
-                                    { alignment: "center", text: '________________________________________\n', fontSize: 10 },
-                                    { alignment: "center", text: 'FIRMA\n', fontSize: 7 },
-                                ]
-                            }
-                        ]
-                    ]
-                }
-            },		
+				style: 'tableExample',
+				table: {
+					body: [
+						[
+							{
+								margin: 10,
+								text: [
+									{
+										alignment: "center",
+										text: "PAGARE \n",
+										fontSize: 15,
+										bold: true,
+									},
+									{ text: 'Yo,____________________________________________________________________,de profesion,_____________________________________________________________________\n\n', fontSize: 7 },
+									{ text: 'domiciliado en _____________________________________________________________________, RUT - C.I.Nº________________________________________________________\n\n', fontSize: 7 },
+									{ text: 'de _______________________________________________________________________,RUT Nº____________________________________________Debo y Pagaré a la orden de\n\n', fontSize: 7 },
+									{ text: 'TERESA DEL CARMEN GARRIDO E HIJOS LTDA. La suma de ______________________________________________________________________________________________\n\n', fontSize: 7 },
+									{ text: '_______________________________________________,($___________________________________________________________________) valor de la pérdida total o parcial del\n\n', fontSize: 7 },
+									{ text: 'vehiculo que dicha firma me arrendará con fecha_____________________________________________________, marca ____________________________________________\n\n', fontSize: 7 },
+									{ text: 'modelo _____________________________________________, año de fabricación ____________________________, patente Nº ________________________________________\n\n', fontSize: 7 },
+									{ text: 'de la Municipalidad de_________________________________________________________________Esta obligación se hará exigible tan pronto se produzca un siniestro \n', fontSize: 7 },
+									{ text: 'del que no responda la CÍA Aseguradora, y podrá ser protestado al día subsiguiente de ocurrido el hecho que origina la pérdida del vehículo.\n\n', fontSize: 7 },
+									{ alignment: "center", text: 'X\n', fontSize: 5 },
+									{ alignment: "center", text: '________________________________________\n', fontSize: 10 },
+									{ alignment: "center", text: 'FIRMA\n', fontSize: 7 },
+								]
+							}
+						]
+					]
+				}
+			},		
 */
 
 module.exports = contratoPlantilla;

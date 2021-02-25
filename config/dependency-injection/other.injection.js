@@ -1,21 +1,21 @@
 const { asFunction, asClass } = require('awilix');
 
-const ApiFinanzasRoutes = require("../../api/routes/other/finanzasApi.routes");
-const DefaultValuesRoutes = require("../../api/routes/other/defaultValues.routes");
-const ApiUtilsRoutes = require("../../api/routes/other/utilsApi.routes");
+const ApiFinanzasRoutes = require("../../api/routes/apis/other/finanzasApi.routes");
+const DefaultValuesRoutes = require("../../api/routes/apis/other/defaultValues.routes");
+const ApiUtilsRoutes = require("../../api/routes/apis/other/utilsApi.routes");
 
-const ApiFinanzasComponent = require("../../api/components/finanzas.component");
-const DefaultValuesComponent = require("../../api/components/defaults.component");
-const ApiUtilsComponent = require("../../api/components/utils.component");
+const ApiFinanzasController = require("../../api/controllers/other/finanzas.controller");
+const DefaultValuesController = require("../../api/controllers/other/defaults.controller");
+const ApiUtilsController = require("../../api/controllers/other/utils.controller");
 
 module.exports = (container) => {
     container.register({
         ApiUtilsRoutes: asFunction(ApiUtilsRoutes).singleton(),
-        ApiUtilsComponent: asClass(ApiUtilsComponent).singleton(),
+        ApiUtilsController: asClass(ApiUtilsController).singleton(),
         ApiFinanzasRoutes: asFunction(ApiFinanzasRoutes).singleton(),
-        ApiFinanzasComponent: asClass(ApiFinanzasComponent).singleton(),
+        ApiFinanzasController: asClass(ApiFinanzasController).singleton(),
         DefaultValuesRoutes: asFunction(DefaultValuesRoutes).singleton(),
-        DefaultValuesComponent: asClass(DefaultValuesComponent).singleton(),
+        DefaultValuesController: asClass(DefaultValuesController).singleton(),
     })
     return container;
 }

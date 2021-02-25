@@ -1,4 +1,6 @@
-const { fecha, hora } = require("../../helpers/components");
+const fecha = require("../../helpers/currentDate");
+const hora = require("../../helpers/currentTime");
+const borrarImagenDeStorage = require("../../helpers/deleteImageStorage");
 const recepcionPlantilla = require("../../utils/pdf_plantillas/recepcion")
 const fs = require("fs");
 const path = require("path");
@@ -6,7 +8,6 @@ const { v4: uuidv4 } = require("uuid");
 const pdfMake = require("pdfmake/build/pdfmake.js");
 const pdfFonts = require("pdfmake/build/vfs_fonts.js");
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-const { borrarImagenDeStorage } = require("../../helpers/components");
 
 class VehiculoController {
 

@@ -1,6 +1,7 @@
 
 const path = require("path");
-class FinanzasComponent {
+class FinanzasController {
+
     constructor({ ArriendoRepository, sendError }) {
         this.serviceArriendo = ArriendoRepository;
         this.sendError = sendError;
@@ -87,5 +88,5 @@ class FinanzasComponent {
     }
 }
 
-module.exports = FinanzasComponent;
+module.exports = FinanzasController;
 

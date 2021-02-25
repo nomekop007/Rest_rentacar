@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const xlsx = require("xlsx");
-const plantillaExel = require.resolve("../../utils/vehiculos.xlsx");
+const plantillaExel = require.resolve("../../../utils/vehiculos.xlsx");
 
 const {
     Usuario,
@@ -12,10 +12,10 @@ const {
     Vehiculo,
     EmpresaRemplazo,
     Region
-} = require("../../config/database/db");
+} = require("../../../config/database/db");
 
 
-class DefaultsComponent {
+class DefaultsController {
 
     async createTableDefault(req, res) {
         try {
@@ -243,4 +243,4 @@ class DefaultsComponent {
 }
 
 
-module.exports = DefaultsComponent;
+module.exports = DefaultsController;
