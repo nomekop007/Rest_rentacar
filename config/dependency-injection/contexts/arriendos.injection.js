@@ -8,12 +8,6 @@ const GarantiaRoutes = require('../../../api/routes/apis/garantias.routes');
 const RequisitoRoutes = require('../../../api/routes/apis/requisitos.routes');
 
 const ArriendoController = require('../../../api/controllers/arriendo.controller');
-const ContactoController = require('../../../api/controllers/contacto.controller');
-const ContratoController = require('../../../api/controllers/contrato.controller');
-const ExtencionController = require('../../../api/controllers/extencion.controller');
-const GarantiaController = require('../../../api/controllers/garantia.controller');
-const RequisitoController = require('../../../api/controllers/requisito.controller');
-
 const ArriendoService = require('../../../contexts/arriendos/service/arriendo.service');
 const ArriendoBusines = require('../../../contexts/arriendos/domain/arriendo.business');
 
@@ -35,12 +29,6 @@ module.exports = (container) => {
 
 
         ArriendoController: asClass(ArriendoController).singleton(),
-        ContactoController: asClass(ContactoController).singleton(),
-        ContratoController: asClass(ContratoController).singleton(),
-        ExtencionController: asClass(ExtencionController).singleton(),
-        GarantiaController: asClass(GarantiaController).singleton(),
-        RequisitoController: asClass(RequisitoController).singleton(),
-
         ArriendoService: asClass(ArriendoService).singleton(),
         ArriendoBusines: asClass(ArriendoBusines).singleton(),
 

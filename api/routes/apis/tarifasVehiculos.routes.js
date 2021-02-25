@@ -1,9 +1,9 @@
 const router = require('express').Router();
-module.exports = ({ TarifaVehiculoController }) => {
+module.exports = ({ VehiculoController }) => {
 
-    router.post('/registrarTarifa', TarifaVehiculoController.createTarifaVehiculo.bind(TarifaVehiculoController));
-    router.get('/cargarTarifasVehiculos', TarifaVehiculoController.getTarifaVehiculo.bind(TarifaVehiculoController));
-    router.get('/buscarTarifaVehiculoPorDias', TarifaVehiculoController.findTarifaVehiculoByDias.bind(TarifaVehiculoController));
+    router.post('/registrarTarifa', VehiculoController.createTarifaVehiculo.bind(VehiculoController));
+    router.get('/cargarTarifasVehiculos', VehiculoController.getTarifaVehiculo.bind(VehiculoController));
+    router.get('/buscarTarifaVehiculoPorDias', VehiculoController.findTarifaVehiculoByDias.bind(VehiculoController));
 
     return router
 }

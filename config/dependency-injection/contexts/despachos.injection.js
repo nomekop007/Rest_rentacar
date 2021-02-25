@@ -4,8 +4,6 @@ const DespachoRoutes = require('../../../api/routes/apis/despachos.routes');
 const ActaEntregaRoutes = require('../../../api/routes/apis/actasEntregas.routes');
 
 const DespachoController = require('../../../api/controllers/despacho.controller');
-const ActaEntregaController = require('../../../api/controllers/actaEntrega.controller');
-
 const DespachoService = require('../../../contexts/despachos/services/despacho.service');
 const DespachoBusiness = require('../../../contexts/despachos/domain/despacho.business');
 
@@ -20,8 +18,6 @@ module.exports = (container) => {
         ActaEntregaRoutes: asFunction(ActaEntregaRoutes).singleton(),
 
         DespachoController: asClass(DespachoController).singleton(),
-        ActaEntregaController: asClass(ActaEntregaController).singleton(),
-
         DespachoService: asClass(DespachoService).singleton(),
         DespachoBusiness: asClass(DespachoBusiness).singleton(),
 

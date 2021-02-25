@@ -1,8 +1,10 @@
 class PropietarioController {
 
   constructor({ PropietarioRepository, sendError }) {
-    this._servicePropietario = PropietarioRepository;
     this.sendError = sendError;
+
+    //mover
+    this._servicePropietario = PropietarioRepository;
   }
 
 

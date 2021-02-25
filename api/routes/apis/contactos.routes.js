@@ -1,8 +1,8 @@
 const router = require("express").Router();
-module.exports = ({ ContactoController }) => {
+module.exports = ({ ArriendoController }) => {
 
-    router.post("/registrarContacto", ContactoController.createContacto.bind(ContactoController));
-    router.put("/editarContacto/:id", ContactoController.updateContacto.bind(ContactoController));
+    router.post("/registrarContacto", ArriendoController.createContacto.bind(ArriendoController));
+    router.put("/editarContacto/:id", ArriendoController.updateContacto.bind(ArriendoController));
 
     return router;
 }

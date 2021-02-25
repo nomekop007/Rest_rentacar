@@ -1,11 +1,19 @@
+const { ordenarArrayporFecha } = require("../helpers/components");
+
 class PagoController {
 
-    constructor({ PagoService, PagoRepository, PagoArriendoRepository, ArriendoRepository, sendError }) {
+    constructor({ PagoService, AbonoRepository, PagoDanioRepository, FacturacionRepository, PagoAccesorioRepository, PagoRepository, PagoArriendoRepository, ArriendoRepository, sendError }) {
         this._pagoService = PagoService;
+        this.sendError = sendError;
+
+        //mover
+        this._servicioPagoAccesorio = PagoAccesorioRepository;
         this._servicePago = PagoRepository;
+        this._servicePagoDanio = PagoDanioRepository;
         this._servicePagoArriendo = PagoArriendoRepository;
         this._serviceArriendo = ArriendoRepository;
-        this.sendError = sendError;
+        this._serviceFacturacion = FacturacionRepository;
+        this._serviceAbono = AbonoRepository;
     }
 
 
@@ -271,6 +279,162 @@ class PagoController {
 
         }
     }
+
+    async createPagoDanio(req, res, next) {
+        try {
+            const response = req.body;
+            const pagoDanio = await this._servicePagoDanio.postCreate(response);
+            res.json({
+                success: true,
+                data: { id_pagoDanio: pagoDanio.id_pagoDanio }
+            })
+            next();
+        } catch (error) {
+            this.sendError(error, req, res);
+        }
+    }
+
+
+    async createPagoArriendo(req, res, next) {
+        try {
+            const response = req.body;
+            const arriendo = await this._serviceArriendo.getFindOne(response.id_arriendo);
+            response.dias_pagoArriendo = arriendo.diasActuales_arriendo;
+            const pagoArriendo = await this._servicePagoArriendo.postCreate(response);
+            res.json({
+                success: true,
+                pagoArriendo: pagoArriendo,
+                msg: "registro exitoso",
+            });
+            next();
+        } catch (error) {
+            this.sendError(error, req, res);
+        }
+    }
+
+
+    async consultarPagosArriendo(req, res) {
+        try {
+            let totalPago = 0;
+            const arriendo = await this._serviceArriendo.getFindOne(req.params.id);
+            let arrayPago = [];
+            let arrayTotalPagos = arriendo.pagosArriendos;
+            let arrayPagoExtra = arriendo.pagosExtras;
+            let arrayPagoDanio = arriendo.danioVehiculos;
+            if (arrayPagoDanio.length > 0) {
+                arrayPagoDanio.forEach(({ pagosDanio }) => {
+                    if (pagosDanio) {
+                        totalPago += pagosDanio.precioTotal_pagoDanio;
+                    }
+                })
+            }
+            if (arrayPagoExtra.length > 0) { } {
+                arrayPagoExtra.forEach(({ monto_pagoExtra }) => {
+                    totalPago += monto_pagoExtra;
+                })
+            }
+            arrayTotalPagos.forEach((pagosArriendo) => {
+                const pagos = ordenarArrayporFecha(pagosArriendo.pagos);
+                totalPago += pagos[0].total_pago;
+                arrayPago.push({ pago: pagos[0], pagoArriendo: pagosArriendo })
+            })
+            res.json({
+                success: true,
+                deuda: true,
+                data: {
+                    arrayPago: arrayPago,
+                    arrayPagoExtra: arrayPagoExtra,
+                    arrayPagoDanio: arrayPagoDanio,
+                    totalPago: totalPago,
+                    arriendo: arriendo
+                }
+            });
+        } catch (error) {
+            this.sendError(error, req, res);
+        }
+    }
+
+
+
+    async createPagoAccesorios(req, res, next) {
+        try {
+            const response = req.body;
+            for (let i = 0; i < response.matrizAccesorios[0].length; i++) {
+                const id_accesorio = response.matrizAccesorios[0][i];
+                const precioVenta = response.matrizAccesorios[1][i];
+                const data = {
+                    precioVenta_pagoAccesorio: Number(precioVenta),
+                    id_accesorio: id_accesorio,
+                    id_pagoArriendo: response.id_pagoArriendo,
+                    userAt: response.userAt,
+                };
+                await this._servicioPagoAccesorio.postCreate(data);
+            }
+            res.json({
+                success: true,
+                msg: "registro exitoso",
+            });
+            next();
+        } catch (error) {
+            this.sendError(error, req, res);
+        }
+    }
+
+
+    async getFacturacion(req, res) {
+        try {
+            const facturacion = await this._serviceFacturacion.getFindAll();
+            res.json({
+                success: true,
+                data: facturacion,
+            })
+        } catch (error) {
+            this.sendError(error, req, res);
+        }
+    }
+
+
+    async createFacturacion(req, res, next) {
+        try {
+            const response = req.body;
+            const facturacion = await this._serviceFacturacion.postCreate(response);
+            res.json({
+                success: true,
+                data: facturacion,
+                msg: "registro exitoso",
+            });
+            next();
+        } catch (error) {
+            this.sendError(error, req, res);
+        }
+    }
+
+
+    async uploadDocumentFacturacion(req, res, next) {
+        try {
+            const data = { documento_facturacion: req.file.filename };
+            await this._serviceFacturacion.putUpdate(data, req.params.id);
+            res.json({
+                success: true,
+                msg: " documento guardada",
+            });
+            next();
+        } catch (error) {
+            this.sendError(error, req, res);
+        }
+    }
+
+    async createAbonoWithFacturacion(req, res, next) {
+        try {
+            const abono = await this._serviceAbono.postCreateWithFacturacion(req.body);
+            res.json({ success: true, data: abono, msg: "abono creado" })
+            next();
+        } catch (error) {
+            this.sendError(error, req, res)
+        }
+    }
+
+
 
 }
 

@@ -1,7 +1,7 @@
 const router = require("express").Router();
-module.exports = ({ AbonoController }) => {
+module.exports = ({ PagoController }) => {
 
-    router.post("/registrarAbono", AbonoController.createAbonoWithFacturacion.bind(AbonoController));
+    router.post("/registrarAbono", PagoController.createAbonoWithFacturacion.bind(PagoController));
 
     return router;
 }

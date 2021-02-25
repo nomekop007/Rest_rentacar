@@ -1,14 +1,14 @@
 const router = require("express").Router();
-module.exports = ({ ContratoController, subirDocumentoContrato }) => {
+module.exports = ({ ArriendoController, subirDocumentoContrato }) => {
 
-    router.post("/registrarContrato", ContratoController.createContrato.bind(ContratoController));
-    router.post("/registrarExtencionContrato", ContratoController.createExtencionContrato.bind(ContratoController));
-    router.post("/generarPDFcontrato", ContratoController.generatePDFContrato.bind(ContratoController));
-    router.post("/generarPDFextencion", ContratoController.generatePDFExtencion.bind(ContratoController));
-    router.post("/enviarCorreoContrato", ContratoController.sendEmailContrato.bind(ContratoController));
-    router.post("/enviarCorreoContratoExtencion", ContratoController.sendEmailContratoExtencion.bind(ContratoController));
-    router.post("/subirContrato/:id", subirDocumentoContrato, ContratoController.subirContrato.bind(ContratoController));
-    router.post("/subirExtencionContrato/:id", subirDocumentoContrato, ContratoController.subirExtencionContrato.bind(ContratoController));
+    router.post("/registrarContrato", ArriendoController.createContrato.bind(ArriendoController));
+    router.post("/registrarExtencionContrato", ArriendoController.createExtencionContrato.bind(ArriendoController));
+    router.post("/generarPDFcontrato", ArriendoController.generatePDFContrato.bind(ArriendoController));
+    router.post("/generarPDFextencion", ArriendoController.generatePDFExtencion.bind(ArriendoController));
+    router.post("/enviarCorreoContrato", ArriendoController.sendEmailContrato.bind(ArriendoController));
+    router.post("/enviarCorreoContratoExtencion", ArriendoController.sendEmailContratoExtencion.bind(ArriendoController));
+    router.post("/subirContrato/:id", subirDocumentoContrato, ArriendoController.subirContrato.bind(ArriendoController));
+    router.post("/subirExtencionContrato/:id", subirDocumentoContrato, ArriendoController.subirExtencionContrato.bind(ArriendoController));
 
     return router;
 

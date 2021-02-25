@@ -1,9 +1,11 @@
 class PermisoController {
 
     constructor({ RolPermisoRepository, PermisoRepository, sendError }) {
+        this.sendError = sendError;
+
+        //mover
         this._serviceRolPermiso = RolPermisoRepository;
         this._servicePermiso = PermisoRepository;
-        this.sendError = sendError;
     }
 
     async mostrarPermisosPorRol(req, res) {

@@ -8,12 +8,6 @@ const PagoArriendoRoutes = require('../../../api/routes/apis/pagosArriendos.rout
 const PagoDanioRoutes = require('../../../api/routes/apis/pagosDanios.routes');
 
 const PagoController = require('../../../api/controllers/pago.controller');
-const AbonoController = require('../../../api/controllers/abono.controller');
-const FacturacionController = require('../../../api/controllers/facturacion.controller');
-const PagoAccesorioController = require('../../../api/controllers/pagoAccesorio.controller');
-const PagoArriendoController = require('../../../api/controllers/pagoArriendo.controller');
-const PagoDanioController = require('../../../api/controllers/pagoDanio.controller');
-
 const PagoService = require('../../../contexts/pagos/services/pago.service');
 const PagoBusiness = require('../../../contexts/pagos/domain/pago.business');
 
@@ -36,12 +30,6 @@ module.exports = (container) => {
         PagoDanioRoutes: asFunction(PagoDanioRoutes).singleton(),
 
         PagoController: asClass(PagoController).singleton(),
-        AbonoController: asClass(AbonoController).singleton(),
-        FacturacionController: asClass(FacturacionController).singleton(),
-        PagoAccesorioController: asClass(PagoAccesorioController).singleton(),
-        PagoArriendoController: asClass(PagoArriendoController).singleton(),
-        PagoDanioController: asClass(PagoDanioController).singleton(),
-
         PagoService: asClass(PagoService).singleton(),
         PagoBusiness: asClass(PagoBusiness).singleton(),
 

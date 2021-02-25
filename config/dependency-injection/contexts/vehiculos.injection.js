@@ -5,9 +5,6 @@ const DanioVehiculoRoutes = require('../../../api/routes/apis/danioVehiculos.rou
 const TarifaVehiculoRoutes = require('../../../api/routes/apis/tarifasVehiculos.routes');
 
 const VehiculoController = require('../../../api/controllers/vehiculo.controller');
-const DanioVehiculoController = require('../../../api/controllers/danioVehiculo.controller');
-const TarifaVehiculoController = require('../../../api/controllers/tarifaVehiculo.controller');
-
 const VehiculoService = require('../../../contexts/vehiculos/services/vehiculo.service');
 const VehiculoBusiness = require('../../../contexts/vehiculos/domain/vehiculo.business');
 
@@ -24,9 +21,6 @@ module.exports = (container) => {
         DanioVehiculoRoutes: asFunction(DanioVehiculoRoutes).singleton(),
 
         VehiculoController: asClass(VehiculoController).singleton(),
-        DanioVehiculoController: asClass(DanioVehiculoController).singleton(),
-        TarifaVehiculoController: asClass(TarifaVehiculoController).singleton(),
-
         VehiculoBusiness: asClass(VehiculoBusiness).singleton(),
         VehiculoService: asClass(VehiculoService).singleton(),
 

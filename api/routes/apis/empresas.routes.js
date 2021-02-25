@@ -1,11 +1,11 @@
 const router = require("express").Router();
-module.exports = ({ EmpresaController, subirDocumentosEmpresa }) => {
+module.exports = ({ ClienteController, subirDocumentosEmpresa }) => {
 
-    router.get("/cargarEmpresas", EmpresaController.getEmpresas.bind(EmpresaController));
-    router.get("/buscarEmpresa/:id", EmpresaController.findEmpresa.bind(EmpresaController));
-    router.post("/registrarEmpresa", EmpresaController.createEmpresa.bind(EmpresaController));
-    router.put("/editarEmpresa/:id", EmpresaController.putEmpresa.bind(EmpresaController));
-    router.post("/editarArchivos/:id", subirDocumentosEmpresa, EmpresaController.updateFile.bind(EmpresaController));
+    router.get("/cargarEmpresas", ClienteController.getEmpresas.bind(ClienteController));
+    router.get("/buscarEmpresa/:id", ClienteController.findEmpresa.bind(ClienteController));
+    router.post("/registrarEmpresa", ClienteController.createEmpresa.bind(ClienteController));
+    router.put("/editarEmpresa/:id", ClienteController.putEmpresa.bind(ClienteController));
+    router.post("/editarArchivos/:id", subirDocumentosEmpresa, ClienteController.updateFile.bind(ClienteController));
 
     return router
 }

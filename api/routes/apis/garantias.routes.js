@@ -1,7 +1,7 @@
 const router = require("express").Router();
-module.exports = ({ GarantiaController }) => {
+module.exports = ({ ArriendoController }) => {
 
-    router.post("/registrarGarantia", GarantiaController.createGarantia.bind(GarantiaController));
+    router.post("/registrarGarantia", ArriendoController.createGarantia.bind(ArriendoController));
 
     return router;
 }

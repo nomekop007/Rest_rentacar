@@ -1,7 +1,7 @@
 const router = require("express").Router();
-module.exports = ({ RemplazoController }) => {
+module.exports = ({ EmpresaRemplazoController }) => {
 
-    router.post("/registrarRemplazo", RemplazoController.createRemplazo.bind(RemplazoController));
+    router.post("/registrarRemplazo", EmpresaRemplazoController.createRemplazo.bind(EmpresaRemplazoController));
 
     return router;
 }

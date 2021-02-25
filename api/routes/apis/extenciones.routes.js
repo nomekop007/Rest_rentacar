@@ -1,8 +1,8 @@
 const router = require("express").Router();
-module.exports = ({ ExtencionController }) => {
+module.exports = ({ ArriendoController }) => {
 
-    router.get("/buscarExtencionesPorArriendo/:id", ExtencionController.buscarExtencionesPorArriendo.bind(ExtencionController));
-    router.post("/registrarExtencion", ExtencionController.createExtencionArriendo.bind(ExtencionController));
+    router.get("/buscarExtencionesPorArriendo/:id", ArriendoController.buscarExtencionesPorArriendo.bind(ArriendoController));
+    router.post("/registrarExtencion", ArriendoController.createExtencionArriendo.bind(ArriendoController));
 
     return router;
 }

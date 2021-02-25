@@ -5,9 +5,6 @@ const EmpresaRoutes = require('../../../api/routes/apis/empresas.routes');
 const ConductorRoutes = require('../../../api/routes/apis/conductores.routes');
 
 const ClienteController = require('../../../api/controllers/cliente.controller');
-const EmpresaController = require('../../../api/controllers/empresa.controller');
-const ConductorController = require('../../../api/controllers/conductor.controller');
-
 const ClienteService = require('../../../contexts/clientes/service/cliente.service');
 const ClienteBusiness = require('../../../contexts/clientes/domain/cliente.business');
 
@@ -27,9 +24,6 @@ module.exports = (container) => {
         EmpresaRoutes: asFunction(EmpresaRoutes).singleton(),
 
         ClienteController: asClass(ClienteController).singleton(),
-        ConductorController: asClass(ConductorController).singleton(),
-        EmpresaController: asClass(EmpresaController).singleton(),
-
         ClienteService: asClass(ClienteService).singleton(),
         ClienteBusiness: asClass(ClienteBusiness).singleton(),
 

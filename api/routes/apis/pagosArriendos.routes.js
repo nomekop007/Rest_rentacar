@@ -1,8 +1,8 @@
 const router = require("express").Router();
-module.exports = ({ PagoArriendoController }) => {
+module.exports = ({ PagoController }) => {
 
-    router.post("/registrarPagoArriendo", PagoArriendoController.createPagoArriendo.bind(PagoArriendoController));
-    router.get("/consultarPagosArriendo/:id", PagoArriendoController.consultarPagosArriendo.bind(PagoArriendoController));
+    router.post("/registrarPagoArriendo", PagoController.createPagoArriendo.bind(PagoController));
+    router.get("/consultarPagosArriendo/:id", PagoController.consultarPagosArriendo.bind(PagoController));
 
     return router;
 }

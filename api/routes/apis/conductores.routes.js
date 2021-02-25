@@ -1,11 +1,11 @@
 const router = require("express").Router();
-module.exports = ({ ConductorController, subirDocumentosConductor }) => {
+module.exports = ({ ClienteController, subirDocumentosConductor }) => {
 
-    router.get("/cargarConductores", ConductorController.getConductores.bind(ConductorController));
-    router.get("/buscarConductor/:id", ConductorController.findConductor.bind(ConductorController));
-    router.post("/registrarConductor", ConductorController.createConductor.bind(ConductorController));
-    router.put("/editarConductor/:id", ConductorController.putConductor.bind(ConductorController));
-    router.post("/editarArchivos/:id", subirDocumentosConductor, ConductorController.updateFile.bind(ConductorController));
+    router.get("/cargarConductores", ClienteController.getConductores.bind(ClienteController));
+    router.get("/buscarConductor/:id", ClienteController.findConductor.bind(ClienteController));
+    router.post("/registrarConductor", ClienteController.createConductor.bind(ClienteController));
+    router.put("/editarConductor/:id", ClienteController.putConductor.bind(ClienteController));
+    router.post("/editarArchivos/:id", subirDocumentosConductor, ClienteController.updateFile.bind(ClienteController));
 
     return router;
 }

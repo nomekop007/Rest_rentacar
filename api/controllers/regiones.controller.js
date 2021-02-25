@@ -1,8 +1,10 @@
 class RegionController {
 
     constructor({ RegionRepository, sendError }) {
-        this._serviceRegion = RegionRepository;
         this.sendError = sendError;
+
+        //mover
+        this._serviceRegion = RegionRepository;
     }
 
 
