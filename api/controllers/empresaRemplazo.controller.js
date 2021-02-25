@@ -1,7 +1,8 @@
 class EmpresaRemplazoController {
 
-    constructor({ EmpresaRemplazoRepository, RemplazoRepository, sendError }) {
+    constructor({ EmpresaRemplazoService, EmpresaRemplazoRepository, RemplazoRepository, sendError }) {
         this.sendError = sendError;
+        this._empresaRemplazoService = EmpresaRemplazoService;
 
         //mover
         this._serviceRemplazo = RemplazoRepository;

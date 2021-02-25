@@ -14,8 +14,9 @@ const actaEntregaPlantilla = require("../utils/pdf_plantillas/actaEntrega");
 
 class DespachoController {
 
-    constructor({ DespachoRepository, FotoDespachoRepository, ArriendoRepository, ActaEntregaRepository, sendError }) {
+    constructor({ DespachoService, DespachoRepository, FotoDespachoRepository, ArriendoRepository, ActaEntregaRepository, sendError }) {
         this.sendError = sendError;
+        this._despachoService = DespachoService;
 
         //mover
         this._serviceActaEntrega = ActaEntregaRepository;

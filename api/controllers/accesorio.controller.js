@@ -1,7 +1,8 @@
 class AccesorioController {
 
-    constructor({ AccesorioRepository, sendError }) {
+    constructor({ AccesorioService, AccesorioRepository, sendError }) {
         this.sendError = sendError;
+        this._accesorioService = AccesorioService;
 
         //mover
         this._serviceAccesorio = AccesorioRepository;

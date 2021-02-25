@@ -1,7 +1,9 @@
 
 class ClienteController {
-    constructor({ ClienteRepository, DocumentoClienteRepository, ConductorRepository, DocumentoConductorRepository, EmpresaRepository, DocumentoEmpresaRepository, sendError }) {
+
+    constructor({ ClienteService, ClienteRepository, DocumentoClienteRepository, ConductorRepository, DocumentoConductorRepository, EmpresaRepository, DocumentoEmpresaRepository, sendError }) {
         this.sendError = sendError;
+        this._clienteService = ClienteService;
 
         //mover
         this._serviceCliente = ClienteRepository;

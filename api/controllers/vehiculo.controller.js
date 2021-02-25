@@ -11,7 +11,7 @@ const { borrarImagenDeStorage } = require("../helpers/components");
 class VehiculoController {
 
     constructor({ VehiculoService, SucursalRepository, ArriendoRepository, DanioVehiculoRepository, TarifaVehiculoRepository, ExtencionRepository, sendError }) {
-        this._serviceVehiculo = VehiculoService;
+        this._vehiculoService = VehiculoService;
         this.sendError = sendError;
 
         //mover
@@ -25,7 +25,7 @@ class VehiculoController {
 
     async getVehiculos(req, res) {
         try {
-            const vehiculos = await this._serviceVehiculo.getVehiculos();
+            const vehiculos = await this._vehiculoService.getVehiculos();
             res.json({ success: true, data: vehiculos, });
         } catch (error) {
             this.sendError(error, req, res);
@@ -35,7 +35,7 @@ class VehiculoController {
 
     async getAllVehiculos(req, res) {
         try {
-            const vehiculos = await this._serviceVehiculo.getAllVehiculos();
+            const vehiculos = await this._vehiculoService.getAllVehiculos();
             res.json({
                 success: true,
                 data: vehiculos
@@ -49,7 +49,7 @@ class VehiculoController {
     async findVehiculo(req, res) {
         try {
             const { id } = req.params;
-            const vehiculo = await this._serviceVehiculo.findVehiculo(id);
+            const vehiculo = await this._vehiculoService.findVehiculo(id);
             if (vehiculo) {
                 res.json({
                     success: true,
@@ -70,7 +70,7 @@ class VehiculoController {
     async createVehiculo(req, res, next) {
         try {
             const vehiculo = req.body;
-            const payload = await this._serviceVehiculo.createVehiculo(vehiculo);
+            const payload = await this._vehiculoService.createVehiculo(vehiculo);
             res.json(payload);
             if (payload.success) {
                 next();
@@ -85,7 +85,7 @@ class VehiculoController {
         try {
             const vehiculo = req.body;
             const { id } = req.params;
-            const vehiculoRepo = this._serviceVehiculo.updateStateVehiculo(vehiculo, id);
+            const vehiculoRepo = this._vehiculoService.updateStateVehiculo(vehiculo, id);
             res.json({
                 success: true,
                 msg: "Vehiculo modificado exitosamente",
@@ -101,7 +101,7 @@ class VehiculoController {
     async deleteVehiculo(req, res, next) {
         try {
             const { id } = req.params;
-            await this._serviceVehiculo.deleteVehiculo(id);
+            await this._vehiculoService.deleteVehiculo(id);
             res.json({
                 success: true,
                 msg: " Vehiculo borrado exitosamente",
@@ -117,10 +117,10 @@ class VehiculoController {
     async uploadImageVehiculo(req, res, next) {
         try {
             const { id } = req.params;
-            const v = await this._serviceVehiculo.findVehiculo(id);
+            const v = await this._vehiculoService.findVehiculo(id);
             // se pregunta si el vehiculo  tiene image asignada
             if (v.foto_vehiculo) borrarImagenDeStorage(v.foto_vehiculo, process.env.PATH_FOTO_VEHICULO);
-            const payload = await this._serviceVehiculo.updateImageVehiculo(req.file.filename, id);
+            const payload = await this._vehiculoService.updateImageVehiculo(req.file.filename, id);
             res.json(payload);
             next();
         } catch (error) {
@@ -132,7 +132,7 @@ class VehiculoController {
         try {
             const vehiculo = req.body;
             const { id } = req.params;
-            const payload = await this._serviceVehiculo.updateVehiculo(vehiculo, id);
+            const payload = await this._vehiculoService.updateVehiculo(vehiculo, id);
             res.json(payload);
             next();
         } catch (error) {

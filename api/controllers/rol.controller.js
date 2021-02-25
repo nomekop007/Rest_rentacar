@@ -1,7 +1,8 @@
 class RolController {
 
-    constructor({ RolRepository, sendError }) {
+    constructor({ RolService, RolRepository, sendError }) {
         this.sendError = sendError;
+        this._rolService = RolService;
 
         //mover
         this._serviceRol = RolRepository;

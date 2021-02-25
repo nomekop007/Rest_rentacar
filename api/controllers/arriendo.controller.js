@@ -12,8 +12,10 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
 class ArriendoController {
-	constructor({ ArriendoRepository, ContactoRepository, RequisitoRepository, ContratoRepository, ConductorRepository, ExtencionRepository, RemplazoRepository, GarantiaRepository, DocumentoEmpresaRepository, DocumentoClienteRepository, DocumentoConductorRepository, sendError }) {
+
+	constructor({ ArriendoService, ArriendoRepository, ContactoRepository, RequisitoRepository, ContratoRepository, ConductorRepository, ExtencionRepository, RemplazoRepository, GarantiaRepository, DocumentoEmpresaRepository, DocumentoClienteRepository, DocumentoConductorRepository, sendError }) {
 		this.sendError = sendError;
+		this._arriendoService = ArriendoService;
 
 		//mover
 		this._serviceArriendo = ArriendoRepository;

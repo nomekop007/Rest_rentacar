@@ -3,14 +3,14 @@ const { validationResult } = require("express-validator");
 class UsuarioController {
 
     constructor({ UsuarioService, sendError }) {
-        this._serviceUsuario = UsuarioService;
+        this._usuarioService = UsuarioService;
         this.sendError = sendError;
     }
 
 
     async getUsuarios(req, res) {
         try {
-            const usuario = await this._serviceUsuario.getUsuarios();
+            const usuario = await this._usuarioService.getUsuarios();
             res.json({
                 success: true,
                 data: usuario,
@@ -24,7 +24,7 @@ class UsuarioController {
     async validarUsuario(req, res) {
         try {
             const { usertoken } = req.params;
-            const usuario = await this._serviceUsuario.validarUsuario(usertoken);
+            const usuario = await this._usuarioService.validarUsuario(usertoken);
             res.json({
                 success: true,
                 data: usuario,
@@ -38,7 +38,7 @@ class UsuarioController {
     async findUsuario(req, res) {
         try {
             const { id } = req.params;
-            const usuario = await this._serviceUsuario.findUsuario(id);
+            const usuario = await this._usuarioService.findUsuario(id);
             res.json({
                 success: true,
                 data: usuario,
@@ -60,7 +60,7 @@ class UsuarioController {
                     msg: "error: " + errors.array(),
                 });
             }
-            const usuario = await this._serviceUsuario.createUsuario(usuarioReq);
+            const usuario = await this._usuarioService.createUsuario(usuarioReq);
             res.json({
                 success: true,
                 msg: "Usuario creado exitosamente",
@@ -75,7 +75,7 @@ class UsuarioController {
     async loginUsuario(req, res) {
         try {
             const usuarioReq = req.body;
-            const usuario = await this._serviceUsuario.loginUsuario(usuarioReq);
+            const usuario = await this._usuarioService.loginUsuario(usuarioReq);
             if (usuario) {
                 res.json({
                     success: true,
@@ -97,7 +97,7 @@ class UsuarioController {
         try {
             const usuarioReq = req.body;
             const { id } = req.params;
-            const usuario = await this._serviceUsuario.updateUsuario(usuarioReq, id);
+            const usuario = await this._usuarioService.updateUsuario(usuarioReq, id);
             res.json({
                 success: true,
                 msg: "Usuario actualizado exitosamente",
@@ -113,7 +113,7 @@ class UsuarioController {
         try {
             const { userAt, accion } = req.body;
             const { id } = req.params;
-            const { usuario, msg } = this._serviceUsuario.stateUsuario(accion, userAt, id)
+            const { usuario, msg } = this._usuarioService.stateUsuario(accion, userAt, id)
             res.json({
                 success: true,
                 msg: msg,
