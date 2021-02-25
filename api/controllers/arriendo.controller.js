@@ -1,7 +1,7 @@
-const { nodemailerTransporter, ordenarArrayporFecha, formatFechahora } = require("../helpers/components");
-const contratoPlantilla = require("../utils/pdf_plantillas/contratoArriendo");
-const extencionPlantilla = require("../utils/pdf_plantillas/extenderArriendo");
-const logo = require.resolve("../utils/images/logo2.png");
+const { nodemailerTransporter, ordenarArrayporFecha, formatFechahora } = require("../../helpers/components");
+const contratoPlantilla = require("../../utils/pdf_plantillas/contratoArriendo");
+const extencionPlantilla = require("../../utils/pdf_plantillas/extenderArriendo");
+const logo = require.resolve("../../utils/images/logo2.png");
 const fs = require("fs");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");

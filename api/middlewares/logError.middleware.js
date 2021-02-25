@@ -1,6 +1,6 @@
 const { LogError } = require("../../config/database/db");
 const base64 = require("image-to-base64");
-const logo = require.resolve("../utils/images/logo2.png");
+const logo = require.resolve("../../utils/images/logo2.png");
 const nodemailer = require("nodemailer");
 
 

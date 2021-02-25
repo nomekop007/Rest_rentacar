@@ -2,7 +2,7 @@ const { asValue } = require('awilix');
 
 const { sendError, fechahorafirma, borrarImagenDeStorage, crearToken
     , fecha, fontsPDF, formatFecha, formatFechahora, getRandomInt, hora,
-    nodemailerTransporter, ordenarArrayporFecha } = require('../../api/helpers/components')
+    nodemailerTransporter, ordenarArrayporFecha } = require('../../helpers/components')
 
 module.exports = (container) => {
     container.register({

@@ -6,10 +6,10 @@ const base64 = require("image-to-base64");
 const pdfMake = require('pdfmake/build/pdfmake.js');
 const pdfFonts = require('pdfmake/build/vfs_fonts.js');
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-const { fecha, nodemailerTransporter, hora, fechahorafirma } = require("../helpers/components");
-const logo = require.resolve("../utils/images/logo2.png");
-const recepcionPlantilla = require("../utils/pdf_plantillas/recepcion")
-const actaEntregaPlantilla = require("../utils/pdf_plantillas/actaEntrega");
+const { fecha, nodemailerTransporter, hora, fechahorafirma } = require("../../helpers/components");
+const logo = require.resolve("../../utils/images/logo2.png");
+const recepcionPlantilla = require("../../utils/pdf_plantillas/recepcion")
+const actaEntregaPlantilla = require("../../utils/pdf_plantillas/actaEntrega");
 
 
 class DespachoController {

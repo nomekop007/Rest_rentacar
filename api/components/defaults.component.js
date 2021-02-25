@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const xlsx = require("xlsx");
-const plantillaExel = require.resolve("../utils/vehiculos.xlsx");
+const plantillaExel = require.resolve("../../utils/vehiculos.xlsx");
 
 const {
     Usuario,

@@ -1,4 +1,4 @@
-const { logErrorRegister } = require("../middlewares/logError.middleware")
+const { logErrorRegister } = require("../api/middlewares/logError.middleware")
 const moment = require("moment");
 const jwt = require("jwt-simple");
 const fs = require("fs");
@@ -66,11 +66,9 @@ const borrarImagenDeStorage = (name, direccion) => {
 
 
 const ordenarArrayporFecha = (array) => {
-
     return array.sort(function (a, b) {
         const fechaA = new Date(a.createdAt);
         const fechaB = new Date(b.createdAt);
-
         if (fechaA > fechaB) {
             return 1;
         }
@@ -79,7 +77,6 @@ const ordenarArrayporFecha = (array) => {
         }
         return 0;
     });
-
 }
 
 function getRandomInt(min, max) {
