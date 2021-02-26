@@ -18,12 +18,20 @@ class PagoRepository {
         });
     }
 
+    getFindAllBySucursal(WHERE) {
+        return this._db.pago.findAll({
+            include: [
+                { model: this._db.pagoArriendo, include: { model: this._db.arriendo, include: { model: this._db.sucursal, where: WHERE } } },
+                { model: this._db.abono }
+            ]
+        });
+    }
 
-    getFindAll(WHERE) {
+    getFindAllPendientes(WHERE) {
         return this._db.pago.findAll({
             where: WHERE,
             include: [
-                { model: this._db.pagoArriendo, include: { model: this._db.arriendo } },
+                { model: this._db.pagoArriendo, include: { model: this._db.arriendo, include: { model: this._db.sucursal } } },
                 { model: this._db.abono }
             ]
         });

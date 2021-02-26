@@ -237,10 +237,12 @@ class ArriendoController {
 	async finalizarArriendos(req, res) {
 		try {
 			const { sucursal } = req.query;
+			let filter = { id_sucursal: sucursal };
+			if (sucursal === "0") filter = {};
 			const formatter = new Intl.NumberFormat("CL");
-			const arriendos = await this._serviceArriendo.getFindAllRecepcionados(sucursal);
+			const arriendos = await this._serviceArriendo.getFindAllRecepcionados(filter);
 			const arrayFaltantes = [];
-			arriendos.forEach(async ({ pagosArriendos, id_arriendo, tipo_arriendo, danioVehiculos }) => {
+			arriendos.forEach(async ({ pagosArriendos, id_arriendo, tipo_arriendo, danioVehiculos, estado_arriendo, sucursale }) => {
 				let faltante = [];
 				let pagos_listos = true;
 				let firmas_listas = true;
@@ -271,10 +273,10 @@ class ArriendoController {
 					}
 				});
 				//console.log("arriendo Nº" + id_arriendo + " pagos:" + pagos_listos + " firmas:" + firmas_listas + " daños:" + danio_listos);
-				if (pagos_listos && firmas_listas && danio_listos) {
+				if (pagos_listos && firmas_listas && danio_listos && estado_arriendo === "RECEPCIONADO") {
 					await this._serviceArriendo.putUpdate({ estado_arriendo: "FINALIZADO" }, id_arriendo);
 				} else {
-					arrayFaltantes.push({ id_arriendo: id_arriendo, falta: faltante })
+					arrayFaltantes.push({ id_arriendo: id_arriendo, sucursal: sucursale.nombre_sucursal, falta: faltante })
 				}
 			})
 			res.json({ success: true, data: arrayFaltantes });

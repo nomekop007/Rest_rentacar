@@ -81,13 +81,15 @@ class PagoController {
     }
 
 
-    async getPagosRemplazosPendientes(req, res) {
+    async getPagosRemplazos(req, res) {
         try {
-            const where = { estado_pago: "PENDIENTE" };
-            const pago = await this._servicePago.getFindAll(where);
+            const { sucursal } = req.query;
+            let where = {};
+            if (sucursal !== "0") where = { id_sucursal: sucursal };
+            const pagos = await this._servicePago.getFindAllBySucursal(where);
             res.json({
                 success: true,
-                data: pago
+                data: pagos
             });
         } catch (error) {
             this.sendError(error, req, res);
@@ -98,7 +100,7 @@ class PagoController {
     async findPagosRemplazosPendientes(req, res) {
         try {
             const where = { estado_pago: "PENDIENTE", deudor_pago: req.params.id };
-            const pago = await this._servicePago.getFindAll(where);
+            const pago = await this._servicePago.getFindAllPendientes(where);
             res.json({
                 success: true,
                 data: pago
@@ -210,8 +212,10 @@ class PagoController {
 
     async cargarPagosClientes(req, res) {
         try {
-            const where = {};
-            const pagos = await this._servicePago.getFindAll(where);
+            const { sucursal } = req.query;
+            let where = {};
+            if (sucursal !== "0") where = { id_sucursal: sucursal };
+            const pagos = await this._servicePago.getFindAllBySucursal(where);
             res.json({ success: true, data: pagos })
         } catch (error) {
             this.sendError(error, req, res);

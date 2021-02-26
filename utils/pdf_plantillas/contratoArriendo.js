@@ -1,10 +1,9 @@
 const base64 = require("image-to-base64");
-const {
-	fechahorafirma,
-	formatFechahora,
-	formatFecha,
-	ordenarArrayporFecha
-} = require("../../helpers/valueObject");
+const fechahorafirma = require("../../helpers/dateTimeSignature");
+const formatFechahora = require("../../helpers/dateTimeFormat");
+const formatFecha = require("../../helpers/dateFormat");
+const ordenarArrayporFecha = require("../../helpers/orderArrayByDate");
+
 const pagare = require.resolve("../images/pagare.png");
 const logo = require.resolve("../images/logo.png");
 

@@ -1,3 +1,5 @@
+const borrarImagenDeStorage = require("../../helpers/deleteImageStorage");
+
 class VehiculoController {
 
     constructor({ VehiculoService, sendError }) {
@@ -160,7 +162,8 @@ class VehiculoController {
 
     async getDanioVehiculo(req, res) {
         try {
-            const danios = await this._vehiculoService.getDanioVehiculo();
+            const { sucursal } = req.query;
+            const danios = await this._vehiculoService.getDanioVehiculo(sucursal);
             res.json({
                 success: true,
                 data: danios

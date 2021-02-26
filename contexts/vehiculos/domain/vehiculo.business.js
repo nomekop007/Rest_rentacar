@@ -175,11 +175,16 @@ class VehiculoBusiness {
     }
 
 
-    async getDanioVehiculo() {
-        const danios = await this._danioVehiculoRepository.getFindAll();
-        return danios;
+    async getDanioVehiculo(id_sucursal) {
+        console.log(id_sucursal);
+        if (id_sucursal === "0") {
+            const danios = await this._danioVehiculoRepository.getFindAll();
+            return danios;
+        } else {
+            const danios = await this._danioVehiculoRepository.getFindAllById(id_sucursal);
+            return danios;
+        }
     }
-
 
     async updateDanioVehiculo(danio, id_danio) {
         await this._danioVehiculoRepository.putUpdate(danio, id_danio);

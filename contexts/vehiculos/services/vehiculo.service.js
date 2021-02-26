@@ -45,8 +45,8 @@ class VehiculoService {
         return await this._vehiculoBusiness.consultarDanioVehiculo(id_arriendo);
     }
 
-    async getDanioVehiculo() {
-        return await this._vehiculoBusiness.getDanioVehiculo();
+    async getDanioVehiculo(id_sucursal) {
+        return await this._vehiculoBusiness.getDanioVehiculo(id_sucursal);
     }
 
 

@@ -4,7 +4,7 @@ module.exports = ({ PagoController }) => {
     router.post("/registrarPago", PagoController.createPago.bind(PagoController));
     router.post("/actualizarPagos", PagoController.updatePagos.bind(PagoController));
     router.put("/modificarPago/:id", PagoController.updateOnePago.bind(PagoController));
-    router.get("/cargarPagosERpendientes", PagoController.getPagosRemplazosPendientes.bind(PagoController));
+    router.get("/cargarPagosERpendientes", PagoController.getPagosRemplazos.bind(PagoController));
     router.get("/buscarPagoERpendientes/:id", PagoController.findPagosRemplazosPendientes.bind(PagoController));
     router.post("/aplicarDescuentoPago", PagoController.aplicarDescuentoPago.bind(PagoController));
     router.post("/calcularTotalPagos", PagoController.calcularTotalPagos.bind(PagoController));

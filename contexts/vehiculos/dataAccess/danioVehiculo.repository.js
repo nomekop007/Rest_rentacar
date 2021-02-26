@@ -12,7 +12,16 @@ class DanioVehiculoRepository {
     getFindAll() {
         return this._db.danioVehiculo.findAll({
             include: [
-                { model: this._db.arriendo, include: [{ model: this._db.empresa }, { model: this._db.cliente }, { model: this._db.remplazo, include: { model: this._db.cliente } }] },
+                { model: this._db.arriendo, include: [{ model: this._db.sucursal }, { model: this._db.empresa }, { model: this._db.cliente }, { model: this._db.remplazo, include: { model: this._db.cliente } }] },
+                { model: this._db.vehiculo },
+                { model: this._db.pagoDanio, include: { model: this._db.facturacion } }]
+        });
+    }
+
+    getFindAllById(id_sucursal) {
+        return this._db.danioVehiculo.findAll({
+            include: [
+                { model: this._db.arriendo, include: [{ model: this._db.sucursal, where: { id_sucursal: id_sucursal } }, { model: this._db.empresa }, { model: this._db.cliente }, { model: this._db.remplazo, include: { model: this._db.cliente } }] },
                 { model: this._db.vehiculo },
                 { model: this._db.pagoDanio, include: { model: this._db.facturacion } }]
         });

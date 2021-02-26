@@ -30,6 +30,7 @@ class ArriendoRepository {
                 { model: this._db.usuario, attributes: ["nombre_usuario"] },
                 { model: this._db.cliente },
                 { model: this._db.empresa },
+                { model: this._db.sucursal },
                 { model: this._db.vehiculo },
                 { model: this._db.pagoArriendo },
                 { model: this._db.requisito },
@@ -145,12 +146,18 @@ class ArriendoRepository {
         });
     }
 
-    getFindAllRecepcionados(id_sucursal) {
+    getFindAllRecepcionados(filter) {
         return this._db.arriendo.findAll({
-            where: { estado_arriendo: "RECEPCIONADO", id_sucursal: id_sucursal },
+            where: {
+                [Op.and]: [
+                    { estado_arriendo: "RECEPCIONADO", },
+                    filter
+                ],
+            },
             include: [
                 { model: this._db.pagoArriendo, include: [{ model: this._db.pago, include: { model: this._db.pagoArriendo } }, { model: this._db.contrato }] },
-                { model: this._db.danioVehiculo }
+                { model: this._db.danioVehiculo },
+                { model: this._db.sucursal }
             ],
         })
     }
