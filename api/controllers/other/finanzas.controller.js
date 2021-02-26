@@ -47,25 +47,25 @@ class FinanzasController {
             const { documento, tipo } = req.body;
             switch (tipo) {
                 case "contrato":
-                    paths = path.join(__dirname, `${process.env.PATH_CONTRATO}/${documento}`);
+                    paths = path.join(__dirname, `../${process.env.PATH_CONTRATO}/${documento}`);
                     break;
                 case "acta":
-                    paths = path.join(__dirname, `${process.env.PATH_ACTA_ENTREGA}/${documento}`);
+                    paths = path.join(__dirname, `../${process.env.PATH_ACTA_ENTREGA}/${documento}`);
                     break;
                 case "requisito":
-                    paths = path.join(__dirname, `${process.env.PATH_REQUISITO_ARRIENDO}/${documento}`);
+                    paths = path.join(__dirname, `../${process.env.PATH_REQUISITO_ARRIENDO}/${documento}`);
                     break;
                 case "facturacion":
-                    paths = path.join(__dirname, `${process.env.PATH_FACTURACIONES}/${documento}`);
+                    paths = path.join(__dirname, `../${process.env.PATH_FACTURACIONES}/${documento}`);
                     break;
                 case "recepcion":
-                    paths = path.join(__dirname, `${process.env.PATH_RECEPCIONES}/${documento}`);
+                    paths = path.join(__dirname, `../${process.env.PATH_RECEPCIONES}/${documento}`);
                     break;
                 case "fotosDañoVehiculo":
-                    paths = path.join(__dirname, `${process.env.PATH_DANIO_VEHICULO}/${documento}`);
+                    paths = path.join(__dirname, `../${process.env.PATH_DANIO_VEHICULO}/${documento}`);
                     break;
                 case "fotoVehiculo":
-                    paths = path.join(__dirname, `${process.env.PATH_FOTO_VEHICULO}/${documento}`);
+                    paths = path.join(__dirname, `../${process.env.PATH_FOTO_VEHICULO}/${documento}`);
                     break;
                 default:
                     res.json({

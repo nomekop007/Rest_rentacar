@@ -1,7 +1,16 @@
+const fs = require("fs");
+const path = require("path");
 const { v4: uuidv4 } = require("uuid");
+const pdfMake = require("pdfmake/build/pdfmake.js");
+const pdfFonts = require("pdfmake/build/vfs_fonts.js");
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+const recepcionPlantilla = require("../../../utils/pdf_plantillas/recepcion")
+const fecha = require("../../../helpers/currentDate");
+const hora = require("../../../helpers/currentTime");
+
 class VehiculoBusiness {
 
-    constructor({ VehiculoRepository, ArriendoRepository, DanioVehiculoRepository, TarifaVehiculoRepository, ExtencionRepository, }) {
+    constructor({ VehiculoRepository, ArriendoRepository, DanioVehiculoRepository, TarifaVehiculoRepository, ExtencionRepository }) {
         this._vehiculoRepository = VehiculoRepository;
         this._arriendoRepository = ArriendoRepository;
         this._danioVehiculoRepository = DanioVehiculoRepository;
@@ -118,6 +127,104 @@ class VehiculoBusiness {
     }
 
 
+
+
+    async createDanioVehiculo(id_arriendo, descripcion_danio, arrayImages, userAt) {
+        const arriendo = await this._arriendoRepository.getFindOne(id_arriendo);
+        const dataPlantilla = {};
+        dataPlantilla.id_arriendo = id_arriendo;
+        dataPlantilla.descripcion_danio = descripcion_danio;
+        dataPlantilla.arrayImages = arrayImages;
+        dataPlantilla.id_despacho = arriendo.id_arriendo;
+        dataPlantilla.userAt = userAt
+        dataPlantilla.fecha = fecha();
+        dataPlantilla.hora = hora();
+        const docDefinition = await recepcionPlantilla(dataPlantilla);
+        const nameFile = uuidv4();
+        const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+        const pathFile = path.join(__dirname, `../${process.env.PATH_DANIO_VEHICULO}/${nameFile}.pdf`)
+        pdfDocGenerator.getBase64((base64) => {
+            fs.writeFileSync(pathFile, base64, "base64", (err) => {
+                return false;
+            })
+        });
+        const data = {
+            descripcion_danioVehiculo: descripcion_danio,
+            documento_danioVehiculo: nameFile + ".pdf",
+            id_arriendo: arriendo.id_arriendo,
+            patente_vehiculo: arriendo.patente_vehiculo,
+            estado_danioVehiculo: "PENDIENTE",
+            userAt: userAt
+        }
+        await this._danioVehiculoRepository.postCreate(data);
+        return true;
+    }
+
+
+
+    async consultarDanioVehiculo(id_arriendo) {
+        const arriendo = await this._arriendoRepository.getFindOne(id_arriendo);
+        if (!arriendo.danioVehiculos) {
+            return false;
+        }
+        if (arriendo.danioVehiculos.length > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    async getDanioVehiculo() {
+        const danios = await this._danioVehiculoRepository.getFindAll();
+        return danios;
+    }
+
+
+    async updateDanioVehiculo(danio, id_danio) {
+        await this._danioVehiculoRepository.putUpdate(danio, id_danio);
+        await this._danioVehiculoRepository.getFindByPk(id_danio);
+        return true;
+    }
+
+
+    async createTarifaVehiculo(arrayTarifasVehiculos, userAt) {
+        arrayTarifasVehiculos.forEach(async vehiculo => {
+            vehiculo.userAt = userAt;
+            const [tarifaVehiculo, created] = await this._tarifaVehiculoRepository.postFindOrCreate(vehiculo, vehiculo.patente_vehiculo);
+            if (!created) await this._tarifaVehiculoRepository.putUpdate(vehiculo, vehiculo.patente_vehiculo);
+        });
+    }
+
+
+
+    async getTarifaVehiculo() {
+        const tarifasVehiculos = await this._tarifaVehiculoRepository.getFindAll();
+        return tarifasVehiculos;
+    }
+
+
+    async findTarifaVehiculoByDias(patente, dias) {
+        const tarifaVehiculo = await this._tarifaVehiculoRepository.getFindOne(patente);
+        let valorDia = 0;
+        let valorNeto = 0;
+        if (tarifaVehiculo) {
+            if (Number(dias) < 7) {
+                valorDia = tarifaVehiculo.valor_neto_diario;
+            }
+            if (Number(dias) >= 7) {
+                valorDia = tarifaVehiculo.valor_neto_semanal / 7;
+            }
+            if (Number(dias) >= 15) {
+                valorDia = tarifaVehiculo.valor_neto_quincenal / 15;
+            }
+            if (Number(dias) >= 30) {
+                valorDia = tarifaVehiculo.valor_neto_mensual / 30;
+            }
+            valorNeto = valorDia * Number(dias);
+        }
+        return { valorDia, valorNeto }
+    }
 
 
 }

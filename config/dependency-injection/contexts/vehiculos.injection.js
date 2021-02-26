@@ -8,6 +8,7 @@ const VehiculoController = require('../../../api/controllers/vehiculo.controller
 const VehiculoService = require('../../../contexts/vehiculos/services/vehiculo.service');
 const VehiculoBusiness = require('../../../contexts/vehiculos/domain/vehiculo.business');
 
+
 const VehiculoRepository = require('../../../contexts/vehiculos/dataAccess/vehiculo.repository');
 const DanioVehiculoRepository = require('../../../contexts/vehiculos/dataAccess/danioVehiculo.repository');
 const TarifaVehiculoRepository = require('../../../contexts/vehiculos/dataAccess/tarifaVehiculo.repository')

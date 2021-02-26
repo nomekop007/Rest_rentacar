@@ -1,26 +1,8 @@
-const fecha = require("../../helpers/currentDate");
-const hora = require("../../helpers/currentTime");
-const borrarImagenDeStorage = require("../../helpers/deleteImageStorage");
-const recepcionPlantilla = require("../../utils/pdf_plantillas/recepcion")
-const fs = require("fs");
-const path = require("path");
-const { v4: uuidv4 } = require("uuid");
-const pdfMake = require("pdfmake/build/pdfmake.js");
-const pdfFonts = require("pdfmake/build/vfs_fonts.js");
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
 class VehiculoController {
 
-    constructor({ VehiculoService, SucursalRepository, ArriendoRepository, DanioVehiculoRepository, TarifaVehiculoRepository, ExtencionRepository, sendError }) {
+    constructor({ VehiculoService, sendError }) {
         this._vehiculoService = VehiculoService;
         this.sendError = sendError;
-
-        //mover
-        this._serviceSucursal = SucursalRepository;
-        this._serviceArriendo = ArriendoRepository;
-        this._serviceDanioVehiculo = DanioVehiculoRepository;
-        this._serviceTarifaVehiculo = TarifaVehiculoRepository;
-        this._serviceExtencion = ExtencionRepository;
     }
 
 
@@ -143,37 +125,19 @@ class VehiculoController {
 
     async createDanioVehiculo(req, res) {
         try {
-            const response = req.body;
-            const arriendo = await this._serviceArriendo.getFindOne(response.id_arriendo);
-            response.id_despacho = arriendo.id_arriendo;
-            response.fecha = fecha();
-            response.hora = hora();
-            const docDefinition = await recepcionPlantilla(response);
-            const nameFile = uuidv4();
-            const pdfDocGenerator = pdfMake.createPdf(docDefinition);
-            const pathFile = path.join(__dirname, `${process.env.PATH_DANIO_VEHICULO}/${nameFile}.pdf`)
-            pdfDocGenerator.getBase64((base64) => {
-                fs.writeFileSync(pathFile, base64, "base64", (err) => {
-                    res.json({
-                        success: false,
-                        msg: err
-                    });
-                    return;
+            const { id_arriendo, descripcion_danio, arrayImages, userAt } = req.body;
+            const response = await this._vehiculoService.createDanioVehiculo(id_arriendo, descripcion_danio, arrayImages, userAt);
+            if (response) {
+                res.json({
+                    success: true,
+                    msg: "daño registrado"
                 })
-            });
-            const data = {
-                descripcion_danioVehiculo: response.descripcion_danio,
-                documento_danioVehiculo: nameFile + ".pdf",
-                id_arriendo: arriendo.id_arriendo,
-                patente_vehiculo: arriendo.patente_vehiculo,
-                estado_danioVehiculo: "PENDIENTE",
-                userAt: response.userAt
+            } else {
+                res.json({
+                    success: false,
+                    msg: "error al guardar las fotos del daño"
+                })
             }
-            await this._serviceDanioVehiculo.postCreate(data);
-            res.json({
-                success: true,
-                msg: "daño registrado"
-            })
         } catch (error) {
             this.sendError(error, req, res);;
         }
@@ -182,18 +146,12 @@ class VehiculoController {
 
     async consultarDanioVehiculo(req, res) {
         try {
-            const arriendo = await this._serviceArriendo.getFindOne(req.params.id);
-            if (arriendo.danioVehiculos.length > 0) {
-                res.json({
-                    success: true,
-                    data: true
-                })
-            } else {
-                res.json({
-                    success: true,
-                    data: false
-                })
-            }
+            const { id } = req.params;
+            const response = await this._vehiculoService.consultarDanioVehiculo(id);
+            res.json({
+                success: true,
+                data: response
+            })
         } catch (error) {
             this.sendError(error, req, res);;
         }
@@ -202,7 +160,7 @@ class VehiculoController {
 
     async getDanioVehiculo(req, res) {
         try {
-            const danios = await this._serviceDanioVehiculo.getFindAll();
+            const danios = await this._vehiculoService.getDanioVehiculo();
             res.json({
                 success: true,
                 data: danios
@@ -215,9 +173,9 @@ class VehiculoController {
 
     async updateDanioVehiculo(req, res, next) {
         try {
-            const response = req.body;
-            await this._serviceDanioVehiculo.putUpdate(response, req.params.id);
-            await this._serviceDanioVehiculo.getFindByPk(req.params.id);
+            const danio = req.body;
+            const { id } = req.params;
+            await this._vehiculoService.updateDanioVehiculo(danio, id);
             res.json({
                 success: true,
                 msg: "estado daño actualizado",
@@ -230,12 +188,8 @@ class VehiculoController {
 
     async createTarifaVehiculo(req, res, next) {
         try {
-            const { TARIFASVEHICULOS } = req.body;
-            TARIFASVEHICULOS.forEach(async vehiculo => {
-                vehiculo.userAt = req.body.userAt;
-                const [tarifaVehiculo, created] = await this._serviceTarifaVehiculo.postFindOrCreate(vehiculo, vehiculo.patente_vehiculo);
-                if (!created) await this._serviceTarifaVehiculo.putUpdate(vehiculo, vehiculo.patente_vehiculo);
-            });
+            const { TARIFASVEHICULOS, userAt } = req.body;
+            await this._vehiculoService.createTarifaVehiculo(TARIFASVEHICULOS, userAt);
             res.json({
                 success: true,
                 msg: "asignacion exitosa!"
@@ -249,7 +203,7 @@ class VehiculoController {
 
     async getTarifaVehiculo(req, res) {
         try {
-            const tarifasVehiculos = await this._serviceTarifaVehiculo.getFindAll();
+            const tarifasVehiculos = await this._vehiculoService.getTarifaVehiculo();
             res.json({
                 success: true,
                 data: tarifasVehiculos
@@ -263,27 +217,10 @@ class VehiculoController {
     async findTarifaVehiculoByDias(req, res) {
         try {
             const { patente, dias } = req.query;
-            const tarifaVehiculo = await this._serviceTarifaVehiculo.getFindOne(patente);
-            let valorDia = 0;
-            let valorNeto = 0;
-            if (tarifaVehiculo) {
-                if (Number(dias) < 7) {
-                    valorDia = tarifaVehiculo.valor_neto_diario;
-                }
-                if (Number(dias) >= 7) {
-                    valorDia = tarifaVehiculo.valor_neto_semanal / 7;
-                }
-                if (Number(dias) >= 15) {
-                    valorDia = tarifaVehiculo.valor_neto_quincenal / 15;
-                }
-                if (Number(dias) >= 30) {
-                    valorDia = tarifaVehiculo.valor_neto_mensual / 30;
-                }
-                valorNeto = valorDia * Number(dias);
-            }
+            const payload = await this._vehiculoService.findTarifaVehiculoByDias(patente, dias);
             res.json({
                 success: true,
-                data: { valorDia, valorNeto }
+                data: payload
             });
         } catch (error) {
             this.sendError(error, req, res);
