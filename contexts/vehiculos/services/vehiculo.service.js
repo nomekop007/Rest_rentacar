@@ -13,6 +13,10 @@ class VehiculoService {
         return await this._vehiculoBusiness.getAllVehiculos();
     }
 
+    async getVehiculosDisponiblesBySucursal(id_sucursal) {
+        return await this._vehiculoBusiness.getVehiculosDisponiblesBySucursal(id_sucursal);
+    }
+
     async findVehiculo(patente) {
         return await this._vehiculoBusiness.findVehiculo(patente);
     }
@@ -65,6 +69,10 @@ class VehiculoService {
 
     async findTarifaVehiculoByDias(patente, dias) {
         return await this._vehiculoBusiness.findTarifaVehiculoByDias(patente, dias);
+    }
+
+    async getVehiculosArrendados() {
+        return await this._vehiculoBusiness.getVehiculosArrendados();
     }
 
 

@@ -58,6 +58,12 @@ const onUpdate = "CASCADE";
 
 //Asociaciones de tablas
 
+// una sucursal tiene muchos vehiculos
+Sucursal.hasMany(Vehiculo, { foreignKey: { name: "id_sucursal" }, onDelete: onDelete, onUpdate: onUpdate });
+// un vehiculo pertenece a una sucursales
+Vehiculo.belongsTo(Sucursal, { foreignKey: { name: "id_sucursal" }, onDelete: onDelete, onUpdate: onUpdate });
+
+
 // un Arriendo tiene muchos PagoExtra
 Arriendo.hasMany(PagoExtra, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate });
 // un PagoExtra pertenece a un Arriendo

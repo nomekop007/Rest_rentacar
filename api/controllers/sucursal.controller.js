@@ -1,17 +1,14 @@
 class SucursalController {
 
-    constructor({ SucursalService, SucursalRepository, sendError }) {
+    constructor({ SucursalService, sendError }) {
         this.sendError = sendError;
         this._sucursalService = SucursalService;
-
-        //mover
-        this._serviceSucursal = SucursalRepository;
     }
 
 
     async getSucursales(req, res) {
         try {
-            const sucursales = await this._serviceSucursal.getFindAll();
+            const sucursales = await this._sucursalService.getSucursales();
             res.json({
                 success: true,
                 data: sucursales,
@@ -24,10 +21,11 @@ class SucursalController {
 
     async getFindVehiculosPorSucursal(req, res) {
         try {
-            const sucursal = await this._serviceSucursal.getFindById(req.params.id);
+            const { id } = req.params;
+            const sucursalWithVehiculos = await this._sucursalService.getFindVehiculosPorSucursal(id);
             res.json({
                 success: true,
-                data: sucursal,
+                data: sucursalWithVehiculos,
             });
         } catch (error) {
             this.sendError(error, req, res);
@@ -37,8 +35,9 @@ class SucursalController {
 
     async createSucursal(req, res, next) {
         try {
-            const sucursal = await this._serviceSucursal.postCreate(req.body);
-            res.json({ success: true, data: sucursal })
+            const sucursal = req.body;
+            const sucursalCreate = await this._sucursalService.createSucursal(sucursal);
+            res.json({ success: true, data: sucursalCreate })
             next();
         } catch (error) {
             this.sendError(error, req, res);;
@@ -47,7 +46,9 @@ class SucursalController {
 
     async updateSucursal(req, res, next) {
         try {
-            await this._serviceSucursal.putUpdate(req.params.id, req.body);
+            const sucursal = req.body;
+            const { id } = req.params;
+            await this._sucursalService.updateSucursal(id, sucursal);
             res.json({ success: true, msg: "sucursal modificada" });
             next();
         } catch (error) {
@@ -57,7 +58,7 @@ class SucursalController {
 
     async getFindArriendoBySucursal(req, res) {
         try {
-            const sucursal = await this._serviceSucursal.getArriendoBySucursal();
+            const sucursal = await this._sucursalService.getFindArriendoBySucursal();
             res.json({ success: true, data: sucursal })
         } catch (error) {
             this.sendError(error, req, res);;

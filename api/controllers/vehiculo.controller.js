@@ -17,6 +17,15 @@ class VehiculoController {
         }
     }
 
+    async getVehiculosDisponiblesBySucursal(req, res) {
+        try {
+            const { id } = req.params;
+            const vehiculos = await this._vehiculoService.getVehiculosDisponiblesBySucursal(id);
+            res.json({ success: true, data: vehiculos });
+        } catch (error) {
+            this.sendError(error, req, res);
+        }
+    }
 
     async getAllVehiculos(req, res) {
         try {
@@ -225,6 +234,16 @@ class VehiculoController {
                 success: true,
                 data: payload
             });
+        } catch (error) {
+            this.sendError(error, req, res);
+        }
+    }
+
+
+    async getVehiculosArrendados(req, res) {
+        try {
+            const vehiculos = await this._vehiculoService.getVehiculosArrendados();
+            res.json({ success: true, data: vehiculos })
         } catch (error) {
             this.sendError(error, req, res);
         }

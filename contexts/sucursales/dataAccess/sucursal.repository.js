@@ -20,18 +20,13 @@ class SucursalRepository {
         return this._db.sucursal.findOne({
             where: { id_sucursal: ID },
             include: [
+                { model: this._db.vehiculo, where: { estado_vehiculo: "DISPONIBLE" }, },
                 {
                     model: this._db.region,
                     include: [{
                         model: this._db.vehiculo,
                         where: { estado_vehiculo: "DISPONIBLE" },
-                        attributes: [
-                            "patente_vehiculo",
-                            "modelo_vehiculo",
-                            "año_vehiculo",
-                            "marca_vehiculo",
-                        ],
-                    },]
+                    }]
                 }
             ],
         });

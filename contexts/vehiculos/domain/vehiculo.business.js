@@ -32,6 +32,11 @@ class VehiculoBusiness {
         return vehiculos;
     }
 
+    async getVehiculosDisponiblesBySucursal(id_sucursal) {
+        const vehiculos = await this._vehiculoRepository.getFindAllBySucursalDispoinble(id_sucursal);
+        return vehiculos;
+    }
+
 
 
     async findVehiculo(patente) {
@@ -229,6 +234,12 @@ class VehiculoBusiness {
             valorNeto = valorDia * Number(dias);
         }
         return { valorDia, valorNeto }
+    }
+
+
+    async getVehiculosArrendados() {
+        const vehiculos = await this._vehiculoRepository.getFindAllArrendados();
+        return vehiculos;
     }
 
 
