@@ -9,10 +9,6 @@ class VehiculoService {
         return await this._vehiculoBusiness.getVehiculos();
     }
 
-    async getAllVehiculos() {
-        return await this._vehiculoBusiness.getAllVehiculos();
-    }
-
     async getVehiculosDisponibles() {
         return await this._vehiculoBusiness.getVehiculosDisponibles();
     }

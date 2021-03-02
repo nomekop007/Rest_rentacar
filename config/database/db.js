@@ -70,6 +70,11 @@ Arriendo.hasMany(PagoExtra, { foreignKey: { name: "id_arriendo" }, onDelete: onD
 PagoExtra.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate });
 
 
+// un facturacion tiene pagoExtra
+Facturacion.hasMany(PagoExtra, { foreignKey: { name: "id_facturacion" }, onDelete: onDelete, onUpdate: onUpdate })
+// un pagoExtra pertenece a una facturacion
+PagoExtra.belongsTo(Facturacion, { foreignKey: { name: "id_facturacion" }, onDelete: onDelete, onUpdate: onUpdate });
+
 //un arriendo tiene muchas extenciones
 Arriendo.hasMany(Extencion, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate });
 //una extencion pertenece a un arriendo

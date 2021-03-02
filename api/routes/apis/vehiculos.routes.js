@@ -2,7 +2,6 @@ const router = require("express").Router();
 module.exports = ({ VehiculoController, subirImageVehiculo }) => {
 
     router.get("/cargarVehiculos", VehiculoController.getVehiculos.bind(VehiculoController));
-    router.get("/cargarTotalVehiculos", VehiculoController.getAllVehiculos.bind(VehiculoController));
     router.get("/cargarVehiculosArrendados", VehiculoController.getVehiculosArrendados.bind(VehiculoController));
     router.get("/cargarVehiculosDisponibles", VehiculoController.getVehiculosDisponibles.bind(VehiculoController));
     router.get("/cargarVehiculosDisponiblesPorSucursal/:id", VehiculoController.getVehiculosDisponiblesBySucursal.bind(VehiculoController));

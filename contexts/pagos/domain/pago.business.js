@@ -19,13 +19,22 @@ class PagoBusiness {
     }
 
 
-
     async cargarPagosExtrasPorArriendo(id_arriendo) {
         const pagosExtras = await this._pagoExtraRepository.findAllByIdArriendo(id_arriendo);
         return pagosExtras;
     }
 
+    async detelePagoExtra(id_pagoExtra) {
+        await this._pagoExtraRepository.deleteById(id_pagoExtra);
+    }
 
+    async actualizarPagosExtras(id_facturacion, arrayPagosExtra) {
+        arrayPagosExtra.forEach(async (id_pagoExtra) => {
+            let data = { id_facturacion: id_facturacion };
+            await this._pagoExtraRepository.putUpdateByID(data, id_pagoExtra);
+        })
+        return true;
+    }
 
 
 }

@@ -16,6 +16,29 @@ class PagoController {
         this._serviceAbono = AbonoRepository;
     }
 
+    async detelePagoExtra(req, res) {
+        try {
+            const { id } = req.params;
+            await this._pagoService.detelePagoExtra(id);
+            res.json({ success: true, msg: "eliminado" });
+        } catch (error) {
+            this.sendError(error, req, res);
+        }
+    }
+
+
+
+    async actualizarPagosExtras(req, res) {
+        try {
+            const { id_facturacion, arrayPagosExtra } = req.body;
+            await this._pagoService.actualizarPagosExtras(id_facturacion, arrayPagosExtra);
+            res.json({ success: true, msg: "modificado!" });
+        } catch (error) {
+            this.sendError(error, req, res);
+        }
+    }
+
+
 
     async createPago(req, res, next) {
         try {

@@ -14,6 +14,7 @@ const {
     Region
 } = require("../../../config/database/db");
 
+// DEPRECADO!!!!
 
 class DefaultsController {
 

@@ -12,9 +12,28 @@ class VehiculoRepository {
         });
     }
 
-    getFindAllByDispoinble() {
+    getFindAllByDisponible() {
         return this._db.vehiculo.findAll({
             where: { estado_vehiculo: "DISPONIBLE" }
+        })
+    }
+
+    getFindAll() {
+        return this._db.vehiculo.findAll({
+            include: [{ model: this._db.region, include: [{ model: this._db.sucursal }] }, { model: this._db.sucursal }],
+        });
+    }
+
+    getFindAllWithArriendo() {
+        return this._db.vehiculo.findAll({
+            include: { model: this._db.arriendo },
+        });
+    }
+
+    getFindAllArrendados() {
+        return this._db.vehiculo.findAll({
+            where: { estado_vehiculo: "ARRENDADO" },
+            include: [{ model: this._db.arriendo, include: [{ model: this._db.empresa }, { model: this._db.sucursal }, { model: this._db.cliente }, { model: this._db.remplazo, include: { model: this._db.cliente } }] }]
         })
     }
 
@@ -31,20 +50,6 @@ class VehiculoRepository {
         });
     }
 
-    getFindAll() {
-        return this._db.vehiculo.findAll({
-            include: [{ model: this._db.region, include: [{ model: this._db.sucursal }] }, { model: this._db.sucursal }],
-        });
-    }
-
-    getFindAllArrendados() {
-        return this._db.vehiculo.findAll({
-            where: { estado_vehiculo: "ARRENDADO" },
-            include: [{ model: this._db.arriendo, include: [{ model: this._db.empresa }, { model: this._db.sucursal }, { model: this._db.cliente }, { model: this._db.remplazo, include: { model: this._db.cliente } }] }]
-        })
-    }
-
-
 
     getFindOne(PATENTE) {
         return this._db.vehiculo.findOne({
@@ -52,8 +57,7 @@ class VehiculoRepository {
         });
     }
 
-    //by patente
-    putUpdate(DATA, PATENTE) {
+    putUpdateByPatente(DATA, PATENTE) {
         return this._db.vehiculo.update(DATA, {
             where: { patente_vehiculo: PATENTE },
         });

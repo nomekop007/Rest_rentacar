@@ -17,6 +17,7 @@ class VehiculoController {
         }
     }
 
+
     async getVehiculosDisponibles(req, res) {
         try {
 
@@ -38,17 +39,7 @@ class VehiculoController {
         }
     }
 
-    async getAllVehiculos(req, res) {
-        try {
-            const vehiculos = await this._vehiculoService.getAllVehiculos();
-            res.json({
-                success: true,
-                data: vehiculos
-            })
-        } catch (error) {
-            this.sendError(error, req, res);
-        }
-    }
+
 
 
     async findVehiculo(req, res) {

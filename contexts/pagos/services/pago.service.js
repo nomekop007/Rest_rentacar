@@ -13,6 +13,14 @@ class PagoService {
         return await this.pagoBusiness.cargarPagosExtrasPorArriendo(id_arriendo);
     }
 
+    async detelePagoExtra(id_pagoExtra) {
+        return await this.pagoBusiness.detelePagoExtra(id_pagoExtra);
+    }
+
+    async actualizarPagosExtras(id_facturacion, arrayPagosExtra) {
+        return await this.pagoBusiness.actualizarPagosExtras(id_facturacion, arrayPagosExtra)
+    }
+
 
 
 }

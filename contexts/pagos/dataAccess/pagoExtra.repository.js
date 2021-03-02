@@ -12,7 +12,20 @@ class PagoExtraRepository {
 
     findAllByIdArriendo(ID) {
         return this._db.pagoExtra.findAll({
-            where: { id_arriendo: ID }
+            where: { id_arriendo: ID },
+            include: { model: this._db.facturacion }
+        })
+    }
+
+    deleteById(ID) {
+        return this._db.pagoExtra.destroy({
+            where: { id_pagoExtra: ID }
+        })
+    }
+
+    putUpdateByID(DATA, ID) {
+        return this._db.pagoExtra.update(DATA, {
+            where: { id_pagoExtra: ID }
         })
     }
 }

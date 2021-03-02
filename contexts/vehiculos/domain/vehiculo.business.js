@@ -21,20 +21,35 @@ class VehiculoBusiness {
 
 
     async getVehiculos() {
+        this.actualizarSucursalVehiculo();
         const vehiculos = await this._vehiculoRepository.getFindAll();
         return vehiculos;
+    }
+
+    //script para colocar la sucursal del arriendo 
+    async actualizarSucursalVehiculo() {
+        const vehiculosWithArriendo = await this._vehiculoRepository.getFindAllWithArriendo();
+        vehiculosWithArriendo.forEach(async ({ arriendos, id_sucursal, patente_vehiculo }) => {
+            if (arriendos.length > 0) {
+                const arriendo = arriendos[arriendos.length - 1];
+                if (id_sucursal === null) {
+                    const data = { id_sucursal: arriendo.id_sucursal };
+                    await this._vehiculoRepository.putUpdateByPatente(data, patente_vehiculo);
+                }
+            }
+        });
     }
 
     async getVehiculosDisponibles() {
-        const vehiculos = await this._vehiculoRepository.getFindAllByDispoinble();
+        const vehiculos = await this._vehiculoRepository.getFindAllByDisponible();
         return vehiculos;
     }
 
-
-    async getAllVehiculos() {
-        const vehiculos = await this._vehiculoRepository.getFindAll();
+    async getVehiculosArrendados() {
+        const vehiculos = await this._vehiculoRepository.getFindAllArrendados();
         return vehiculos;
     }
+
 
     async getVehiculosDisponiblesBySucursal(id_sucursal) {
         const vehiculos = await this._vehiculoRepository.getFindAllBySucursalDispoinble(id_sucursal);
@@ -70,7 +85,7 @@ class VehiculoBusiness {
 
     async updateStateVehiculo(vehiculo, patente) {
         if (vehiculo.kilometrosMantencion_vehiculo == null) delete vehiculo.kilometrosMantencion_vehiculo;
-        const vehiculoRepo = await this._vehiculoRepository.putUpdate(vehiculo, patente);
+        const vehiculoRepo = await this._vehiculoRepository.putUpdateByPatente(vehiculo, patente);
         return vehiculoRepo;
     }
 
@@ -90,7 +105,7 @@ class VehiculoBusiness {
 
     async updateImageVehiculo(name_file, patente) {
         const data = { foto_vehiculo: name_file };
-        await this._vehiculoRepository.putUpdate(data, patente);
+        await this._vehiculoRepository.putUpdateByPatente(data, patente);
         let payload = {
             success: true,
             msg: " imagen guardada",
@@ -123,15 +138,15 @@ class VehiculoBusiness {
 
     async borrarDatosAsociados(vehiculo) {
         if (vehiculo.tarifasVehiculo) await this._tarifaVehiculoRepository.putUpdateById({ patente_vehiculo: null }, vehiculo.tarifasVehiculo.id_tarifaVehiculo);
-        if (vehiculo.arriendos.length > 0) await vehiculo.arriendos.map(async ({ id_arriendo }) => await this._arriendoRepository.putUpdate({ patente_vehiculo: null }, id_arriendo));
-        if (vehiculo.danioVehiculos.length > 0) await vehiculo.danioVehiculos.map(async ({ id_danioVehiculo }) => await this._danioVehiculoRepository.putUpdate({ patente_vehiculo: null }, id_danioVehiculo));
+        if (vehiculo.arriendos.length > 0) await vehiculo.arriendos.map(async ({ id_arriendo }) => await this._arriendoRepository.putUpdateByPatente({ patente_vehiculo: null }, id_arriendo));
+        if (vehiculo.danioVehiculos.length > 0) await vehiculo.danioVehiculos.map(async ({ id_danioVehiculo }) => await this._danioVehiculoRepository.putUpdateByPatente({ patente_vehiculo: null }, id_danioVehiculo));
         if (vehiculo.extenciones.length > 0) await vehiculo.extenciones.map(async ({ id_extencion }) => await this._extencionRepository.putUpdateById({ patente_vehiculo: null }, id_extencion));
     }
 
     async agregarDatosAsociados(vehiculo, newPatente) {
         if (vehiculo.tarifasVehiculo) await this._tarifaVehiculoRepository.putUpdateById({ patente_vehiculo: newPatente }, vehiculo.tarifasVehiculo.id_tarifaVehiculo);
-        if (vehiculo.arriendos.length > 0) await vehiculo.arriendos.map(async ({ id_arriendo }) => await this._arriendoRepository.putUpdate({ patente_vehiculo: newPatente }, id_arriendo));
-        if (vehiculo.danioVehiculos.length > 0) await vehiculo.danioVehiculos.map(async ({ id_danioVehiculo }) => await this._danioVehiculoRepository.putUpdate({ patente_vehiculo: newPatente }, id_danioVehiculo));
+        if (vehiculo.arriendos.length > 0) await vehiculo.arriendos.map(async ({ id_arriendo }) => await this._arriendoRepository.putUpdateByPatente({ patente_vehiculo: newPatente }, id_arriendo));
+        if (vehiculo.danioVehiculos.length > 0) await vehiculo.danioVehiculos.map(async ({ id_danioVehiculo }) => await this._danioVehiculoRepository.putUpdateByPatente({ patente_vehiculo: newPatente }, id_danioVehiculo));
         if (vehiculo.extenciones.length > 0) await vehiculo.extenciones.map(async ({ id_extencion }) => await this._extencionRepository.putUpdateById({ patente_vehiculo: newPatente }, id_extencion));
     }
 
@@ -196,7 +211,7 @@ class VehiculoBusiness {
     }
 
     async updateDanioVehiculo(danio, id_danio) {
-        await this._danioVehiculoRepository.putUpdate(danio, id_danio);
+        await this._danioVehiculoRepository.putUpdateByPatente(danio, id_danio);
         await this._danioVehiculoRepository.getFindByPk(id_danio);
         return true;
     }
@@ -206,7 +221,7 @@ class VehiculoBusiness {
         arrayTarifasVehiculos.forEach(async vehiculo => {
             vehiculo.userAt = userAt;
             const [tarifaVehiculo, created] = await this._tarifaVehiculoRepository.postFindOrCreate(vehiculo, vehiculo.patente_vehiculo);
-            if (!created) await this._tarifaVehiculoRepository.putUpdate(vehiculo, vehiculo.patente_vehiculo);
+            if (!created) await this._tarifaVehiculoRepository.putUpdateByPatente(vehiculo, vehiculo.patente_vehiculo);
         });
     }
 
@@ -241,10 +256,7 @@ class VehiculoBusiness {
     }
 
 
-    async getVehiculosArrendados() {
-        const vehiculos = await this._vehiculoRepository.getFindAllArrendados();
-        return vehiculos;
-    }
+
 
 
 }

@@ -15,7 +15,8 @@ module.exports = ({ PagoController }) => {
     router.put("/actualizarMontoPago/:id", PagoController.actualizarMontoPago.bind(PagoController));
     router.post("/registrarPagoExtra", PagoController.registrarPagoExtra.bind(PagoController));
     router.get("/cargarPagosExtrasPorArriendo/:id", PagoController.mostrarPagoExtrasPorArriendo.bind(PagoController));
-
+    router.delete("/eliminarPagoExtra/:id", PagoController.detelePagoExtra.bind(PagoController));
+    router.post("/actualizarPagosExtras", PagoController.actualizarPagosExtras.bind(PagoController));
 
     return router;
 }
