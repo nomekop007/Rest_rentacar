@@ -25,6 +25,10 @@ class VehiculoBusiness {
         return vehiculos;
     }
 
+    async getVehiculosDisponibles() {
+        const vehiculos = await this._vehiculoRepository.getFindAllByDispoinble();
+        return vehiculos;
+    }
 
 
     async getAllVehiculos() {

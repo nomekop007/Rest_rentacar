@@ -19,20 +19,6 @@ class SucursalController {
     }
 
 
-    async getFindVehiculosPorSucursal(req, res) {
-        try {
-            const { id } = req.params;
-            const sucursalWithVehiculos = await this._sucursalService.getFindVehiculosPorSucursal(id);
-            res.json({
-                success: true,
-                data: sucursalWithVehiculos,
-            });
-        } catch (error) {
-            this.sendError(error, req, res);
-        }
-    }
-
-
     async createSucursal(req, res, next) {
         try {
             const sucursal = req.body;

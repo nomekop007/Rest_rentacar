@@ -8,10 +8,6 @@ class SucursalService {
         return await this._sucursalBusiness.getSucursales();
     }
 
-    async getFindVehiculosPorSucursal(id_sucursal) {
-        return await this._sucursalBusiness.getFindVehiculosPorSucursal(id_sucursal);
-    }
-
     async createSucursal(sucursal) {
         return await this._sucursalBusiness.createSucursal(sucursal);
     }

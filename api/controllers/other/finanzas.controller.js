@@ -1,16 +1,14 @@
-
-const path = require("path");
 class FinanzasController {
 
-    constructor({ ArriendoRepository, sendError }) {
-        this.serviceArriendo = ArriendoRepository;
+    constructor({ FinanzasService, sendError }) {
+        this._finanzasService = FinanzasService;
         this.sendError = sendError;
     }
 
 
     async getArriendoFinanzas(req, res) {
         try {
-            const arriendos = await this.serviceArriendo.getFindAll();
+            const arriendos = await this._finanzasService.getArriendoFinanzas();
             res.json({
                 success: true,
                 data: arriendos,
@@ -23,7 +21,8 @@ class FinanzasController {
 
     async findArriendoFinanzas(req, res) {
         try {
-            const arriendo = await this.serviceArriendo.getFindOne(req.params.id);
+            const { id } = req.params;
+            const arriendo = await this._finanzasService.findArriendoFinanzas(id);
             if (arriendo) {
                 res.json({
                     success: true,
@@ -45,43 +44,8 @@ class FinanzasController {
     async findDocumentosArriendoFinanzas(req, res) {
         try {
             const { documento, tipo } = req.body;
-            switch (tipo) {
-                case "contrato":
-                    paths = path.join(__dirname, `../${process.env.PATH_CONTRATO}/${documento}`);
-                    break;
-                case "acta":
-                    paths = path.join(__dirname, `../${process.env.PATH_ACTA_ENTREGA}/${documento}`);
-                    break;
-                case "requisito":
-                    paths = path.join(__dirname, `../${process.env.PATH_REQUISITO_ARRIENDO}/${documento}`);
-                    break;
-                case "facturacion":
-                    paths = path.join(__dirname, `../${process.env.PATH_FACTURACIONES}/${documento}`);
-                    break;
-                case "recepcion":
-                    paths = path.join(__dirname, `../${process.env.PATH_RECEPCIONES}/${documento}`);
-                    break;
-                case "fotosDañoVehiculo":
-                    paths = path.join(__dirname, `../${process.env.PATH_DANIO_VEHICULO}/${documento}`);
-                    break;
-                case "fotoVehiculo":
-                    paths = path.join(__dirname, `../${process.env.PATH_FOTO_VEHICULO}/${documento}`);
-                    break;
-                default:
-                    res.json({
-                        success: false,
-                        msg: "tipo no encontrado"
-                    });
-                    return;
-            }
-            res.json({
-                success: true,
-                data: {
-                    nombre: documento,
-                    tipo: tipo,
-                    paths: paths
-                },
-            });
+            const payload = await this._finanzasService.findDocumentosArriendoFinanzas(documento, tipo);
+            res.json(payload);
         } catch (error) {
             this.sendError(error, req, res);
         }
