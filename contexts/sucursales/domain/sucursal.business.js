@@ -1,7 +1,8 @@
 class SucursalBusiness {
 
-    constructor({ SucursalRepository }) {
+    constructor({ SucursalRepository, RegionRepository }) {
         this._sucursalRepository = SucursalRepository;
+        this._regionRepository = RegionRepository;
     }
 
     async getSucursales() {
@@ -23,6 +24,11 @@ class SucursalBusiness {
     async getFindArriendoBySucursal() {
         const sucursal = await this._sucursalRepository.getArriendoBySucursal();
         return sucursal;
+    }
+
+    async getRegiones() {
+        const regiones = await this._regionRepository.getFindAll();
+        return regiones;
     }
 
 }

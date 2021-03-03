@@ -20,6 +20,10 @@ class SucursalService {
         return await this._sucursalBusiness.getFindArriendoBySucursal();
     }
 
+    async getRegiones() {
+        return await this._sucursalBusiness.getRegiones();
+    }
+
 
 }
 

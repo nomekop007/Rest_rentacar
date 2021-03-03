@@ -51,6 +51,18 @@ class SucursalController {
         }
     }
 
+    async getRegiones(req, res) {
+        try {
+            const regiones = await this._sucursalService.getRegiones();
+            res.json({
+                success: true,
+                data: regiones
+            })
+        } catch (error) {
+            this.sendError(error, req, res);
+        }
+    }
+
 }
 
 module.exports = SucursalController;

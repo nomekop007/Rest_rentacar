@@ -1,18 +1,15 @@
 class PermisoController {
 
-    constructor({ PermisoService, RolPermisoRepository, PermisoRepository, sendError }) {
+    constructor({ PermisoService, sendError }) {
         this.sendError = sendError;
         this._permisoService = PermisoService;
-
-        //mover
-        this._serviceRolPermiso = RolPermisoRepository;
-        this._servicePermiso = PermisoRepository;
     }
 
     async mostrarPermisosPorRol(req, res) {
         try {
-            const rolPermisos = await this._serviceRolPermiso.getFindOneWithRol(req.params.id);
-            res.json({ success: true, data: rolPermisos })
+            const { id } = req.params;
+            const rolPermisos = await this._permisoService.mostrarPermisosPorRol(id);
+            res.json({ success: true, data: rolPermisos });
         } catch (error) {
             this.sendError(error, req, res);
         }
@@ -21,7 +18,7 @@ class PermisoController {
 
     async cargarPermisos(req, res) {
         try {
-            const permisos = await this._servicePermiso.getFindAll();
+            const permisos = await this._permisoService.cargarPermisos();
             res.json({ success: true, data: permisos });
         } catch (error) {
             this.sendError(error, req, res);
@@ -31,8 +28,9 @@ class PermisoController {
 
     async registrarPermiso(req, res, next) {
         try {
-            const permiso = await this._servicePermiso.postCreate(req.body);
-            res.json({ success: true, data: permiso });
+            const permiso = req.body;
+            const permisoRepo = await this._permisoService.registrarPermiso(permiso);
+            res.json({ success: true, data: permisoRepo });
             next();
         } catch (error) {
             this.sendError(error, req, res);
@@ -42,7 +40,8 @@ class PermisoController {
 
     async buscarPermiso(req, res) {
         try {
-            const permiso = await this._servicePermiso.getFindByPk(req.params.id);
+            const { id } = req.params;
+            const permiso = await this._permisoService.buscarPermiso(id);
             res.json({ success: true, data: permiso });
         } catch (error) {
             this.sendError(error, req, res);
@@ -52,7 +51,9 @@ class PermisoController {
 
     async modificarPermiso(req, res, next) {
         try {
-            await this._servicePermiso.putUpdate(req.body, req.params.id);
+            const { id } = req.params;
+            const permiso = req.body;
+            await this._permisoService.modificarPermiso(permiso, id);
             res.json({ success: true, msg: "modificado" });
             next()
         } catch (error) {
@@ -63,9 +64,10 @@ class PermisoController {
 
     async eliminarRolPermiso(req, res, next) {
         try {
-            await this._serviceRolPermiso.deleteById(req.params.id);
+            const { id } = req.params;
+            await this._permisoService.eliminarRolPermiso(id);
             res.json({ success: true, msg: "asociacion eliminada" });
-            next()
+            next();
         } catch (error) {
             this.sendError(error, req, res);
         }
@@ -73,8 +75,9 @@ class PermisoController {
 
     async agregarRolPermiso(req, res, next) {
         try {
-            const rolPermiso = await this._serviceRolPermiso.postCreate(req.body);
-            res.json({ success: true, data: rolPermiso });
+            const rolPermiso = req.body;
+            const rolPermisoRepo = await this._permisoService.agregarRolPermiso(rolPermiso);
+            res.json({ success: true, data: rolPermisoRepo });
             next();
         } catch (error) {
             this.sendError(error, req, res);
@@ -83,14 +86,34 @@ class PermisoController {
 
     async validarPermisos(req, res) {
         try {
-            const rolesPermisos = await this._serviceRolPermiso.getFindOneWithRol(req.params.id);
-            let arrayIdPermisos = [];
-            arrayIdPermisos = rolesPermisos.map((rolPermiso) => rolPermiso.id_permiso);
-            res.send(arrayIdPermisos)
+            const { id } = req.params;
+            const arrayIdPermisos = await this._permisoService.validarPermisos(id);
+            res.send(arrayIdPermisos);
         } catch (error) {
             this.sendError(error, req, res);
         }
     }
+
+    async getRoles(req, res) {
+        try {
+            const roles = await this._permisoService.getRoles();
+            res.json({ success: true, data: roles, });
+        } catch (error) {
+            this.sendError(error, req, res);
+        }
+    }
+
+
+    async createRol(req, res) {
+        try {
+            const rol = req.body;
+            const rolRepo = await this._permisoService.createRol(rol);
+            res.json({ success: true, data: rolRepo })
+        } catch (error) {
+            this.sendError(error, req, res);
+        }
+    }
+
 
 }
 

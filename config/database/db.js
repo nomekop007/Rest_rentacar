@@ -17,7 +17,7 @@ const PagoDanio = require("../../contexts/pagos/dataAccess/pagoDanio.entity")(da
 const Abono = require("../../contexts/pagos/dataAccess/abono.entity")(database, Sequelize);
 const Log = require("../../contexts/logs/dataAccess/log.entity")(database, Sequelize);
 const LogError = require("../../contexts/logs/dataAccess/logError.entity")(database, Sequelize);
-const Rol = require("../../contexts/roles/dataAccess/rol.entity")(database, Sequelize);
+const Rol = require("../../contexts/permisos/dataAccess/rol.entity")(database, Sequelize);
 const Sucursal = require("../../contexts/sucursales/dataAccess/sucursal.entity")(database, Sequelize);
 const Arriendo = require("../../contexts/arriendos/dataAccess/arriendo.entity")(database, Sequelize);
 const Cliente = require("../../contexts/clientes/dataAccess/cliente.entity")(database, Sequelize);
@@ -34,7 +34,7 @@ const ActaEntrega = require("../../contexts/despachos/dataccess/actaEntrega.enti
 const Despacho = require("../../contexts/despachos/dataccess/despacho.entity")(database, Sequelize);
 const EmpresaRemplazo = require("../../contexts/empresaRemplazos/dataAccess/empresaRemplazo.entity")(database, Sequelize);
 const Contacto = require("../../contexts/arriendos/dataAccess/contacto.entity")(database, Sequelize);
-const Region = require("../../contexts/regiones/dataAccess/region.entity")(database, Sequelize);
+const Region = require("../../contexts/sucursales/dataAccess/region.entity")(database, Sequelize);
 const DanioVehiculo = require("../../contexts/vehiculos/dataAccess/danioVehiculo.entity")(database, Sequelize);
 const DocumentoCliente = require("../../contexts/clientes/dataAccess/documentoCliente.entity")(database, Sequelize);
 const DocumentoEmpresa = require("../../contexts/clientes/dataAccess/documentoEmpresa.entity")(database, Sequelize);
@@ -45,7 +45,7 @@ const ReservaCliente = require("../../contexts/reservas/dataAccess/reservaClient
 const ReservaEmpresa = require("../../contexts/reservas/dataAccess/reservaEmpresa.entity")(database, Sequelize);
 const FotoDespacho = require("../../contexts/despachos/dataccess/fotosDespacho.entity")(database, Sequelize);
 const Permiso = require("../../contexts/permisos/dataAccess/permiso.entity")(database, Sequelize);
-const RolPermiso = require("../../contexts/roles/dataAccess/rolPermiso.entity")(database, Sequelize);
+const RolPermiso = require("../../contexts/permisos/dataAccess/rolPermiso.entity")(database, Sequelize);
 const Extencion = require("../../contexts/arriendos/dataAccess/extencion.entity")(database, Sequelize);
 
 
