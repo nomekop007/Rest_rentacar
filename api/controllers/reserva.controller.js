@@ -1,17 +1,15 @@
 class ReservaController {
 
-    constructor({ ReservaService, ReservaRepository, sendError }) {
+    constructor({ ReservaService, sendError }) {
         this.sendError = sendError;
         this._reservaService = ReservaService;
-        //mover
-        this._serviceReserva = ReservaRepository;
     }
 
 
     async getReservas(req, res) {
         try {
             const { sucursal } = req.query;
-            const reservas = await this._serviceReserva.getFindAll(sucursal);
+            const reservas = await this._reservaService.getReservasBySucursal(sucursal);
             res.json({ success: true, data: reservas });
         } catch (error) {
             this.sendError(error, req, res);
@@ -20,7 +18,8 @@ class ReservaController {
 
     async findReserva(req, res) {
         try {
-            const reserva = await this._serviceReserva.getFindOne(req.params.id);
+            const { id } = req.params;
+            const reserva = await this._reservaService.findReserva(id);
             res.json({ success: true, data: reserva });
         } catch (error) {
             this.sendError(error, req, res);
@@ -29,8 +28,9 @@ class ReservaController {
 
     async createReserva(req, res, next) {
         try {
-            const reserva = await this._serviceReserva.postCreateWithClient(req.body);
-            res.json({ success: true, data: reserva, msg: "reserva agregada!" });
+            const reserva = req.body;
+            const reservaRepo = await this._reservaService.createReserva(reserva);
+            res.json({ success: true, data: reservaRepo, msg: "reserva agregada!" });
             next();
         } catch (error) {
             this.sendError(error, req, res);
@@ -39,7 +39,9 @@ class ReservaController {
 
     async updateReserva(req, res, next) {
         try {
-            await this._serviceReserva.putUpdate(req.body, req.params.id);
+            const { id } = req.params;
+            const reserva = req.body;
+            await this._reservaService.updateReserva(reserva, id);
             res.json({ success: true, msg: 'reserva modificada' });
             next();
         } catch (error) {
@@ -49,7 +51,8 @@ class ReservaController {
 
     async deleteReserva(req, res, next) {
         try {
-            await this._serviceReserva.deleteDestroy(req.params.id);
+            const { id } = req.params;
+            await this._reservaService.deleteReserva(id);
             res.json({ success: true, msg: 'reserva eliminada' });
             next();
         } catch (error) {
