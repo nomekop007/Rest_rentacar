@@ -1,5 +1,5 @@
 const { Log } = require("../../config/database/db");
-
+//CORREGIR
 
 const logRegister = async (req, res) => {
     try {
