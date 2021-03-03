@@ -21,21 +21,18 @@ class VehiculoBusiness {
 
 
     async getVehiculos() {
-        this.actualizarSucursalVehiculo();
+        this.actualizarKmTVehiculo();
         const vehiculos = await this._vehiculoRepository.getFindAll();
         return vehiculos;
     }
 
     //script para colocar la sucursal del arriendo 
-    async actualizarSucursalVehiculo() {
+    async actualizarKmTVehiculo() {
         const vehiculosWithArriendo = await this._vehiculoRepository.getFindAllWithArriendo();
-        vehiculosWithArriendo.forEach(async ({ arriendos, id_sucursal, patente_vehiculo }) => {
-            if (arriendos.length > 0) {
-                const arriendo = arriendos[arriendos.length - 1];
-                if (id_sucursal === null) {
-                    const data = { id_sucursal: arriendo.id_sucursal };
-                    await this._vehiculoRepository.putUpdateByPatente(data, patente_vehiculo);
-                }
+        vehiculosWithArriendo.forEach(async ({ Tmantencion_vehiculo, patente_vehiculo }) => {
+            if (Tmantencion_vehiculo === 10000) {
+                const data = { Tmantencion_vehiculo: 0 };
+                await this._vehiculoRepository.putUpdateByPatente(data, patente_vehiculo);
             }
         });
     }
