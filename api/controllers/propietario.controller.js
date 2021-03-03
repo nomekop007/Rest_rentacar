@@ -1,17 +1,14 @@
 class PropietarioController {
 
-  constructor({ PropietarioService, PropietarioRepository, sendError }) {
+  constructor({ PropietarioService, sendError }) {
     this.sendError = sendError;
     this._propietarioService = PropietarioService;
-
-    //mover
-    this._servicePropietario = PropietarioRepository;
   }
 
 
   async getPropietario(req, res) {
     try {
-      const propietario = await this._servicePropietario.getFindAll();
+      const propietario = await this._propietarioService.getPropietario();
       res.json({
         success: true,
         data: propietario,

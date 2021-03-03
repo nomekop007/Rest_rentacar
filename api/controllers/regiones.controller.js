@@ -1,17 +1,14 @@
 class RegionController {
 
-    constructor({ RegionService, RegionRepository, sendError }) {
+    constructor({ RegionService, sendError }) {
         this.sendError = sendError;
         this._regionService = RegionService;
-
-        //mover
-        this._serviceRegion = RegionRepository;
     }
 
 
     async getRegiones(req, res) {
         try {
-            const regiones = await this._serviceRegion.getFindAll();
+            const regiones = await this._regionService.getRegiones();
             res.json({
                 success: true,
                 data: regiones
