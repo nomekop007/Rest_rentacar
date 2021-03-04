@@ -9,8 +9,19 @@ class DespachoController {
         try {
             const { id_arriendo } = req.body;
             const id_usuario = req.usuarioId;
-            const response = await this._despachoService.createRecepcionUsuario(id_arriendo, id_usuario);
-            res.json({ success: true, id_despacho: response });
+            const userAt = req.headers["userat"];
+            const recepcionUsuario = await this._despachoService.createRecepcionUsuario(id_arriendo, id_usuario, userAt);
+            res.json({ success: true, data: recepcionUsuario });
+        } catch (error) {
+            this.sendError(error, req, res);
+        }
+    }
+
+    async revisarRecepcionUsuario(req, res) {
+        try {
+            const id_usuario = req.usuarioId;
+            const response = await this._despachoService.revisarRecepcionUsuario(id_usuario);
+            res.json({ success: true, data: response });
         } catch (error) {
             this.sendError(error, req, res);
         }

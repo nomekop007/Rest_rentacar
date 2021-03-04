@@ -17,20 +17,44 @@ const actaEntregaPlantilla = require("../../../utils/pdf_plantillas/actaEntrega"
 
 class DespachoBusiness {
 
-    constructor({ DespachoRepository, FotoDespachoRepository, ArriendoRepository, ActaEntregaRepository, }) {
+    constructor({ DespachoRepository, RecepcionUsuarioRepository, FotoDespachoRepository, ArriendoRepository, ActaEntregaRepository, }) {
         this._actaEntregaRepository = ActaEntregaRepository;
         this._arriendoRepository = ArriendoRepository;
         this._fotoDespachoRepository = FotoDespachoRepository;
         this._despachoRepository = DespachoRepository;
+        this._recepcionUsuarioRepository = RecepcionUsuarioRepository;
     }
 
 
-    async createRecepcionUsuario(id_arriendo, id_usuario) {
-
-
-
+    async createRecepcionUsuario(id_arriendo, id_usuario, userAt) {
+        const arriendo = await this._arriendoRepository.getFindOne(id_arriendo);
+        let pagos_listos = true;
+        let firmas_listas = true;
+        arriendo.pagosArriendos.forEach(({ pagos, contrato }) => {
+            if (pagos[0].estado_pago == "PENDIENTE") {
+                pagos_listos = false;
+            }
+            if (!contrato) {
+                firmas_listas = false;
+            };
+        });
+        if (pagos_listos && firmas_listas) {
+            return null;
+        } else {
+            const data = {
+                id_usuario: id_usuario,
+                id_arriendo: id_arriendo,
+                userAt: userAt,
+            };
+            const recepcionUsuario = this._recepcionUsuarioRepository.postCreate(data);
+            return recepcionUsuario;
+        }
     }
 
+    async revisarRecepcionUsuario(id_usuario) {
+        const recepcionUsuario = this._recepcionUsuarioRepository.getFindOneByUsuario(id_usuario);
+        return recepcionUsuario;
+    }
 
     async createDespacho(despacho) {
         const despachoRepo = await this._despachoRepository.postCreate(despacho);

@@ -31,6 +31,15 @@ class ReservaBusiness {
         return true;
     }
 
+    async createReservaYCliente(payload) {
+
+        console.log(payload)
+        // crear reserva
+        // buscar o crear cliente
+        // enviar correo a jefa sucursal
+        return payload;
+    }
+
 
 }
 

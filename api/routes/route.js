@@ -8,8 +8,8 @@ module.exports = ({
     ExtencionRoutes, FacturacionRoutes, GarantiaRoutes, PagoRoutes, PagoAccesorioRoutes,
     PagoArriendoRoutes, PagoDanioRoutes, PropietarioRoutes, RegionRoutes, RemplazoRoutes,
     RequisitoRoutes, ReservaRoutes, RolRoutes, SucursalRoutes, TarifaVehiculoRoutes,
-    UsuarioRoutes, VehiculoRoutes, checkMiddleware, checkApiMiddleware, ApiFinanzasRoutes,
-    PermisoRoutes, logMiddleware, DefaultValuesRoutes, ApiUtilsRoutes,
+    UsuarioRoutes, VehiculoRoutes, checkMiddleware, checkApiMiddleware, PermisoRoutes,
+    logMiddleware, DefaultValuesRoutes, ApiUtilsRoutes, ApiFinanzasRoutes, WebRentACarRoutes
 }) => {
 
     const router = Router();
@@ -51,8 +51,12 @@ module.exports = ({
     apiRoute.use("/tarifasVehiculos", checkMiddleware.checkToken, TarifaVehiculoRoutes);
     apiRoute.use("/vehiculos", checkMiddleware.checkToken, VehiculoRoutes);
     apiRoute.use("/usuarios", UsuarioRoutes);
-    apiRoute.use("/api", checkApiMiddleware.checkTokenApiRest, ApiFinanzasRoutes);
     apiRoute.use("/utils", checkMiddleware.checkToken, ApiUtilsRoutes);
+
+    // rutas a otros sistemas
+    apiRoute.use("/api", checkApiMiddleware.checkTokenApiRest, ApiFinanzasRoutes);
+    apiRoute.use("/web", /* checkApiMiddleware.checkTokenApiRest,  */WebRentACarRoutes);
+
 
     //ruta padre
     router.use("/rentacar", apiRoute, logMiddleware.logRegister);

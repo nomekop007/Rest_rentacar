@@ -415,7 +415,7 @@ db.rolPermiso = RolPermiso;
 db.abono = Abono;
 db.extencion = Extencion;
 db.pagoExtra = PagoExtra;
-
+db.recepcionUsuario = RecepcionUsuario;
 
 
 db.sequelize = database;

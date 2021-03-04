@@ -4,8 +4,12 @@ class DespachoService {
         this._despachoBusiness = DespachoBusiness;
     }
 
-    async createRecepcionUsuario(id_arriendo, id_usuario) {
-        return await this._despachoBusiness.createRecepcionUsuario(id_arriendo, id_usuario);
+    async createRecepcionUsuario(id_arriendo, id_usuario, userAt) {
+        return await this._despachoBusiness.createRecepcionUsuario(id_arriendo, id_usuario, userAt);
+    }
+
+    async revisarRecepcionUsuario(id_usuario) {
+        return await this._despachoBusiness.revisarRecepcionUsuario(id_usuario);
     }
 
     async createDespacho(despacho) {

@@ -14,7 +14,8 @@ class VehiculoRepository {
 
     getFindAllByDisponible() {
         return this._db.vehiculo.findAll({
-            where: { estado_vehiculo: "DISPONIBLE" }
+            where: { estado_vehiculo: "DISPONIBLE" },
+            include: { model: this._db.sucursal }
         })
     }
 

@@ -24,6 +24,10 @@ class ReservaService {
         return await this._reservaBusiness.deleteReserva(id_reserva);
     }
 
+    async createReservaYCliente(payload) {
+        return await this._reservaBusiness.createReservaYCliente(payload);
+    }
+
 
 }
 
