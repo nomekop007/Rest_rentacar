@@ -1,22 +1,15 @@
 class EmpresaRemplazoController {
 
-    constructor({ EmpresaRemplazoService, EmpresaRemplazoRepository, RemplazoRepository, sendError }) {
-        this.sendError = sendError;
+    constructor({ EmpresaRemplazoService, sendError }) {
         this._empresaRemplazoService = EmpresaRemplazoService;
-
-        //mover
-        this._serviceRemplazo = RemplazoRepository;
-        this._serviceEmpresaRemplazo = EmpresaRemplazoRepository;
+        this.sendError = sendError;
     }
 
 
     async getEmpresasRemplazo(req, res) {
         try {
-            const empresasRemplazo = await this._serviceEmpresaRemplazo.getFindAll();
-            res.json({
-                success: true,
-                data: empresasRemplazo,
-            });
+            const empresasRemplazo = await this._empresaRemplazoService.getEmpresasRemplazo();
+            res.json({ success: true, data: empresasRemplazo });
         } catch (error) {
             this.sendError(error, req, res);
         }
@@ -24,12 +17,12 @@ class EmpresaRemplazoController {
 
     async createRemplazo(req, res, next) {
         try {
-            const response = req.body;
-            const remplazo = await this._serviceRemplazo.postCreate(response);
+            const remplazo = req.body;
+            const remplazoRepo = await this._empresaRemplazoService.createRemplazo(remplazo);
             res.json({
                 success: true,
                 data: {
-                    id_remplazo: remplazo.id_remplazo,
+                    id_remplazo: remplazoRepo.id_remplazo,
                 },
             });
             next();
