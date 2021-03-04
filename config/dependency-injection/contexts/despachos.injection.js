@@ -10,7 +10,7 @@ const DespachoBusiness = require('../../../contexts/despachos/domain/despacho.bu
 const DespachoRepository = require('../../../contexts/despachos/dataccess/despacho.repository');
 const ActaEntregaRepository = require('../../../contexts/despachos/dataccess/actaEntrega.repository');
 const FotoDespachoRepository = require('../../../contexts/despachos/dataccess/fotosDespachos.repository')
-
+const RecepcionUsuarioRepository = require('../../../contexts/despachos/dataccess/recepcionUsuario.repository');
 
 module.exports = (container) => {
     container.register({
@@ -23,7 +23,8 @@ module.exports = (container) => {
 
         DespachoRepository: asClass(DespachoRepository).singleton(),
         ActaEntregaRepository: asClass(ActaEntregaRepository).singleton(),
-        FotoDespachoRepository: asClass(FotoDespachoRepository).singleton()
+        FotoDespachoRepository: asClass(FotoDespachoRepository).singleton(),
+        RecepcionUsuarioRepository: asClass(RecepcionUsuarioRepository).singleton(),
     })
     return container;
 }

@@ -1,4 +1,190 @@
+
+const fs = require("fs");
+const path = require("path");
+const { v4: uuidv4 } = require("uuid");
+const base64 = require("image-to-base64");
+const pdfMake = require('pdfmake/build/pdfmake.js');
+const pdfFonts = require('pdfmake/build/vfs_fonts.js');
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+const { nodemailerTransporter } = require("../../../helpers/valueObject");
+const fecha = require("../../../helpers/currentDate");
+const hora = require("../../../helpers/currentTime");
+const fechahorafirma = require("../../../helpers/dateTimeSignature");
+const logo = require.resolve("../../../utils/images/logo2.png");
+const recepcionPlantilla = require("../../../utils/pdf_plantillas/recepcion")
+const actaEntregaPlantilla = require("../../../utils/pdf_plantillas/actaEntrega");
+
+
 class DespachoBusiness {
+
+    constructor({ DespachoRepository, FotoDespachoRepository, ArriendoRepository, ActaEntregaRepository, }) {
+        this._actaEntregaRepository = ActaEntregaRepository;
+        this._arriendoRepository = ArriendoRepository;
+        this._fotoDespachoRepository = FotoDespachoRepository;
+        this._despachoRepository = DespachoRepository;
+    }
+
+
+    async createRecepcionUsuario(id_arriendo, id_usuario) {
+
+
+
+    }
+
+
+    async createDespacho(despacho) {
+        const despachoRepo = await this._despachoRepository.postCreate(despacho);
+        return despachoRepo;
+    }
+
+
+    async addRevision(id_despacho, arrayImages) {
+        const dataPlantilla = {
+            arrayImages: arrayImages,
+            id_despacho: id_despacho,
+            fecha: fecha(),
+            hora: hora()
+        };
+        const docDefinition = await recepcionPlantilla(dataPlantilla);
+        const nameFile = uuidv4();
+        const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+        const pathFile = path.join(__dirname, `../${process.env.PATH_RECEPCIONES}/${nameFile}.pdf`)
+        pdfDocGenerator.getBase64((base64) => {
+            fs.writeFileSync(pathFile, base64, "base64", (err) => {
+                return { success: false, msg: err }
+            })
+        });
+        const data = { revision_recepcion: `${nameFile}.pdf` };
+        await this._despachoRepository.putUpdate(data, id_despacho);
+        return { success: true, msg: "revision existosa" }
+    }
+
+
+    async createActaEntrega(id_despacho, userAt, base64) {
+        const nameFile = uuidv4();
+        const pathFile = path.join(__dirname, `../${process.env.PATH_ACTA_ENTREGA}/${nameFile}.pdf`)
+        fs.writeFileSync(pathFile, base64, "base64", (err) => {
+            return {
+                success: false,
+                msg: err
+            }
+        });
+        const dataActa = {
+            documento: nameFile + ".pdf",
+            userAt: userAt,
+            id_despacho: id_despacho
+        };
+        const actaEntrega = await this._actaEntregaRepository.postCreate(dataActa);
+        return {
+            success: true,
+            data: actaEntrega,
+        };
+    }
+
+
+    async generatePDFactaEntrega(payload) {
+        const arriendo = await this._arriendoRepository.getFindOne(payload.id_arriendo);
+        const ArrayImages = await this._fotoDespachoRepository.getFindAllByArriendo(arriendo.id_arriendo);
+        payload.arrayImages = ArrayImages;
+        payload.vehiculo = arriendo.vehiculo;
+        payload.kilometraje = arriendo.kilometrosEntrada_arriendo;
+        payload.id_arriendo = arriendo.id_arriendo;
+        payload.fecha = fecha();
+        payload.hora = hora();
+        payload.fechaHoraFirma = fechahorafirma();
+        if (arriendo.estado_arriendo === "FIRMADO" && arriendo.despacho == null) {
+            const docDefinition = await actaEntregaPlantilla(payload);
+            const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+            return {
+                success: true,
+                pdfDocGenerator: pdfDocGenerator,
+                firma1PNG: payload.firma1PNG,
+                firma2PNG: payload.firma2PNG,
+            };
+        } else {
+            return {
+                success: false,
+                msg: "el arriendo ya esta despachado o no esta firmado!",
+            };
+        }
+    }
+
+
+    async sendEmailActaEntrega(id_arriendo) {
+        const arriendo = await this._arriendoRepository.getFindOne(id_arriendo);
+        const arrayImages = await this._fotoDespachoRepository.getFindAllByArriendo(id_arriendo);
+        const client = {};
+        const files = [];
+        switch (arriendo.tipo_arriendo) {
+            case "PARTICULAR":
+                client.name = arriendo.cliente.nombre_cliente;
+                client.correo = arriendo.cliente.correo_cliente;
+                break;
+            case "REEMPLAZO":
+                client.name = arriendo.remplazo.cliente.nombre_cliente;
+                client.correo = arriendo.remplazo.cliente.correo_cliente;
+                break;
+            case "EMPRESA":
+                client.name = arriendo.empresa.nombre_empresa;
+                client.correo = arriendo.empresa.correo_empresa;
+                break;
+        }
+        files.push({
+            filename: "ACTA-DE-ENTREGA.pdf",
+            contentType: "pdf",
+            path: path.join(__dirname, `../${process.env.PATH_ACTA_ENTREGA}/${arriendo.despacho.actasEntrega.documento}`),
+        });
+        //datos del mensaje y su destinatario
+        const mailOptions = {
+            from: "'Rent A Car - Grupo Firma' <api.rentacarmaule@grupofirma.cl>",
+            to: client.correo,
+            bcc: process.env.CORREO_SUPERVISOR,
+            subject: "COPIA DE ACTA DE ENTREGA RENT A CAR",
+            text: "Se adjunta copia del Acta de entrega de Rent a Car",
+            html: `
+            <p>Sr.(a) ${client.name}:</p>
+            <p>Por este medio envio su copia del Acta de entrega de Rent a Car.</p>
+            <br>
+            Link de fotos
+            <br>
+            ${arrayImages.map(({ url_fotoDespacho }) => {
+                const link = `../${process.env.PATH_SERVER}/${url_fotoDespacho}`;
+                console.log(link);
+                return `<li><a href="${link}">${url_fotoDespacho}</a></li>`;
+            })}
+            <br><br>
+            <p>------------------------------------------------------------------------------------------------------------------------------</p>
+            <p>Atentamente, Rent a Car Maule Ltda. </p>
+            <p>Por favor no responder este correo.</p>
+            <img src="data:image/jpeg;base64,${await base64(logo)}" width="200" height="50"  />
+            `,
+            attachments: files,
+        };
+        const responseEmail = await nodemailerTransporter.sendMail(mailOptions);
+        return responseEmail;
+    }
+
+
+    async guardarFotosVehiculos(id_arriendo, userAt, arrayFiles) {
+        await this._fotoDespachoRepository.deleteByIdArriendo(id_arriendo);
+        for (const property in arrayFiles) {
+            this._fotoDespachoRepository.postCreate({
+                userAt: userAt,
+                id_arriendo: id_arriendo,
+                url_fotoDespacho: arrayFiles[property][0].filename
+            })
+        }
+        return true;
+    }
+
+
+    async findActaEntrega(id_despacho) {
+        const actaEntrega = await this._actaEntregaRepository.getFindOneByIDdespacho(id_despacho);
+        const pathFile = path.join(__dirname, `../${process.env.PATH_ACTA_ENTREGA}/${actaEntrega.documento}`)
+        const base64 = fs.readFileSync(pathFile, { encoding: 'base64' });
+        return { actaEntrega: actaEntrega, base64: base64, url: process.env.PATH_SERVER }
+    }
+
 
 }
 

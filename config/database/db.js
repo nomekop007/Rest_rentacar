@@ -47,7 +47,7 @@ const FotoDespacho = require("../../contexts/despachos/dataccess/fotosDespacho.e
 const Permiso = require("../../contexts/permisos/dataAccess/permiso.entity")(database, Sequelize);
 const RolPermiso = require("../../contexts/permisos/dataAccess/rolPermiso.entity")(database, Sequelize);
 const Extencion = require("../../contexts/arriendos/dataAccess/extencion.entity")(database, Sequelize);
-
+const RecepcionUsuario = require("../../contexts/despachos/dataccess/recepcionUsuario.entity")(database, Sequelize);
 
 
 
@@ -57,6 +57,17 @@ const onDelete = "CASCADE";
 const onUpdate = "CASCADE";
 
 //Asociaciones de tablas
+
+// un arriendo tiene muchos recepcionUsuario
+Arriendo.hasMany(RecepcionUsuario, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate });
+// un recepcionUsuario pertenece a un arriendos
+RecepcionUsuario.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate });
+
+
+// un usuario tiene muchos recepcionUsuario
+Usuario.hasMany(RecepcionUsuario, { foreignKey: { name: "id_usuario" }, onDelete: onDelete, onUpdate: onUpdate });
+// un recepcionUsuario pertenece a un usuario
+RecepcionUsuario.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate });
 
 // una sucursal tiene muchos vehiculos
 Sucursal.hasMany(Vehiculo, { foreignKey: { name: "id_sucursal" }, onDelete: onDelete, onUpdate: onUpdate });
