@@ -27,12 +27,12 @@ class UsuarioService {
     }
 
     async updateUsuario(usuario, id) {
-        return usuario = await this._usuarioBusiness.updateUsuario(usuario, id);
+        return await this._usuarioBusiness.updateUsuario(usuario, id);
 
     }
 
     async stateUsuario(accion, userAt, id) {
-        return { usuario, msg } = await this._usuarioBusiness.stateUsuario(accion, userAt, id);
+        return await this._usuarioBusiness.stateUsuario(accion, userAt, id);
 
     }
 
