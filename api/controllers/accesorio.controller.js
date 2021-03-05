@@ -1,20 +1,14 @@
 class AccesorioController {
 
-    constructor({ AccesorioService, AccesorioRepository, sendError }) {
-        this.sendError = sendError;
+    constructor({ AccesorioService, sendError }) {
         this._accesorioService = AccesorioService;
-
-        //mover
-        this._serviceAccesorio = AccesorioRepository;
+        this.sendError = sendError;
     }
 
     async getAccesorios(req, res) {
         try {
-            const accesorios = await this._serviceAccesorio.getFindAll();
-            res.json({
-                success: true,
-                data: accesorios,
-            });
+            const accesorios = await this._accesorioService.getAccesorios();
+            res.json({ success: true, data: accesorios });
         } catch (error) {
             this.sendError(error, req, res);
         }
@@ -22,24 +16,19 @@ class AccesorioController {
 
     async getAccesoriosBySucursal(req, res) {
         try {
-            const accesorios = await this._serviceAccesorio.getFindAllBySucursal(req.params.id);
-            res.json({
-                success: true,
-                data: accesorios
-            })
+            const { id } = req.params;
+            const accesorios = await this._accesorioService.getAccesoriosBySucursal(id);
+            res.json({ success: true, data: accesorios })
         } catch (error) {
             this.sendError(error, req, res);
         }
     }
 
-
     async createAccesorio(req, res, next) {
         try {
-            const accesorio = await this._serviceAccesorio.postCreate(req.body);
-            res.json({
-                success: true,
-                data: accesorio
-            })
+            const accesorio = req.body;
+            const accesorioRepo = await this._accesorioService.createAccesorio(accesorio);
+            res.json({ success: true, data: accesorioRepo });
             next();
         } catch (error) {
             this.sendError(error, req, res);
@@ -48,11 +37,9 @@ class AccesorioController {
 
     async findAccesorio(req, res) {
         try {
-            const accesorio = await this._serviceAccesorio.getFindByPk(req.params.id);
-            res.json({
-                success: true,
-                data: accesorio
-            })
+            const { id } = req.params;
+            const accesorio = await this._accesorioService.findAccesorio(id);
+            res.json({ success: true, data: accesorio });
         } catch (error) {
             this.sendError(error, req, res);
         }
@@ -60,11 +47,10 @@ class AccesorioController {
 
     async updateAccesorio(req, res, next) {
         try {
-            const accesorio = await this._serviceAccesorio.putUpdate(req.body, req.params.id);
-            res.json({
-                success: true,
-                data: accesorio
-            })
+            const accesorio = req.body;
+            const { id } = req.params;
+            const accesorioRepo = await this._accesorioService.updateAccesorio(accesorio, id);
+            res.json({ success: true, data: accesorioRepo });
             next();
         } catch (error) {
             this.sendError(error, req, res);

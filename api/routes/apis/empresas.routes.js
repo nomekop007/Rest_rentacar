@@ -5,7 +5,7 @@ module.exports = ({ ClienteController, subirDocumentosEmpresa }) => {
     router.get("/buscarEmpresa/:id", ClienteController.findEmpresa.bind(ClienteController));
     router.post("/registrarEmpresa", ClienteController.createEmpresa.bind(ClienteController));
     router.put("/editarEmpresa/:id", ClienteController.putEmpresa.bind(ClienteController));
-    router.post("/editarArchivos/:id", subirDocumentosEmpresa, ClienteController.updateFile.bind(ClienteController));
+    router.post("/editarArchivos/:id", subirDocumentosEmpresa, ClienteController.updateFileEmpresa.bind(ClienteController));
 
     return router
 }
