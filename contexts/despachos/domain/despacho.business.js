@@ -13,7 +13,7 @@ const fechahorafirma = require("../../../helpers/dateTimeSignature");
 const logo = require.resolve("../../../utils/images/logo2.png");
 const recepcionPlantilla = require("../../../utils/pdf_plantillas/recepcion")
 const actaEntregaPlantilla = require("../../../utils/pdf_plantillas/actaEntrega");
-
+const formatter = new Intl.NumberFormat("CL");
 
 class DespachoBusiness {
 
@@ -51,10 +51,42 @@ class DespachoBusiness {
         }
     }
 
+
     async revisarRecepcionUsuario(id_usuario) {
-        const recepcionUsuario = this._recepcionUsuarioRepository.getFindOneByUsuario(id_usuario);
-        return recepcionUsuario;
+        const recepcionUsuario = await this._recepcionUsuarioRepository.getFindOneByUsuario(id_usuario);
+        if (!recepcionUsuario) {
+            return null;
+        }
+        const arriendo = await this._arriendoRepository.getFindOne(recepcionUsuario.id_arriendo);
+        let faltante = [];
+        let pagos_listos = true;
+        let firmas_listas = true;
+        let i = 1;
+        arriendo.pagosArriendos.forEach(({ pagos, contrato }) => {
+            if (pagos[0].estado_pago == "PENDIENTE") {
+                pagos_listos = false;
+                if (arriendo.tipo_arriendo === "REEMPLAZO") {
+                    faltante.push({ msg: "subir comprobante correspondiente al pago total del arriendo." });
+                }
+                if (arriendo.tipo_arriendo != "REEMPLAZO") {
+                    faltante.push({ msg: "subir comprobante correspondiente al monto de $ " + formatter.format(pagos[0].total_pago) + "." });
+                }
+            }
+            if (!contrato) {
+                firmas_listas = false;
+                faltante.push({ msg: `Firmar contrato de la extencion Nº${i} !.` })
+                i++;
+            };
+        });
+
+        if (pagos_listos && firmas_listas) {
+            await this._recepcionUsuarioRepository.deleteDestroy(recepcionUsuario.id_recepcionUsuarios);
+            return null;
+        } else {
+            return { id_arriendo: arriendo.id_arriendo, falta: faltante, pagos: pagos_listos, firmas: firmas_listas };
+        }
     }
+
 
     async createDespacho(despacho) {
         const despachoRepo = await this._despachoRepository.postCreate(despacho);
