@@ -20,10 +20,6 @@ class ClienteService {
         return await this._clienteBusiness.putCliente(cliente, rut_cliente);
     }
 
-    async updateFileCliente(rut_cliente, payload) {
-        return await this._clienteBusiness.updateFileCliente(rut_cliente, payload);
-    }
-
     async getConductores() {
         return await this._clienteBusiness.getConductores();
     }
@@ -40,10 +36,6 @@ class ClienteService {
         return await this._clienteBusiness.putConductor(conductor, rut_conductor);
     }
 
-    async updateFileConductor(rut_conductor, payload) {
-        return await this._clienteBusiness.updateFileConductor(rut_conductor, payload);
-    }
-
     async getEmpresas() {
         return await this._clienteBusiness.getEmpresas();
     }
@@ -58,6 +50,14 @@ class ClienteService {
 
     async putEmpresa(empresa, rut_empresa) {
         return await this._clienteBusiness.putEmpresa(empresa, rut_empresa);
+    }
+
+    async updateFileConductor(rut_conductor, payload) {
+        return await this._clienteBusiness.updateFileConductor(rut_conductor, payload);
+    }
+
+    async updateFileCliente(rut_cliente, payload) {
+        return await this._clienteBusiness.updateFileCliente(rut_cliente, payload);
     }
 
     async updateFileEmpresa(rut_empresa, payload) {

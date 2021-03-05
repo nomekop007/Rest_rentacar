@@ -53,22 +53,6 @@ class ClienteController {
         }
     }
 
-    async updateFileCliente(req, res, next) {
-        try {
-            const payload = {};
-            const files = req.files;
-            const { id } = req.params;
-            payload.userAt = req.headers["userat"];
-            if (files["inputCarnetFrontalCliente"]) payload.carnetFrontal = req.files["inputCarnetFrontalCliente"][0].filename;
-            if (files["inputCarnetTraseraCliente"]) payload.carnetTrasera = req.files["inputCarnetTraseraCliente"][0].filename;
-            await this._clienteService.updateFileCliente(id, payload);
-            next();
-            res.json({ success: true, msg: "archivo actualizado" });
-        } catch (error) {
-            this.sendError(error, req, res);
-        }
-    }
-
     async getConductores(req, res) {
         try {
             const conductores = await this._clienteService.getConductores();
@@ -115,22 +99,6 @@ class ClienteController {
         }
     }
 
-    async updateFileConductor(req, res, next) {
-        try {
-            const files = req.files;
-            const payload = {};
-            const { id } = req.params;
-            payload.userAt = req.headers["userat"];
-            if (files["inputlicenciaFrontalConductor"]) payload.licenciaConducirFrontal = req.files["inputlicenciaFrontalConductor"][0].filename;
-            if (files["inputlicenciaTraseraConductor"]) payload.licenciaConducirTrasera = req.files["inputlicenciaTraseraConductor"][0].filename;
-            await this._clienteService.updateFileConductor(id, payload);
-            res.json({ success: true, msg: "archivo actualizado" });
-            next();
-        } catch (error) {
-            this.sendError(error, req, res);
-        }
-    }
-
     async getEmpresas(req, res) {
         try {
             const empresas = await this._clienteService.getEmpresas();
@@ -171,6 +139,38 @@ class ClienteController {
             const { id } = req.params;
             await this._clienteService.putEmpresa(empresa, id);
             res.json({ success: true, msg: "registro actualizado" })
+            next();
+        } catch (error) {
+            this.sendError(error, req, res);
+        }
+    }
+
+    async updateFileCliente(req, res, next) {
+        try {
+            const payload = {};
+            const files = req.files;
+            const { id } = req.params;
+            payload.userAt = req.headers["userat"];
+            if (files["inputCarnetFrontalCliente"]) payload.carnetFrontal = req.files["inputCarnetFrontalCliente"][0].filename;
+            if (files["inputCarnetTraseraCliente"]) payload.carnetTrasera = req.files["inputCarnetTraseraCliente"][0].filename;
+            await this._clienteService.updateFileCliente(id, payload);
+            next();
+            res.json({ success: true, msg: "archivo actualizado" });
+        } catch (error) {
+            this.sendError(error, req, res);
+        }
+    }
+
+    async updateFileConductor(req, res, next) {
+        try {
+            const files = req.files;
+            const payload = {};
+            const { id } = req.params;
+            payload.userAt = req.headers["userat"];
+            if (files["inputlicenciaFrontalConductor"]) payload.licenciaConducirFrontal = req.files["inputlicenciaFrontalConductor"][0].filename;
+            if (files["inputlicenciaTraseraConductor"]) payload.licenciaConducirTrasera = req.files["inputlicenciaTraseraConductor"][0].filename;
+            await this._clienteService.updateFileConductor(id, payload);
+            res.json({ success: true, msg: "archivo actualizado" });
             next();
         } catch (error) {
             this.sendError(error, req, res);

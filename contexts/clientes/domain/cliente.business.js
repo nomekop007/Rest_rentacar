@@ -40,13 +40,6 @@ class ClienteBusiness {
     }
 
 
-    async updateFileCliente(rut_cliente, payload) {
-        const [cliente, created] = await this._docClienteRepository.postFindOrCreate(payload, rut_cliente);
-        if (!created) await this._docClienteRepository.putUpdate(payload, rut_cliente);
-        return true;
-    }
-
-
     async getConductores() {
         const conductores = await this._conductorRepository.getFindAll();
         return conductores;
@@ -77,13 +70,6 @@ class ClienteBusiness {
     }
 
 
-    async updateFileConductor(rut_conductor, payload) {
-        const [conductor, created] = await this._docConductorRepository.postFindOrCreate(payload, rut_conductor);
-        if (!created) await this._docConductorRepository.putUpdate(payload, rut_conductor);
-        return true;
-    }
-
-
     async getEmpresas() {
         const empresas = await this._empresaRepository.getFindAll();
         return empresas;
@@ -106,6 +92,20 @@ class ClienteBusiness {
 
     async putEmpresa(empresa, rut_empresa) {
         await this._empresaRepository.putUpdate(empresa, rut_empresa);
+        return true;
+    }
+
+
+    async updateFileCliente(rut_cliente, payload) {
+        const [cliente, created] = await this._docClienteRepository.postFindOrCreate(payload, rut_cliente);
+        if (!created) await this._docClienteRepository.putUpdate(payload, rut_cliente);
+        return true;
+    }
+
+
+    async updateFileConductor(rut_conductor, payload) {
+        const [conductor, created] = await this._docConductorRepository.postFindOrCreate(payload, rut_conductor);
+        if (!created) await this._docConductorRepository.putUpdate(payload, rut_conductor);
         return true;
     }
 
