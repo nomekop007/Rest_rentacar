@@ -1,8 +1,9 @@
+const sendError = require('../../../helpers/sendError');
+
 class UtilsController {
 
-    constructor({ UtilsService, sendError }) {
+    constructor({ UtilsService }) {
         this._utilsService = UtilsService;
-        this.sendError = sendError;
     }
 
 
@@ -12,7 +13,7 @@ class UtilsController {
             const payload = await this._utilsService.findDocumento(documento, tipo);
             res.json(payload);
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -27,7 +28,7 @@ class UtilsController {
                 res.json({ success: false, msg: "este arriendo ya esta despachado!" })
             }
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -42,7 +43,7 @@ class UtilsController {
                 res.json({ success: false, msg: "este arriendo ya esta despachado!" })
             }
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -57,7 +58,7 @@ class UtilsController {
                 res.json({ success: false, msg: "este arriendo ya esta despachado!" })
             }
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 

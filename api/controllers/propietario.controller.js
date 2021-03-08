@@ -1,7 +1,8 @@
+const sendError = require('../../helpers/sendError');
+
 class PropietarioController {
 
-  constructor({ PropietarioService, sendError }) {
-    this.sendError = sendError;
+  constructor({ PropietarioService }) {
     this._propietarioService = PropietarioService;
   }
 
@@ -9,12 +10,9 @@ class PropietarioController {
   async getPropietario(req, res) {
     try {
       const propietario = await this._propietarioService.getPropietario();
-      res.json({
-        success: true,
-        data: propietario,
-      });
+      res.json({ success: true, data: propietario });
     } catch (error) {
-      this.sendError(error, req, res);
+      sendError(error, req, res);
     }
   }
 }

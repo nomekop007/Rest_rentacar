@@ -9,7 +9,7 @@ const RequisitoRoutes = require('../../../api/routes/apis/requisitos.routes');
 
 const ArriendoController = require('../../../api/controllers/arriendo.controller');
 const ArriendoService = require('../../../contexts/arriendos/service/arriendo.service');
-const ArriendoBusines = require('../../../contexts/arriendos/domain/arriendo.business');
+const ArriendoBusiness = require('../../../contexts/arriendos/domain/arriendo.business');
 
 const ContactoRepository = require('../../../contexts/arriendos/dataAccess/contacto.repository')
 const ArriendoRepository = require('../../../contexts/arriendos/dataAccess/arriendo.repository');
@@ -30,7 +30,7 @@ module.exports = (container) => {
 
         ArriendoController: asClass(ArriendoController).singleton(),
         ArriendoService: asClass(ArriendoService).singleton(),
-        ArriendoBusines: asClass(ArriendoBusines).singleton(),
+        ArriendoBusiness: asClass(ArriendoBusiness).singleton(),
 
         ArriendoRepository: asClass(ArriendoRepository).singleton(),
         ContactoRepository: asClass(ContactoRepository).singleton(),

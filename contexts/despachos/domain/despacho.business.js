@@ -17,73 +17,104 @@ const formatter = new Intl.NumberFormat("CL");
 
 class DespachoBusiness {
 
-    constructor({ DespachoRepository, RecepcionUsuarioRepository, FotoDespachoRepository, ArriendoRepository, ActaEntregaRepository, }) {
+    constructor({ DespachoRepository, BloqueoUsuarioRepository, FotoDespachoRepository, ArriendoRepository, ActaEntregaRepository, }) {
         this._actaEntregaRepository = ActaEntregaRepository;
         this._arriendoRepository = ArriendoRepository;
         this._fotoDespachoRepository = FotoDespachoRepository;
         this._despachoRepository = DespachoRepository;
-        this._recepcionUsuarioRepository = RecepcionUsuarioRepository;
+        this._bloqueoUsuarioRepository = BloqueoUsuarioRepository;
     }
 
 
-    async createRecepcionUsuario(id_arriendo, id_usuario, userAt) {
-        const arriendo = await this._arriendoRepository.getFindOne(id_arriendo);
-        let pagos_listos = true;
-        let firmas_listas = true;
-        arriendo.pagosArriendos.forEach(({ pagos, contrato }) => {
-            if (pagos[0].estado_pago == "PENDIENTE") {
-                pagos_listos = false;
-            }
-            if (!contrato) {
-                firmas_listas = false;
-            };
-        });
-        if (pagos_listos && firmas_listas) {
-            return null;
-        } else {
-            const data = {
-                id_usuario: id_usuario,
-                id_arriendo: id_arriendo,
-                userAt: userAt,
-            };
-            const recepcionUsuario = this._recepcionUsuarioRepository.postCreate(data);
-            return recepcionUsuario;
+    async createBloqueoUsuario(id_arriendo, id_usuario, tipo, userAt) {
+        switch (tipo) {
+            case "RECEPCION":
+                const arriendo = await this._arriendoRepository.getFindOne(id_arriendo);
+                let pagos_listos = true;
+                let firmas_listas = true;
+                arriendo.pagosArriendos.forEach(({ pagos, contrato }) => {
+                    if (pagos[0].estado_pago == "PENDIENTE") {
+                        pagos_listos = false;
+                    }
+                    if (!contrato) {
+                        firmas_listas = false;
+                    };
+                });
+                if (pagos_listos && firmas_listas) {
+                    return null;
+                } else {
+                    const data = {
+                        id_usuario: id_usuario,
+                        id_arriendo: id_arriendo,
+                        tipo_bloqueoUsuario: tipo,
+                        userAt: userAt,
+                    };
+                    const bloqueoUsuario = await this._bloqueoUsuarioRepository.postCreate(data);
+                    return bloqueoUsuario;
+                }
+            case "PROCESO":
+                const data = {
+                    id_usuario: id_usuario,
+                    id_arriendo: id_arriendo,
+                    tipo_bloqueoUsuario: tipo,
+                    userAt: userAt,
+                };
+                const bloqueoUsuario = await this._bloqueoUsuarioRepository.postCreate(data);
+                return bloqueoUsuario;
+            default:
+                return null;
         }
     }
 
 
-    async revisarRecepcionUsuario(id_usuario) {
-        const recepcionUsuario = await this._recepcionUsuarioRepository.getFindOneByUsuario(id_usuario);
-        if (!recepcionUsuario) {
+    async revisarBloqueoUsuario(id_usuario) {
+        const bloqueoUsuario = await this._bloqueoUsuarioRepository.getFindOneByUsuario(id_usuario);
+        if (!bloqueoUsuario) {
             return null;
         }
-        const arriendo = await this._arriendoRepository.getFindOne(recepcionUsuario.id_arriendo);
-        let faltante = [];
-        let pagos_listos = true;
-        let firmas_listas = true;
-        let i = 1;
-        arriendo.pagosArriendos.forEach(({ pagos, contrato }) => {
-            if (pagos[0].estado_pago == "PENDIENTE") {
-                pagos_listos = false;
-                if (arriendo.tipo_arriendo === "REEMPLAZO") {
-                    faltante.push({ msg: "subir comprobante correspondiente al pago total del arriendo." });
-                }
-                if (arriendo.tipo_arriendo != "REEMPLAZO") {
-                    faltante.push({ msg: "subir comprobante correspondiente al monto de $ " + formatter.format(pagos[0].total_pago) + "." });
-                }
-            }
-            if (!contrato) {
-                firmas_listas = false;
-                faltante.push({ msg: `Firmar contrato de la extencion Nº${i} !.` })
-                i++;
-            };
-        });
+        const arriendo = await this._arriendoRepository.getFindOne(bloqueoUsuario.id_arriendo);
 
-        if (pagos_listos && firmas_listas) {
-            await this._recepcionUsuarioRepository.deleteDestroy(recepcionUsuario.id_recepcionUsuarios);
-            return null;
-        } else {
-            return { id_arriendo: arriendo.id_arriendo, falta: faltante, pagos: pagos_listos, firmas: firmas_listas };
+        switch (bloqueoUsuario.tipo_bloqueoUsuario) {
+            case "RECEPCION":
+                let faltante = [];
+                let pagos_listos = true;
+                let firmas_listas = true;
+                let i = 1;
+                arriendo.pagosArriendos.forEach(({ pagos, contrato }) => {
+                    if (pagos[0].estado_pago == "PENDIENTE") {
+                        pagos_listos = false;
+                        if (arriendo.tipo_arriendo === "REEMPLAZO") {
+                            faltante.push({ msg: "subir comprobante correspondiente al pago total del arriendo." });
+                        }
+                        if (arriendo.tipo_arriendo != "REEMPLAZO") {
+                            faltante.push({ msg: "subir comprobante correspondiente al monto de $ " + formatter.format(pagos[0].total_pago) + "." });
+                        }
+                    }
+                    if (!contrato) {
+                        firmas_listas = false;
+                        faltante.push({ msg: `Firmar contrato de la extencion Nº${i} !.` })
+                        i++;
+                    };
+                });
+                if (pagos_listos && firmas_listas) {
+                    await this._bloqueoUsuarioRepository.deleteDestroy(bloqueoUsuario.id_bloqueoUsuario);
+                    return null;
+                } else {
+                    return { id_arriendo: arriendo.id_arriendo, falta: faltante, pagos: pagos_listos, firmas: firmas_listas, tipo: bloqueoUsuario.tipo_bloqueoUsuario };
+                }
+            case "PROCESO":
+
+                //LOGICA VALIDAR QUE EL ARRIENDO NO EXEDA LAS 24 HORAS sino se bloquea
+                /*     if (condition) {
+                        return { id_arriendo: arriendo.id_arriendo, tipo: bloqueoUsuario.tipo_bloqueoUsuario };
+                    }
+                */
+                if (arriendo.estado_arriendo != "PENDIENTE" && arriendo.estado_arriendo != "CONFIRMADO" && arriendo.estado_arriendo != "FIRMADO") {
+                    await this._bloqueoUsuarioRepository.deleteDestroy(bloqueoUsuario.id_bloqueoUsuario);
+                }
+                return null;
+            default:
+                return null;
         }
     }
 

@@ -20,8 +20,6 @@ container.register({
 
 container = require('./other.injection')(container);
 container = require('./middlewares.injection')(container);
-container = require('./helpers.injection')(container);
-
 container = require('./contexts/accesorio.injection')(container);
 container = require('./contexts/arriendos.injection')(container);
 container = require('./contexts/clientes.injection')(container);

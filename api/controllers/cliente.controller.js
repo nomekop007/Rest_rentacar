@@ -1,9 +1,9 @@
+const sendError = require('../../helpers/sendError');
 
 class ClienteController {
 
-    constructor({ ClienteService, sendError }) {
+    constructor({ ClienteService }) {
         this._clienteService = ClienteService;
-        this.sendError = sendError;
     }
 
     async getClientes(req, res) {
@@ -11,7 +11,7 @@ class ClienteController {
             const cliente = await this._clienteService.getClientes();
             res.json({ success: true, data: cliente });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -26,7 +26,7 @@ class ClienteController {
                 res.json({ success: false, msg: "cliente no encontrado" });
             }
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -37,7 +37,7 @@ class ClienteController {
             res.json({ success: true, data: clienteRepo });
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -49,7 +49,7 @@ class ClienteController {
             res.json({ success: true, msg: "registro actualizado" })
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -58,7 +58,7 @@ class ClienteController {
             const conductores = await this._clienteService.getConductores();
             res.json({ success: true, data: conductores });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -72,7 +72,7 @@ class ClienteController {
                 res.json({ success: false, msg: "conductor no encontrado" });
             }
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -83,7 +83,7 @@ class ClienteController {
             res.json({ success: true, data: newConductor });
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -95,7 +95,7 @@ class ClienteController {
             res.json({ success: true, msg: "registro actualizado" })
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -104,7 +104,7 @@ class ClienteController {
             const empresas = await this._clienteService.getEmpresas();
             res.json({ success: true, data: empresas });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -118,7 +118,7 @@ class ClienteController {
                 res.json({ success: false, msg: "empresa no encontrada" });
             }
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -129,7 +129,7 @@ class ClienteController {
             res.json({ success: true, data: newEmpresa });
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -141,7 +141,7 @@ class ClienteController {
             res.json({ success: true, msg: "registro actualizado" })
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -157,7 +157,7 @@ class ClienteController {
             next();
             res.json({ success: true, msg: "archivo actualizado" });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -173,7 +173,7 @@ class ClienteController {
             res.json({ success: true, msg: "archivo actualizado" });
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -192,7 +192,7 @@ class ClienteController {
             res.json({ success: true, msg: "archivo actualizado" });
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 

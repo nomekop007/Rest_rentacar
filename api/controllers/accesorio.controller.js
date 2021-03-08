@@ -1,8 +1,9 @@
+const sendError = require('../../helpers/sendError');
+
 class AccesorioController {
 
-    constructor({ AccesorioService, sendError }) {
+    constructor({ AccesorioService }) {
         this._accesorioService = AccesorioService;
-        this.sendError = sendError;
     }
 
     async getAccesorios(req, res) {
@@ -10,7 +11,7 @@ class AccesorioController {
             const accesorios = await this._accesorioService.getAccesorios();
             res.json({ success: true, data: accesorios });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -20,7 +21,7 @@ class AccesorioController {
             const accesorios = await this._accesorioService.getAccesoriosBySucursal(id);
             res.json({ success: true, data: accesorios })
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -31,7 +32,7 @@ class AccesorioController {
             res.json({ success: true, data: accesorioRepo });
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -41,7 +42,7 @@ class AccesorioController {
             const accesorio = await this._accesorioService.findAccesorio(id);
             res.json({ success: true, data: accesorio });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -53,7 +54,7 @@ class AccesorioController {
             res.json({ success: true, data: accesorioRepo });
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 

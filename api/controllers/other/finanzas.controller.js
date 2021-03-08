@@ -1,8 +1,9 @@
+const sendError = require('../../../helpers/sendError');
+
 class FinanzasController {
 
-    constructor({ FinanzasService, sendError }) {
+    constructor({ FinanzasService }) {
         this._finanzasService = FinanzasService;
-        this.sendError = sendError;
     }
 
 
@@ -14,7 +15,7 @@ class FinanzasController {
                 data: arriendos,
             });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -35,7 +36,7 @@ class FinanzasController {
                 });
             }
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -47,7 +48,7 @@ class FinanzasController {
             const payload = await this._finanzasService.findDocumentosArriendoFinanzas(documento, tipo);
             res.json(payload);
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 }

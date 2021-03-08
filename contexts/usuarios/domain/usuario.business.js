@@ -1,13 +1,11 @@
 const jwt = require("jwt-simple");
 const bcrypt = require("bcryptjs");
-
+const crearToken = require('../../../helpers/createToken')
 class UsuarioBusiness {
 
-    constructor({ UsuarioRepository, crearToken }) {
+    constructor({ UsuarioRepository }) {
         this._usuarioRepository = UsuarioRepository;
-        this._createTokenHelper = crearToken;
     }
-
 
 
     async getUsuarios() {
@@ -59,7 +57,7 @@ class UsuarioBusiness {
                     estado_usuario: usuarioRepo.estado_usuario,
                     id_sucursal: usuarioRepo.id_sucursal,
                     id_rol: usuarioRepo.id_rol,
-                    userToken: this._createTokenHelper(usuarioRepo),
+                    userToken: crearToken(usuarioRepo),
                 }
             } else {
                 return false;

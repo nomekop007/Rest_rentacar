@@ -14,7 +14,7 @@ class PagoBusiness {
     }
 
 
-    async registrarPagoExtra(monto, tipo, descripcion, idArriendo, userAt) {
+    async registrarPagoExtra(monto, descripcion, idArriendo, userAt) {
         const dataPagoExtra = {
             monto_pagoExtra: monto,
             detalle_pagoExtra: descripcion,

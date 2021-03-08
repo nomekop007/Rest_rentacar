@@ -1,10 +1,10 @@
 const { validationResult } = require("express-validator");
+const sendError = require('../../helpers/sendError');
 
 class UsuarioController {
 
-    constructor({ UsuarioService, sendError }) {
+    constructor({ UsuarioService }) {
         this._usuarioService = UsuarioService;
-        this.sendError = sendError;
     }
 
 
@@ -16,7 +16,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -30,7 +30,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -44,7 +44,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -67,7 +67,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -88,7 +88,7 @@ class UsuarioController {
                 });
             }
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -104,7 +104,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -120,7 +120,7 @@ class UsuarioController {
                 data: usuario,
             });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 

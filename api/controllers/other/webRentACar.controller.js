@@ -1,9 +1,10 @@
+const sendError = require('../../../helpers/sendError');
+
 class WebRentACarController {
 
-    constructor({ sendError, VehiculoService, ReservaService }) {
+    constructor({ VehiculoService, ReservaService }) {
         this._vehiculoService = VehiculoService;
         this._reservaService = ReservaService;
-        this.sendError = sendError;
     }
 
     async createReservaYCliente(req, res) {
@@ -24,7 +25,7 @@ class WebRentACarController {
             const response = await this._reservaService.createReservaYCliente(payload);
             res.json({ success: true, data: response })
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -34,7 +35,7 @@ class WebRentACarController {
             const vehiculos = await this._vehiculoService.getVehiculosDisponibles();
             res.json({ success: true, data: vehiculos })
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 }

@@ -1,29 +1,30 @@
+const sendError = require('../../helpers/sendError');
+
 class DespachoController {
 
-    constructor({ DespachoService, sendError }) {
+    constructor({ DespachoService }) {
         this._despachoService = DespachoService;
-        this.sendError = sendError;
     }
 
-    async createRecepcionUsuario(req, res) {
+    async createBloqueoUsuario(req, res) {
         try {
-            const { id_arriendo } = req.body;
+            const { id_arriendo, tipo } = req.body;
             const id_usuario = req.usuarioId;
             const userAt = req.headers["userat"];
-            const recepcionUsuario = await this._despachoService.createRecepcionUsuario(id_arriendo, id_usuario, userAt);
-            res.json({ success: true, data: recepcionUsuario });
+            const bloqueoUsuario = await this._despachoService.createBloqueoUsuario(id_arriendo, id_usuario, tipo, userAt);
+            res.json({ success: true, data: bloqueoUsuario });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
-    async revisarRecepcionUsuario(req, res) {
+    async revisarBloqueoUsuario(req, res) {
         try {
             const id_usuario = req.usuarioId;
-            const response = await this._despachoService.revisarRecepcionUsuario(id_usuario);
+            const response = await this._despachoService.revisarBloqueoUsuario(id_usuario);
             res.json({ success: true, data: response });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -33,7 +34,7 @@ class DespachoController {
             const despachoRepo = await this._despachoService.createDespacho(despacho);
             res.json({ success: true, id_despacho: despachoRepo.id_despacho });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -44,7 +45,7 @@ class DespachoController {
             const response = await this._despachoService.addRevision(id, arrayImages);
             res.json(response);
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -55,7 +56,7 @@ class DespachoController {
             const response = await this._despachoService.createActaEntrega(id_despacho, userAt, base64)
             res.json(response);
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -80,7 +81,7 @@ class DespachoController {
                 res.json(response);
             }
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -90,7 +91,7 @@ class DespachoController {
             const responseEmail = await this._despachoService.sendEmailActaEntrega(id_arriendo)
             res.json({ success: true, msg: responseEmail });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -102,7 +103,7 @@ class DespachoController {
             await this._despachoService.guardarFotosVehiculos(id, userAt, files);
             res.json({ success: true, msg: "foto subidas" });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -116,7 +117,7 @@ class DespachoController {
                 data: response,
             });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 }

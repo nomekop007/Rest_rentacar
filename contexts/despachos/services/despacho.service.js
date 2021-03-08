@@ -4,12 +4,12 @@ class DespachoService {
         this._despachoBusiness = DespachoBusiness;
     }
 
-    async createRecepcionUsuario(id_arriendo, id_usuario, userAt) {
-        return await this._despachoBusiness.createRecepcionUsuario(id_arriendo, id_usuario, userAt);
+    async createBloqueoUsuario(id_arriendo, id_usuario, tipo, userAt) {
+        return await this._despachoBusiness.createBloqueoUsuario(id_arriendo, id_usuario, tipo, userAt);
     }
 
-    async revisarRecepcionUsuario(id_usuario) {
-        return await this._despachoBusiness.revisarRecepcionUsuario(id_usuario);
+    async revisarBloqueoUsuario(id_usuario) {
+        return await this._despachoBusiness.revisarBloqueoUsuario(id_usuario);
     }
 
     async createDespacho(despacho) {

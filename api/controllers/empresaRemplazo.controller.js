@@ -1,8 +1,10 @@
+const sendError = require('../../helpers/sendError');
+
+
 class EmpresaRemplazoController {
 
-    constructor({ EmpresaRemplazoService, sendError }) {
+    constructor({ EmpresaRemplazoService }) {
         this._empresaRemplazoService = EmpresaRemplazoService;
-        this.sendError = sendError;
     }
 
 
@@ -11,7 +13,7 @@ class EmpresaRemplazoController {
             const empresasRemplazo = await this._empresaRemplazoService.getEmpresasRemplazo();
             res.json({ success: true, data: empresasRemplazo });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -27,7 +29,7 @@ class EmpresaRemplazoController {
             });
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 

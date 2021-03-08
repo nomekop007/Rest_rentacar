@@ -1,10 +1,9 @@
 const borrarImagenDeStorage = require("../../helpers/deleteImageStorage");
-
+const sendError = require('../../helpers/sendError');
 class VehiculoController {
 
-    constructor({ VehiculoService, sendError }) {
+    constructor({ VehiculoService }) {
         this._vehiculoService = VehiculoService;
-        this.sendError = sendError;
     }
 
 
@@ -13,7 +12,7 @@ class VehiculoController {
             const vehiculos = await this._vehiculoService.getVehiculos();
             res.json({ success: true, data: vehiculos, });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -24,7 +23,7 @@ class VehiculoController {
             const vehiculos = await this._vehiculoService.getVehiculosDisponibles();
             res.json({ success: true, data: vehiculos });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
 
     }
@@ -35,7 +34,7 @@ class VehiculoController {
             const vehiculos = await this._vehiculoService.getVehiculosDisponiblesBySucursal(id);
             res.json({ success: true, data: vehiculos });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -58,7 +57,7 @@ class VehiculoController {
                 });
             }
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -72,7 +71,7 @@ class VehiculoController {
                 next();
             }
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -89,7 +88,7 @@ class VehiculoController {
             });
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -105,7 +104,7 @@ class VehiculoController {
             });
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -120,7 +119,7 @@ class VehiculoController {
             res.json(payload);
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -132,7 +131,7 @@ class VehiculoController {
             res.json(payload);
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -152,7 +151,7 @@ class VehiculoController {
                 })
             }
         } catch (error) {
-            this.sendError(error, req, res);;
+            sendError(error, req, res);;
         }
     }
 
@@ -166,7 +165,7 @@ class VehiculoController {
                 data: response
             })
         } catch (error) {
-            this.sendError(error, req, res);;
+            sendError(error, req, res);;
         }
     }
 
@@ -180,7 +179,7 @@ class VehiculoController {
                 data: danios
             })
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -196,7 +195,7 @@ class VehiculoController {
             });
             next();
         } catch (error) {
-            this.sendError(error, req, res);;
+            sendError(error, req, res);;
         }
     }
 
@@ -210,7 +209,7 @@ class VehiculoController {
             })
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -223,7 +222,7 @@ class VehiculoController {
                 data: tarifasVehiculos
             })
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -237,7 +236,7 @@ class VehiculoController {
                 data: payload
             });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -247,7 +246,7 @@ class VehiculoController {
             const vehiculos = await this._vehiculoService.getVehiculosArrendados();
             res.json({ success: true, data: vehiculos })
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 

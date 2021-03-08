@@ -1,7 +1,8 @@
+const sendError = require('../../helpers/sendError');
+
 class ReservaController {
 
-    constructor({ ReservaService, sendError }) {
-        this.sendError = sendError;
+    constructor({ ReservaService }) {
         this._reservaService = ReservaService;
     }
 
@@ -12,7 +13,7 @@ class ReservaController {
             const reservas = await this._reservaService.getReservasBySucursal(sucursal);
             res.json({ success: true, data: reservas });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -22,7 +23,7 @@ class ReservaController {
             const reserva = await this._reservaService.findReserva(id);
             res.json({ success: true, data: reserva });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -33,7 +34,7 @@ class ReservaController {
             res.json({ success: true, data: reservaRepo, msg: "reserva agregada!" });
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -45,7 +46,7 @@ class ReservaController {
             res.json({ success: true, msg: 'reserva modificada' });
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -56,7 +57,7 @@ class ReservaController {
             res.json({ success: true, msg: 'reserva eliminada' });
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 

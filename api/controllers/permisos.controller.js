@@ -1,7 +1,9 @@
+const sendError = require('../../helpers/sendError');
+
+
 class PermisoController {
 
-    constructor({ PermisoService, sendError }) {
-        this.sendError = sendError;
+    constructor({ PermisoService }) {
         this._permisoService = PermisoService;
     }
 
@@ -11,7 +13,7 @@ class PermisoController {
             const rolPermisos = await this._permisoService.mostrarPermisosPorRol(id);
             res.json({ success: true, data: rolPermisos });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -21,7 +23,7 @@ class PermisoController {
             const permisos = await this._permisoService.cargarPermisos();
             res.json({ success: true, data: permisos });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -33,7 +35,7 @@ class PermisoController {
             res.json({ success: true, data: permisoRepo });
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -44,7 +46,7 @@ class PermisoController {
             const permiso = await this._permisoService.buscarPermiso(id);
             res.json({ success: true, data: permiso });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -57,7 +59,7 @@ class PermisoController {
             res.json({ success: true, msg: "modificado" });
             next()
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -69,7 +71,7 @@ class PermisoController {
             res.json({ success: true, msg: "asociacion eliminada" });
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -80,7 +82,7 @@ class PermisoController {
             res.json({ success: true, data: rolPermisoRepo });
             next();
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -90,7 +92,7 @@ class PermisoController {
             const arrayIdPermisos = await this._permisoService.validarPermisos(id);
             res.send(arrayIdPermisos);
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -99,7 +101,7 @@ class PermisoController {
             const roles = await this._permisoService.getRoles();
             res.json({ success: true, data: roles, });
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 
@@ -110,7 +112,7 @@ class PermisoController {
             const rolRepo = await this._permisoService.createRol(rol);
             res.json({ success: true, data: rolRepo })
         } catch (error) {
-            this.sendError(error, req, res);
+            sendError(error, req, res);
         }
     }
 

@@ -4,8 +4,8 @@ class PagoService {
         this._pagoBusiness = PagoBusiness;
     }
 
-    async registrarPagoExtra(monto, tipo, descripcion, idArriendo, userAt) {
-        return await this._pagoBusiness.registrarPagoExtra(monto, tipo, descripcion, idArriendo, userAt);
+    async registrarPagoExtra(monto, descripcion, idArriendo, userAt) {
+        return await this._pagoBusiness.registrarPagoExtra(monto, descripcion, idArriendo, userAt);
     }
 
     async mostrarPagoExtrasPorArriendo(id_arriendo) {
