@@ -19,6 +19,11 @@ class BloqueoUsuarioRepository {
             where: { id_usuario: ID },
         })
     }
+    getFindAllByUsuario(ID) {
+        return this._db.bloqueoUsuario.findAll({
+            where: { id_usuario: ID },
+        })
+    }
 
 }
 

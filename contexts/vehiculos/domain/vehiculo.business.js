@@ -185,7 +185,6 @@ class VehiculoBusiness {
 
 
     async getDanioVehiculo(id_sucursal) {
-        console.log(id_sucursal);
         if (id_sucursal === "0") {
             const danios = await this._danioVehiculoRepository.getFindAll();
             return danios;
@@ -196,7 +195,7 @@ class VehiculoBusiness {
     }
 
     async updateDanioVehiculo(danio, id_danio) {
-        await this._danioVehiculoRepository.putUpdateByPatente(danio, id_danio);
+        await this._danioVehiculoRepository.putUpdate(danio, id_danio);
         await this._danioVehiculoRepository.getFindByPk(id_danio);
         return true;
     }
@@ -208,6 +207,7 @@ class VehiculoBusiness {
             const [tarifaVehiculo, created] = await this._tarifaVehiculoRepository.postFindOrCreate(vehiculo, vehiculo.patente_vehiculo);
             if (!created) await this._tarifaVehiculoRepository.putUpdateByPatente(vehiculo, vehiculo.patente_vehiculo);
         });
+        return true;
     }
 
 

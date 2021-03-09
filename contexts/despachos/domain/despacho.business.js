@@ -14,6 +14,7 @@ const logo = require.resolve("../../../utils/images/logo2.png");
 const recepcionPlantilla = require("../../../utils/pdf_plantillas/recepcion")
 const actaEntregaPlantilla = require("../../../utils/pdf_plantillas/actaEntrega");
 const formatter = new Intl.NumberFormat("CL");
+const moment = require("moment");
 
 class DespachoBusiness {
 
@@ -68,12 +69,12 @@ class DespachoBusiness {
 
 
     async revisarBloqueoUsuario(id_usuario) {
-        const bloqueoUsuario = await this._bloqueoUsuarioRepository.getFindOneByUsuario(id_usuario);
+        const listBloqueo = await this._bloqueoUsuarioRepository.getFindAllByUsuario(id_usuario);
+        const bloqueoUsuario = listBloqueo[listBloqueo.length - 1];
         if (!bloqueoUsuario) {
             return null;
         }
         const arriendo = await this._arriendoRepository.getFindOne(bloqueoUsuario.id_arriendo);
-
         switch (bloqueoUsuario.tipo_bloqueoUsuario) {
             case "RECEPCION":
                 let faltante = [];
@@ -103,14 +104,16 @@ class DespachoBusiness {
                     return { id_arriendo: arriendo.id_arriendo, falta: faltante, pagos: pagos_listos, firmas: firmas_listas, tipo: bloqueoUsuario.tipo_bloqueoUsuario };
                 }
             case "PROCESO":
-
-                //LOGICA VALIDAR QUE EL ARRIENDO NO EXEDA LAS 24 HORAS sino se bloquea
-                /*     if (condition) {
-                        return { id_arriendo: arriendo.id_arriendo, tipo: bloqueoUsuario.tipo_bloqueoUsuario };
-                    }
-                */
                 if (arriendo.estado_arriendo != "PENDIENTE" && arriendo.estado_arriendo != "CONFIRMADO" && arriendo.estado_arriendo != "FIRMADO") {
                     await this._bloqueoUsuarioRepository.deleteDestroy(bloqueoUsuario.id_bloqueoUsuario);
+                    return null;
+                }
+                let horaLimite = -86400000; // 24 horas
+                const countDownDate = moment(arriendo.createdAt);
+                let time = countDownDate.diff(moment());
+                // si el tiempo de atraso supera las 24 horas limites
+                if (time < horaLimite) {
+                    return { id_arriendo: arriendo.id_arriendo, tipo: bloqueoUsuario.tipo_bloqueoUsuario };
                 }
                 return null;
             default:
