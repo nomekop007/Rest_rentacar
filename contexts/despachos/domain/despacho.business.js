@@ -238,7 +238,7 @@ class DespachoBusiness {
             Link de fotos
             <br>
             ${arrayImages.map(({ url_fotoDespacho }) => {
-                const link = `../${process.env.PATH_SERVER}/${url_fotoDespacho}`;
+                const link = `${process.env.PATH_SERVER}/${url_fotoDespacho}`;
                 console.log(link);
                 return `<li><a href="${link}">${url_fotoDespacho}</a></li>`;
             })}

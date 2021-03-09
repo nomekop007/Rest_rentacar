@@ -504,7 +504,7 @@ class ArriendoBusiness {
             from: "'Rent A Car - Grupo Firma' <api.rentacarmaule@grupofirma.cl>",
             to: client.correo,
             bcc: process.env.CORREO_SUPERVISOR,
-            subject: "COPIA DE CONTRATO RENT A CAR",
+            subject: `COPIA DE CONTRATO ${arriendo.id_arriendo} RENT A CAR`,
             text: "Se adjunta copia del contrato Rent a Car",
             html: `
             <p>Sr.(a) ${client.name}:</p>
@@ -516,7 +516,7 @@ class ArriendoBusiness {
             <img src="data:image/jpeg;base64,${await base64(logo)}" width="200" height="50"  />
             `,
             attachments: [{
-                filename: "CONSTRATO.pdf",
+                filename: "CONTRATO.pdf",
                 contentType: "pdf",
                 path: path.join(__dirname, `../${process.env.PATH_CONTRATO}/${contratos[contratos.length - 1].documento}`)
             },],
@@ -550,11 +550,11 @@ class ArriendoBusiness {
             from: "'Rent A Car - Grupo Firma' <api.rentacarmaule@grupofirma.cl>",
             to: client.correo,
             bcc: process.env.CORREO_SUPERVISOR,
-            subject: "COPIA DE CONTRATO RENT A CAR",
-            text: "Se adjunta copia del contrato Rent a Car",
+            subject: `COPIA DE EXTENCION DE CONTRATO Nº ${arriendo.id_arriendo} RENT A CAR`,
+            text: "Se adjunta copia de extencion del contrato Rent a Car",
             html: `
             <p>Sr.(a) ${client.name}:</p>
-            <p>Por este medio envio su copia del contrato de arriendo de Rent a Car.</p>
+            <p>Por este medio envio su copia de la extencion del contrato de arriendo de Rent a Car.</p>
             <br><br>
             <p>------------------------------------------------------------------------------------------------------------------------------</p>
             <p>Atentamente, Rent a Car Maule Ltda. </p>
@@ -562,7 +562,7 @@ class ArriendoBusiness {
             <img src="data:image/jpeg;base64,${await base64(logo)}" width="200" height="50"  />
             `,
             attachments: [{
-                filename: "CONSTRATO.pdf",
+                filename: "EXTENCION.pdf",
                 contentType: "pdf",
                 path: path.join(__dirname, `../${process.env.PATH_CONTRATO}/${extencion.contrato.documento}`)
             },],
