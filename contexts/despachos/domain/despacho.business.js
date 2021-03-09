@@ -31,6 +31,7 @@ class DespachoBusiness {
         switch (tipo) {
             case "RECEPCION":
                 const arriendo = await this._arriendoRepository.getFindOne(id_arriendo);
+                const arriendoPublic = await this._arriendoRepository.getFindOnePublic(id_arriendo);
                 let pagos_listos = true;
                 let firmas_listas = true;
                 arriendo.pagosArriendos.forEach(({ pagos, contrato }) => {
@@ -47,6 +48,7 @@ class DespachoBusiness {
                     const data = {
                         id_usuario: id_usuario,
                         id_arriendo: id_arriendo,
+                        arriendo: arriendoPublic,
                         tipo_bloqueoUsuario: tipo,
                         userAt: userAt,
                     };
@@ -75,6 +77,8 @@ class DespachoBusiness {
             return null;
         }
         const arriendo = await this._arriendoRepository.getFindOne(bloqueoUsuario.id_arriendo);
+        const arriendoPublic = await this._arriendoRepository.getFindOnePublic(bloqueoUsuario.id_arriendo);
+
         switch (bloqueoUsuario.tipo_bloqueoUsuario) {
             case "RECEPCION":
                 let faltante = [];
@@ -101,7 +105,7 @@ class DespachoBusiness {
                     await this._bloqueoUsuarioRepository.deleteDestroy(bloqueoUsuario.id_bloqueoUsuario);
                     return null;
                 } else {
-                    return { id_arriendo: arriendo.id_arriendo, falta: faltante, pagos: pagos_listos, firmas: firmas_listas, tipo: bloqueoUsuario.tipo_bloqueoUsuario };
+                    return { id_arriendo: arriendo.id_arriendo, arriendo: arriendoPublic, falta: faltante, pagos: pagos_listos, firmas: firmas_listas, tipo: bloqueoUsuario.tipo_bloqueoUsuario };
                 }
             case "PROCESO":
                 if (arriendo.estado_arriendo != "PENDIENTE" && arriendo.estado_arriendo != "CONFIRMADO" && arriendo.estado_arriendo != "FIRMADO") {
