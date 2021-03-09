@@ -420,7 +420,7 @@ class ArriendoBusiness {
             id_arriendo: extencion.id_arriendo,
             userAt: userAt,
         };
-        const contrato = await this._serviceContrato.postCreate(dataContrato);
+        const contrato = await this._contratoRepository.postCreate(dataContrato);
         const dataExtencion = {
             id_contrato: contrato.id_contrato,
             estado_extencion: "FIRMADO"
@@ -433,8 +433,8 @@ class ArriendoBusiness {
     async generatePDFContrato(payload) {
         const arriendo = await this._arriendoRepository.getFindOne(payload.id_arriendo);
         //si existen mas conductores los busca
-        if (arriendo.rut_conductor2) payload.conductor2 = await this._serviceConductor.getFindByPK(arriendo.rut_conductor2);
-        if (arriendo.rut_conductor3) payload.conductor3 = await this._serviceConductor.getFindByPK(arriendo.rut_conductor3);
+        if (arriendo.rut_conductor2) payload.conductor2 = await this._conductorRepository.getFindByPK(arriendo.rut_conductor2);
+        if (arriendo.rut_conductor3) payload.conductor3 = await this._conductorRepository.getFindByPK(arriendo.rut_conductor3);
         // si no hay garantia&archivos, se detiene
         if (!arriendo.requisito) {
             return { success: false, msg: "falta subir archivos requeridos!" }

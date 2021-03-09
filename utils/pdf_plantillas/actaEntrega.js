@@ -6,7 +6,7 @@ async function actaEntregaPlantilla(data) {
 
 
 
-    const arrayImagenes = async () => {
+    const arrayImagenes = () => {
         const images = [];
         images.push({
             margin: 20,
@@ -14,7 +14,7 @@ async function actaEntregaPlantilla(data) {
             text: "[Link de imagenes]",
             fontSize: 14,
         });
-        data.arrayImages.map(async ({ url_fotoDespacho }) => {
+        data.arrayImages.map(({ url_fotoDespacho }) => {
             const link = `${process.env.PATH_SERVER}/${url_fotoDespacho}`;
             images.push({
                 margin: 10,
@@ -35,18 +35,27 @@ async function actaEntregaPlantilla(data) {
         return images;
     };
 
-
+    console.log(data.matrizRecepcion);
     const matriz_si = (value, fila) => {
-        if (data.matrizRecepcion[fila].indexOf(value) != -1) {
-            return "X";
-        } else {
+        try {
+            if (data.matrizRecepcion[fila].indexOf(value) != -1) {
+                return "X";
+            } else {
+                return "";
+            }
+        } catch (error) {
             return "";
         }
     };
+
     const matriz_no = (value, fila) => {
-        if (data.matrizRecepcion[fila].indexOf(value) === -1) {
-            return "X";
-        } else {
+        try {
+            if (data.matrizRecepcion[fila].indexOf(value) === -1) {
+                return "X";
+            } else {
+                return "";
+            }
+        } catch (error) {
             return "";
         }
     };
@@ -413,7 +422,7 @@ async function actaEntregaPlantilla(data) {
         /* lista de imagenes */
         {
             columns: [
-                [await arrayImagenes()]
+                [arrayImagenes()]
             ],
         },
         ],

@@ -123,14 +123,14 @@ class VehiculoBusiness {
 
     async borrarDatosAsociados(vehiculo) {
         if (vehiculo.tarifasVehiculo) await this._tarifaVehiculoRepository.putUpdateById({ patente_vehiculo: null }, vehiculo.tarifasVehiculo.id_tarifaVehiculo);
-        if (vehiculo.arriendos.length > 0) await vehiculo.arriendos.map(async ({ id_arriendo }) => await this._arriendoRepository.putUpdateByPatente({ patente_vehiculo: null }, id_arriendo));
+        if (vehiculo.arriendos.length > 0) await vehiculo.arriendos.map(async ({ id_arriendo }) => await this._arriendoRepository.putUpdate({ patente_vehiculo: null }, id_arriendo));
         if (vehiculo.danioVehiculos.length > 0) await vehiculo.danioVehiculos.map(async ({ id_danioVehiculo }) => await this._danioVehiculoRepository.putUpdateByPatente({ patente_vehiculo: null }, id_danioVehiculo));
         if (vehiculo.extenciones.length > 0) await vehiculo.extenciones.map(async ({ id_extencion }) => await this._extencionRepository.putUpdateById({ patente_vehiculo: null }, id_extencion));
     }
 
     async agregarDatosAsociados(vehiculo, newPatente) {
         if (vehiculo.tarifasVehiculo) await this._tarifaVehiculoRepository.putUpdateById({ patente_vehiculo: newPatente }, vehiculo.tarifasVehiculo.id_tarifaVehiculo);
-        if (vehiculo.arriendos.length > 0) await vehiculo.arriendos.map(async ({ id_arriendo }) => await this._arriendoRepository.putUpdateByPatente({ patente_vehiculo: newPatente }, id_arriendo));
+        if (vehiculo.arriendos.length > 0) await vehiculo.arriendos.map(async ({ id_arriendo }) => await this._arriendoRepository.putUpdate({ patente_vehiculo: newPatente }, id_arriendo));
         if (vehiculo.danioVehiculos.length > 0) await vehiculo.danioVehiculos.map(async ({ id_danioVehiculo }) => await this._danioVehiculoRepository.putUpdateByPatente({ patente_vehiculo: newPatente }, id_danioVehiculo));
         if (vehiculo.extenciones.length > 0) await vehiculo.extenciones.map(async ({ id_extencion }) => await this._extencionRepository.putUpdateById({ patente_vehiculo: newPatente }, id_extencion));
     }
