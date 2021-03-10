@@ -33,7 +33,6 @@ class WebRentACarController {
     async vehiculosDisponibles(req, res) {
         try {
             const vehiculosRepo = await this._vehiculoService.getVehiculosDisponibles();
-
             const vehiculos = vehiculosRepo.map((vehiculo) => {
                 return {
                     patente: vehiculo.patente_vehiculo,
@@ -43,9 +42,10 @@ class WebRentACarController {
                     color: vehiculo.color_vehiculo,
                     'año': vehiculo['año_vehiculo'],
                     url_image: `${process.env.PATH_SERVER}/${vehiculo.foto_vehiculo}`,
-                    sucursal: vehiculo.sucursale.nombre_sucursal
+                    sucursal: vehiculo.sucursale ? vehiculo.sucursale.nombre_sucursal : null
                 }
-            })
+            }).filter((vehiculo) => (vehiculo.sucursal != null))
+
             res.json({ success: true, data: { vehiculos: vehiculos } })
         } catch (error) {
             sendError(error, req, res);
