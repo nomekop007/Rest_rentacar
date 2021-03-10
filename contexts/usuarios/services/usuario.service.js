@@ -33,7 +33,6 @@ class UsuarioService {
 
     async stateUsuario(accion, userAt, id) {
         return await this._usuarioBusiness.stateUsuario(accion, userAt, id);
-
     }
 
 }

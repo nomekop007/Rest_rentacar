@@ -7,7 +7,7 @@ class ReservaRepository {
     getFindAll(ID_SUCURSAL) {
         return this._db.reserva.findAll({
             where: { id_sucursal: ID_SUCURSAL },
-            include: [{ model: this._db.vehiculo }, { model: this._db.reservaCliente, include: [{ model: this._db.cliente }] }, { model: this._db.reservaEmpresa, include: [{ model: this._db.empresa }] }]
+            include: [{ model: this._db.vehiculo }, { model: this._db.reservaClienteWeb }, { model: this._db.reservaCliente, include: [{ model: this._db.cliente }] }, { model: this._db.reservaEmpresa, include: [{ model: this._db.empresa }] }]
         });
     }
 
@@ -24,9 +24,10 @@ class ReservaRepository {
 
     postCreateWithClient(DATA) {
         return this._db.reserva.create(DATA, {
-            include: [this._db.reservaCliente, this._db.reservaEmpresa]
+            include: [this._db.reservaCliente, this._db.reservaEmpresa, this._db.reservaClienteWeb]
         });
     }
+
 
     deleteDestroy(ID) {
         return this._db.reserva.destroy({

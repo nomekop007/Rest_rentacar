@@ -10,14 +10,12 @@ class WebRentACarController {
     async createReservaYCliente(req, res) {
         try {
             const payload = {
-                titulo_reserva: "RESERVA CLIENTE WEB RENT A CAR",
-                descripcion_reserva: "",
+                titulo_reserva: 'RESERVA WEB',
+                descripcion_reserva: 'RESERVA GENERADA A TRAVES DE LA PAGINA WEB RENT A CAR , CONTACTAR CLIENTE',
+                color_reserva: '#5311ee',
                 inicio_reserva: req.body.fechaInicio,
                 fin_reserva: req.body.fechaFin,
-                color_reserva: "#5311ee",
                 patente_vehiculo: req.body.patenteVehiculo,
-                nombre_sucursal: req.body.nombreSucursal,
-                rut_cliente: req.body.rutCliente,
                 nombre_cliente: req.body.nombreCliente,
                 telefono_cliente: req.body.telefonoCliente,
                 correo_cliente: req.body.correoCliente
@@ -45,7 +43,6 @@ class WebRentACarController {
                     sucursal: vehiculo.sucursale ? vehiculo.sucursale.nombre_sucursal : null
                 }
             }).filter((vehiculo) => (vehiculo.sucursal != null))
-
             res.json({ success: true, data: { vehiculos: vehiculos } })
         } catch (error) {
             sendError(error, req, res);

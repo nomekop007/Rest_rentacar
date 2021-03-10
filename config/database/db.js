@@ -48,6 +48,8 @@ const Permiso = require("../../contexts/permisos/dataAccess/permiso.entity")(dat
 const RolPermiso = require("../../contexts/permisos/dataAccess/rolPermiso.entity")(database, Sequelize);
 const Extencion = require("../../contexts/arriendos/dataAccess/extencion.entity")(database, Sequelize);
 const BloqueoUsuario = require("../../contexts/despachos/dataccess/bloqueoUsuario.entity")(database, Sequelize);
+const ReservaClienteWeb = require("../../contexts/reservas/dataAccess/reservaClienteWeb.entity")(database, Sequelize);
+
 
 
 
@@ -124,6 +126,7 @@ Rol.hasMany(RolPermiso, { foreignKey: { name: "id_rol" }, onDelete: onDelete, on
 // un RolPermiso pertenece a un roles
 RolPermiso.belongsTo(Rol, { foreignKey: { name: "id_rol" }, onDelete: onDelete, onUpdate: onUpdate });
 
+
 // un permiso tiene muchos rolesPermisos
 Permiso.hasMany(RolPermiso, { foreignKey: { name: "id_permiso" }, onDelete: onDelete, onUpdate: onUpdate });
 // un RolPermiso pertenece a un permiso
@@ -134,6 +137,12 @@ Arriendo.hasMany(FotoDespacho, { foreignKey: { name: "id_arriendo" }, onDelete: 
 
 //una foto de despacho pertenece a un arriendo
 FotoDespacho.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate })
+
+
+// un clienteWeb tiene muchas ReservaClienteWeb
+Reserva.hasOne(ReservaClienteWeb, { foreignKey: { name: "id_reserva" }, onDelete: onDelete, onUpdate: onUpdate });
+// una ReservaClienteWeb pertenece a un ClienteWeb
+ReservaClienteWeb.belongsTo(Reserva, { foreignKey: { name: "id_reserva" }, onDelete: onDelete, onUpdate: onUpdate });
 
 //un Reserva tiene un ReservaCliente 
 Reserva.hasOne(ReservaCliente, { foreignKey: { name: "id_reserva" }, onDelete: onDelete, onUpdate: onUpdate });
@@ -416,7 +425,7 @@ db.abono = Abono;
 db.extencion = Extencion;
 db.pagoExtra = PagoExtra;
 db.bloqueoUsuario = BloqueoUsuario;
-
+db.reservaClienteWeb = ReservaClienteWeb;
 
 db.sequelize = database;
 db.Sequelize = Sequelize;

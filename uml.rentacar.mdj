@@ -32777,7 +32777,7 @@
 										"$ref": "AAAAAAF3SWHCi9Prg8g="
 									},
 									"font": "Arial;13;1",
-									"left": 1648,
+									"left": 1640,
 									"top": 269,
 									"width": 114.06982421875,
 									"height": 13,
@@ -32793,14 +32793,14 @@
 										"$ref": "AAAAAAF3SWHCitPpPw4="
 									},
 									"font": "Arial;13;0",
-									"left": 1648,
+									"left": 1640,
 									"top": 287,
 									"width": 114.06982421875,
 									"height": 10
 								}
 							],
 							"font": "Arial;13;0",
-							"left": 1648,
+							"left": 1640,
 							"top": 264,
 							"width": 114.06982421875,
 							"height": 33,
@@ -34492,6 +34492,138 @@
 							},
 							"headNameLabel": {
 								"$ref": "AAAAAAF3/YwfWNiLlH4="
+							}
+						},
+						{
+							"_type": "ERDEntityView",
+							"_id": "AAAAAAF4HVtkDd6B7vE=",
+							"_parent": {
+								"$ref": "AAAAAAF1t3aiu4npfXk="
+							},
+							"model": {
+								"$ref": "AAAAAAF4HVtkDN5/H2c="
+							},
+							"subViews": [
+								{
+									"_type": "LabelView",
+									"_id": "AAAAAAF4HVtkDd6C+c8=",
+									"_parent": {
+										"$ref": "AAAAAAF4HVtkDd6B7vE="
+									},
+									"font": "Arial;13;1",
+									"left": 1800,
+									"top": 269,
+									"width": 141.27587890625,
+									"height": 13,
+									"text": "reservasClientesWeb"
+								},
+								{
+									"_type": "ERDColumnCompartmentView",
+									"_id": "AAAAAAF4HVtkDd6D0DU=",
+									"_parent": {
+										"$ref": "AAAAAAF4HVtkDd6B7vE="
+									},
+									"model": {
+										"$ref": "AAAAAAF4HVtkDN5/H2c="
+									},
+									"font": "Arial;13;0",
+									"left": 1800,
+									"top": 287,
+									"width": 141.27587890625,
+									"height": 10
+								}
+							],
+							"font": "Arial;13;0",
+							"left": 1800,
+							"top": 264,
+							"width": 141.27587890625,
+							"height": 33,
+							"nameLabel": {
+								"$ref": "AAAAAAF4HVtkDd6C+c8="
+							},
+							"columnCompartment": {
+								"$ref": "AAAAAAF4HVtkDd6D0DU="
+							}
+						},
+						{
+							"_type": "ERDRelationshipView",
+							"_id": "AAAAAAF4HYXhQd7fnMc=",
+							"_parent": {
+								"$ref": "AAAAAAF1t3aiu4npfXk="
+							},
+							"model": {
+								"$ref": "AAAAAAF4HYXhQN7b784="
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAF4HYXhQd7gFBs=",
+									"_parent": {
+										"$ref": "AAAAAAF4HYXhQd7fnMc="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": 1887,
+									"top": 89,
+									"height": 13,
+									"alpha": 1.5707963267948966,
+									"distance": 15,
+									"hostEdge": {
+										"$ref": "AAAAAAF4HYXhQd7fnMc="
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAF4HYXhQd7hf60=",
+									"_parent": {
+										"$ref": "AAAAAAF4HYXhQd7fnMc="
+									},
+									"font": "Arial;13;0",
+									"left": 1713,
+									"top": 75,
+									"height": 13,
+									"alpha": 0.5235987755982988,
+									"distance": 30,
+									"hostEdge": {
+										"$ref": "AAAAAAF4HYXhQd7fnMc="
+									},
+									"edgePosition": 2
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAF4HYXhQd7i8tA=",
+									"_parent": {
+										"$ref": "AAAAAAF4HYXhQd7fnMc="
+									},
+									"font": "Arial;13;0",
+									"left": 1887,
+									"top": 232,
+									"height": 13,
+									"alpha": -0.5235987755982988,
+									"distance": 30,
+									"hostEdge": {
+										"$ref": "AAAAAAF4HYXhQd7fnMc="
+									}
+								}
+							],
+							"font": "Arial;13;0",
+							"head": {
+								"$ref": "AAAAAAF4HVtkDd6B7vE="
+							},
+							"tail": {
+								"$ref": "AAAAAAF3QAlhIecj4DA="
+							},
+							"lineStyle": 2,
+							"points": "1688:96;1872:96;1872:264",
+							"nameLabel": {
+								"$ref": "AAAAAAF4HYXhQd7gFBs="
+							},
+							"tailNameLabel": {
+								"$ref": "AAAAAAF4HYXhQd7hf60="
+							},
+							"headNameLabel": {
+								"$ref": "AAAAAAF4HYXhQd7i8tA="
 							}
 						}
 					]
@@ -36900,6 +37032,61 @@
 									"$ref": "AAAAAAF3SWHCitPpPw4="
 								}
 							}
+						},
+						{
+							"_type": "ERDRelationship",
+							"_id": "AAAAAAF4HVxZt96UdgY=",
+							"_parent": {
+								"$ref": "AAAAAAF3QAlhDechQKM="
+							},
+							"end1": {
+								"_type": "ERDRelationshipEnd",
+								"_id": "AAAAAAF4HVxZt96V2E0=",
+								"_parent": {
+									"$ref": "AAAAAAF4HVxZt96UdgY="
+								},
+								"reference": {
+									"$ref": "AAAAAAF3QAlhDechQKM="
+								}
+							},
+							"end2": {
+								"_type": "ERDRelationshipEnd",
+								"_id": "AAAAAAF4HVxZt96W3lU=",
+								"_parent": {
+									"$ref": "AAAAAAF4HVxZt96UdgY="
+								},
+								"reference": {
+									"$ref": "AAAAAAF4HVr9vt5xe5Q="
+								}
+							}
+						},
+						{
+							"_type": "ERDRelationship",
+							"_id": "AAAAAAF4HYXhQN7b784=",
+							"_parent": {
+								"$ref": "AAAAAAF3QAlhDechQKM="
+							},
+							"end1": {
+								"_type": "ERDRelationshipEnd",
+								"_id": "AAAAAAF4HYXhQd7cirY=",
+								"_parent": {
+									"$ref": "AAAAAAF4HYXhQN7b784="
+								},
+								"reference": {
+									"$ref": "AAAAAAF3QAlhDechQKM="
+								}
+							},
+							"end2": {
+								"_type": "ERDRelationshipEnd",
+								"_id": "AAAAAAF4HYXhQd7dzfY=",
+								"_parent": {
+									"$ref": "AAAAAAF4HYXhQN7b784="
+								},
+								"reference": {
+									"$ref": "AAAAAAF4HVtkDN5/H2c="
+								},
+								"cardinality": "0..*"
+							}
 						}
 					]
 				},
@@ -37146,6 +37333,51 @@
 						"$ref": "AAAAAAF1t3aiu4no4nQ="
 					},
 					"name": "bloqueoUsuarios"
+				},
+				{
+					"_type": "ERDEntity",
+					"_id": "AAAAAAF4HVr9vt5xe5Q=",
+					"_parent": {
+						"$ref": "AAAAAAF1t3aiu4no4nQ="
+					},
+					"name": "reservasWeb",
+					"ownedElements": [
+						{
+							"_type": "ERDRelationship",
+							"_id": "AAAAAAF4HVy8Qd6wqGo=",
+							"_parent": {
+								"$ref": "AAAAAAF4HVr9vt5xe5Q="
+							},
+							"end1": {
+								"_type": "ERDRelationshipEnd",
+								"_id": "AAAAAAF4HVy8Qt6xDW8=",
+								"_parent": {
+									"$ref": "AAAAAAF4HVy8Qd6wqGo="
+								},
+								"reference": {
+									"$ref": "AAAAAAF4HVr9vt5xe5Q="
+								}
+							},
+							"end2": {
+								"_type": "ERDRelationshipEnd",
+								"_id": "AAAAAAF4HVy8Qt6ylmo=",
+								"_parent": {
+									"$ref": "AAAAAAF4HVy8Qd6wqGo="
+								},
+								"reference": {
+									"$ref": "AAAAAAF4HVtkDN5/H2c="
+								}
+							}
+						}
+					]
+				},
+				{
+					"_type": "ERDEntity",
+					"_id": "AAAAAAF4HVtkDN5/H2c=",
+					"_parent": {
+						"$ref": "AAAAAAF1t3aiu4no4nQ="
+					},
+					"name": "reservasClientesWeb"
 				}
 			]
 		}
