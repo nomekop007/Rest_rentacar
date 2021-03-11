@@ -21,7 +21,7 @@ class WebRentACarController {
                 correo_cliente: req.body.correoCliente
             };
             const response = await this._reservaService.createReservaYCliente(payload);
-            res.json({ success: true, data: response })
+            res.json(response)
         } catch (error) {
             sendError(error, req, res);
         }

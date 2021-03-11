@@ -33,8 +33,10 @@ class ReservaBusiness {
     }
 
     async createReservaYCliente(payload) {
-
-        const vehiculo = await this._vehiculoRepository.getFindOne(payload.patente_vehiculo)
+        const vehiculo = await this._vehiculoRepository.getFindOne(payload.patente_vehiculo);
+        if (!vehiculo) {
+            return { success: false, msg: "patente del vehiculo incorrecta!" };
+        }
         const reservaData = {
             titulo_reserva: payload.titulo_reserva,
             descripcion_reserva: payload.descripcion_reserva,
@@ -48,16 +50,11 @@ class ReservaBusiness {
                 nombre_reservaClienteWeb: payload.nombre_cliente,
                 telefono_reservaClienteWeb: payload.telefono_cliente,
                 correo_reservaClienteWeb: payload.correo_cliente,
-
             }
         }
         const reservaRepo = await this._reservaRepository.postCreateWithClient(reservaData);
-
         // enviar correo a jefa sucursal
-
-
-
-        return reservaRepo;
+        return { success: true, data: reservaRepo, msg: "reserva registrada!" };
     }
 
 
