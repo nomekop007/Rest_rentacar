@@ -121,11 +121,14 @@ class ArriendoRepository {
             include: [
                 { model: this._db.usuario, attributes: ["nombre_usuario"] },
                 { model: this._db.sucursal },
+                { model: this._db.conductor },
                 { model: this._db.vehiculo },
                 { model: this._db.cliente },
                 { model: this._db.empresa },
                 { model: this._db.requisito },
                 { model: this._db.remplazo, include: [{ model: this._db.empresaRemplazo }, { model: this._db.cliente }] },
+                { model: this._db.pagoExtra, include: [{ model: this._db.facturacion, include: [{ model: this._db.modoPago }], }] },
+                { model: this._db.danioVehiculo, include: [{ model: this._db.pagoDanio, include: [{ model: this._db.facturacion, include: [{ model: this._db.modoPago }], }] }] },
                 {
                     model: this._db.pagoArriendo,
                     include: [
@@ -133,12 +136,10 @@ class ArriendoRepository {
                         { model: this._db.pagoAccesorio, include: [{ model: this._db.accesorio }] },
                         {
                             model: this._db.pago,
-                            include: [{
-                                model: this._db.facturacion,
-                                include: [
-                                    { model: this._db.modoPago }
-                                ],
-                            }],
+                            include: [
+                                { model: this._db.facturacion, include: [{ model: this._db.modoPago }], },
+                                { model: this._db.abono, include: [{ model: this._db.facturacion, include: [{ model: this._db.modoPago }], }] }
+                            ],
                         }
                     ],
                 },

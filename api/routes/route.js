@@ -54,7 +54,7 @@ module.exports = ({
     apiRoute.use("/utils", checkMiddleware.checkToken, ApiUtilsRoutes);
 
     // rutas a otros sistemas
-    apiRoute.use("/api", checkApiMiddleware.checkTokenApiRest, ApiFinanzasRoutes);
+    apiRoute.use("/api", /* checkApiMiddleware.checkTokenApiRest, */ ApiFinanzasRoutes);
     apiRoute.use("/web", /* checkApiMiddleware.checkTokenApiRest,  */WebRentACarRoutes);
 
 

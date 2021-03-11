@@ -18,6 +18,10 @@ class FinanzasService {
         return await this._finazasbusiness.findDocumentosArriendoFinanzas(documento, tipo);
     }
 
+    async getArriendoFinanzasV2() {
+        return await this._finazasbusiness.getArriendoFinanzasV2();
+    }
+
 }
 
 module.exports = FinanzasService;

@@ -19,6 +19,17 @@ class FinanzasController {
         }
     }
 
+    async getArriendoFinanzasV2(req, res) {
+        try {
+            const arriendos = await this._finanzasService.getArriendoFinanzasV2();
+            res.json({
+                success: true,
+                data: arriendos,
+            });
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
 
     async findArriendoFinanzas(req, res) {
         try {
