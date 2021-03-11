@@ -348,7 +348,6 @@ class FinanzasBusiness {
                                 }
                                 arrayPagosDanio.montoTotal += danio.monto;
                                 arrayPagosDanio.pagos.push(danio);
-
                                 if (arriendoRepo.danioVehiculos[arriendoRepo.danioVehiculos.length - 1].pagosDanio.facturacione) {
                                     const factura = arriendoRepo.danioVehiculos[arriendoRepo.danioVehiculos.length - 1].pagosDanio.facturacione;
                                     arrayPagosDanio.comprobantes.push({
@@ -359,7 +358,6 @@ class FinanzasBusiness {
                                         url: `${process.env.PATH_SERVER}/${factura.documento_facturacion}`,
                                     })
                                 }
-
                             }
                         }
 
