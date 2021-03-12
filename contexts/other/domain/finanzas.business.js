@@ -74,6 +74,7 @@ class FinanzasBusiness {
         const arriendos = arriendosRepo.map((arriendoRepo) => {
             //urls de los docs
 
+
             let infoArriendo = {
                 contratos: []
             };
@@ -361,7 +362,7 @@ class FinanzasBusiness {
             } catch (error) {
                 console.log(error);
             }
-        })
+        }).filter((a) => (a.infoArriendo.estado != "ANULADO"))
 
 
 
