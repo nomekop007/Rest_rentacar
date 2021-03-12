@@ -175,7 +175,7 @@ class FinanzasBusiness {
                                     dias: pagoArriendo.dias_pagoArriendo,
                                     monto: pagoArriendo.pagos[0].total_pago,
                                     deudor: pagoArriendo.pagos[0].deudor_pago,
-                                    estado: pagoArriendo.pagos[0].estado_pago === "PENDIENTE" && "VIGENTE",
+                                    estado: pagoArriendo.pagos[0].estado_pago === "PENDIENTE" ? "VIGENTE" : "PAGADO",
                                     updatedAt: formatFechahora(pagoArriendo.pagos[0].updatedAt),
                                 }
                                 infoPagos.arrayPagosCliente.montoTotal += pagoCliente.monto;
@@ -187,7 +187,7 @@ class FinanzasBusiness {
                                     monto: pagoArriendo.pagos[1].total_pago,
                                     deudor: pagoArriendo.pagos[1].deudor_pago,
                                     descripcion: pagoArriendo.observaciones_pagoArriendo,
-                                    estado: pagoArriendo.pagos[1].estado_pago === "PENDIENTE" && "VIGENTE",
+                                    estado: pagoArriendo.pagos[1].estado_pago === "PENDIENTE" ? "VIGENTE" : "PAGADO",
                                     updatedAt: formatFechahora(pagoArriendo.pagos[1].updatedAt),
                                 }
                                 infoPagos.arrayPagosReemplazo.montoTotal += pagoReemplazo.monto;
