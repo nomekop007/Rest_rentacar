@@ -69,11 +69,7 @@ class FinanzasBusiness {
     async getArriendoFinanzasV2() {
         const arriendosRepo = await this._arriendoRepository.getFindAll();
 
-
-
         const arriendos = arriendosRepo.map((arriendoRepo) => {
-            //urls de los docs
-
 
             let infoArriendo = {
                 contratos: []
@@ -166,7 +162,9 @@ class FinanzasBusiness {
 
                 if (arriendoRepo.pagosArriendos) {
 
+
                     if (arriendoRepo.tipo_arriendo === "REEMPLAZO") {
+
 
                         arriendoRepo.pagosArriendos.forEach((pagoArriendo) => {
                             infoPagos.diasTotales += pagoArriendo.dias_pagoArriendo;
@@ -194,8 +192,6 @@ class FinanzasBusiness {
                                 infoPagos.arrayPagosReemplazo.pagos.push(pagoReemplazo);
                             }
                         })
-
-
                         if (arriendoRepo.pagosArriendos[0]) {
                             if (arriendoRepo.pagosArriendos[0].pagos[0].facturacione) {
                                 infoPagos.arrayPagosCliente.comprobantes.push({
@@ -217,7 +213,6 @@ class FinanzasBusiness {
                                     })
                                 }
                             }
-
                             if (arriendoRepo.pagosArriendos[0].pagos[0].abonos.length > 0) {
                                 arriendoRepo.pagosArriendos[0].pagos[0].abonos.forEach((abono) => {
                                     infoPagos.arrayPagosCliente.comprobantes.push({
@@ -230,8 +225,6 @@ class FinanzasBusiness {
                                 })
                             }
                         }
-
-
                         if (arriendoRepo.danioVehiculos.length > 0) {
                             if (arriendoRepo.danioVehiculos[arriendoRepo.danioVehiculos.length - 1].pagosDanio) {
                                 const pagoDanio = arriendoRepo.danioVehiculos[arriendoRepo.danioVehiculos.length - 1].pagosDanio;
@@ -255,8 +248,6 @@ class FinanzasBusiness {
                             }
                         }
 
-
-                        infoPagos.ingresoTotal = infoPagos.arrayPagosCliente.montoTotal + infoPagos.arrayPagosReemplazo.montoTotal + infoPagos.arrayPagosDanio.montoTotal;
 
                     } else {
 
@@ -295,7 +286,6 @@ class FinanzasBusiness {
                                 }
                             }
                         })
-
                         if (arriendoRepo.pagosExtras.length > 0) {
                             let estado = "PENDIENTE";
                             if (arriendoRepo.pagosExtras[0].facturacione) {
@@ -321,8 +311,6 @@ class FinanzasBusiness {
                                 })
                             }
                         }
-
-
                         if (arriendoRepo.danioVehiculos.length > 0) {
                             if (arriendoRepo.danioVehiculos[arriendoRepo.danioVehiculos.length - 1].pagosDanio) {
                                 const pagoDanio = arriendoRepo.danioVehiculos[arriendoRepo.danioVehiculos.length - 1].pagosDanio;
@@ -347,8 +335,10 @@ class FinanzasBusiness {
                             }
                         }
 
-                        infoPagos.ingresoTotal = infoPagos.arrayPagosCliente.montoTotal + infoPagos.arrayPagosExtras.montoTotal + infoPagos.arrayPagosDanio.montoTotal;
+
                     }
+
+                    infoPagos.ingresoTotal = infoPagos.arrayPagosCliente.montoTotal + infoPagos.arrayPagosDanio.montoTotal + infoPagos.arrayPagosExtras.montoTotal + infoPagos.arrayPagosReemplazo.montoTotal;
 
                 }
 
@@ -363,8 +353,6 @@ class FinanzasBusiness {
                 console.log(error);
             }
         }).filter((a) => (a.infoArriendo.estado != "ANULADO"))
-
-
 
         return arriendos;
     }
