@@ -205,15 +205,18 @@ class FinanzasBusiness {
                                     url: `${process.env.PATH_SERVER}/${arriendoRepo.pagosArriendos[0].pagos[0].facturacione.documento_facturacion}`,
                                 })
                             }
-                            if (arriendoRepo.pagosArriendos[0].pagos[1].facturacione) {
-                                infoPagos.arrayPagosReemplazo.comprobantes.push({
-                                    abono: infoPagos.arrayPagosReemplazo.montoTotal,
-                                    tipo: arriendoRepo.pagosArriendos[0].pagos[1].facturacione.tipo_facturacion,
-                                    folio: arriendoRepo.pagosArriendos[0].pagos[1].facturacione.numero_facturacion,
-                                    metodoPago: arriendoRepo.pagosArriendos[0].pagos[1].facturacione.modosPago.nombre_modoPago,
-                                    url: `${process.env.PATH_SERVER}/${arriendoRepo.pagosArriendos[0].pagos[1].facturacione.documento_facturacion}`,
-                                })
+                            if (arriendoRepo.pagosArriendos[0].pagos[1]) {
+                                if (arriendoRepo.pagosArriendos[0].pagos[1].facturacione) {
+                                    infoPagos.arrayPagosReemplazo.comprobantes.push({
+                                        abono: infoPagos.arrayPagosReemplazo.montoTotal,
+                                        tipo: arriendoRepo.pagosArriendos[0].pagos[1].facturacione.tipo_facturacion,
+                                        folio: arriendoRepo.pagosArriendos[0].pagos[1].facturacione.numero_facturacion,
+                                        metodoPago: arriendoRepo.pagosArriendos[0].pagos[1].facturacione.modosPago.nombre_modoPago,
+                                        url: `${process.env.PATH_SERVER}/${arriendoRepo.pagosArriendos[0].pagos[1].facturacione.documento_facturacion}`,
+                                    })
+                                }
                             }
+
                             if (arriendoRepo.pagosArriendos[0].pagos[0].abonos.length > 0) {
                                 arriendoRepo.pagosArriendos[0].pagos[0].abonos.forEach((abono) => {
                                     infoPagos.arrayPagosCliente.comprobantes.push({
