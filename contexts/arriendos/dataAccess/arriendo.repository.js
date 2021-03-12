@@ -125,6 +125,7 @@ class ArriendoRepository {
                 { model: this._db.vehiculo },
                 { model: this._db.cliente },
                 { model: this._db.empresa },
+                { model: this._db.contrato },
                 { model: this._db.requisito },
                 { model: this._db.remplazo, include: [{ model: this._db.empresaRemplazo }, { model: this._db.cliente }] },
                 { model: this._db.pagoExtra, include: [{ model: this._db.facturacion, include: [{ model: this._db.modoPago }], }] },
@@ -132,7 +133,6 @@ class ArriendoRepository {
                 {
                     model: this._db.pagoArriendo,
                     include: [
-                        { model: this._db.contrato },
                         { model: this._db.pagoAccesorio, include: [{ model: this._db.accesorio }] },
                         {
                             model: this._db.pago,
