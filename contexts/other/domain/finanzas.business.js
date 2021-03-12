@@ -82,7 +82,27 @@ class FinanzasBusiness {
             let infoConductores = [];
             let infoPagos = {
                 ingresoTotal: 0,
-                diasTotales: 0
+                diasTotales: 0,
+                arrayPagosCliente: {
+                    montoTotal: 0,
+                    comprobantes: [],
+                    pagos: []
+                },
+                arrayPagosReemplazo: {
+                    montoTotal: 0,
+                    comprobantes: [],
+                    pagos: []
+                },
+                arrayPagosDanio: {
+                    montoTotal: 0,
+                    comprobantes: [],
+                    pagos: []
+                },
+                arrayPagosExtras: {
+                    montoTotal: 0,
+                    comprobantes: [],
+                    pagos: []
+                }
             };
 
 
@@ -146,23 +166,6 @@ class FinanzasBusiness {
                 if (arriendoRepo.pagosArriendos) {
 
                     if (arriendoRepo.tipo_arriendo === "REEMPLAZO") {
-                        const arrayPagosCliente = {
-                            montoTotal: 0,
-                            comprobantes: [],
-                            pagos: []
-                        };
-
-                        const arrayPagosReemplazo = {
-                            montoTotal: 0,
-                            comprobantes: [],
-                            pagos: []
-                        };
-
-                        const arrayPagosDanio = {
-                            montoTotal: 0,
-                            comprobantes: [],
-                            pagos: []
-                        };
 
                         arriendoRepo.pagosArriendos.forEach((pagoArriendo) => {
                             infoPagos.diasTotales += pagoArriendo.dias_pagoArriendo;
@@ -174,8 +177,8 @@ class FinanzasBusiness {
                                     estado: pagoArriendo.pagos[0].estado_pago,
                                     updatedAt: formatFechahora(pagoArriendo.pagos[0].updatedAt),
                                 }
-                                arrayPagosCliente.montoTotal += pagoCliente.monto;
-                                arrayPagosCliente.pagos.push(pagoCliente);
+                                infoPagos.arrayPagosCliente.montoTotal += pagoCliente.monto;
+                                infoPagos.arrayPagosCliente.pagos.push(pagoCliente);
                             }
                             if (pagoArriendo.pagos[1]) {
                                 const pagoReemplazo = {
@@ -186,16 +189,16 @@ class FinanzasBusiness {
                                     estado: pagoArriendo.pagos[1].estado_pago,
                                     updatedAt: formatFechahora(pagoArriendo.pagos[1].updatedAt),
                                 }
-                                arrayPagosReemplazo.montoTotal += pagoReemplazo.monto;
-                                arrayPagosReemplazo.pagos.push(pagoReemplazo);
+                                infoPagos.arrayPagosReemplazo.montoTotal += pagoReemplazo.monto;
+                                infoPagos.arrayPagosReemplazo.pagos.push(pagoReemplazo);
                             }
                         })
 
 
                         if (arriendoRepo.pagosArriendos[0]) {
                             if (arriendoRepo.pagosArriendos[0].pagos[0].facturacione) {
-                                arrayPagosCliente.comprobantes.push({
-                                    abono: arrayPagosCliente.montoTotal,
+                                infoPagos.arrayPagosCliente.comprobantes.push({
+                                    abono: infoPagos.arrayPagosCliente.montoTotal,
                                     tipo: arriendoRepo.pagosArriendos[0].pagos[0].facturacione.tipo_facturacion,
                                     folio: arriendoRepo.pagosArriendos[0].pagos[0].facturacione.numero_facturacion,
                                     metodoPago: arriendoRepo.pagosArriendos[0].pagos[0].facturacione.modosPago.nombre_modoPago,
@@ -203,8 +206,8 @@ class FinanzasBusiness {
                                 })
                             }
                             if (arriendoRepo.pagosArriendos[0].pagos[1].facturacione) {
-                                arrayPagosReemplazo.comprobantes.push({
-                                    abono: arrayPagosReemplazo.montoTotal,
+                                infoPagos.arrayPagosReemplazo.comprobantes.push({
+                                    abono: infoPagos.arrayPagosReemplazo.montoTotal,
                                     tipo: arriendoRepo.pagosArriendos[0].pagos[1].facturacione.tipo_facturacion,
                                     folio: arriendoRepo.pagosArriendos[0].pagos[1].facturacione.numero_facturacion,
                                     metodoPago: arriendoRepo.pagosArriendos[0].pagos[1].facturacione.modosPago.nombre_modoPago,
@@ -213,7 +216,7 @@ class FinanzasBusiness {
                             }
                             if (arriendoRepo.pagosArriendos[0].pagos[0].abonos.length > 0) {
                                 arriendoRepo.pagosArriendos[0].pagos[0].abonos.forEach((abono) => {
-                                    arrayPagosCliente.comprobantes.push({
+                                    infoPagos.arrayPagosCliente.comprobantes.push({
                                         abono: abono.pago_abono,
                                         tipo: abono.facturacione.tipo_facturacion,
                                         folio: abono.facturacione.numero_facturacion,
@@ -233,12 +236,12 @@ class FinanzasBusiness {
                                     detalle: arriendoRepo.danioVehiculos[arriendoRepo.danioVehiculos.length - 1].descripcion_danioVehiculo,
                                     updatedAt: formatFechahora(pagoDanio.updatedAt),
                                 }
-                                arrayPagosDanio.montoTotal += danio.monto;
-                                arrayPagosDanio.pagos.push(danio);
+                                infoPagos.arrayPagosDanio.montoTotal += danio.monto;
+                                infoPagos.arrayPagosDanio.pagos.push(danio);
                                 if (arriendoRepo.danioVehiculos[arriendoRepo.danioVehiculos.length - 1].pagosDanio.facturacione) {
                                     const factura = arriendoRepo.danioVehiculos[arriendoRepo.danioVehiculos.length - 1].pagosDanio.facturacione;
-                                    arrayPagosDanio.comprobantes.push({
-                                        abono: arrayPagosDanio.montoTotal,
+                                    infoPagos.arrayPagosDanio.comprobantes.push({
+                                        abono: infoPagos.arrayPagosDanio.montoTotal,
                                         tipo: factura.tipo_facturacion,
                                         folio: factura.numero_facturacion,
                                         metodoPago: factura.modosPago.nombre_modoPago,
@@ -249,29 +252,9 @@ class FinanzasBusiness {
                         }
 
 
-                        infoPagos.pagosCliente = arrayPagosCliente;
-                        infoPagos.pagosEmpresaReemplazo = arrayPagosReemplazo;
-                        infoPagos['pagosDaños'] = arrayPagosDanio;
-                        infoPagos.ingresoTotal = arrayPagosCliente.montoTotal + arrayPagosReemplazo.montoTotal + arrayPagosDanio.montoTotal;
+                        infoPagos.ingresoTotal = infoPagos.arrayPagosCliente.montoTotal + infoPagos.arrayPagosReemplazo.montoTotal + infoPagos.arrayPagosDanio.montoTotal;
 
                     } else {
-
-
-                        const arrayPagosCliente = {
-                            montoTotal: 0,
-                            comprobantes: [],
-                            pagos: []
-                        };
-                        const arrayPagosExtras = {
-                            montoTotal: 0,
-                            comprobantes: [],
-                            pagos: []
-                        };
-                        const arrayPagosDanio = {
-                            montoTotal: 0,
-                            comprobantes: [],
-                            pagos: []
-                        };
 
                         // EMPRESA Y PARTICULARES
                         arriendoRepo.pagosArriendos.forEach((pagoArriendo) => {
@@ -284,10 +267,10 @@ class FinanzasBusiness {
                                     estado: pagoArriendo.pagos[0].estado_pago,
                                     updatedAt: formatFechahora(pagoArriendo.pagos[0].updatedAt),
                                 }
-                                arrayPagosCliente.montoTotal += pagoCliente.monto;
-                                arrayPagosCliente.pagos.push(pagoCliente);
+                                infoPagos.arrayPagosCliente.montoTotal += pagoCliente.monto;
+                                infoPagos.arrayPagosCliente.pagos.push(pagoCliente);
                                 if (pagoArriendo.pagos[0].facturacione) {
-                                    arrayPagosCliente.comprobantes.push({
+                                    infoPagos.arrayPagosCliente.comprobantes.push({
                                         abono: pagoArriendo.pagos[0].total_pago,
                                         tipo: pagoArriendo.pagos[0].facturacione.tipo_facturacion,
                                         folio: pagoArriendo.pagos[0].facturacione.numero_facturacion,
@@ -297,7 +280,7 @@ class FinanzasBusiness {
                                 }
                                 if (pagoArriendo.pagos[0].abonos.length > 0) {
                                     pagoArriendo.pagos[0].abonos.forEach((abono) => {
-                                        arrayPagosCliente.comprobantes.push({
+                                        infoPagos.arrayPagosCliente.comprobantes.push({
                                             abono: abono.pago_abono,
                                             tipo: abono.facturacione.tipo_facturacion,
                                             folio: abono.facturacione.numero_facturacion,
@@ -321,12 +304,12 @@ class FinanzasBusiness {
                                     estado: estado,
                                     updatedAt: formatFechahora(pagoExtra.updatedAt),
                                 }
-                                arrayPagosExtras.montoTotal += extra.monto;
-                                arrayPagosExtras.pagos.push(extra);
+                                infoPagos.arrayPagosExtras.montoTotal += extra.monto;
+                                infoPagos.arrayPagosExtras.pagos.push(extra);
                             });
                             if (arriendoRepo.pagosExtras[0].facturacione) {
-                                arrayPagosExtras.comprobantes.push({
-                                    abono: arrayPagosExtras.montoTotal,
+                                infoPagos.arrayPagosExtras.comprobantes.push({
+                                    abono: infoPagos.arrayPagosExtras.montoTotal,
                                     tipo: arriendoRepo.pagosExtras[0].facturacione.tipo_facturacion,
                                     folio: arriendoRepo.pagosExtras[0].facturacione.numero_facturacion,
                                     metodoPago: arriendoRepo.pagosExtras[0].facturacione.modosPago.nombre_modoPago,
@@ -345,12 +328,12 @@ class FinanzasBusiness {
                                     estado: arriendoRepo.danioVehiculos[arriendoRepo.danioVehiculos.length - 1].estado_danioVehiculo,
                                     updatedAt: formatFechahora(pagoDanio.updatedAt),
                                 }
-                                arrayPagosDanio.montoTotal += danio.monto;
-                                arrayPagosDanio.pagos.push(danio);
+                                infoPagos.arrayPagosDanio.montoTotal += danio.monto;
+                                infoPagos.arrayPagosDanio.pagos.push(danio);
                                 if (arriendoRepo.danioVehiculos[arriendoRepo.danioVehiculos.length - 1].pagosDanio.facturacione) {
                                     const factura = arriendoRepo.danioVehiculos[arriendoRepo.danioVehiculos.length - 1].pagosDanio.facturacione;
-                                    arrayPagosDanio.comprobantes.push({
-                                        abono: arrayPagosDanio.montoTotal,
+                                    infoPagos.arrayPagosDanio.comprobantes.push({
+                                        abono: infoPagos.arrayPagosDanio.montoTotal,
                                         tipo: factura.tipo_facturacion,
                                         folio: factura.numero_facturacion,
                                         metodoPago: factura.modosPago.nombre_modoPago,
@@ -360,16 +343,10 @@ class FinanzasBusiness {
                             }
                         }
 
-
-                        infoPagos.pagosCliente = arrayPagosCliente;
-                        infoPagos.pagosExtras = arrayPagosExtras;
-                        infoPagos['pagosDaños'] = arrayPagosDanio;
-                        infoPagos.ingresoTotal = arrayPagosCliente.montoTotal + arrayPagosExtras.montoTotal + arrayPagosDanio.montoTotal;
+                        infoPagos.ingresoTotal = infoPagos.arrayPagosCliente.montoTotal + infoPagos.arrayPagosExtras.montoTotal + infoPagos.arrayPagosDanio.montoTotal;
                     }
 
-
                 }
-
 
                 return {
                     infoArriendo: infoArriendo,
