@@ -181,6 +181,15 @@ class PagoBusiness {
         let where = {};
         if (id_sucursal !== "0") where = { id_sucursal: id_sucursal };
         const pagosRepo = await this._pagoRepository.getFindAllBySucursal(where);
+
+
+        pagosRepo.forEach(async ({ id_pago, total_pago, estado_pago }) => {
+            if (total_pago === 0 && estado_pago === "PENDIENTE") {
+                await this._pagoRepository.putUpdate({ estado_pago: "PAGADO" }, id_pago);
+            }
+        })
+
+
         return pagosRepo;
     }
 
