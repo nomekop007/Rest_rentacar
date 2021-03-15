@@ -42,7 +42,8 @@ class DespachoController {
         try {
             const { arrayImages } = req.body;
             const { id } = req.params;
-            const response = await this._despachoService.addRevision(id, arrayImages);
+            const userAt = req.headers["userat"];
+            const response = await this._despachoService.addRevision(id, arrayImages, userAt);
             res.json(response);
         } catch (error) {
             sendError(error, req, res);
@@ -53,7 +54,7 @@ class DespachoController {
         try {
             const { base64, id_despacho } = req.body;
             const userAt = req.headers["userat"];
-            const response = await this._despachoService.createActaEntrega(id_despacho, userAt, base64)
+            const response = await this._despachoService.createActaEntrega(id_despacho, userAt, base64);
             res.json(response);
         } catch (error) {
             sendError(error, req, res);

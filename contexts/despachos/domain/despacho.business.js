@@ -132,10 +132,11 @@ class DespachoBusiness {
     }
 
 
-    async addRevision(id_despacho, arrayImages) {
+    async addRevision(id_despacho, arrayImages, userAt) {
         const dataPlantilla = {
             arrayImages: arrayImages,
             id_despacho: id_despacho,
+            userAt: userAt,
             fecha: fecha(),
             hora: hora()
         };

@@ -16,8 +16,8 @@ class DespachoService {
         return await this._despachoBusiness.createDespacho(despacho);
     }
 
-    async addRevision(id_despacho, arrayImages) {
-        return await this._despachoBusiness.addRevision(id_despacho, arrayImages);
+    async addRevision(id_despacho, arrayImages, userAt) {
+        return await this._despachoBusiness.addRevision(id_despacho, arrayImages, userAt);
     }
 
     async createActaEntrega(id_despacho, userAt, base64) {
