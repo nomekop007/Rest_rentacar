@@ -19,6 +19,16 @@ class SucursalController {
         }
     }
 
+    async findSucursalById(req, res) {
+        try {
+            const { id } = req.params;
+            const sucursal = await this._sucursalService.findSucursalById(id);
+            res.json({ success: true, data: sucursal })
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
     async createSucursal(req, res, next) {
         try {
             const sucursal = req.body;

@@ -1,7 +1,6 @@
 const fs = require("fs");
 const path = require("path");
 
-
 class UtilsBusiness {
 
     constructor({ ArriendoRepository, ContratoRepository, PagoArriendoRepository, GarantiaRepository, RequisitoRepository }) {
@@ -11,6 +10,7 @@ class UtilsBusiness {
         this._garantiaRepository = GarantiaRepository;
         this._requisitoRepository = RequisitoRepository;
     }
+
 
     async findDocumento(documento, tipo) {
         let paths = "";
@@ -37,10 +37,7 @@ class UtilsBusiness {
                 paths = path.join(__dirname, `../${process.env.PATH_FOTO_VEHICULO}/${documento}`);
                 break;
             default:
-                return {
-                    success: false,
-                    msg: "tipo no encontrado"
-                };
+                return { success: false, msg: "tipo no encontrado" };
         }
         const link = `${process.env.PATH_SERVER}/${documento}`;
         const base64 = fs.readFileSync(paths, { encoding: "base64" });

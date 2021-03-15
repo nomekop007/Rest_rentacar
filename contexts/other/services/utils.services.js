@@ -4,6 +4,7 @@ class UtilsService {
         this._utilsBusiness = UtilsBusiness;
     }
 
+
     async findDocumento(documento, tipo) {
         return await this._utilsBusiness.findDocumento(documento, tipo);
     }

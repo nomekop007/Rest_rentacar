@@ -12,6 +12,10 @@ class SucursalService {
         return await this._sucursalBusiness.createSucursal(sucursal);
     }
 
+    async findSucursalById(id_sucursal) {
+        return await this._sucursalBusiness.findSucursalById(id_sucursal);
+    }
+
     async updateSucursal(id_sucursal, sucursal) {
         return await this._sucursalBusiness.updateSucursal(id_sucursal, sucursal);
     }
