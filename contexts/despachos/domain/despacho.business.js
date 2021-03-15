@@ -117,7 +117,7 @@ class DespachoBusiness {
                 let time = countDownDate.diff(moment());
                 // si el tiempo de atraso supera las 24 horas limites
                 if (time < horaLimite) {
-                    return { id_arriendo: arriendo.id_arriendo, tipo: bloqueoUsuario.tipo_bloqueoUsuario };
+                    return { id_arriendo: arriendo.id_arriendo, arriendo: arriendoPublic, tipo: bloqueoUsuario.tipo_bloqueoUsuario };
                 }
                 return null;
             default:
