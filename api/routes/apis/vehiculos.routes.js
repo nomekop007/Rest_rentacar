@@ -5,6 +5,7 @@ module.exports = ({ VehiculoController, subirImageVehiculo }) => {
     router.get("/cargarVehiculosArrendados", VehiculoController.getVehiculosArrendados.bind(VehiculoController));
     router.get("/cargarVehiculosDisponibles", VehiculoController.getVehiculosDisponibles.bind(VehiculoController));
     router.get("/cargarVehiculosDisponiblesPorSucursal/:id", VehiculoController.getVehiculosDisponiblesBySucursal.bind(VehiculoController));
+    router.get("/cargarVehiculosArrendadosPorSucursal/:id", VehiculoController.getVehiculosArrendadosBySucursal.bind(VehiculoController));
     router.get("/buscarVehiculo/:id", VehiculoController.findVehiculo.bind(VehiculoController));
     router.put("/editarVehiculo/:id", VehiculoController.updateVehiculo.bind(VehiculoController));
     router.put("/cambiarEstadoVehiculo/:id", VehiculoController.updateStateVehiculo.bind(VehiculoController));

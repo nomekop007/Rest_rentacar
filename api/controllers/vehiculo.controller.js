@@ -39,6 +39,16 @@ class VehiculoController {
     }
 
 
+    async getVehiculosArrendadosBySucursal(req, res) {
+        try {
+            const { id } = req.params;
+            const vehiculos = await this._vehiculoService.getVehiculosArrendadosBySucursal(id);
+            res.json({ success: true, data: vehiculos });
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
 
 
     async findVehiculo(req, res) {

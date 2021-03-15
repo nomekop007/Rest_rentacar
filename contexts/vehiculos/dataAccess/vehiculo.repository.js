@@ -44,6 +44,12 @@ class VehiculoRepository {
         });
     }
 
+    getFindAllBySucursalArrendado(id_sucursal) {
+        return this._db.vehiculo.findAll({
+            where: { id_sucursal: id_sucursal, estado_vehiculo: "ARRENDADO" },
+        });
+    }
+
     getFindAllWithRegion(ID_REGION) {
         return this._db.vehiculo.findAll({
             where: { id_region: ID_REGION },
