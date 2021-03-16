@@ -15,7 +15,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 class ArriendoBusiness {
 
-    constructor({ ExtencionRepository, DocumentoConductorRepository, DocumentoClienteRepository, DocumentoEmpresaRepository, ConductorRepository, ContactoRepository, ContratoRepository, ArriendoRepository, RequisitoRepository, GarantiaRepository, RemplazoRepository }) {
+    constructor({ ArriendoAnuladoRepository, ExtencionRepository, DocumentoConductorRepository, DocumentoClienteRepository, DocumentoEmpresaRepository, ConductorRepository, ContactoRepository, ContratoRepository, ArriendoRepository, RequisitoRepository, GarantiaRepository, RemplazoRepository }) {
         this._arriendoRepository = ArriendoRepository;
         this._remplazoRepository = RemplazoRepository;
         this._garantiaRepository = GarantiaRepository;
@@ -27,6 +27,7 @@ class ArriendoBusiness {
         this._documentoClienteRepository = DocumentoClienteRepository;
         this._documentoConductorRepository = DocumentoConductorRepository;
         this._extencionRepository = ExtencionRepository;
+        this._arriendoAnuladoRepository = ArriendoAnuladoRepository;
     }
 
 
@@ -583,6 +584,23 @@ class ArriendoBusiness {
         return true;
     }
 
+    async anularArriendo(id_arriendo, motivo, userAt) {
+        const arriendo = await this._arriendoRepository.getFindOneMin(id_arriendo);
+        const data = {
+            userAt: userAt,
+            numero_arriendoAnulado: arriendo.id_arriendo,
+            motivo_arriendoAnulado: motivo
+        }
+        if (arriendo.contratos.length > 0) {
+            data.contrato_arriendoAnulado = arriendo.contratos[0].documento
+        }
+        if (arriendo.despacho) {
+            data.acta_arriendoAnulado = arriendo.despacho.actaEntrega.documento;
+        }
+        const arriendoAnuladoRepo = await this._arriendoAnuladoRepository.postCreate(data);
+        await this._arriendoRepository.putUpdate({ estado_arriendo: "ANULADO" }, arriendo.id_arriendo);
+        return arriendoAnuladoRepo;
+    }
 
 }
 

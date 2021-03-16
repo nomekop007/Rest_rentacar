@@ -10,6 +10,7 @@ module.exports = ({ ArriendoController }) => {
     router.put("/editarArriendo/:id", ArriendoController.updateArriendo.bind(ArriendoController));
     router.put("/cambiarTipoArriendo/:id", ArriendoController.modificarTipo.bind(ArriendoController));
     router.get("/finalizarArriendosRecepcionados", ArriendoController.finalizarArriendos.bind(ArriendoController));
+    router.post("/anularArriendo", ArriendoController.anularArriendo.bind(ArriendoController));
 
     return router;
 

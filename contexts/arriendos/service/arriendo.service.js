@@ -96,6 +96,10 @@ class ArriendoService {
         return await this._arriendoBusiness.updateContacto(contacto, id_contacto);
     }
 
+    async anularArriendo(id_arriendo, motivo, userAt) {
+        return await this._arriendoBusiness.anularArriendo(id_arriendo, motivo, userAt);
+    }
+
 }
 
 module.exports = ArriendoService;

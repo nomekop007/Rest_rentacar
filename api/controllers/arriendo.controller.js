@@ -310,6 +310,17 @@ class ArriendoController {
 		}
 	}
 
+	async anularArriendo(req, res) {
+		try {
+			const { id_arriendo, motivo } = req.body;
+			const userAt = req.headers["userat"];
+			const response = await this._arriendoService.anularArriendo(id_arriendo, motivo, userAt);
+			res.json({ success: true, data: response })
+		} catch (error) {
+			sendError(error, req, res);
+		}
+	}
+
 
 }
 

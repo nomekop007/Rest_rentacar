@@ -49,7 +49,7 @@ const RolPermiso = require("../../contexts/permisos/dataAccess/rolPermiso.entity
 const Extencion = require("../../contexts/arriendos/dataAccess/extencion.entity")(database, Sequelize);
 const BloqueoUsuario = require("../../contexts/despachos/dataccess/bloqueoUsuario.entity")(database, Sequelize);
 const ReservaClienteWeb = require("../../contexts/reservas/dataAccess/reservaClienteWeb.entity")(database, Sequelize);
-
+const ArriendoAnulado = require("../../contexts/arriendos/dataAccess/arriendoAnulado.entity")(database, Sequelize);
 
 
 
@@ -426,6 +426,7 @@ db.extencion = Extencion;
 db.pagoExtra = PagoExtra;
 db.bloqueoUsuario = BloqueoUsuario;
 db.reservaClienteWeb = ReservaClienteWeb;
+db.arriendoAnulado = ArriendoAnulado;
 
 db.sequelize = database;
 db.Sequelize = Sequelize;
