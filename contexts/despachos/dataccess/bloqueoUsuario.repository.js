@@ -1,6 +1,9 @@
-class BloqueoUsuarioRepository {
+const BaseRepository = require("../../base/dataAccess/base.repository");
+
+class BloqueoUsuarioRepository extends BaseRepository {
 
     constructor({ db }) {
+        super(db, "bloqueoUsuario")
         this._db = db;
     }
 

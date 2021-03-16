@@ -1,8 +1,10 @@
 const { Op } = require("sequelize");
+const BaseRepository = require("../../base/dataAccess/base.repository");
 
-class ArriendoRepository {
+class ArriendoRepository extends BaseRepository {
 
     constructor({ db }) {
+        super(db, "arriendo");
         this._db = db;
     }
     postCreate(DATA) {

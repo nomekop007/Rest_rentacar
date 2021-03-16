@@ -1,6 +1,9 @@
-class TarifaVehiculoRepository {
+const BaseRepository = require("../../base/dataAccess/base.repository");
+
+class TarifaVehiculoRepository extends BaseRepository {
 
   constructor({ db }) {
+    super(db, "tarifaVehiculo");
     this._db = db;
   }
 

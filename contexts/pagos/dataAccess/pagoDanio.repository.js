@@ -1,6 +1,9 @@
-class PagoDanioRepository {
+const BaseRepository = require("../../base/dataAccess/base.repository");
+
+class PagoDanioRepository extends BaseRepository {
 
     constructor({ db }) {
+        super(db, "pagoDanio");
         this._db = db;
     }
 

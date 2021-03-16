@@ -1,6 +1,9 @@
-class PermisoRepository {
+const BaseRepository = require("../../base/dataAccess/base.repository");
+
+class PermisoRepository extends BaseRepository {
 
     constructor({ db }) {
+        super(db, "permiso")
         this._db = db;
     }
 

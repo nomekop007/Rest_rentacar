@@ -427,7 +427,6 @@ db.pagoExtra = PagoExtra;
 db.bloqueoUsuario = BloqueoUsuario;
 db.reservaClienteWeb = ReservaClienteWeb;
 db.arriendoAnulado = ArriendoAnulado;
-
 db.sequelize = database;
 db.Sequelize = Sequelize;
 
