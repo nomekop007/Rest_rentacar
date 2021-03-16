@@ -43,13 +43,15 @@ const TarifaVehiculo = require("../../contexts/vehiculos/dataAccess/tarifaVehicu
 const Reserva = require("../../contexts/reservas/dataAccess/reserva.entity")(database, Sequelize);
 const ReservaCliente = require("../../contexts/reservas/dataAccess/reservaCliente.entity")(database, Sequelize);
 const ReservaEmpresa = require("../../contexts/reservas/dataAccess/reservaEmpresa.entity")(database, Sequelize);
-const FotoDespacho = require("../../contexts/despachos/dataccess/fotosDespacho.entity")(database, Sequelize);
 const Permiso = require("../../contexts/permisos/dataAccess/permiso.entity")(database, Sequelize);
 const RolPermiso = require("../../contexts/permisos/dataAccess/rolPermiso.entity")(database, Sequelize);
 const Extencion = require("../../contexts/arriendos/dataAccess/extencion.entity")(database, Sequelize);
 const BloqueoUsuario = require("../../contexts/despachos/dataccess/bloqueoUsuario.entity")(database, Sequelize);
 const ReservaClienteWeb = require("../../contexts/reservas/dataAccess/reservaClienteWeb.entity")(database, Sequelize);
 const ArriendoAnulado = require("../../contexts/arriendos/dataAccess/arriendoAnulado.entity")(database, Sequelize);
+const FotoDespacho = require("../../contexts/despachos/dataccess/fotosDespacho.entity")(database, Sequelize);
+const FotoRecepcion = require("../../contexts/despachos/dataccess/fotosRecepcion.entity")(database, Sequelize);
+
 
 
 
@@ -137,6 +139,13 @@ Arriendo.hasMany(FotoDespacho, { foreignKey: { name: "id_arriendo" }, onDelete: 
 
 //una foto de despacho pertenece a un arriendo
 FotoDespacho.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate })
+
+
+//un arriendo tiene muchas fotos de recepcion
+Arriendo.hasMany(FotoRecepcion, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate });
+
+//una foto de recepcion pertenece a un arriendo
+FotoRecepcion.belongsTo(Arriendo, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate })
 
 
 // un clienteWeb tiene muchas ReservaClienteWeb
@@ -419,6 +428,7 @@ db.reserva = Reserva;
 db.reservaCliente = ReservaCliente;
 db.reservaEmpresa = ReservaEmpresa;
 db.fotoDespacho = FotoDespacho;
+db.fotoRecepcion = FotoRecepcion;
 db.permiso = Permiso;
 db.rolPermiso = RolPermiso;
 db.abono = Abono;
@@ -427,6 +437,7 @@ db.pagoExtra = PagoExtra;
 db.bloqueoUsuario = BloqueoUsuario;
 db.reservaClienteWeb = ReservaClienteWeb;
 db.arriendoAnulado = ArriendoAnulado;
+
 db.sequelize = database;
 db.Sequelize = Sequelize;
 
