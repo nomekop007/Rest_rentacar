@@ -1,6 +1,9 @@
-class ActaEntregaService {
+const BaseRepository = require("../../base/dataAccess/base.repository");
+
+class ActaEntregaService extends BaseRepository {
 
     constructor({ db }) {
+        super(db, "actaEntrega");
         this._db = db;
     }
 

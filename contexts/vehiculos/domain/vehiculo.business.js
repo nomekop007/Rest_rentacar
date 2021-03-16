@@ -42,6 +42,11 @@ class VehiculoBusiness {
     }
 
 
+    async getVehiculosArrendadosBySucursal(id_sucursal) {
+        const vehiculos = await this._vehiculoRepository.getFindAllBySucursalArrendado(id_sucursal);
+        return vehiculos;
+    }
+
 
     async findVehiculo(patente) {
         const vehiculo = await this._vehiculoRepository.getFindOne(patente);

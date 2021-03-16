@@ -1,6 +1,9 @@
-class SucursalRepository {
+const BaseRepository = require("../../base/dataAccess/base.repository");
+
+class SucursalRepository extends BaseRepository {
 
     constructor({ db }) {
+        super(db, "sucursal")
         this._db = db;
     }
 

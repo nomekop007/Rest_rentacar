@@ -1,6 +1,9 @@
-class DocumentoEmpresaRepository {
+const BaseRepository = require("../../base/dataAccess/base.repository");
+
+class DocumentoEmpresaRepository extends BaseRepository {
 
     constructor({ db }) {
+        super(db, "documentoEmpresa");
         this._db = db;
     }
 

@@ -1,9 +1,10 @@
-
+const BaseRepository = require("../../base/dataAccess/base.repository");
 const { Op } = require("sequelize");
 
-class PagoRepository {
+class PagoRepository extends BaseRepository {
 
     constructor({ db }) {
+        super(db, "pago");
         this._db = db;
     }
 

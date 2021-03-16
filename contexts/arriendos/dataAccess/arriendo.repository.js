@@ -1,8 +1,10 @@
 const { Op } = require("sequelize");
+const BaseRepository = require("../../base/dataAccess/base.repository");
 
-class ArriendoRepository {
+class ArriendoRepository extends BaseRepository {
 
     constructor({ db }) {
+        super(db, "arriendo");
         this._db = db;
     }
     postCreate(DATA) {
@@ -201,6 +203,7 @@ class ArriendoRepository {
                 { model: this._db.cliente },
                 { model: this._db.empresa },
                 { model: this._db.contrato },
+                { model: this._db.despacho, include: [{ model: this._db.actaEntrega }] },
                 { model: this._db.remplazo, include: [{ model: this._db.cliente }] },
                 { model: this._db.usuario, attributes: ["nombre_usuario"] },
                 {

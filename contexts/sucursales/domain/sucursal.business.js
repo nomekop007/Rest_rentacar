@@ -10,6 +10,10 @@ class SucursalBusiness {
         return sucursales;
     }
 
+    async findSucursalById(id_sucursal) {
+        const sucursal = await this._sucursalRepository.getFindOne(id_sucursal);
+        return sucursal;
+    }
 
     async createSucursal(sucursal) {
         const CreateSucursal = await this._sucursalRepository.postCreate(sucursal);

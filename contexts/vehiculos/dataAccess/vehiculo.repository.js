@@ -1,7 +1,9 @@
+const BaseRepository = require("../../base/dataAccess/base.repository");
 
-class VehiculoRepository {
+class VehiculoRepository extends BaseRepository {
 
     constructor({ db }) {
+        super(db, "vehiculo")
         this._db = db;
     }
 
@@ -41,6 +43,12 @@ class VehiculoRepository {
     getFindAllBySucursalDispoinble(id_sucursal) {
         return this._db.vehiculo.findAll({
             where: { id_sucursal: id_sucursal, estado_vehiculo: "DISPONIBLE" },
+        });
+    }
+
+    getFindAllBySucursalArrendado(id_sucursal) {
+        return this._db.vehiculo.findAll({
+            where: { id_sucursal: id_sucursal, estado_vehiculo: "ARRENDADO" },
         });
     }
 

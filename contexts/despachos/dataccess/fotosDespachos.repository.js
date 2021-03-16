@@ -1,6 +1,9 @@
-class FotoDespachoRepository {
+const BaseRepository = require("../../base/dataAccess/base.repository");
+
+class FotoDespachoRepository extends BaseRepository {
 
     constructor({ db }) {
+        super(db, "fotoDespacho");
         this._db = db;
     }
 
