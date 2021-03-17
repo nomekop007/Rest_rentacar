@@ -23,6 +23,8 @@ class server {
 
         this._express.use(express.static(path.join("uploads/fotosVehiculos")));
         this._express.use(express.static(path.join("uploads/fotoDespachos")));
+        this._express.use(express.static(path.join("uploads/fotoRecepcion")));
+
 
         // evitar exponerlos...
         this._express.use(express.static(path.join("uploads/requisitosArriendos")));
