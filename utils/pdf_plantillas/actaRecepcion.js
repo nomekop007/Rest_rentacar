@@ -1,8 +1,7 @@
 const base64 = require("image-to-base64");
 const logo = require.resolve("../images/logo.png");
 
-async function actaEntregaPlantilla(data) {
-
+async function recepcionPlantilla(data) {
 
 
     const arrayImagenes = () => {
@@ -13,8 +12,8 @@ async function actaEntregaPlantilla(data) {
             text: "[Link de imagenes]",
             fontSize: 14,
         });
-        data.arrayImages.map(({ url_fotoDespacho }) => {
-            const link = `${process.env.PATH_SERVER}/${url_fotoDespacho}`;
+        data.arrayImages.map(({ url_fotoRecepcion }) => {
+            const link = `${process.env.PATH_SERVER}/${url_fotoRecepcion}`;
             images.push({
                 margin: 10,
                 alignment: "center",
@@ -24,6 +23,7 @@ async function actaEntregaPlantilla(data) {
         })
         return images;
     };
+
 
     console.log(data.matrizRecepcion);
     const matriz_si = (value, fila) => {
@@ -49,6 +49,7 @@ async function actaEntregaPlantilla(data) {
             return "";
         }
     };
+
 
     const firmaRecibidor = () => {
         if (data.firma1PNG) {
@@ -99,6 +100,12 @@ async function actaEntregaPlantilla(data) {
         }
     };
 
+    let descripcion = "";
+    if (data.descripcion_danio) {
+        descripcion = data.descripcion_danio
+    }
+
+
     return {
         content: [{
             margin: [0, 0, 0, 5],
@@ -131,45 +138,21 @@ async function actaEntregaPlantilla(data) {
             ],
         },
         {
-            margin: [0, 20, 0, 0],
+            margin: [0, 40, 0, 0],
             fontSize: 10,
             alignment: "justify",
             columns: [
                 { text: `VEHICULO : ${data.vehiculo.modelo_vehiculo} ` },
                 { text: `AÑO : ${data.vehiculo.año_vehiculo}` },
-                { text: `MODELO : ${data.vehiculo.modelo_vehiculo}` },
-            ],
-        },
-        {
-            text: "\n",
-        },
-        {
-            alignment: "justify",
-            fontSize: 10,
-            columns: [
-                { text: `COLOR : ${data.vehiculo.color_vehiculo}` },
                 { text: `PATENTE : ${data.vehiculo.patente_vehiculo}` },
-                { text: `KILOMETRAJE : ${data.kilometraje}` },
+                { text: ` KILOMENTRAJE : ${data.kilomentraje_salida}` }
             ],
         },
         {
             text: "\n",
         },
         {
-            alignment: "justify",
-            fontSize: 10,
-            columns: [
-                { text: `DESTINO : ${data.destinoDespacho}` },
-                { text: `PROCEDENCIA DE : ${data.procedenciaDesdeDespacho}` },
-                { text: `A : ${data.procedenciaHaciaDespacho}` },
-            ],
-        },
-
-        {
-            margin: [0, 20, 0, 5],
-            fontSize: 10,
-            bold: true,
-            text: "Control de Despacho : ",
+            text: "Control de Recepcion : ",
         },
         {
             fontSize: 8,
@@ -342,13 +325,12 @@ async function actaEntregaPlantilla(data) {
             margin: [0, 10, 0, 0],
             text: "OBSERVACIONES:",
         },
-
         {
             alignment: "justify",
             columns: [{
                 width: 350,
                 fontSize: 9,
-                text: data.observacionesDespacho,
+                text: descripcion,
             },],
         },
         {
@@ -361,7 +343,7 @@ async function actaEntregaPlantilla(data) {
                         text: "________________________",
                     },
                     {
-                        text: `RECIBIDO POR: ${data.recibidorDespacho}  `,
+                        text: `RECEPCIONADO POR: ${data.recibidorRecepcion}  `,
                         fontSize: 6,
                         alignment: "center",
                     },
@@ -374,7 +356,7 @@ async function actaEntregaPlantilla(data) {
                         text: "________________________",
                     },
                     {
-                        text: `ENTREGADO POR: ${data.entregadorDespacho} `,
+                        text: `ENTREGADO POR: ${data.entregadorRecepcion} `,
                         fontSize: 6,
                         alignment: "center",
                     },
@@ -389,14 +371,14 @@ async function actaEntregaPlantilla(data) {
             ],
         },
         {
-            margin: [0, 50, 0, 0],
-
-            fontSize: 8,
-            text: `Fecha: ${data.fecha}  Hora: ${data.hora} `,
+            margin: [0, 20, 0, 0],
+            fontSize: 10,
+            text: `FECHA: ${data.fecha}  HORA: ${data.hora}  USUARIO: ${data.userAt}`,
         },
         {
-            margin: [0, 200, 0, 0],
-            fontSize: 9,
+            margin: [0, 150, 0, 0],
+            fontSize: 10,
+            bold: true,
             alignment: "center",
             columns: [{
                 text: " [_]  ABOLLADURAS",
@@ -415,6 +397,7 @@ async function actaEntregaPlantilla(data) {
                 [arrayImagenes()]
             ],
         },
+
         ],
 
         pageMargins: [40, 30, 40, 20],
@@ -435,12 +418,12 @@ async function actaEntregaPlantilla(data) {
             },
         },
         info: {
-            title: 'Acta-Entrega-Arriendo',
+            title: 'Recepcion-arriendo',
             author: 'Rent A Car maule',
-            subject: 'contrato',
+            subject: 'documento',
             creator: 'nomekop007',
         },
     };
 }
 
-module.exports = actaEntregaPlantilla;
+module.exports = recepcionPlantilla;

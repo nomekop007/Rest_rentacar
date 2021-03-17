@@ -1,8 +1,7 @@
 class LogService {
 
-    constructor({ LogBusiness, LogErrorBusiness }) {
+    constructor({ LogBusiness }) {
         this._logBusiness = LogBusiness;
-        this._logErrorBusiness = LogErrorBusiness;
     }
 
     async registrarLog(log) {

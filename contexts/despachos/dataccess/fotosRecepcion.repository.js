@@ -7,6 +7,12 @@ class FotoRecepcionRepository extends BaseRepository {
         this._db = db;
     }
 
+    getFindAllByArriendo(ID) {
+        return this._db.fotoRecepcion.findAll({
+            where: { id_arriendo: ID }
+        });
+    }
+
 
 
 }

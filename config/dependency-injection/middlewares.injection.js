@@ -4,7 +4,8 @@ const logMiddleware = require('../../api/middlewares/log.middleware');
 const checkMiddleware = require('../../api/middlewares/check.middleware');
 const checkApiMiddleware = require('../../api/middlewares/checkApi.middleware')
 const logErrorMiddleware = require('../../api/middlewares/logError.middleware');
-const { subirFotosVehiculo,
+const { subirFotosRecepcion,
+    subirFotosDespacho,
     subirDocumentoContrato,
     subirDocumentoFacturacion,
     subirDocumentoRequisitosArriendo,
@@ -16,10 +17,11 @@ const { subirFotosVehiculo,
 module.exports = (container) => {
     container.register({
         logMiddleware: asValue(logMiddleware),
+        logErrorMiddleware: asValue(logErrorMiddleware),
         checkMiddleware: asValue(checkMiddleware),
         checkApiMiddleware: asValue(checkApiMiddleware),
-        logErrorMiddleware: asValue(logErrorMiddleware),
-        subirFotosVehiculo: asValue(subirFotosVehiculo),
+        subirFotosRecepcion: asValue(subirFotosRecepcion),
+        subirFotosDespacho: asValue(subirFotosDespacho),
         subirDocumentoContrato: asValue(subirDocumentoContrato),
         subirDocumentoFacturacion: asValue(subirDocumentoFacturacion),
         subirDocumentoRequisitosArriendo: asValue(subirDocumentoRequisitosArriendo),

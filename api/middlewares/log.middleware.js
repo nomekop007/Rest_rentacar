@@ -1,6 +1,7 @@
 const { Log } = require("../../config/database/db");
 //CORREGIR
 
+//const LogService = require("../../contexts/logs/services/log.service");
 const logRegister = async (req, res) => {
     try {
         const log = {

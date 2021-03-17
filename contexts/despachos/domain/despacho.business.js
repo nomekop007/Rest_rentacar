@@ -11,17 +11,18 @@ const fecha = require("../../../helpers/currentDate");
 const hora = require("../../../helpers/currentTime");
 const fechahorafirma = require("../../../helpers/dateTimeSignature");
 const logo = require.resolve("../../../utils/images/logo2.png");
-const recepcionPlantilla = require("../../../utils/pdf_plantillas/recepcion")
+const actaRecepcionPlantilla = require("../../../utils/pdf_plantillas/actaRecepcion")
 const actaEntregaPlantilla = require("../../../utils/pdf_plantillas/actaEntrega");
 const formatter = new Intl.NumberFormat("CL");
 const moment = require("moment");
 
 class DespachoBusiness {
 
-    constructor({ DespachoRepository, BloqueoUsuarioRepository, FotoDespachoRepository, ArriendoRepository, ActaEntregaRepository, }) {
+    constructor({ DespachoRepository, BloqueoUsuarioRepository, FotoRecepcionRepository, FotoDespachoRepository, ArriendoRepository, ActaEntregaRepository, }) {
         this._actaEntregaRepository = ActaEntregaRepository;
         this._arriendoRepository = ArriendoRepository;
         this._fotoDespachoRepository = FotoDespachoRepository;
+        this._fotoRecepcionRepository = FotoRecepcionRepository;
         this._despachoRepository = DespachoRepository;
         this._bloqueoUsuarioRepository = BloqueoUsuarioRepository;
     }
@@ -52,7 +53,7 @@ class DespachoBusiness {
                         tipo_bloqueoUsuario: tipo,
                         userAt: userAt,
                     };
-                    const bloqueoUsuario = await this._bloqueoUsuarioRepository.postCreate(data);
+                    const bloqueoUsuario = await this._bloqueoUsuarioRepository.create(data);
                     return bloqueoUsuario;
                 }
             case "PROCESO":
@@ -62,7 +63,7 @@ class DespachoBusiness {
                     tipo_bloqueoUsuario: tipo,
                     userAt: userAt,
                 };
-                const bloqueoUsuario = await this._bloqueoUsuarioRepository.postCreate(data);
+                const bloqueoUsuario = await this._bloqueoUsuarioRepository.create(data);
                 return bloqueoUsuario;
             default:
                 return null;
@@ -127,7 +128,7 @@ class DespachoBusiness {
 
 
     async createDespacho(despacho) {
-        const despachoRepo = await this._despachoRepository.postCreate(despacho);
+        const despachoRepo = await this._despachoRepository.create(despacho);
         return despachoRepo;
     }
 
@@ -140,7 +141,7 @@ class DespachoBusiness {
             fecha: fecha(),
             hora: hora()
         };
-        const docDefinition = await recepcionPlantilla(dataPlantilla);
+        const docDefinition = await actaRecepcionPlantilla(dataPlantilla);
         const nameFile = uuidv4();
         const pdfDocGenerator = pdfMake.createPdf(docDefinition);
         const pathFile = path.join(__dirname, `../${process.env.PATH_RECEPCIONES}/${nameFile}.pdf`)
@@ -159,21 +160,15 @@ class DespachoBusiness {
         const nameFile = uuidv4();
         const pathFile = path.join(__dirname, `../${process.env.PATH_ACTA_ENTREGA}/${nameFile}.pdf`)
         fs.writeFileSync(pathFile, base64, "base64", (err) => {
-            return {
-                success: false,
-                msg: err
-            }
+            return { success: false, msg: err };
         });
         const dataActa = {
             documento: nameFile + ".pdf",
             userAt: userAt,
             id_despacho: id_despacho
         };
-        const actaEntrega = await this._actaEntregaRepository.postCreate(dataActa);
-        return {
-            success: true,
-            data: actaEntrega,
-        };
+        const actaEntrega = await this._actaEntregaRepository.create(dataActa);
+        return { success: true, data: actaEntrega };
     }
 
 
@@ -189,6 +184,32 @@ class DespachoBusiness {
         payload.fechaHoraFirma = fechahorafirma();
         if (arriendo.estado_arriendo === "FIRMADO" && arriendo.despacho == null) {
             const docDefinition = await actaEntregaPlantilla(payload);
+            const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+            return {
+                success: true,
+                pdfDocGenerator: pdfDocGenerator,
+                firma1PNG: payload.firma1PNG,
+                firma2PNG: payload.firma2PNG,
+            };
+        } else {
+            return {
+                success: false,
+                msg: "el arriendo ya esta despachado o no esta firmado!",
+            };
+        }
+    }
+
+
+    async generatePDFactaRecepcion(payload) {
+        const arriendo = await this._arriendoRepository.getFindOne(payload.id_arriendo);
+        const ArrayImages = await this._fotoRecepcionRepository.getFindAllByArriendo(arriendo.id_arriendo);
+        payload.arrayImages = ArrayImages;
+        payload.vehiculo = arriendo.vehiculo;
+        payload.fecha = fecha();
+        payload.hora = hora();
+        payload.fechaHoraFirma = fechahorafirma();
+        if (arriendo.estado_arriendo === "ACTIVO") {
+            const docDefinition = await actaRecepcionPlantilla(payload);
             const pdfDocGenerator = pdfMake.createPdf(docDefinition);
             return {
                 success: true,
@@ -263,13 +284,27 @@ class DespachoBusiness {
     async guardarFotosVehiculos(id_arriendo, userAt, arrayFiles) {
         await this._fotoDespachoRepository.deleteByIdArriendo(id_arriendo);
         for (const property in arrayFiles) {
-            this._fotoDespachoRepository.postCreate({
+            this._fotoDespachoRepository.create({
                 userAt: userAt,
                 id_arriendo: id_arriendo,
                 url_fotoDespacho: arrayFiles[property][0].filename
             })
         }
         return true;
+    }
+
+    async guardarFotoRecepcion(id_arriendo, userAt, nombre_foto) {
+        const data = {
+            id_arriendo: id_arriendo,
+            userAt: userAt,
+            url_fotoRecepcion: nombre_foto
+        }
+        const fotoRecepcionRepo = await this._fotoRecepcionRepository.create(data);
+        if (fotoRecepcionRepo) {
+            return { success: true, msg: "guardado!" }
+        } else {
+            return { success: false, msg: "ocurrio un error al guardar una foto!" }
+        }
     }
 
 

@@ -61,12 +61,33 @@ class DespachoController {
         }
     }
 
-
-
     async generatePDFactaEntrega(req, res) {
         try {
             const payload = req.body;
             const response = await this._despachoService.generatePDFactaEntrega(payload);
+            if (response.success) {
+                response.pdfDocGenerator.getBase64((base64) => {
+                    res.json({
+                        success: true,
+                        data: {
+                            firma1: response.firma1PNG,
+                            firma2: response.firma2PNG,
+                            base64: base64
+                        }
+                    })
+                });
+            } else {
+                res.json(response);
+            }
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
+    async generarPDFactaRecepcion(req, res) {
+        try {
+            const payload = req.body;
+            const response = await this._despachoService.generatePDFactaRecepcion(payload);
             if (response.success) {
                 response.pdfDocGenerator.getBase64((base64) => {
                     res.json({
@@ -103,6 +124,19 @@ class DespachoController {
             const userAt = req.headers["userat"];
             await this._despachoService.guardarFotosVehiculos(id, userAt, files);
             res.json({ success: true, msg: "foto subidas" });
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
+    async guardarFotoRecepcion(req, res) {
+        try {
+
+            const { id } = req.params;
+            const name_file = req.file.filename;
+            const userAt = req.headers["userat"];
+            const response = await this._despachoService.guardarFotoRecepcion(id, userAt, name_file);
+            res.json(response);
         } catch (error) {
             sendError(error, req, res);
         }

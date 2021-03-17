@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require("uuid");
 const pdfMake = require("pdfmake/build/pdfmake.js");
 const pdfFonts = require("pdfmake/build/vfs_fonts.js");
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-const recepcionPlantilla = require("../../../utils/pdf_plantillas/recepcion")
+const actaRecepcionPlantilla = require("../../../utils/pdf_plantillas/actaRecepcion")
 const fecha = require("../../../helpers/currentDate");
 const hora = require("../../../helpers/currentTime");
 
@@ -153,7 +153,7 @@ class VehiculoBusiness {
         dataPlantilla.userAt = userAt
         dataPlantilla.fecha = fecha();
         dataPlantilla.hora = hora();
-        const docDefinition = await recepcionPlantilla(dataPlantilla);
+        const docDefinition = await actaRecepcionPlantilla(dataPlantilla);
         const nameFile = uuidv4();
         const pdfDocGenerator = pdfMake.createPdf(docDefinition);
         const pathFile = path.join(__dirname, `../${process.env.PATH_DANIO_VEHICULO}/${nameFile}.pdf`)

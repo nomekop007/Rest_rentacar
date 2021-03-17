@@ -28,12 +28,20 @@ class DespachoService {
         return await this._despachoBusiness.generatePDFactaEntrega(payload);
     }
 
+    async generatePDFactaRecepcion(payload) {
+        return await this._despachoBusiness.generatePDFactaRecepcion(payload);
+    }
+
     async sendEmailActaEntrega(id_arriendo) {
         return await this._despachoBusiness.sendEmailActaEntrega(id_arriendo);
     }
 
     async guardarFotosVehiculos(id_arriendo, userAt, arrayFiles) {
         return await this._despachoBusiness.guardarFotosVehiculos(id_arriendo, userAt, arrayFiles);
+    }
+
+    async guardarFotoRecepcion(id_arriendo, userAt, nombre_foto) {
+        return await this._despachoBusiness.guardarFotoRecepcion(id_arriendo, userAt, nombre_foto);
     }
 
     async findActaEntrega(id_despacho) {
