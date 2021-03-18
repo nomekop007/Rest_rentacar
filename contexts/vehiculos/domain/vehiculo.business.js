@@ -145,12 +145,15 @@ class VehiculoBusiness {
 
     async createDanioVehiculo(id_arriendo, descripcion_danio, arrayImages, userAt) {
         const arriendo = await this._arriendoRepository.getFindOne(id_arriendo);
+
+
         const dataPlantilla = {};
         dataPlantilla.id_arriendo = id_arriendo;
+        dataPlantilla.vehiculo = arriendo.vehiculo;
         dataPlantilla.descripcion_danio = descripcion_danio;
         dataPlantilla.arrayImages = arrayImages;
         dataPlantilla.id_despacho = arriendo.id_arriendo;
-        dataPlantilla.userAt = userAt
+        dataPlantilla.userAt = userAt;
         dataPlantilla.fecha = fecha();
         dataPlantilla.hora = hora();
         const docDefinition = await actaRecepcionPlantilla(dataPlantilla);

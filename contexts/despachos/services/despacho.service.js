@@ -56,8 +56,8 @@ class DespachoService {
         return await this._despachoBusiness.eliminarFotosDespacho(id_arriendo);
     }
 
-    async confirmarRecepcionArriendo(id_arriendo, base64) {
-        return await this._despachoBusiness.confirmarRecepcionArriendo(id_arriendo, base64);
+    async confirmarRecepcionArriendo(id_arriendo, base64, tieneDanio, descripcion_danio, userAt) {
+        return await this._despachoBusiness.confirmarRecepcionArriendo(id_arriendo, base64, tieneDanio, descripcion_danio, userAt);
     }
 
 }

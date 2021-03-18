@@ -18,7 +18,8 @@ const moment = require("moment");
 
 class DespachoBusiness {
 
-    constructor({ VehiculoRepository, DespachoRepository, BloqueoUsuarioRepository, FotoRecepcionRepository, FotoDespachoRepository, ArriendoRepository, ActaEntregaRepository, }) {
+    constructor({ VehiculoRepository, DanioVehiculoRepository, DespachoRepository, BloqueoUsuarioRepository, FotoRecepcionRepository, FotoDespachoRepository, ArriendoRepository, ActaEntregaRepository, }) {
+        this._danioVehiculoRepository = DanioVehiculoRepository;
         this._actaEntregaRepository = ActaEntregaRepository;
         this._arriendoRepository = ArriendoRepository;
         this._fotoDespachoRepository = FotoDespachoRepository;
@@ -332,18 +333,20 @@ class DespachoBusiness {
     }
 
 
-    async confirmarRecepcionArriendo(id_arriendo, base64) {
+    async confirmarRecepcionArriendo(id_arriendo, base64, tieneDanio, descripcion_danio, userAt) {
+
+        const arriendo = await this._arriendoRepository.getFindOneMin(id_arriendo);
+
+        //guardar file
         const nameFile = uuidv4();
         const pathFile = path.join(__dirname, `../${process.env.PATH_RECEPCIONES}/${nameFile}.pdf`)
         fs.writeFileSync(pathFile, base64, "base64", (err) => {
             return { success: false, msg: err };
         });
 
-        const arriendo = await this._arriendoRepository.getFindOneMin(id_arriendo);
-
-        //agregar acta recepcion al deapcho
+        //agregar acta recepcion al despacho
         const data = { revision_recepcion: `${nameFile}.pdf` };
-        await this._despachoRepository.update(data, arriendo.despacho.id_despacho);
+        await this._despachoRepository.putUpdate(data, arriendo.despacho.id_despacho);
 
         //cambiar estado vehiculo
         const dataVehiculo = { estado_vehiculo: "DISPONIBLE" };
@@ -351,11 +354,28 @@ class DespachoBusiness {
 
         //cambiar estado arriendo
         const dataArriendo = { estado_arriendo: "RECEPCIONADO" };
-        await this._arriendoRepository.update(dataArriendo, id_arriendo);
+        await this._arriendoRepository.putUpdate(dataArriendo, id_arriendo);
+
+        // si tiene daño se agrega
+        if (tieneDanio) {
+            const pathFile = path.join(__dirname, `../${process.env.PATH_DANIO_VEHICULO}/${nameFile}.pdf`)
+            fs.writeFileSync(pathFile, base64, "base64", (err) => {
+                return { success: false, msg: err };
+            })
+
+            const data = {
+                descripcion_danioVehiculo: descripcion_danio,
+                documento_danioVehiculo: nameFile + ".pdf",
+                id_arriendo: arriendo.id_arriendo,
+                patente_vehiculo: arriendo.patente_vehiculo,
+                estado_danioVehiculo: "PENDIENTE",
+                userAt: userAt
+            }
+            await this._danioVehiculoRepository.postCreate(data);
+        }
 
         // enviar correo
-
-
+        //PENDIENTE
 
         return { success: true, msg: "confirmar" };
     }

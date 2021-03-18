@@ -102,7 +102,7 @@ async function recepcionPlantilla(data) {
 
     let descripcion = "";
     if (data.descripcion_danio) {
-        descripcion = data.descripcion_danio
+        descripcion = data.descripcion_danio;
     }
 
 

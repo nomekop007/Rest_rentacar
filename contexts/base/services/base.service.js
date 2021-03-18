@@ -19,8 +19,8 @@ class BaseService {
         return createdEntity;
     }
 
-    async update(id, entity) {
-        const updatedEntity = await this._entityBusiness.update(id, entity);
+    async update(entity, id) {
+        const updatedEntity = await this._entityBusiness.update(entity, id);
         return updatedEntity;
     }
 
