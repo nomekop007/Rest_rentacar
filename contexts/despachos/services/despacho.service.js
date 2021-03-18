@@ -48,6 +48,18 @@ class DespachoService {
         return await this._despachoBusiness.findActaEntrega(id_despacho);
     }
 
+    async eliminarFotosRecepcion(id_arriendo) {
+        return await this._despachoBusiness.eliminarFotosRecepcion(id_arriendo);
+    }
+
+    async eliminarFotosDespacho(id_arriendo) {
+        return await this._despachoBusiness.eliminarFotosDespacho(id_arriendo);
+    }
+
+    async confirmarRecepcionArriendo(id_arriendo, base64) {
+        return await this._despachoBusiness.confirmarRecepcionArriendo(id_arriendo, base64);
+    }
+
 }
 
 module.exports = DespachoService;

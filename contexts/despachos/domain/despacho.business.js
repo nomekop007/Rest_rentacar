@@ -18,13 +18,14 @@ const moment = require("moment");
 
 class DespachoBusiness {
 
-    constructor({ DespachoRepository, BloqueoUsuarioRepository, FotoRecepcionRepository, FotoDespachoRepository, ArriendoRepository, ActaEntregaRepository, }) {
+    constructor({ VehiculoRepository, DespachoRepository, BloqueoUsuarioRepository, FotoRecepcionRepository, FotoDespachoRepository, ArriendoRepository, ActaEntregaRepository, }) {
         this._actaEntregaRepository = ActaEntregaRepository;
         this._arriendoRepository = ArriendoRepository;
         this._fotoDespachoRepository = FotoDespachoRepository;
         this._fotoRecepcionRepository = FotoRecepcionRepository;
         this._despachoRepository = DespachoRepository;
         this._bloqueoUsuarioRepository = BloqueoUsuarioRepository;
+        this._vehiculoRepository = VehiculoRepository;
     }
 
 
@@ -293,6 +294,7 @@ class DespachoBusiness {
         return true;
     }
 
+
     async guardarFotoRecepcion(id_arriendo, userAt, nombre_foto) {
         const data = {
             id_arriendo: id_arriendo,
@@ -313,6 +315,49 @@ class DespachoBusiness {
         const pathFile = path.join(__dirname, `../${process.env.PATH_ACTA_ENTREGA}/${actaEntrega.documento}`)
         const base64 = fs.readFileSync(pathFile, { encoding: 'base64' });
         return { actaEntrega: actaEntrega, base64: base64, url: process.env.PATH_SERVER }
+    }
+
+
+    async eliminarFotosRecepcion(id_arriendo) {
+        // eliminar tambien las fotos del servidor?
+        await this._fotoRecepcionRepository.deleteByIdArriendo(id_arriendo);
+        return { success: true, msg: "fotos eliminadas con exito!" };
+    }
+
+
+    async eliminarFotosDespacho(id_arriendo) {
+        // eliminar tambien las fotos del servidor?
+        await this._fotoDespachoRepository.deleteByIdArriendo(id_arriendo);
+        return { success: true, msg: "fotos eliminadas con exito!" }
+    }
+
+
+    async confirmarRecepcionArriendo(id_arriendo, base64) {
+        const nameFile = uuidv4();
+        const pathFile = path.join(__dirname, `../${process.env.PATH_RECEPCIONES}/${nameFile}.pdf`)
+        fs.writeFileSync(pathFile, base64, "base64", (err) => {
+            return { success: false, msg: err };
+        });
+
+        const arriendo = await this._arriendoRepository.getFindOneMin(id_arriendo);
+
+        //agregar acta recepcion al deapcho
+        const data = { revision_recepcion: `${nameFile}.pdf` };
+        await this._despachoRepository.update(data, arriendo.despacho.id_despacho);
+
+        //cambiar estado vehiculo
+        const dataVehiculo = { estado_vehiculo: "DISPONIBLE" };
+        await this._vehiculoRepository.putUpdateByPatente(dataVehiculo, arriendo.patente_vehiculo);
+
+        //cambiar estado arriendo
+        const dataArriendo = { estado_arriendo: "RECEPCIONADO" };
+        await this._arriendoRepository.update(dataArriendo, id_arriendo);
+
+        // enviar correo
+
+
+
+        return { success: true, msg: "confirmar" };
     }
 
 

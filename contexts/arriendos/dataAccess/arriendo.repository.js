@@ -98,6 +98,7 @@ class ArriendoRepository extends BaseRepository {
                 { model: this._db.contrato },
                 { model: this._db.contacto },
                 { model: this._db.fotoDespacho },
+                { model: this._db.fotoRecepcion },
                 { model: this._db.usuario, attributes: ["nombre_usuario"] },
                 { model: this._db.garantia, include: { model: this._db.modoPago } },
                 { model: this._db.despacho, include: [{ model: this._db.actaEntrega }] },

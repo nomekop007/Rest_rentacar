@@ -14,6 +14,12 @@ class FotoRecepcionRepository extends BaseRepository {
     }
 
 
+    deleteByIdArriendo(ID) {
+        return this._db.fotoRecepcion.destroy({
+            where: { id_arriendo: ID }
+        })
+    }
+
 
 }
 

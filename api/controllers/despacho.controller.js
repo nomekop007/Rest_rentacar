@@ -155,6 +155,39 @@ class DespachoController {
             sendError(error, req, res);
         }
     }
+
+
+    async eliminarFotosRecepcion(req, res) {
+        try {
+            const { id } = req.params;
+            const response = await this._despachoService.eliminarFotosRecepcion(id);
+            res.json(response)
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
+
+    async eliminarFotosDespacho(req, res) {
+        try {
+            const { id } = req.params;
+            const response = await this._despachoService.eliminarFotosDespacho(id);
+            res.json(response)
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
+
+    async confirmarRecepcionArriendo(req, res) {
+        try {
+            const { id_arriendo, base64 } = req.body;
+            const response = await this._despachoService.confirmarRecepcionArriendo(id_arriendo, base64);
+            res.json(response);
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
 }
 
 module.exports = DespachoController;
