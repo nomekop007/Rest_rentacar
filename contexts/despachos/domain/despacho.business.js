@@ -357,7 +357,8 @@ class DespachoBusiness {
         await this._arriendoRepository.putUpdate(dataArriendo, id_arriendo);
 
         // si tiene daño se agrega
-        if (tieneDanio) {
+        console.log(tieneDanio)
+        if (tieneDanio === 'true') {
             const pathFile = path.join(__dirname, `../${process.env.PATH_DANIO_VEHICULO}/${nameFile}.pdf`)
             fs.writeFileSync(pathFile, base64, "base64", (err) => {
                 return { success: false, msg: err };
