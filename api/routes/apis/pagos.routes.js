@@ -1,5 +1,5 @@
 const router = require("express").Router();
-module.exports = ({ PagoController }) => {
+module.exports = ({ PagoController, subirDocumentoFacturacion }) => {
 
     router.post("/registrarPago", PagoController.createPago.bind(PagoController));
     router.post("/actualizarPagos", PagoController.updatePagos.bind(PagoController));
@@ -17,6 +17,21 @@ module.exports = ({ PagoController }) => {
     router.get("/cargarPagosExtrasPorArriendo/:id", PagoController.mostrarPagoExtrasPorArriendo.bind(PagoController));
     router.delete("/eliminarPagoExtra/:id", PagoController.detelePagoExtra.bind(PagoController));
     router.post("/actualizarPagosExtras", PagoController.actualizarPagosExtras.bind(PagoController));
+
+    router.post("/registrarAbono", PagoController.createAbonoWithFacturacion.bind(PagoController));
+
+    router.get("/cargarFacturaciones", PagoController.getFacturacion.bind(PagoController));
+    router.post("/registrarFacturacion", PagoController.createFacturacion.bind(PagoController));
+    router.post("/guardarDocumentoFacturacion/:id", subirDocumentoFacturacion, PagoController.uploadDocumentFacturacion.bind(PagoController))
+
+    router.post("/registrarPagosAccesorios", PagoController.createPagoAccesorios.bind(PagoController));
+
+    router.post("/registrarPagoArriendo", PagoController.createPagoArriendo.bind(PagoController));
+    router.get("/consultarPagosArriendo/:id", PagoController.consultarPagosArriendo.bind(PagoController));
+    router.get("/consultarTotalPagosArriendo/:id", PagoController.consultarTotalPagosArriendo.bind(PagoController));
+
+    router.post("/registrarPagoDanio", PagoController.createPagoDanio.bind(PagoController));
+
 
     return router;
 }

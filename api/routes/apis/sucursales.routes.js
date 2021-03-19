@@ -7,6 +7,8 @@ module.exports = ({ SucursalController }) => {
     router.get("/arriendosPorSucursales", SucursalController.getFindArriendoBySucursal.bind(SucursalController));
     router.get("/buscarSucursal/:id", SucursalController.findSucursalById.bind(SucursalController));
 
+    router.get("/cargarRegiones", SucursalController.getRegiones.bind(SucursalController));
+
     return router;
 }
 

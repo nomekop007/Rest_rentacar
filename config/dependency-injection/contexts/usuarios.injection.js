@@ -2,7 +2,6 @@ const { asClass, asFunction } = require('awilix');
 
 const UsuarioRoutes = require('../../../api/routes/apis/usuarios.routes');
 const UsuarioController = require('../../../api/controllers/usuario.controller');
-
 const UsuarioService = require('../../../contexts/usuarios/services/usuario.service');
 const UsuarioBusiness = require('../../../contexts/usuarios/domain/usuario.business');
 const UsuarioRepository = require('../../../contexts/usuarios/dataAccess/usuario.repository');

@@ -9,6 +9,9 @@ module.exports = ({ PermisoController }) => {
     router.post("/crearRolPermiso", PermisoController.agregarRolPermiso.bind(PermisoController));
     router.delete("/eliminarRolPermiso/:id", PermisoController.eliminarRolPermiso.bind(PermisoController));
     router.get("/validarPermisos/:id", PermisoController.validarPermisos.bind(PermisoController));
+    router.get("/cargarRoles", PermisoController.getRoles.bind(PermisoController));
+
+    router.post("/registrarRol", PermisoController.createRol.bind(PermisoController));
 
 
     return router;

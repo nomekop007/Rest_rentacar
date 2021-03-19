@@ -1,12 +1,6 @@
 const { asClass, asFunction } = require('awilix');
 
 const PagoRoutes = require('../../../api/routes/apis/pagos.routes');
-const AbonoRoutes = require('../../../api/routes/apis/abonos.routes');
-const FacturacionRoutes = require('../../../api/routes/apis/facturaciones.routes');
-const PagoAccesorioRoutes = require('../../../api/routes/apis/pagosAccesorios.routes');
-const PagoArriendoRoutes = require('../../../api/routes/apis/pagosArriendos.routes');
-const PagoDanioRoutes = require('../../../api/routes/apis/pagosDanios.routes');
-
 const PagoController = require('../../../api/controllers/pago.controller');
 const PagoService = require('../../../contexts/pagos/services/pago.service');
 const PagoBusiness = require('../../../contexts/pagos/domain/pago.business');
@@ -23,12 +17,6 @@ const PagoExtraRepository = require('../../../contexts/pagos/dataAccess/pagoExtr
 module.exports = (container) => {
     container.register({
         PagoRoutes: asFunction(PagoRoutes).singleton(),
-        AbonoRoutes: asFunction(AbonoRoutes).singleton(),
-        FacturacionRoutes: asFunction(FacturacionRoutes).singleton(),
-        PagoAccesorioRoutes: asFunction(PagoAccesorioRoutes).singleton(),
-        PagoArriendoRoutes: asFunction(PagoArriendoRoutes).singleton(),
-        PagoDanioRoutes: asFunction(PagoDanioRoutes).singleton(),
-
         PagoController: asClass(PagoController).singleton(),
         PagoService: asClass(PagoService).singleton(),
         PagoBusiness: asClass(PagoBusiness).singleton(),

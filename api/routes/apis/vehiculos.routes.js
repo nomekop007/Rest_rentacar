@@ -13,6 +13,15 @@ module.exports = ({ VehiculoController, subirImageVehiculo }) => {
     router.post("/cargarImagen/:id", subirImageVehiculo, VehiculoController.uploadImageVehiculo.bind(VehiculoController));
     router.delete("/eliminarVehiculo/:id", VehiculoController.deleteVehiculo.bind(VehiculoController));
 
+    router.post("/registrarDanioVehiculos", VehiculoController.createDanioVehiculo.bind(VehiculoController));
+    router.get("/revisarDanioVehiculo/:id", VehiculoController.consultarDanioVehiculo.bind(VehiculoController));
+    router.get("/cargarDaniosVehiculos", VehiculoController.getDanioVehiculo.bind(VehiculoController));
+    router.put("/actualizarDanioVehiculo/:id", VehiculoController.updateDanioVehiculo.bind(VehiculoController));
+
+    router.post('/registrarTarifa', VehiculoController.createTarifaVehiculo.bind(VehiculoController));
+    router.get('/cargarTarifasVehiculos', VehiculoController.getTarifaVehiculo.bind(VehiculoController));
+    router.get('/buscarTarifaVehiculoPorDias', VehiculoController.findTarifaVehiculoByDias.bind(VehiculoController));
+
     return router;
 }
 

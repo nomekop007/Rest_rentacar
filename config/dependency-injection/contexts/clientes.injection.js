@@ -1,9 +1,6 @@
 const { asClass, asFunction } = require('awilix');
 
 const ClienteRoutes = require('../../../api/routes/apis/clientes.routes');
-const EmpresaRoutes = require('../../../api/routes/apis/empresas.routes');
-const ConductorRoutes = require('../../../api/routes/apis/conductores.routes');
-
 const ClienteController = require('../../../api/controllers/cliente.controller');
 const ClienteService = require('../../../contexts/clientes/service/cliente.service');
 const ClienteBusiness = require('../../../contexts/clientes/domain/cliente.business');
@@ -20,9 +17,6 @@ const DocumentoEmpresaRepository = require('../../../contexts/clientes/dataAcces
 module.exports = (container) => {
     container.register({
         ClienteRoutes: asFunction(ClienteRoutes).singleton(),
-        ConductorRoutes: asFunction(ConductorRoutes).singleton(),
-        EmpresaRoutes: asFunction(EmpresaRoutes).singleton(),
-
         ClienteController: asClass(ClienteController).singleton(),
         ClienteService: asClass(ClienteService).singleton(),
         ClienteBusiness: asClass(ClienteBusiness).singleton(),
@@ -33,7 +27,6 @@ module.exports = (container) => {
         DocumentoClienteRepository: asClass(DocumentoClienteRepository).singleton(),
         DocumentoConductorRepository: asClass(DocumentoConductorRepository).singleton(),
         DocumentoEmpresaRepository: asClass(DocumentoEmpresaRepository).singleton(),
-
 
     })
     return container;

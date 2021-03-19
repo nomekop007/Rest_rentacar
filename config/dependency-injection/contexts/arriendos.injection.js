@@ -1,12 +1,6 @@
 const { asClass, asFunction } = require('awilix');
 
 const ArriendoRoutes = require('../../../api/routes/apis/arriendos.routes');
-const ContactoRoutes = require('../../../api/routes/apis/contactos.routes');
-const ContratoRoutes = require('../../../api/routes/apis/contratos.routes');
-const ExtencionRoutes = require('../../../api/routes/apis/extenciones.routes');
-const GarantiaRoutes = require('../../../api/routes/apis/garantias.routes');
-const RequisitoRoutes = require('../../../api/routes/apis/requisitos.routes');
-
 const ArriendoController = require('../../../api/controllers/arriendo.controller');
 const ArriendoService = require('../../../contexts/arriendos/service/arriendo.service');
 const ArriendoBusiness = require('../../../contexts/arriendos/domain/arriendo.business');
@@ -22,13 +16,6 @@ const ArriendoAnuladoRepository = require('../../../contexts/arriendos/dataAcces
 module.exports = (container) => {
     container.register({
         ArriendoRoutes: asFunction(ArriendoRoutes).singleton(),
-        ContactoRoutes: asFunction(ContactoRoutes).singleton(),
-        ContratoRoutes: asFunction(ContratoRoutes).singleton(),
-        ExtencionRoutes: asFunction(ExtencionRoutes).singleton(),
-        GarantiaRoutes: asFunction(GarantiaRoutes).singleton(),
-        RequisitoRoutes: asFunction(RequisitoRoutes).singleton(),
-
-
         ArriendoController: asClass(ArriendoController).singleton(),
         ArriendoService: asClass(ArriendoService).singleton(),
         ArriendoBusiness: asClass(ArriendoBusiness).singleton(),
