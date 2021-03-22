@@ -332,7 +332,7 @@ class DespachoBusiness {
     }
 
 
-    async confirmarRecepcionArriendo(id_arriendo, base64, tieneDanio, descripcion_danio, userAt) {
+    async confirmarRecepcionArriendo(id_arriendo, base64, tieneDanio, descripcion_danio, kilomentraje_salida, userAt) {
 
         const arriendo = await this._arriendoRepository.getFindOneMin(id_arriendo);
 
@@ -352,7 +352,7 @@ class DespachoBusiness {
         await this._vehiculoRepository.putUpdateByPatente(dataVehiculo, arriendo.patente_vehiculo);
 
         //cambiar estado arriendo
-        const dataArriendo = { estado_arriendo: "RECEPCIONADO" };
+        const dataArriendo = { estado_arriendo: "RECEPCIONADO", kilometrosSalida_arriendo: kilomentraje_salida };
         await this._arriendoRepository.putUpdate(dataArriendo, id_arriendo);
 
         // si tiene daño se agrega
