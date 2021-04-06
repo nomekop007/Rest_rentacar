@@ -40,7 +40,7 @@ class VehiculoBusiness {
         const vehiculos = await this._vehiculoRepository.getFindAllBySucursalDispoinble(id_sucursal);
         return vehiculos;
     }
-
+ 
 
     async getVehiculosArrendadosBySucursal(id_sucursal) {
         const vehiculos = await this._vehiculoRepository.getFindAllBySucursalArrendado(id_sucursal);
@@ -248,10 +248,36 @@ class VehiculoBusiness {
         return { valorDia, valorNeto }
     }
 
+    // creadas por esteban mallea
+
+    async deleteDanioVehiculo_new(id) {
+
+        await this._danioVehiculoRepository.deleteDanioVehiculo(id);
+        let payload = {
+            success: true,
+            msg: " Daño borrado exitosamente",
+            data: id,
+        }
+        return payload;
+    }
+
+    
 
 
+    async createDanioVehiculo_new(id_arriendo, descripcion_danio,userAt) {
+        const arriendo = await this._arriendoRepository.getFindOne(id_arriendo);
+   //     console.log(arriendo);
 
-
+        const data = {
+            descripcion_danioVehiculo: descripcion_danio,
+            id_arriendo: arriendo.id_arriendo,
+            patente_vehiculo: arriendo.patente_vehiculo,
+            estado_danioVehiculo: "PENDIENTE",
+            userAt: userAt
+        }
+        await this._danioVehiculoRepository.postCreate_unico(data);
+        return true;
+    }
 }
 
 module.exports = VehiculoBusiness;

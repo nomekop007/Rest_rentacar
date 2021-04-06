@@ -27,6 +27,9 @@ class SucursalService {
     async getRegiones() {
         return await this._sucursalBusiness.getRegiones();
     }
+    async createTrasladoOrigen(DATA){
+        return await this._sucursalBusiness.createTrasladoOrigen(DATA);
+    }
 
 
 }

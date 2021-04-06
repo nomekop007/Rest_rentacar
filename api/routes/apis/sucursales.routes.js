@@ -9,6 +9,9 @@ module.exports = ({ SucursalController }) => {
 
     router.get("/cargarRegiones", SucursalController.getRegiones.bind(SucursalController));
 
+    router.post("/registrarTrasladoOrigen", SucursalController.createTrasladoOrigen.bind(SucursalController));
+
+
     return router;
 }
 

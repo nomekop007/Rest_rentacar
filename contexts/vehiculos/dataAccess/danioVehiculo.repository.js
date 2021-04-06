@@ -11,6 +11,20 @@ class DanioVehiculoRepository extends BaseRepository {
         return this._db.danioVehiculo.create(DATA);
     }
 
+    postCreate_unico(DATA) {
+        return this._db.danioVehiculo.create(DATA);
+    }
+
+    deleteDanioVehiculo(id){
+        return this._db.danioVehiculo.destroy({
+            where: {id_danioVehiculo: id},
+        });
+        
+    }
+
+
+
+
     getFindAll() {
         return this._db.danioVehiculo.findAll({
             include: [

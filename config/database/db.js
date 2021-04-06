@@ -51,6 +51,8 @@ const ReservaClienteWeb = require("../../contexts/reservas/dataAccess/reservaCli
 const ArriendoAnulado = require("../../contexts/arriendos/dataAccess/arriendoAnulado.entity")(database, Sequelize);
 const FotoDespacho = require("../../contexts/despachos/dataccess/fotosDespacho.entity")(database, Sequelize);
 const FotoRecepcion = require("../../contexts/despachos/dataccess/fotosRecepcion.entity")(database, Sequelize);
+const Traslado = require("../../contexts/sucursales/dataAccess/traslado.entity")(database, Sequelize);
+
 
 
 
@@ -59,6 +61,22 @@ const FotoRecepcion = require("../../contexts/despachos/dataccess/fotosRecepcion
 //RESTRICT, CASCADE, NO ACTION, SET DEFAULT y SET NULL.
 const onDelete = "CASCADE";
 const onUpdate = "CASCADE";
+
+
+// // //Creadas por Esteban Mallea
+
+// un vehiculo tiene muchos traslados
+Vehiculo.hasMany(Traslado, { foreignKey: { name: "patente" }, onDelete: onDelete, onUpdate: onUpdate });
+
+
+
+// Una sucursal de origen tiene muchos traslados
+Sucursal.hasMany(Traslado, { foreignKey: { name: "sucursalOrigen" }, onDelete: onDelete, onUpdate: onUpdate });
+
+// una sucursal recibe muchos traslados
+Sucursal.hasMany(Traslado, { foreignKey: { name: "sucursalDestino" }, onDelete: onDelete, onUpdate: onUpdate });
+
+
 
 //Asociaciones de tablas
 

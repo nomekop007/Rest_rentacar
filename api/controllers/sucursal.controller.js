@@ -73,6 +73,20 @@ class SucursalController {
         }
     }
 
+    async createTrasladoOrigen(req, res,){
+        
+        let DATA = req.body;
+        try {
+            const traslado = await this._sucursalService.createTrasladoOrigen(DATA);
+            res.json({
+                success: true,
+                data: traslado
+            })
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
 }
 
 module.exports = SucursalController;

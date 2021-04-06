@@ -6,6 +6,49 @@ class VehiculoController {
         this._vehiculoService = VehiculoService;
     }
 
+    // creadas por Esteban Mallea
+
+    async registrar_danio_vehiculo_new(req, res) {
+        try {
+            const { id_arriendo, descripcion_danio, userAt} = req.body;
+            const response = await this._vehiculoService.createDanioVehiculo_new(id_arriendo, descripcion_danio,userAt);
+            if (response) {
+                res.json({
+                    success: true,
+                    msg: "daño registrado"
+                })
+            } else {
+                res.json({
+                    success: false,
+                    msg: "error"
+                })
+            }
+        } catch (error) {
+            sendError(error, req, res);;
+        }
+    }
+
+    async eliminar_danio_vehiculo_new(req,res,next){
+        try {
+            const {id}= req.params;
+
+            console.log(id+"controller");
+            await this._vehiculoService.deleteDanioVehiculo_new(id);
+            res.json({
+                success: true,
+                msg: " Daño borrado exitosamente",
+                data: id,
+            });
+            next();
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
+
+
+    // realizadas por diego rios
+
 
     async getVehiculos(req, res) {
         try {
@@ -38,7 +81,6 @@ class VehiculoController {
         }
     }
 
-
     async getVehiculosArrendadosBySucursal(req, res) {
         try {
             const { id } = req.params;
@@ -48,8 +90,6 @@ class VehiculoController {
             sendError(error, req, res);
         }
     }
-
-
 
     async findVehiculo(req, res) {
         try {
