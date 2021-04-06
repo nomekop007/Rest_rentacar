@@ -230,6 +230,7 @@ class FinanzasBusiness {
                                 const pagoDanio = arriendoRepo.danioVehiculos[arriendoRepo.danioVehiculos.length - 1].pagosDanio;
                                 const danio = {
                                     monto: pagoDanio.precioTotal_pagoDanio,
+                                    estado: arriendoRepo.danioVehiculos[arriendoRepo.danioVehiculos.length - 1].estado_danioVehiculo,
                                     detalle: arriendoRepo.danioVehiculos[arriendoRepo.danioVehiculos.length - 1].descripcion_danioVehiculo,
                                     updatedAt: pagoDanio.updatedAt,
                                 }
