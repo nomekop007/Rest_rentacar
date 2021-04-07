@@ -352,7 +352,8 @@ class DespachoBusiness {
         await this._vehiculoRepository.putUpdateByPatente(dataVehiculo, arriendo.patente_vehiculo);
 
         //cambiar estado arriendo
-        const dataArriendo = { estado_arriendo: "RECEPCIONADO", kilometrosSalida_arriendo: kilomentraje_salida };
+        const fecha = new Date();
+        const dataArriendo = { estado_arriendo: "RECEPCIONADO", kilometrosSalida_arriendo: kilomentraje_salida, fechaRecepcion_arriendo: fecha };
         await this._arriendoRepository.putUpdate(dataArriendo, id_arriendo);
 
         // si tiene daño se agrega
