@@ -128,7 +128,7 @@ async function recepcionPlantilla(data) {
                     "Calle Villota N° 262, Curicó. - Tlfs: +752606081 / +56981947756 - Sucursal \n",
                     "Av. Libertador Bernado Ohiggins Nº510, Rancagua - Tlfs: +56552940885 / +56966606730 - Sucursal \n",
                     {
-                        text: "contacto@rentacarmaule.cl - www.rentacarmaule.cl ",
+                        text: "contacto@firmarent.cl - www.rentacarmaule.cl ",
                         bold: true,
                     },
                 ],
