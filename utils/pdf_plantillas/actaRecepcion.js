@@ -117,7 +117,7 @@ async function recepcionPlantilla(data) {
             {
                 margin: [10, 0, 0, 0],
                 width: 378,
-                fontSize: 9,
+                fontSize: 8,
                 style: "header",
                 bold: true,
                 text: [
@@ -126,9 +126,9 @@ async function recepcionPlantilla(data) {
                     "2 Norte 22 y 23 Oriente N°3030, Talca. - Tlfs: +712401552 / +56941143456 - Casa Matriz \n",
                     "Calle Kurt Moller N° 22, Linares. - Tlfs: +712439489/ +56992191603 - Sucursal \n",
                     "Calle Villota N° 262, Curicó. - Tlfs: +752606081 / +56981947756 - Sucursal \n",
-                    "Calle Campos av libertador bernardo Ohiggins 510, Rancagua - Tlfs: +56552940885 / +56966606730 - Sucursal \n",
+                    "Av. Libertador Bernado Ohiggins Nº510, Rancagua - Tlfs: +56552940885 / +56966606730 - Sucursal \n",
                     {
-                        text: "contacto@rentacarmaule.cl - www.rentacarmaule.cl - contactorancagua@firmarent.cl",
+                        text: "contacto@rentacarmaule.cl - www.rentacarmaule.cl ",
                         bold: true,
                     },
                 ],
