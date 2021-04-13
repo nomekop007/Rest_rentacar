@@ -12,7 +12,8 @@ const { subirFotosRecepcion,
     subirDocumentosCliente,
     subirDocumentosConductor,
     subirDocumentosEmpresa,
-    subirImageVehiculo } = require('../../api/middlewares/upload.middleware');
+    subirImageVehiculo,
+    subirFotoRespaldoIngresoLicitacion } = require('../../api/middlewares/upload.middleware');
 
 module.exports = (container) => {
     container.register({
@@ -20,6 +21,7 @@ module.exports = (container) => {
         logErrorMiddleware: asValue(logErrorMiddleware),
         checkMiddleware: asValue(checkMiddleware),
         checkApiMiddleware: asValue(checkApiMiddleware),
+        subirFotoRespaldoIngresoLicitacion: asValue(subirFotoRespaldoIngresoLicitacion),
         subirFotosRecepcion: asValue(subirFotosRecepcion),
         subirFotosDespacho: asValue(subirFotosDespacho),
         subirDocumentoContrato: asValue(subirDocumentoContrato),

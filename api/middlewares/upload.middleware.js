@@ -79,6 +79,20 @@ const subirFotosRecepcion = multer({
 }).single("inputFotoVehiculo");
 
 
+
+
+const subirFotoRespaldoIngresoLicitacion = multer({
+    storage: multer.diskStorage({
+        destination: path.join(__dirname, process.env.PATH_RESPALDO_INGRESO_LICITACION),
+        filename: (req, file, cb) => {
+            cb(null, uuidv4() + path.extname(file.originalname).toLocaleLowerCase());
+        },
+    }),
+    dest: path.join(__dirname, process.env.PATH_FOTO_RECEPCION),
+    limits: { fieldSize: 20000000 },
+}).single("respaldo");
+
+
 const subirImageVehiculo = multer({
     storage: multer.diskStorage({
         destination: path.join(__dirname, process.env.PATH_FOTO_VEHICULO),
@@ -189,4 +203,5 @@ module.exports = {
     subirDocumentosConductor: subirDocumentosConductor,
     subirFotosDespacho: subirFotosDespacho,
     subirFotosRecepcion: subirFotosRecepcion,
+    subirFotoRespaldoIngresoLicitacion: subirFotoRespaldoIngresoLicitacion
 };
