@@ -7,7 +7,6 @@ module.exports = (sequelize, type) => {
         },
         fecha_ingresoLicitacion: type.DATE,
         monto_ingresoLicitacion: type.BIGINT(20),
-        tipo_ingresoLicitacion: type.STRING,
         descripcion_ingresoLicitacion: type.STRING,
         userAt: type.STRING,
     });
