@@ -63,18 +63,19 @@ const onDelete = "CASCADE";
 const onUpdate = "CASCADE";
 
 
-// // //Creadas por Esteban Mallea
+//Creadas por Esteban Mallea
 
 // un vehiculo tiene muchos traslados
-Vehiculo.hasMany(Traslado, { foreignKey: { name: "patente" }, onDelete: onDelete, onUpdate: onUpdate });
+Vehiculo.hasMany(Traslado, { foreignKey: { name: "patente_vehiculo" }, onDelete: onDelete, onUpdate: onUpdate });
+
+// un traslado tiene un solo vehiculo
+Traslado.belongsTo(Vehiculo, { foreignKey: { name: "patente_vehiculo" }, onDelete: onDelete, onUpdate: onUpdate });
 
 
-
-// Una sucursal de origen tiene muchos traslados
-Sucursal.hasMany(Traslado, { foreignKey: { name: "sucursalOrigen" }, onDelete: onDelete, onUpdate: onUpdate });
-
-// una sucursal recibe muchos traslados
-Sucursal.hasMany(Traslado, { foreignKey: { name: "sucursalDestino" }, onDelete: onDelete, onUpdate: onUpdate });
+// un sucursal tiene muchos traslados
+Sucursal.hasMany(Traslado, { foreignKey: { name: "id_sucursal" }, onDelete: onDelete, onUpdate: onUpdate });
+//un traslado pertenece a una sucursal
+Traslado.belongsTo(Sucursal, { foreignKey: { name: "id_sucursal" }, onDelete: onDelete, onUpdate: onUpdate });
 
 
 
@@ -455,6 +456,7 @@ db.pagoExtra = PagoExtra;
 db.bloqueoUsuario = BloqueoUsuario;
 db.reservaClienteWeb = ReservaClienteWeb;
 db.arriendoAnulado = ArriendoAnulado;
+db.traslado = Traslado;
 
 db.sequelize = database;
 db.Sequelize = Sequelize;

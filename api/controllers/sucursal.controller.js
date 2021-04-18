@@ -73,20 +73,101 @@ class SucursalController {
         }
     }
 
-    async createTrasladoOrigen(req, res,){
-        
-        let DATA = req.body;
+    async guardarFotosTrasladoOrigen(req, res) {
         try {
-            const traslado = await this._sucursalService.createTrasladoOrigen(DATA);
+
+            const files = req.files;
+            const { id } = req.params;
+            const Fotos_ = await this._sucursalService.guardarFotosTrasladoOrigen(id,files);
             res.json({
                 success: true,
-                data: traslado
+                data: Fotos_
             })
         } catch (error) {
             sendError(error, req, res);
         }
     }
 
+    async guardarFotosTrasladoDestino(req, res) {
+        try {
+
+            const files = req.files;
+            const { id } = req.params;
+            const Fotos_ = await this._sucursalService.guardarFotosTrasladoDestino(id,files);
+            res.json({
+                success: true,
+                data: Fotos_
+            })
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
+
+
+    
+
+
+
+    async createTrasladoOrigen(req, res,next){
+        try {
+            const DATA = req.body;
+            const Traslado = await this._sucursalService.createTrasladoOrigen(DATA);
+            res.json({success: true,msg: "registro exitoso",data:Traslado});
+            next();
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
+
+    async getTraslado(req,res){
+        try {
+            const {id} = req.params;
+
+            const traslado = await  this._sucursalService.getTraslado(id);
+            res.json({ success: true, data: traslado })
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
+    async deleteTraslado(req,res){
+        try {
+            const {id} = req.params;
+            const deleteTraslado = await  this._sucursalService.deleteTraslado(id);
+            res.json(deleteTraslado);
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
+    async getAllTraslado(req,res){
+        try {
+            const Traslados = await this._sucursalService.getAllTraslado();
+            res.json({ success: true, data: Traslados });
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
+    async updateTrasladoEstado(req, res, next) {
+        try {
+            const { id } = req.params;
+            const DATA = req.body;
+            await this._sucursalService.updateTrasladoEstado(id, DATA);
+            res.json({ success: true, msg: "traslado modificado" });
+            next();
+        } catch (error) {
+            sendError(error, req, res);;
+        }
+    }
+
+
+    
+
+
 }
 
 module.exports = SucursalController;
+

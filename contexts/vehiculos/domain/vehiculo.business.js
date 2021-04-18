@@ -250,30 +250,30 @@ class VehiculoBusiness {
 
     // creadas por esteban mallea
 
-    async deleteDanioVehiculo_new(id) {
+    async deleteDanioVehiculo_new(DATA) {
 
-        await this._danioVehiculoRepository.deleteDanioVehiculo(id);
+        console.log(DATA);
+        var id = DATA.id_arriendo;
+        var estado = {estado_danioVehiculo : DATA.descripcion_danio}
+
+        await this._danioVehiculoRepository.putUpdate(estado,id);
         let payload = {
             success: true,
             msg: " Daño borrado exitosamente",
-            data: id,
         }
         return payload;
     }
 
-    
+    async createDanioVehiculo_new(DATA) {
 
-
-    async createDanioVehiculo_new(id_arriendo, descripcion_danio,userAt) {
-        const arriendo = await this._arriendoRepository.getFindOne(id_arriendo);
-   //     console.log(arriendo);
+        const arriendo = await this._arriendoRepository.getFindOne(DATA.id_danio);
 
         const data = {
-            descripcion_danioVehiculo: descripcion_danio,
+            descripcion_danioVehiculo: DATA.descripcion_danio,
             id_arriendo: arriendo.id_arriendo,
             patente_vehiculo: arriendo.patente_vehiculo,
             estado_danioVehiculo: "PENDIENTE",
-            userAt: userAt
+            userAt: DATA.userAt
         }
         await this._danioVehiculoRepository.postCreate_unico(data);
         return true;

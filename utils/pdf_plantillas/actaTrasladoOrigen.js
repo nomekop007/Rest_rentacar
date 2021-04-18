@@ -1,5 +1,6 @@
 const base64 = require("image-to-base64");
 const logo = require.resolve("../images/logo.png");
+const TrasladoAutorizado = require.resolve("../images/Traslado_autorizado.png");
 
 async function actaTrasladoOrigenPlantilla(data) {
 
@@ -28,68 +29,80 @@ async function actaTrasladoOrigenPlantilla(data) {
                         bold: true,
                     },
                 ],
-            },
+            }, 
             {
-                text: `Nº  asdasdasd`,
+                text: `Nº  ${data.id_traslado}`,
             },
             ],
         },
         {
-            margin: [0, 20, 0, 0],
-            fontSize: 10,
-            alignment: "justify",
-            columns: [
-                { text: `VEHICULO : ${"jjjj"} ` },
-                { text: `AÑO :${"jjjj"}` },
-                { text: `MODELO : ${"jjjj"}` },
-            ],
-        },
-        {
             text: "\n",
         },
         {
-            alignment: "justify",
-            fontSize: 10,
-            columns: [
-                { text: `COLOR : ${"jjjj"}` },
-                { text: `PATENTE : ${"fff"}` },
-                { text: `KILOMETRAJE : ${"jjjj"}` },
-            ],
+            text: "\n"
+        },
+        {text: 'Acta de Traslado Sucursal Origen', style: 'subheader'},
+        {
+            text: "\n"
+        },
+		{
+			style: 'tableExample',
+			table: {
+				widths: [150, '*'],
+				body: [
+					['Tipo Vehiculo',`${data.tipo}`],
+					['Patente',`${data.patente}`],
+                    ['Marca',`${data.marca}`],
+					['Modelo',`${data.modelo}`],
+                    ['Conductor',`${data.conductor}`],
+                    ['Rut Conductor',`${data.rutConductor}`],
+                    ['Sucursal Origen',`${data.origen}`],
+                    ['Sucursal Destino',`${data.destino}`]
+                    
+				]
+			}
+		},
+        {
+            text: "\n"
         },
         {
-            text: "\n",
+            text: "El documento generado deja constancia de un nuevo traslado de vehiculo con la informacion presentada anteriormente. Documento valido en sucursales Rent a Car"
         },
         {
-            alignment: "justify",
-            fontSize: 10,
-            columns: [
-                { text: `DESTINO : ${"jjjj"}` },
-                { text: `PROCEDENCIA DE : ${"jjjj"}` },
-                { text: `A : ${"jjjj"}` },
-            ],
+            text: "\n"
         },
-
-        {
-            margin: [0, 20, 0, 5],
-            fontSize: 10,
-            bold: true,
-            text: "Control de Despacho : ",
+          {
+            text: "\n"
         },
+        
         {
             fontSize: 10,
             bold: true,
             margin: [0, 10, 0, 0],
-            text: "OBSERVACIONES:",
+            text: `Observaciones: ${data.observacion}  `,
+        },
+          {
+            text: "\n"
+        },
+          {
+            text: "\n"
+        },
+        {
+            text: "\n"
+        },        {
+            text: "\n"
+        },        {
+            text: "\n"
         },
 
         {
-            alignment: "justify",
-            columns: [{
-                width: 350,
-                fontSize: 9,
-                text: `A : ${"jjjj"}`,
-            },],
-        },
+                width: 100,
+                height: 100,
+                image: "data:image/jpeg;base64," + (await base64(TrasladoAutorizado)),
+                alignment: "center",
+            },
+        
+        
         {
             columns: [
                 [
@@ -99,20 +112,13 @@ async function actaTrasladoOrigenPlantilla(data) {
                         text: "________________________",
                     },
                     {
-                        text: `RECIBIDO POR: asdasdads  `,
-                        fontSize: 6,
+                        text: `Autorizado por: ${data.userAt}  `,
+                        fontSize: 8,
                         alignment: "center",
                     },
-                ],
-                [
-
                     {
-                        alignment: "center",
-                        text: "________________________",
-                    },
-                    {
-                        text: `ENTREGADO POR: jajaja `,
-                        fontSize: 6,
+                        text: `Fecha: ${data.fecha+data.hora}`,
+                        fontSize: 8,
                         alignment: "center",
                     },
                 ]
@@ -128,21 +134,29 @@ async function actaTrasladoOrigenPlantilla(data) {
                 bold: true,
             },
             subheader: {
-                fontSize: 15,
+                fontSize: 13,
                 bold: true,
             },
             quote: {
                 italics: true,
+            },
+            tableExample: {
+                margin: [0, 5, 0, 15]
+            },
+            tableHeader: {
+                bold: true,
+                fontSize: 12,
+                color: 'black'
             },
             small: {
                 fontSize: 8,
             },
         },
         info: {
-            title: 'Acta-Entrega-Arriendo',
+            title: 'Acta-Traslado-RentaCar',
             author: 'Rent A Car maule',
-            subject: 'contrato',
-            creator: 'nomekop007',
+            subject: 'Acta',
+            creator: 'Mallea95',
         },
     };
 }

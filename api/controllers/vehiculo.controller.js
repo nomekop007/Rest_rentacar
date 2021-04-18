@@ -8,10 +8,10 @@ class VehiculoController {
 
     // creadas por Esteban Mallea
 
-    async registrar_danio_vehiculo_new(req, res) {
+    async createDanioVehiculo_new(req, res) {
         try {
-            const { id_arriendo, descripcion_danio, userAt} = req.body;
-            const response = await this._vehiculoService.createDanioVehiculo_new(id_arriendo, descripcion_danio,userAt);
+            const DATA = req.body;
+            const response = await this._vehiculoService.createDanioVehiculo_new(DATA);
             if (response) {
                 res.json({
                     success: true,
@@ -28,18 +28,14 @@ class VehiculoController {
         }
     }
 
-    async eliminar_danio_vehiculo_new(req,res,next){
+    async eliminar_danio_vehiculo_new(req,res){
         try {
-            const {id}= req.params;
-
-            console.log(id+"controller");
-            await this._vehiculoService.deleteDanioVehiculo_new(id);
+            const DATA = req.body;
+            await this._vehiculoService.deleteDanioVehiculo_new(DATA);
             res.json({
                 success: true,
                 msg: " Daño borrado exitosamente",
-                data: id,
             });
-            next();
         } catch (error) {
             sendError(error, req, res);
         }

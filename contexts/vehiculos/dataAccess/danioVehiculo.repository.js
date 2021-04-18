@@ -22,9 +22,6 @@ class DanioVehiculoRepository extends BaseRepository {
         
     }
 
-
-
-
     getFindAll() {
         return this._db.danioVehiculo.findAll({
             include: [

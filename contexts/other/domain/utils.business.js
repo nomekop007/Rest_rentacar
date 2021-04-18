@@ -36,6 +36,18 @@ class UtilsBusiness {
             case "fotoVehiculo":
                 paths = path.join(__dirname, `../${process.env.PATH_FOTO_VEHICULO}/${documento}`);
                 break;
+            case "fotoTrasladoOrigen":
+                paths = path.join(__dirname, `../${process.env.PATH_FOTO_TRASLADO_ORIGEN}/${documento}`);
+                break;
+            case "fotoTrasladoDestino":
+                paths = path.join(__dirname, `../${process.env.PATH_FOTO_TRASLADO_DESTINO}/${documento}`);
+                break;
+            case "actaTrasladoOrigen":
+                paths = path.join(__dirname, `../${process.env.PATH_ACTA_TRASLADO_ORIGEN}/${documento}`);
+                break;
+            case "actaTrasladoDestino":
+                paths = path.join(__dirname, `../${process.env.PATH_ACTA_TRASLADO_DESTINO}/${documento}`);
+                break;
             default:
                 return { success: false, msg: "tipo no encontrado" };
         }

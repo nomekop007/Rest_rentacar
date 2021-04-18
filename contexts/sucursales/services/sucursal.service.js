@@ -31,6 +31,30 @@ class SucursalService {
         return await this._sucursalBusiness.createTrasladoOrigen(DATA);
     }
 
+    async updateTrasladoEstado(id_traslado,DATA){
+        return await this._sucursalBusiness.updateTrasladoEstado(id_traslado,DATA);
+    }
+    
+    async guardarFotosTrasladoOrigen(ID,Fotos){
+        return await this._sucursalBusiness.guardarFotosTrasladoOrigen(ID,Fotos);
+    }
+
+    async guardarFotosTrasladoDestino(ID,Fotos){
+        return await this._sucursalBusiness.guardarFotosTrasladoDestino(ID,Fotos);
+    }
+
+    async deleteTraslado(ID){
+        return await this._sucursalBusiness.deleteTraslado(ID);
+    }
+
+    async getTraslado(ID){
+        return await this._sucursalBusiness.getTraslado(ID);
+    }
+
+    async getAllTraslado(){
+        return await this._sucursalBusiness.getAllTraslado();
+    }
+
 
 }
 

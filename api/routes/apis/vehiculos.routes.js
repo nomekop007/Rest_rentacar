@@ -22,9 +22,9 @@ module.exports = ({ VehiculoController, subirImageVehiculo }) => {
     router.get('/cargarTarifasVehiculos', VehiculoController.getTarifaVehiculo.bind(VehiculoController));
     router.get('/buscarTarifaVehiculoPorDias', VehiculoController.findTarifaVehiculoByDias.bind(VehiculoController));
 
-    router.post('/registar_danio_vehiculo_new', VehiculoController.registrar_danio_vehiculo_new.bind(VehiculoController));
+    router.post('/registar_danio_vehiculo_new', VehiculoController.createDanioVehiculo_new.bind(VehiculoController));
 
-    router.delete('/eliminar_danio_vehiculo/:id', VehiculoController.eliminar_danio_vehiculo_new.bind(VehiculoController));
+    router.post('/eliminar_danio_vehiculo', VehiculoController.eliminar_danio_vehiculo_new.bind(VehiculoController));
     return router;
 }
 
