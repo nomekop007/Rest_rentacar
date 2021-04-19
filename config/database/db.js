@@ -50,8 +50,11 @@ const BloqueoUsuario = require("../../contexts/despachos/dataccess/bloqueoUsuari
 const ReservaClienteWeb = require("../../contexts/reservas/dataAccess/reservaClienteWeb.entity")(database, Sequelize);
 const ArriendoAnulado = require("../../contexts/arriendos/dataAccess/arriendoAnulado.entity")(database, Sequelize);
 const FotoDespacho = require("../../contexts/despachos/dataccess/fotosDespacho.entity")(database, Sequelize);
-const FotoRecepcion = require("../../contexts/despachos/dataccess/fotosRecepcion.entity")(database, Sequelize);
+const FotoRecepcion = require("../../contexts/despachos/dataccess/fotosRecepcion.entity")(database, Sequelize)
+
+//CREADAS POR ESTEBAN MALLEA
 const Traslado = require("../../contexts/sucursales/dataAccess/traslado.entity")(database, Sequelize);
+const TarifasEmpresasRecepcion = require("../../contexts/empresaRemplazos/dataAccess/tarifasEmpresasReemplazo.entity")(database, Sequelize);
 
 
 
@@ -65,9 +68,27 @@ const onUpdate = "CASCADE";
 
 //Creadas por Esteban Mallea
 
+
+//una sucursal puede tener muchas tarifas par empresas de reemplazo
+Sucursal.hasMany(TarifasEmpresasRecepcion, { foreignKey: { name: "id_sucursal" }, onDelete: onDelete, onUpdate: onUpdate });
+// una tarifa de empresas de reemplazo pertence a una sucursal
+TarifasEmpresasRecepcion.belongsTo(Sucursal, {foreignKey: { name:"id_sucursal"}, onDelete: onDelete, onUpdate: onUpdate});
+
+
+// Una empresa de reemplazo puede tener muchas tarifas 
+EmpresaRemplazo.hasMany(TarifasEmpresasRecepcion, { foreignKey: { name: "codigo_empresaRemplazo" }, onDelete: onDelete, onUpdate: onUpdate });
+// una tarifa de reemplazo pertenece a una empresa de reemplazo
+TarifasEmpresasRecepcion.belongsTo(EmpresaRemplazo, {foreignKey: { name:"codigo_empresaRemplazo"}, onDelete: onDelete, onUpdate: onUpdate});
+
+
+
+
+
+
+
+
 // un vehiculo tiene muchos traslados
 Vehiculo.hasMany(Traslado, { foreignKey: { name: "patente_vehiculo" }, onDelete: onDelete, onUpdate: onUpdate });
-
 // un traslado tiene un solo vehiculo
 Traslado.belongsTo(Vehiculo, { foreignKey: { name: "patente_vehiculo" }, onDelete: onDelete, onUpdate: onUpdate });
 
@@ -457,6 +478,7 @@ db.bloqueoUsuario = BloqueoUsuario;
 db.reservaClienteWeb = ReservaClienteWeb;
 db.arriendoAnulado = ArriendoAnulado;
 db.traslado = Traslado;
+db.tarifasEmpresasReemplazo = TarifasEmpresasRecepcion;
 
 db.sequelize = database;
 db.Sequelize = Sequelize;
@@ -505,5 +527,6 @@ module.exports = {
     Permiso,
     Abono,
     Extencion,
-    PagoExtra
+    PagoExtra,
+    TarifasEmpresasRecepcion
 };

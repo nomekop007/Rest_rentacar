@@ -5,6 +5,8 @@ module.exports = ({ EmpresaRemplazoController }) => {
 
     router.post("/registrarRemplazo", EmpresaRemplazoController.createRemplazo.bind(EmpresaRemplazoController));
 
+    router.post("/crearTarifaEmpresaReemplazo", EmpresaRemplazoController.createTarifaEmpresaReemplazo.bind(EmpresaRemplazoController));
+
     return router;
 }
 

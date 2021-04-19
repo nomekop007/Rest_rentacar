@@ -34,6 +34,23 @@ class EmpresaRemplazoController {
     }
 
 
+    async createTarifaEmpresaReemplazo(req, res, next) {
+        try {
+            const tarifa = req.body;
+            const TarifaResponse = await this._empresaRemplazoService.createTarifaEmpresaReemplazo(tarifa);
+            res.json({
+                success: true,
+                data: {
+                    Id_tarifa: TarifaResponse.id_tarifaEmpresaRemplazo,
+                },
+            });
+            next();
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
+
 }
 
 module.exports = EmpresaRemplazoController;

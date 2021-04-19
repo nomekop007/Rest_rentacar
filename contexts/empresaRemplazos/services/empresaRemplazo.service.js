@@ -1,15 +1,19 @@
 class EmpresaRemplazoService {
 
     constructor({ EmpresaRemplazoBusiness }) {
-        this._empresaRemplazoService = EmpresaRemplazoBusiness;
+        this._empresaRemplazoBusiness = EmpresaRemplazoBusiness;
     }
 
     async getEmpresasRemplazo() {
-        return await this._empresaRemplazoService.getEmpresasRemplazo();
+        return await this._empresaRemplazoBusiness.getEmpresasRemplazo();
     }
 
     async createRemplazo(remplazo) {
-        return await this._empresaRemplazoService.createRemplazo(remplazo);
+        return await this._empresaRemplazoBusiness.createRemplazo(remplazo);
+    }
+
+    async createTarifaEmpresaReemplazo(tarifa) {
+        return await this._empresaRemplazoBusiness.createTarifaEmpresaReemplazo(tarifa);
     }
 
 }
