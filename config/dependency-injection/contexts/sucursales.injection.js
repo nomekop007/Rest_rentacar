@@ -5,8 +5,10 @@ const SucursalController = require('../../../api/controllers/sucursal.controller
 const SucursalService = require('../../../contexts/sucursales/services/sucursal.service');
 const SucursalBusiness = require('../../../contexts/sucursales/domain/sucursal.business');
 
-const SucursalRepository = require('../../../contexts/sucursales/dataAccess/sucursal.repository')
+const SucursalRepository = require('../../../contexts/sucursales/dataAccess/sucursal.repository');
 const RegionRepository = require('../../../contexts/sucursales/dataAccess/regiones.repository');
+const TrasladoRepository = require('../../../contexts/sucursales/dataAccess/traslado.repository');
+
 
 
 module.exports = (container) => {
@@ -17,7 +19,8 @@ module.exports = (container) => {
         SucursalBusiness: asClass(SucursalBusiness).singleton(),
 
         SucursalRepository: asClass(SucursalRepository).singleton(),
-        RegionRepository: asClass(RegionRepository).singleton()
+        RegionRepository: asClass(RegionRepository).singleton(),
+        TrasladoRepository: asClass(TrasladoRepository).singleton()
     })
     return container;
 }

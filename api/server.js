@@ -33,6 +33,10 @@ class server {
         this._express.use(express.static(path.join("uploads/actasEntregas")));
         this._express.use(express.static(path.join("uploads/fotosDanioVehiculos")));
         this._express.use(express.static(path.join("uploads/recepciones")));
+        this._express.use(express.static(path.join("uploads/actasTrasladoDestino")));
+        this._express.use(express.static(path.join("uploads/actasTrasladoOrigen")));
+        this._express.use(express.static(path.join("uploads/fotosTrasladoDestino")));
+        this._express.use(express.static(path.join("uploads/fotosTrasladoOrigen")));
         this._express.use(router);
     }
 

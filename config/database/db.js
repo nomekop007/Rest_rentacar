@@ -55,12 +55,32 @@ const Licitacion = require("../../contexts/licitaciones/dataAccess/licitacion.en
 const ClienteLicitacion = require("../../contexts/licitaciones/dataAccess/clienteLicitacion.entity")(database, Sequelize);
 const IngresoLicitacion = require("../../contexts/licitaciones/dataAccess/ingresoLicitacion.entity")(database, Sequelize);
 const RespaldoIngresoLicitacion = require("../../contexts/licitaciones/dataAccess/respaldoIngresoLicitacion.entity")(database, Sequelize);
+const Traslado = require("../../contexts/sucursales/dataAccess/traslado.entity")(database, Sequelize);
+
+
 
 
 //opciones
 //RESTRICT, CASCADE, NO ACTION, SET DEFAULT y SET NULL.
 const onDelete = "CASCADE";
 const onUpdate = "CASCADE";
+
+
+//Creadas por Esteban Mallea
+
+// un vehiculo tiene muchos traslados
+Vehiculo.hasMany(Traslado, { foreignKey: { name: "patente_vehiculo" }, onDelete: onDelete, onUpdate: onUpdate });
+
+// un traslado tiene un solo vehiculo
+Traslado.belongsTo(Vehiculo, { foreignKey: { name: "patente_vehiculo" }, onDelete: onDelete, onUpdate: onUpdate });
+
+
+// un sucursal tiene muchos traslados
+Sucursal.hasMany(Traslado, { foreignKey: { name: "id_sucursal" }, onDelete: onDelete, onUpdate: onUpdate });
+//un traslado pertenece a una sucursal
+Traslado.belongsTo(Sucursal, { foreignKey: { name: "id_sucursal" }, onDelete: onDelete, onUpdate: onUpdate });
+
+
 
 //Asociaciones de tablas
 
@@ -472,7 +492,7 @@ db.licitacion = Licitacion;
 db.clienteLicitacion = ClienteLicitacion;
 db.ingresoLicitacion = IngresoLicitacion;
 db.respaldoIngresoLicitacion = RespaldoIngresoLicitacion;
-
+db.traslado = Traslado;
 db.sequelize = database;
 db.Sequelize = Sequelize;
 

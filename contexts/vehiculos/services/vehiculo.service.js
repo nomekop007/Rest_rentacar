@@ -79,6 +79,20 @@ class VehiculoService {
         return await this._vehiculoBusiness.getVehiculosArrendados();
     }
 
+    // creadas por esteban Mallea
+    
+    async createDanioVehiculo_new(DATA){
+        return await this._vehiculoBusiness.createDanioVehiculo_new(DATA);
+    
+    }
+
+    async deleteDanioVehiculo_new(DATA){
+        return await this._vehiculoBusiness.deleteDanioVehiculo_new(DATA);
+    
+    }
+
+
+    
 
 }
 
