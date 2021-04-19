@@ -6,10 +6,7 @@ const { v4: uuidv4 } = require("uuid");
 //se crean las carpetas automaticas
 multer({ dest: path.join(__dirname, process.env.PATH_DANIO_VEHICULO) });
 multer({ dest: path.join(__dirname, process.env.PATH_ACTA_ENTREGA) });
-multer({ dest: path.join(__dirname, process.env.PATH_CONTRATO) });
 multer({ dest: path.join(__dirname, process.env.PATH_RECEPCIONES) });
-multer({ dest: path.join(__dirname, process.env.PATH_FOTO_TRASLADO_ORIGEN) });
-multer({ dest: path.join(__dirname, process.env.PATH_FOTO_TRASLADO_DESTINO) });
 multer({ dest: path.join(__dirname, process.env.PATH_ACTA_TRASLADO_ORIGEN) });
 multer({ dest: path.join(__dirname, process.env.PATH_ACTA_TRASLADO_DESTINO) });
 
