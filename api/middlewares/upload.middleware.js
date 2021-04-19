@@ -10,6 +10,9 @@ multer({ dest: path.join(__dirname, process.env.PATH_CONTRATO) });
 multer({ dest: path.join(__dirname, process.env.PATH_RECEPCIONES) });
 multer({ dest: path.join(__dirname, process.env.PATH_FOTO_TRASLADO_ORIGEN) });
 multer({ dest: path.join(__dirname, process.env.PATH_FOTO_TRASLADO_DESTINO) });
+multer({ dest: path.join(__dirname, process.env.PATH_ACTA_TRASLADO_ORIGEN) });
+multer({ dest: path.join(__dirname, process.env.PATH_ACTA_TRASLADO_DESTINO) });
+
 
 
 

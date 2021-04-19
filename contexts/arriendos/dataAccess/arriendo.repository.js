@@ -60,6 +60,30 @@ class ArriendoRepository extends BaseRepository {
         });
     }
 
+    getFindAllProceso(id_sucursal) {
+        let where = {
+            [Op.or]: [
+                { estado_arriendo: "PENDIENTE" },
+                { estado_arriendo: "CONFIRMADO" },
+                { estado_arriendo: "FIRMADO" },
+                { estado_arriendo: "E-CONFIRMADO" },
+            ],
+        };
+        if (id_sucursal) where.id_sucursal = id_sucursal;
+        return this._db.arriendo.findAll({
+            where: where,
+            include: [
+                { model: this._db.usuario, attributes: ["nombre_usuario"] },
+                { model: this._db.cliente },
+                { model: this._db.empresa },
+                { model: this._db.vehiculo },
+                { model: this._db.sucursal },
+                { model: this._db.requisito },
+                { model: this._db.remplazo, include: [{ model: this._db.empresaRemplazo }, { model: this._db.cliente }] },
+            ],
+        });
+    }
+
 
     getFindOnePublic(ID) {
         return this._db.arriendo.findOne({
