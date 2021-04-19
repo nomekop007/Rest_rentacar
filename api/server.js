@@ -27,6 +27,7 @@ class server {
 
 
         // evitar exponerlos...
+        this._express.use(express.static(path.join("uploads/ingresosLicitacion")));
         this._express.use(express.static(path.join("uploads/requisitosArriendos")));
         this._express.use(express.static(path.join("uploads/facturaciones")));
         this._express.use(express.static(path.join("uploads/contratos")));
