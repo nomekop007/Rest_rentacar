@@ -27,8 +27,8 @@ class LicitacionBusiness {
 
     async uploadRespaldoIngresoLicitacion(usertAt, documento, id_ingresoLicitacion) {
         const respaldo = {
-            usertAt: usertAt,
-            documento_respadoIngresoLicitacion: documento,
+            userAt: usertAt,
+            documento_respaldoIngresoLicitacion: documento,
             id_ingresoLicitacion: id_ingresoLicitacion
         }
         const ingresosLicitaciones = await this._respaldoIngresoLicitacionRepository.create(respaldo);

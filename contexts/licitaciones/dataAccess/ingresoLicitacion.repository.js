@@ -15,6 +15,7 @@ class IngresoLicitacionRepository extends BaseRepository {
                         { model: this._db.clienteLicitacion },
                         { model: this._db.propietario },]
                 },
+                { model: this._db.respaldoIngresoLicitacion },
             ],
         });
     }
