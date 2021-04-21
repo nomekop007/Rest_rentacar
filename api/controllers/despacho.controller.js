@@ -188,6 +188,16 @@ class DespachoController {
             sendError(error, req, res);
         }
     }
+
+    async confirmarDespachoArriendo(req, res) {
+        try {
+            const { id_arriendo, id_despacho, observaciones_despacho, nombreRecibidor_despacho, nombreDespachador_despacho, kilometraje_vehiculo, base64, userAt } = req.body;
+            const response = await this._despachoService.confirmarDespachoArriendo(id_arriendo, id_despacho, observaciones_despacho, nombreRecibidor_despacho, nombreDespachador_despacho, kilometraje_vehiculo, base64, userAt);
+            res.json(response);
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
 }
 
 module.exports = DespachoController;

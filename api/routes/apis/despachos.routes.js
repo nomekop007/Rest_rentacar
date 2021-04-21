@@ -17,6 +17,7 @@ module.exports = ({ DespachoController, subirFotosDespacho, subirFotosRecepcion 
     router.post("/guardarFotosVehiculos/:id", subirFotosDespacho, DespachoController.guardarFotosVehiculos.bind(DespachoController));
     router.post("/guardarFotoRecepcion/:id", subirFotosRecepcion, DespachoController.guardarFotoRecepcion.bind(DespachoController));
 
+    router.post("/confirmarDespachoArriendo", DespachoController.confirmarDespachoArriendo.bind(DespachoController));
     return router;
 }
 

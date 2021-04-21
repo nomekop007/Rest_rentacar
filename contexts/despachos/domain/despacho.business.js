@@ -334,6 +334,10 @@ class DespachoBusiness {
 
     async confirmarRecepcionArriendo(id_arriendo, base64, tieneDanio, descripcion_danio, kilomentraje_salida, userAt) {
 
+        if (id_arriendo === null || kilomentraje_salida === null || base64 === null) {
+            return { success: false, msg: "algo paso intente nuevamente!" };
+        }
+
         const arriendo = await this._arriendoRepository.getFindOneMin(id_arriendo);
 
         //guardar file
@@ -355,7 +359,6 @@ class DespachoBusiness {
         await this._arriendoRepository.putUpdate(dataArriendo, id_arriendo);
 
         // si tiene daño se agrega
-        console.log(tieneDanio)
         if (tieneDanio === 'true') {
             const pathFile = path.join(__dirname, `../${process.env.PATH_DANIO_VEHICULO}/${nameFile}.pdf`)
             fs.writeFileSync(pathFile, base64, "base64", (err) => {
@@ -377,6 +380,40 @@ class DespachoBusiness {
         //PENDIENTE
 
         return { success: true, msg: "confirmar" };
+    }
+
+
+
+    async confirmarDespachoArriendo(id_arriendo, id_despacho, observaciones_despacho, nombreRecibidor_despacho, nombreDespachador_despacho, kilometraje_vehiculo, base64, userAt) {
+
+        if (id_arriendo === null || id_despacho === null || kilometraje_vehiculo === null || base64 === null) {
+            return { success: false, msg: "algo paso intente nuevamente!" };
+        }
+
+        const arriendo = await this._arriendoRepository.getFindOneMin(id_arriendo);
+
+        //crear despacho
+        const despacho = { id_arriendo, id_despacho, observaciones_despacho, nombreRecibidor_despacho, nombreDespachador_despacho, userAt: userAt }
+        const responseDespacho = await this.createDespacho(despacho);
+        if (!responseDespacho) {
+            return { success: false, msg: "algo paso intente nuevamente!" };
+        }
+        //registrar acta despacho
+        const responseActa = await this.createActaEntrega(id_despacho, userAt, base64);
+        if (!responseActa.success) {
+            return { success: false, msg: "algo paso intente nuevamente!" };
+        }
+
+        //cambiar estado arriendo
+        const dataArriendo = { estado_arriendo: "ACTIVO", kilometrosEntrada_arriendo: kilometraje_vehiculo };
+        await this._arriendoRepository.putUpdate(dataArriendo, id_arriendo);
+
+        //cambiar estado vehiculo
+        const dataVehiculo = { estado_vehiculo: "ARRENDADO" };
+        await this._vehiculoRepository.putUpdateByPatente(dataVehiculo, arriendo.patente_vehiculo);
+
+        // si todo sale ok
+        return { success: true, msg: "datos okey" };
     }
 
 

@@ -60,6 +60,11 @@ class DespachoService {
         return await this._despachoBusiness.confirmarRecepcionArriendo(id_arriendo, base64, tieneDanio, descripcion_danio, kilomentraje_salida, userAt);
     }
 
+    async confirmarDespachoArriendo(id_arriendo, id_despacho, observaciones_despacho, nombreRecibidor_despacho, nombreDespachador_despacho, kilometraje_vehiculo, base64, userAt) {
+        return await this._despachoBusiness.confirmarDespachoArriendo(id_arriendo, id_despacho, observaciones_despacho, nombreRecibidor_despacho, nombreDespachador_despacho, kilometraje_vehiculo, base64, userAt);
+    }
+
+
 }
 
 module.exports = DespachoService;
