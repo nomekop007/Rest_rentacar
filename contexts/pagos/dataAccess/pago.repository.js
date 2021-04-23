@@ -32,7 +32,18 @@ class PagoRepository extends BaseRepository {
         return this._db.pago.findAll({
             where: WHERE,
             include: [
-                { model: this._db.pagoArriendo, include: { model: this._db.arriendo, include: { model: this._db.sucursal } } },
+                {
+                    model: this._db.pagoArriendo, include: [
+                        {
+                            model: this._db.arriendo, include: [
+                                { model: this._db.sucursal },
+                                { model: this._db.requisito },
+                                { model: this._db.remplazo, include: { model: this._db.cliente } },
+                            ]
+                        },
+                        { model: this._db.extencion }
+                    ]
+                },
                 { model: this._db.abono }
             ]
         });
