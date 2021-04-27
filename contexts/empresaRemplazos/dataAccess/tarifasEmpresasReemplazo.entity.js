@@ -6,10 +6,10 @@ module.exports = (sequelize, type) => {
             autoIncrement: true,
         },
         id_sucursal: type.INTEGER,
+        NombreSucursal: type.STRING,
         codigo_empresaRemplazo: type.STRING(20),
-        NombreEmpresaReemplazo: type.STRING,
         categoria: type.STRING,
-        valor: type.INTEGER,
+        valor: type.BIGINT(20),
         userAt: type.STRING,
     });
 };

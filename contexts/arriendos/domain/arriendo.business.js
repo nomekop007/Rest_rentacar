@@ -39,6 +39,11 @@ class ArriendoBusiness {
         return arriendos;
     }
 
+    async getArriendosEnproceso(id_sucursal, estado) {
+        const arriendos = await this._arriendoRepository.getFindAllProceso(id_sucursal);
+        return arriendos;
+    }
+
 
     async getArriendosActivos(id_sucursal, estado) {
         const arriendos = await this._arriendoRepository.getFindAllActivos(id_sucursal, estado);

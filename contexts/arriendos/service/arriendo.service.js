@@ -8,6 +8,10 @@ class ArriendoService {
         return await this._arriendoBusiness.getArriendos(id_sucursal, estado);
     }
 
+    async getArriendosEnproceso(id_sucursal, estado) {
+        return await this._arriendoBusiness.getArriendosEnproceso(id_sucursal, estado);
+    }
+
     async getArriendosActivos(id_sucursal, estado) {
         return await this._arriendoBusiness.getArriendosActivos(id_sucursal, estado);
     }

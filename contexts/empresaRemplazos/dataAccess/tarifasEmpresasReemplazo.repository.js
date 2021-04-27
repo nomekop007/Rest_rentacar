@@ -11,11 +11,24 @@ class TarifasEmpresasReemplazoRepository extends BaseRepository {
         return this._db.tarifasEmpresasReemplazo.create(DATA);
     }
 
+    getFindAll() {
+        return this._db.tarifasEmpresasReemplazo.findAll();
+    }
+
+
     putUpdate(ID,DATA) {
         return this._db.tarifasEmpresasReemplazo.update(DATA, {
             where: { id_tarifaEmpresaRemplazo: ID },
         });
     }
+
+    getAllPorEmpresa(ID) {
+        return this._db.tarifasEmpresasReemplazo.findAll( {
+            where: { codigo_empresaRemplazo: ID },
+        });
+    }
+
+
 
 }
 

@@ -4,7 +4,7 @@ const { Router } = require("express");
 module.exports = ({
     AccesorioRoutes, ArriendoRoutes, ClienteRoutes, DespachoRoutes, EmpresaRemplazoRoutes,
     PagoRoutes, PropietarioRoutes, ReservaRoutes, SucursalRoutes, UsuarioRoutes,
-    VehiculoRoutes, checkMiddleware, checkApiMiddleware, PermisoRoutes, logMiddleware,
+    VehiculoRoutes, checkMiddleware, checkApiMiddleware, PermisoRoutes, LicitacionRoutes, logMiddleware,
     DefaultValuesRoutes, ApiUtilsRoutes, ApiFinanzasRoutes, WebRentACarRoutes
 }) => {
 
@@ -32,6 +32,7 @@ module.exports = ({
     apiRoute.use("/utils", checkMiddleware.checkToken, ApiUtilsRoutes);
 
     // rutas a otros sistemas
+    apiRoute.use("/licitacion", checkApiMiddleware.checkTokenApiRest, LicitacionRoutes);
     apiRoute.use("/api", checkApiMiddleware.checkTokenApiRest, ApiFinanzasRoutes);
     apiRoute.use("/web", /* checkApiMiddleware.checkTokenApiRest,  */WebRentACarRoutes);
 

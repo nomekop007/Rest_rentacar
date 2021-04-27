@@ -33,5 +33,6 @@ container = require('./contexts/reserva.injection')(container);
 container = require('./contexts/sucursales.injection')(container);
 container = require('./contexts/usuarios.injection')(container);
 container = require('./contexts/vehiculos.injection')(container);
+container = require('./contexts/licitacion.injection')(container);
 
 module.exports = container;

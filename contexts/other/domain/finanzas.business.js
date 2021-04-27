@@ -107,17 +107,17 @@ class FinanzasBusiness {
                 infoArriendo.numeroArriendo = arriendoRepo.id_arriendo;
                 infoArriendo.estado = arriendoRepo.estado_arriendo;
                 infoArriendo.tipo = arriendoRepo.tipo_arriendo;
-                infoArriendo.fechaDespacho = formatFechahora(arriendoRepo.fechaEntrega_arriendo);
-                infoArriendo.fechaRecepcion = formatFechahora(arriendoRepo.fechaRecepcion_arriendo);
+                infoArriendo.fechaDespacho = arriendoRepo.fechaEntrega_arriendo;
+                infoArriendo.fechaRecepcion = arriendoRepo.fechaRecepcion_arriendo;
                 infoArriendo.sucursalResponsable = arriendoRepo.sucursale.nombre_sucursal;
                 infoArriendo.diasTotales = arriendoRepo.diasAcumulados_arriendo;
-
+                infoArriendo.usuario = arriendoRepo.userAt;
                 let i = 1;
                 if (arriendoRepo.contratos.length > 0) {
                     arriendoRepo.contratos.forEach(contrato => {
                         infoArriendo.contratos.push({
                             numero: i++,
-                            fecha: formatFechahora(contrato.createdAt),
+                            fecha: contrato.createdAt,
                             url: `${process.env.PATH_SERVER}/${contrato.documento}`,
                         });
                     })
@@ -174,7 +174,7 @@ class FinanzasBusiness {
                                     monto: pagoArriendo.pagos[0].total_pago,
                                     deudor: pagoArriendo.pagos[0].deudor_pago,
                                     estado: pagoArriendo.pagos[0].estado_pago === "PENDIENTE" ? "VIGENTE" : "PAGADO",
-                                    updatedAt: formatFechahora(pagoArriendo.pagos[0].updatedAt),
+                                    updatedAt: pagoArriendo.pagos[0].updatedAt,
                                 }
                                 infoPagos.arrayPagosCliente.montoTotal += pagoCliente.monto;
                                 infoPagos.arrayPagosCliente.pagos.push(pagoCliente);
@@ -186,7 +186,7 @@ class FinanzasBusiness {
                                     deudor: pagoArriendo.pagos[1].deudor_pago,
                                     descripcion: pagoArriendo.observaciones_pagoArriendo,
                                     estado: pagoArriendo.pagos[1].estado_pago === "PENDIENTE" ? "VIGENTE" : "PAGADO",
-                                    updatedAt: formatFechahora(pagoArriendo.pagos[1].updatedAt),
+                                    updatedAt: pagoArriendo.pagos[1].updatedAt,
                                 }
                                 infoPagos.arrayPagosReemplazo.montoTotal += pagoReemplazo.monto;
                                 infoPagos.arrayPagosReemplazo.pagos.push(pagoReemplazo);
@@ -230,8 +230,9 @@ class FinanzasBusiness {
                                 const pagoDanio = arriendoRepo.danioVehiculos[arriendoRepo.danioVehiculos.length - 1].pagosDanio;
                                 const danio = {
                                     monto: pagoDanio.precioTotal_pagoDanio,
+                                    estado: arriendoRepo.danioVehiculos[arriendoRepo.danioVehiculos.length - 1].estado_danioVehiculo,
                                     detalle: arriendoRepo.danioVehiculos[arriendoRepo.danioVehiculos.length - 1].descripcion_danioVehiculo,
-                                    updatedAt: formatFechahora(pagoDanio.updatedAt),
+                                    updatedAt: pagoDanio.updatedAt,
                                 }
                                 infoPagos.arrayPagosDanio.montoTotal += danio.monto;
                                 infoPagos.arrayPagosDanio.pagos.push(danio);
@@ -260,7 +261,7 @@ class FinanzasBusiness {
                                     monto: pagoArriendo.pagos[0].total_pago,
                                     deudor: pagoArriendo.pagos[0].deudor_pago,
                                     estado: pagoArriendo.pagos[0].estado_pago,
-                                    updatedAt: formatFechahora(pagoArriendo.pagos[0].updatedAt),
+                                    updatedAt: pagoArriendo.pagos[0].updatedAt,
                                 }
                                 infoPagos.arrayPagosCliente.montoTotal += pagoCliente.monto;
                                 infoPagos.arrayPagosCliente.pagos.push(pagoCliente);
@@ -296,7 +297,7 @@ class FinanzasBusiness {
                                     monto: pagoExtra.monto_pagoExtra,
                                     detalle: pagoExtra.detalle_pagoExtra,
                                     estado: estado,
-                                    updatedAt: formatFechahora(pagoExtra.updatedAt),
+                                    updatedAt: pagoExtra.updatedAt,
                                 }
                                 infoPagos.arrayPagosExtras.montoTotal += extra.monto;
                                 infoPagos.arrayPagosExtras.pagos.push(extra);
@@ -318,7 +319,7 @@ class FinanzasBusiness {
                                     monto: pagoDanio.precioTotal_pagoDanio,
                                     detalle: arriendoRepo.danioVehiculos[arriendoRepo.danioVehiculos.length - 1].descripcion_danioVehiculo,
                                     estado: arriendoRepo.danioVehiculos[arriendoRepo.danioVehiculos.length - 1].estado_danioVehiculo,
-                                    updatedAt: formatFechahora(pagoDanio.updatedAt),
+                                    updatedAt: pagoDanio.updatedAt,
                                 }
                                 infoPagos.arrayPagosDanio.montoTotal += danio.monto;
                                 infoPagos.arrayPagosDanio.pagos.push(danio);

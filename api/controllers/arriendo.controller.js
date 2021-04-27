@@ -13,7 +13,18 @@ class ArriendoController {
 			const arriendos = await this._arriendoService.getArriendos(sucursal, estado);
 			res.json({ success: true, data: arriendos });
 		} catch (error) {
-			sendError(error, req, res);;
+			sendError(error, req, res);
+		}
+	}
+
+	async getArriendosEnproceso(req, res) {
+		try {
+			const { sucursal, estado } = req.query;
+			const arriendos = await this._arriendoService.getArriendosEnproceso(sucursal, estado);
+			res.json({ success: true, data: arriendos });
+		} catch (error) {
+			sendError(error, req, res);
+
 		}
 	}
 

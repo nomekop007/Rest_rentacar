@@ -7,7 +7,7 @@ const EmpresaRemplazoBusiness = require('../../../contexts/empresaRemplazos/doma
 
 const EmpresaRemplazoRepository = require('../../../contexts/empresaRemplazos/dataAccess/empresaRemplazo.repository');
 const RemplazoRepository = require('../../../contexts/empresaRemplazos/dataAccess/remplazo.repository');
-const TarifasEmpresasReemplazo = require('../../../contexts/empresaRemplazos/dataAccess/tarifasEmpresasReemplazo.repository');
+const TarifasEmpresasReemplazoRepository = require('../../../contexts/empresaRemplazos/dataAccess/tarifasEmpresasReemplazo.repository');
 
 
 module.exports = (container) => {
@@ -19,7 +19,7 @@ module.exports = (container) => {
 
         EmpresaRemplazoRepository: asClass(EmpresaRemplazoRepository).singleton(),
         RemplazoRepository: asClass(RemplazoRepository).singleton(),
-        TarifasEmpresasReemplazoRepository: asClass(TarifasEmpresasReemplazo).singleton()
+        TarifasEmpresasReemplazoRepository: asClass(TarifasEmpresasReemplazoRepository).singleton()
     })
     return container;
 }

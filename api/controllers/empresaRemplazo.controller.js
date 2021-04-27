@@ -33,18 +33,53 @@ class EmpresaRemplazoController {
         }
     }
 
+    async getAllTarifasPorEmpresa(req, res, next) {
+        try {
+            const { id } = req.params;
+            const tarifasporEmpresa = await this._empresaRemplazoService.getAllTarifasPorEmpresa(id);
+            res.json({
+                success: true,
+                data: tarifasporEmpresa
+            });
+            next();
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
+        async updateTarifasEmpresaReemplazo(req, res, next) {
+        try {
+            const { id } = req.params;
+            const DATA = req.body;
+            const tarifasporEmpresa = await this._empresaRemplazoService.updateTarifasEmpresaReemplazo(id,DATA);
+            res.json({
+                success: true,
+                data: tarifasporEmpresa
+            });
+            next();
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
 
     async createTarifaEmpresaReemplazo(req, res, next) {
         try {
             const tarifa = req.body;
             const TarifaResponse = await this._empresaRemplazoService.createTarifaEmpresaReemplazo(tarifa);
             res.json({
-                success: true,
-                data: {
-                    Id_tarifa: TarifaResponse.id_tarifaEmpresaRemplazo,
-                },
+                success: true
             });
             next();
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
+    async getAllTarifasEmpresasRemplazo(req, res) {
+        try {
+            const tarifasEmpresasRemplazo = await this._empresaRemplazoService.findAll();
+            res.json({ success: true, data: tarifasEmpresasRemplazo });
         } catch (error) {
             sendError(error, req, res);
         }

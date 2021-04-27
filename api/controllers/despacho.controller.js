@@ -181,8 +181,8 @@ class DespachoController {
 
     async confirmarRecepcionArriendo(req, res) {
         try {
-            const { id_arriendo, base64, tieneDanio, descripcion_danio, userAt } = req.body;
-            const response = await this._despachoService.confirmarRecepcionArriendo(id_arriendo, base64, tieneDanio, descripcion_danio, userAt);
+            const { id_arriendo, base64, kilomentraje_salida, tieneDanio, descripcion_danio, userAt } = req.body;
+            const response = await this._despachoService.confirmarRecepcionArriendo(id_arriendo, base64, tieneDanio, descripcion_danio, kilomentraje_salida, userAt);
             res.json(response);
         } catch (error) {
             sendError(error, req, res);

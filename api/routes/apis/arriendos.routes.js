@@ -2,6 +2,7 @@ const router = require("express").Router();
 module.exports = ({ ArriendoController, subirDocumentoContrato, subirDocumentoRequisitosArriendo }) => {
 
     router.get("/cargarArriendos", ArriendoController.getArriendos.bind(ArriendoController));
+    router.get("/cargarArriendosEnproceso", ArriendoController.getArriendosEnproceso.bind(ArriendoController));
     router.get("/buscarArriendo/:id", ArriendoController.findArriendo.bind(ArriendoController));
     router.get("/cargarArriendosActivos", ArriendoController.getArriendosActivos.bind(ArriendoController));
     router.post("/registrarArriendo", ArriendoController.createArriendo.bind(ArriendoController));

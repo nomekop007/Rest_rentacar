@@ -40,7 +40,7 @@ class VehiculoBusiness {
         const vehiculos = await this._vehiculoRepository.getFindAllBySucursalDispoinble(id_sucursal);
         return vehiculos;
     }
- 
+
 
     async getVehiculosArrendadosBySucursal(id_sucursal) {
         const vehiculos = await this._vehiculoRepository.getFindAllBySucursalArrendado(id_sucursal);
@@ -254,9 +254,9 @@ class VehiculoBusiness {
 
         console.log(DATA);
         var id = DATA.id_arriendo;
-        var estado = {estado_danioVehiculo : DATA.descripcion_danio}
+        var estado = { estado_danioVehiculo: DATA.descripcion_danio }
 
-        await this._danioVehiculoRepository.putUpdate(estado,id);
+        await this._danioVehiculoRepository.putUpdate(estado, id);
         let payload = {
             success: true,
             msg: " Daño borrado exitosamente",
@@ -267,8 +267,9 @@ class VehiculoBusiness {
     async createDanioVehiculo_new(DATA) {
 
         const arriendo = await this._arriendoRepository.getFindOne(DATA.id_danio);
-
+        console.log(arriendo.despacho.revision_recepcion);
         const data = {
+            documento_danioVehiculo: arriendo.despacho.revision_recepcion,
             descripcion_danioVehiculo: DATA.descripcion_danio,
             id_arriendo: arriendo.id_arriendo,
             patente_vehiculo: arriendo.patente_vehiculo,

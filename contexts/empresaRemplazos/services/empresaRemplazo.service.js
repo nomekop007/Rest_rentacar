@@ -16,6 +16,16 @@ class EmpresaRemplazoService {
         return await this._empresaRemplazoBusiness.createTarifaEmpresaReemplazo(tarifa);
     }
 
+    async findAll() {
+        return await this._empresaRemplazoBusiness.findAll();
+    }
+    async getAllTarifasPorEmpresa(ID) {
+        return await this._empresaRemplazoBusiness.getAllTarifasPorEmpresa(ID);
+    }
+    async updateTarifasEmpresaReemplazo(ID,DATA) {
+        return await this._empresaRemplazoBusiness.updateTarifasEmpresaReemplazo(ID,DATA);
+    }
+
 }
 
 module.exports = EmpresaRemplazoService;

@@ -50,12 +50,13 @@ const BloqueoUsuario = require("../../contexts/despachos/dataccess/bloqueoUsuari
 const ReservaClienteWeb = require("../../contexts/reservas/dataAccess/reservaClienteWeb.entity")(database, Sequelize);
 const ArriendoAnulado = require("../../contexts/arriendos/dataAccess/arriendoAnulado.entity")(database, Sequelize);
 const FotoDespacho = require("../../contexts/despachos/dataccess/fotosDespacho.entity")(database, Sequelize);
-const FotoRecepcion = require("../../contexts/despachos/dataccess/fotosRecepcion.entity")(database, Sequelize)
-
-//CREADAS POR ESTEBAN MALLEA
+const FotoRecepcion = require("../../contexts/despachos/dataccess/fotosRecepcion.entity")(database, Sequelize);
+const Licitacion = require("../../contexts/licitaciones/dataAccess/licitacion.entity")(database, Sequelize);
+const ClienteLicitacion = require("../../contexts/licitaciones/dataAccess/clienteLicitacion.entity")(database, Sequelize);
+const IngresoLicitacion = require("../../contexts/licitaciones/dataAccess/ingresoLicitacion.entity")(database, Sequelize);
+const RespaldoIngresoLicitacion = require("../../contexts/licitaciones/dataAccess/respaldoIngresoLicitacion.entity")(database, Sequelize);
 const Traslado = require("../../contexts/sucursales/dataAccess/traslado.entity")(database, Sequelize);
-const TarifasEmpresasRecepcion = require("../../contexts/empresaRemplazos/dataAccess/tarifasEmpresasReemplazo.entity")(database, Sequelize);
-
+const TarifasEmpresasReemplazo = require("../../contexts/empresaRemplazos/dataAccess/tarifasEmpresasReemplazo.entity")(database, Sequelize);
 
 
 
@@ -68,24 +69,16 @@ const onUpdate = "CASCADE";
 
 //Creadas por Esteban Mallea
 
-
 //una sucursal puede tener muchas tarifas par empresas de reemplazo
-Sucursal.hasMany(TarifasEmpresasRecepcion, { foreignKey: { name: "id_sucursal" }, onDelete: onDelete, onUpdate: onUpdate });
+Sucursal.hasMany(TarifasEmpresasReemplazo, { foreignKey: { name: "id_sucursal" }, onDelete: onDelete, onUpdate: onUpdate });
 // una tarifa de empresas de reemplazo pertence a una sucursal
-TarifasEmpresasRecepcion.belongsTo(Sucursal, {foreignKey: { name:"id_sucursal"}, onDelete: onDelete, onUpdate: onUpdate});
+TarifasEmpresasReemplazo.belongsTo(Sucursal, {foreignKey: { name:"id_sucursal"}, onDelete: onDelete, onUpdate: onUpdate});
 
 
 // Una empresa de reemplazo puede tener muchas tarifas 
-EmpresaRemplazo.hasMany(TarifasEmpresasRecepcion, { foreignKey: { name: "codigo_empresaRemplazo" }, onDelete: onDelete, onUpdate: onUpdate });
+EmpresaRemplazo.hasMany(TarifasEmpresasReemplazo, { foreignKey: { name: "codigo_empresaRemplazo" }, onDelete: onDelete, onUpdate: onUpdate });
 // una tarifa de reemplazo pertenece a una empresa de reemplazo
-TarifasEmpresasRecepcion.belongsTo(EmpresaRemplazo, {foreignKey: { name:"codigo_empresaRemplazo"}, onDelete: onDelete, onUpdate: onUpdate});
-
-
-
-
-
-
-
+TarifasEmpresasReemplazo.belongsTo(EmpresaRemplazo, {foreignKey: { name:"codigo_empresaRemplazo"}, onDelete: onDelete, onUpdate: onUpdate});
 
 // un vehiculo tiene muchos traslados
 Vehiculo.hasMany(Traslado, { foreignKey: { name: "patente_vehiculo" }, onDelete: onDelete, onUpdate: onUpdate });
@@ -101,6 +94,35 @@ Traslado.belongsTo(Sucursal, { foreignKey: { name: "id_sucursal" }, onDelete: on
 
 
 //Asociaciones de tablas
+
+
+
+
+
+
+// un propiedad tiene muchas licitaciones
+Propietario.hasMany(Licitacion, { foreignKey: { name: "rut_propietario" }, onDelete: onDelete, onUpdate: onUpdate });
+// una licitacion pertenece a una propiedad
+Licitacion.belongsTo(Propietario, { foreignKey: { name: "rut_propietario" }, onDelete: onDelete, onUpdate: onUpdate });
+
+
+// clienteLicitacion tiene muchas licitaciones
+ClienteLicitacion.hasMany(Licitacion, { foreignKey: { name: "id_clienteLicitacion" }, onDelete: onDelete, onUpdate: onUpdate });
+// una licitacion pertenece a un clienteLicitacion
+Licitacion.belongsTo(ClienteLicitacion, { foreignKey: { name: "id_clienteLicitacion" }, onDelete: onDelete, onUpdate: onUpdate });
+
+// una licitacion tiene muchos ingresosLicitacion
+Licitacion.hasMany(IngresoLicitacion, { foreignKey: { name: "id_licitacion" }, onDelete: onDelete, onUpdate: onUpdate });
+// un ingresoLicitacion pertenece a una licitacion
+IngresoLicitacion.belongsTo(Licitacion, { foreignKey: { name: "id_licitacion" }, onDelete: onDelete, onUpdate: onUpdate });
+
+// una IngresoLicitacion tiene muchos RespaldoIngresoLicitacion
+IngresoLicitacion.hasMany(RespaldoIngresoLicitacion, { foreignKey: { name: "id_ingresoLicitacion" }, onDelete: onDelete, onUpdate: onUpdate });
+// un RespaldoIngresoLicitacion pertenece a una IngresoLicitacion
+RespaldoIngresoLicitacion.belongsTo(IngresoLicitacion, { foreignKey: { name: "id_ingresoLicitacion" }, onDelete: onDelete, onUpdate: onUpdate });
+
+
+
 
 // un arriendo tiene muchos BloqueoUsuario
 Arriendo.hasMany(BloqueoUsuario, { foreignKey: { name: "id_arriendo" }, onDelete: onDelete, onUpdate: onUpdate });
@@ -477,9 +499,12 @@ db.pagoExtra = PagoExtra;
 db.bloqueoUsuario = BloqueoUsuario;
 db.reservaClienteWeb = ReservaClienteWeb;
 db.arriendoAnulado = ArriendoAnulado;
+db.licitacion = Licitacion;
+db.clienteLicitacion = ClienteLicitacion;
+db.ingresoLicitacion = IngresoLicitacion;
+db.respaldoIngresoLicitacion = RespaldoIngresoLicitacion;
+db.tarifasEmpresasReemplazo = TarifasEmpresasReemplazo;
 db.traslado = Traslado;
-db.tarifasEmpresasReemplazo = TarifasEmpresasRecepcion;
-
 db.sequelize = database;
 db.Sequelize = Sequelize;
 
@@ -527,6 +552,5 @@ module.exports = {
     Permiso,
     Abono,
     Extencion,
-    PagoExtra,
-    TarifasEmpresasRecepcion
+    PagoExtra
 };

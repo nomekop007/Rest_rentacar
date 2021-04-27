@@ -125,16 +125,15 @@ class PagoBusiness {
                     neto_pagoArriendo: dataPago.neto_pago
                 }
                 await this._pagoRepository.putUpdate(dataPago, id_pago);
+
+                const arriendo = await this._arriendoRepository.getFindOneMin(pago.pagosArriendo.id_arriendo);
+                const dataArriendo = { diasAcumulados_arriendo: Number(arriendo.diasAcumulados_arriendo) - Number(dias_restantes) }
+                await this._arriendoRepository.putUpdate(dataArriendo, arriendo.id_arriendo)
+
                 await this._pagoArriendoRepository.putUpdate(dataPagoArriendo, pago.pagosArriendo.id_pagoArriendo);
-                return {
-                    success: true,
-                    msg: "modificado!"
-                }
+                return { success: true, msg: "modificado!" }
             } else {
-                return {
-                    success: false,
-                    msg: "El descuento es mayor al ultimo pago!"
-                }
+                return { success: false, msg: "El descuento es mayor al ultimo pago!" }
             }
         } else {
             return {
