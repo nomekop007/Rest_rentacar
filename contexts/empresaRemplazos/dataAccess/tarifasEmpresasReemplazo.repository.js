@@ -28,6 +28,15 @@ class TarifasEmpresasReemplazoRepository extends BaseRepository {
         });
     }
 
+    getAllPorEmpresaSucursal(ID,ID_sucursal) {
+        return this._db.tarifasEmpresasReemplazo.findAll( {
+            where: {
+                codigo_empresaRemplazo : ID,
+                id_sucursal: ID_sucursal
+            }
+        });
+    }
+
 
 
 }

@@ -25,6 +25,9 @@ class EmpresaRemplazoService {
     async updateTarifasEmpresaReemplazo(ID,DATA) {
         return await this._empresaRemplazoBusiness.updateTarifasEmpresaReemplazo(ID,DATA);
     }
+    async getAllPorEmpresaSucursal(DATA) {
+        return await this._empresaRemplazoBusiness.getAllPorEmpresaSucursal(DATA);
+    }
 
 }
 

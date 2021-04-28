@@ -17,6 +17,19 @@ class EmpresaRemplazoController {
         }
     }
 
+    async getAllPorEmpresaSucursal(req, res, next) {
+        try {
+            const DATA = req.body;
+            const remplazoRepo = await this._empresaRemplazoService.getAllPorEmpresaSucursal(DATA);
+            res.json({
+                success: true,
+                data:remplazoRepo
+            });
+            next();
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
     async createRemplazo(req, res, next) {
         try {
             const remplazo = req.body;
