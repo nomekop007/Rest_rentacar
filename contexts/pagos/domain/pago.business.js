@@ -317,6 +317,10 @@ class PagoBusiness {
         return abonoRepo;
     }
 
+    async buscarPagoERpendientesConFiltro(inputSucursal, clave_empresaRemplazo, inputEstado) {
+        const pagoRepo = await this._pagoRepository.getFindAllPendientesFiltro(inputSucursal, clave_empresaRemplazo, inputEstado);
+        return pagoRepo;
+    }
 
 }
 

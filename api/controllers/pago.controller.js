@@ -19,6 +19,17 @@ class PagoController {
         }
     }
 
+    async buscarPagoERpendientesConFiltro(req, res) {
+        try {
+            const { inputSucursal, clave_empresaRemplazo, inputEstado } = req.query;
+            const pagosRepo = await this._pagoService.buscarPagoERpendientesConFiltro(inputSucursal, clave_empresaRemplazo, inputEstado);
+
+            res.json({ success: true, data: pagosRepo });
+        } catch (error) {
+            sendError(error, req, res);
+        }
+    }
+
     async mostrarPagoExtrasPorArriendo(req, res) {
         try {
             const { id } = req.params;

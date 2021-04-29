@@ -49,6 +49,45 @@ class PagoRepository extends BaseRepository {
         });
     }
 
+
+
+    getFindAllPendientesFiltro(inputSucursal, clave_empresaRemplazo, inputEstado) {
+        let estados = [];
+        switch (inputEstado) {
+            case 'PORFACTURAR':
+                estados = ["FINALIZADO", "RECEPCIONADO"];
+                break;
+            case 'NORECEPCIONADO':
+                estados = ["ACTIVO", "FIRMADO", "CONFIRMADO", "PENDIENTE"];
+                break;
+            default://TODOS
+                estados = ["FINALIZADO", "RECEPCIONADO", "ACTIVO", "FIRMADO", "CONFIRMADO", "PENDIENTE"];
+                break;
+        }
+
+
+        return this._db.pago.findAll({
+            where: { estado_pago: "PENDIENTE", deudor_pago: clave_empresaRemplazo },
+            include: [
+                {
+                    model: this._db.pagoArriendo, include: [
+                        {
+                            model: this._db.arriendo,
+                            where: { id_sucursal: inputSucursal, estado_arriendo: estados, },
+                            include: [
+                                { model: this._db.sucursal },
+                                { model: this._db.requisito },
+                                { model: this._db.remplazo, include: { model: this._db.cliente } },
+                            ]
+                        },
+                        { model: this._db.extencion }
+                    ]
+                },
+                { model: this._db.abono }
+            ]
+        });
+    }
+
     getFindAllById(WHERE) {
         return this._db.pago.findAll({
             where: {

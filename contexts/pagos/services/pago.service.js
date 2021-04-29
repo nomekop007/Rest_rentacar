@@ -104,6 +104,10 @@ class PagoService {
         return await this._pagoBusiness.createAbonoWithFacturacion(payloand);
     }
 
+    async buscarPagoERpendientesConFiltro(inputSucursal, clave_empresaRemplazo, inputEstado) {
+        return await this._pagoBusiness.buscarPagoERpendientesConFiltro(inputSucursal, clave_empresaRemplazo, inputEstado);
+    }
+
 }
 
 module.exports = PagoService;
