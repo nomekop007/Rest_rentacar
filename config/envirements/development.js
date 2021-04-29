@@ -3,7 +3,7 @@ module.exports = {
     DB: {
         username: 'root',
         password: '',
-        database: 'rentacar',
+        database: 'bd_Rentacar',
         host: 'localhost',
         dialect: 'mysql',
         logging: false
