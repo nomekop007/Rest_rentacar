@@ -12,6 +12,7 @@ const ExtencionRepository = require('../../../contexts/arriendos/dataAccess/exte
 const GarantiaRepository = require('../../../contexts/arriendos/dataAccess/garantia.repository')
 const RequisitoRepository = require('../../../contexts/arriendos/dataAccess/requisito.repository');
 const ArriendoAnuladoRepository = require('../../../contexts/arriendos/dataAccess/arriendoAnulado.repository');
+const CartaReemplazoRepository = require('../../../contexts/arriendos/dataAccess/cartaReemplazos.repository');
 
 module.exports = (container) => {
     container.register({
@@ -27,6 +28,7 @@ module.exports = (container) => {
         GarantiaRepository: asClass(GarantiaRepository).singleton(),
         RequisitoRepository: asClass(RequisitoRepository).singleton(),
         ArriendoAnuladoRepository: asClass(ArriendoAnuladoRepository).singleton(),
+        CartaReemplazoRepository: asClass(CartaReemplazoRepository).singleton(),
     })
     return container;
 }

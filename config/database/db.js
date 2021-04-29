@@ -57,6 +57,8 @@ const IngresoLicitacion = require("../../contexts/licitaciones/dataAccess/ingres
 const RespaldoIngresoLicitacion = require("../../contexts/licitaciones/dataAccess/respaldoIngresoLicitacion.entity")(database, Sequelize);
 const Traslado = require("../../contexts/sucursales/dataAccess/traslado.entity")(database, Sequelize);
 const TarifasEmpresasReemplazo = require("../../contexts/empresaRemplazos/dataAccess/tarifasEmpresasReemplazo.entity")(database, Sequelize);
+const CartasReemplazo = require("../../contexts/arriendos/dataAccess/cartaReemplazos.entity")(database, Sequelize);
+
 
 
 
@@ -68,6 +70,14 @@ const onUpdate = "CASCADE";
 
 
 //Creadas por Esteban Mallea
+
+
+// una extension tiene una carta de reemplazo asociada
+Extencion.hasOne(CartasReemplazo, { foreignKey: { name: "id_extension" }, onDelete: onDelete, onUpdate: onUpdate });
+// una carta de reemplazo pertenece a un extension
+CartasReemplazo.belongsTo(Extencion, { foreignKey: { name: "id_extension" }, onDelete: onDelete, onUpdate: onUpdate });
+
+
 
 //una sucursal puede tener muchas tarifas par empresas de reemplazo
 Sucursal.hasMany(TarifasEmpresasReemplazo, { foreignKey: { name: "id_sucursal" }, onDelete: onDelete, onUpdate: onUpdate });
@@ -505,6 +515,7 @@ db.ingresoLicitacion = IngresoLicitacion;
 db.respaldoIngresoLicitacion = RespaldoIngresoLicitacion;
 db.tarifasEmpresasReemplazo = TarifasEmpresasReemplazo;
 db.traslado = Traslado;
+db.cartaReemplazo = CartasReemplazo;
 db.sequelize = database;
 db.Sequelize = Sequelize;
 
