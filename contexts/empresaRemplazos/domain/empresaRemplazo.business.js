@@ -1,10 +1,10 @@
 class EmpresaRemplazoBusiness {
 
-    constructor({ EmpresaRemplazoRepository, RemplazoRepository ,TarifasEmpresasReemplazoRepository,SucursalRepository}) {
+    constructor({ EmpresaRemplazoRepository, RemplazoRepository, TarifasEmpresasReemplazoRepository, SucursalRepository }) {
         this._remplazoRepository = RemplazoRepository;
         this._empresaRemplazoRepository = EmpresaRemplazoRepository;
-        this._tarifasEmpresasReemplazoRepository =TarifasEmpresasReemplazoRepository;
-        this._sucursalRepository =SucursalRepository;
+        this._tarifasEmpresasReemplazoRepository = TarifasEmpresasReemplazoRepository;
+        this._sucursalRepository = SucursalRepository;
     }
 
     async getEmpresasRemplazo() {
@@ -25,12 +25,12 @@ class EmpresaRemplazoBusiness {
 
     async updateTarifasEmpresaReemplazo(ID, DATA) {
 
-        let Id_Sucursal=0;
+        let Id_Sucursal = 0;
         const sucursal = await this._sucursalRepository.getFindAll();
 
         for (let i = 0; i < sucursal.length; i++) {
-            if(sucursal[i].nombre_sucursal==DATA.Sucursal){
-                Id_Sucursal=sucursal[i].id_sucursal
+            if (sucursal[i].nombre_sucursal == DATA.Sucursal) {
+                Id_Sucursal = sucursal[i].id_sucursal
             }
         }
 
@@ -44,20 +44,19 @@ class EmpresaRemplazoBusiness {
         }
 
 
-        const tarifa = await this._tarifasEmpresasReemplazoRepository.putUpdate(ID,DATA2); 
+        const tarifa = await this._tarifasEmpresasReemplazoRepository.putUpdate(ID, DATA2);
         return tarifa;
     }
 
     async getAllPorEmpresaSucursal(DATA) {
 
-        const codigoEmpresaReemplazo=DATA.EmpresaReemplazo;
-        const idSucursal=DATA.Id_sucursal;
-        const tarifa = await this._tarifasEmpresasReemplazoRepository.getAllPorEmpresaSucursal(codigoEmpresaReemplazo,idSucursal);
+        const codigoEmpresaReemplazo = DATA.EmpresaReemplazo;
+        const idSucursal = DATA.Id_sucursal;
+        const tarifa = await this._tarifasEmpresasReemplazoRepository.getAllPorEmpresaSucursal(codigoEmpresaReemplazo, idSucursal);
         return tarifa;
     }
 
-        async getAllTarifasPorEmpresa(DATA) {
-
+    async getAllTarifasPorEmpresa(ID) {
         const tarifa = await this._tarifasEmpresasReemplazoRepository.getAllPorEmpresa(ID);
         return tarifa;
     }
@@ -73,8 +72,7 @@ class EmpresaRemplazoBusiness {
             valor: tarifa.Valor,
             userAt: tarifa.UserAt
         }
-        const remplazoRepo = await this._tarifasEmpresasReemplazoRepository.postCreate(DATA);
-        return
+        return await this._tarifasEmpresasReemplazoRepository.postCreate(DATA);
     }
 
 
