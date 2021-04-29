@@ -56,6 +56,7 @@ const ClienteLicitacion = require("../../contexts/licitaciones/dataAccess/client
 const IngresoLicitacion = require("../../contexts/licitaciones/dataAccess/ingresoLicitacion.entity")(database, Sequelize);
 const RespaldoIngresoLicitacion = require("../../contexts/licitaciones/dataAccess/respaldoIngresoLicitacion.entity")(database, Sequelize);
 const Traslado = require("../../contexts/sucursales/dataAccess/traslado.entity")(database, Sequelize);
+const TarifasEmpresasReemplazo = require("../../contexts/empresaRemplazos/dataAccess/tarifasEmpresasReemplazo.entity")(database, Sequelize);
 
 
 
@@ -68,9 +69,19 @@ const onUpdate = "CASCADE";
 
 //Creadas por Esteban Mallea
 
+//una sucursal puede tener muchas tarifas par empresas de reemplazo
+Sucursal.hasMany(TarifasEmpresasReemplazo, { foreignKey: { name: "id_sucursal" }, onDelete: onDelete, onUpdate: onUpdate });
+// una tarifa de empresas de reemplazo pertence a una sucursal
+TarifasEmpresasReemplazo.belongsTo(Sucursal, {foreignKey: { name:"id_sucursal"}, onDelete: onDelete, onUpdate: onUpdate});
+
+
+// Una empresa de reemplazo puede tener muchas tarifas 
+EmpresaRemplazo.hasMany(TarifasEmpresasReemplazo, { foreignKey: { name: "codigo_empresaRemplazo" }, onDelete: onDelete, onUpdate: onUpdate });
+// una tarifa de reemplazo pertenece a una empresa de reemplazo
+TarifasEmpresasReemplazo.belongsTo(EmpresaRemplazo, {foreignKey: { name:"codigo_empresaRemplazo"}, onDelete: onDelete, onUpdate: onUpdate});
+
 // un vehiculo tiene muchos traslados
 Vehiculo.hasMany(Traslado, { foreignKey: { name: "patente_vehiculo" }, onDelete: onDelete, onUpdate: onUpdate });
-
 // un traslado tiene un solo vehiculo
 Traslado.belongsTo(Vehiculo, { foreignKey: { name: "patente_vehiculo" }, onDelete: onDelete, onUpdate: onUpdate });
 
@@ -492,6 +503,7 @@ db.licitacion = Licitacion;
 db.clienteLicitacion = ClienteLicitacion;
 db.ingresoLicitacion = IngresoLicitacion;
 db.respaldoIngresoLicitacion = RespaldoIngresoLicitacion;
+db.tarifasEmpresasReemplazo = TarifasEmpresasReemplazo;
 db.traslado = Traslado;
 db.sequelize = database;
 db.Sequelize = Sequelize;
