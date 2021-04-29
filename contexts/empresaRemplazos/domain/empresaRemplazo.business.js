@@ -58,13 +58,18 @@ class EmpresaRemplazoBusiness {
 
     async getAllTarifasPorEmpresa(DATA) {
 
-        const tarifa = await this._tarifasEmpresasReemplazoRepository.getAllPorEmpresa(ID);
+        console.log(DATA);
+
+        const tarifa = await this._tarifasEmpresasReemplazoRepository.getAllPorEmpresa(DATA);
         return tarifa;
     }
 
     async createTarifaEmpresaReemplazo(tarifa) {
 
+        console.log(tarifa);
+
         const sucursal = await this._sucursalRepository.getFindOne(tarifa.Sucursal);
+        
         const DATA = {
             id_sucursal: tarifa.Sucursal,
             NombreSucursal: sucursal.nombre_sucursal,
