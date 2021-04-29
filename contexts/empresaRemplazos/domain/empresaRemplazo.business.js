@@ -56,7 +56,8 @@ class EmpresaRemplazoBusiness {
         return tarifa;
     }
 
-    async getAllTarifasPorEmpresa(ID) {
+    async getAllTarifasPorEmpresa(DATA) {
+
         const tarifa = await this._tarifasEmpresasReemplazoRepository.getAllPorEmpresa(ID);
         return tarifa;
     }
@@ -72,7 +73,8 @@ class EmpresaRemplazoBusiness {
             valor: tarifa.Valor,
             userAt: tarifa.UserAt
         }
-        return await this._tarifasEmpresasReemplazoRepository.postCreate(DATA);
+        const remplazoRepo = await this._tarifasEmpresasReemplazoRepository.postCreate(DATA);
+        return
     }
 
 
